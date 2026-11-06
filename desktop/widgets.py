@@ -4,7 +4,7 @@ from typing import Optional
 
 from PySide6.QtWidgets import (
     QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
-    QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog
+    QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy
 )
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap
@@ -159,15 +159,21 @@ class CharacterCardWidget(QFrame):
 
         main_layout.addWidget(self._build_header())
 
+        # Die Blöcke (Info/Sternbild, Waffe, Artefakte, Talente) sind Gruppen. Zusätzlicher Platz wird
+        # gleichmäßig auf die Lücken zwischen den Gruppen verteilt, sodass unter dem letzten Block
+        # derselbe Abstand bleibt wie links und rechts (10 px).
         info_layout = QVBoxLayout()
         info_layout.setContentsMargins(10, 4, 10, 0)
-        info_layout.setSpacing(10)
-        self._build_info(info_layout)
-        self._build_weapon(info_layout)
-        self._build_artifacts(info_layout)
-        self._build_talents(info_layout)
-        main_layout.addLayout(info_layout)
-        main_layout.addStretch()
+        info_layout.setSpacing(0)
+        builders = (self._build_info, self._build_weapon, self._build_artifacts, self._build_talents)
+        for i, build in enumerate(builders):
+            if i:
+                info_layout.addItem(QSpacerItem(0, 10, QSizePolicy.Minimum, QSizePolicy.Expanding))
+            group = QVBoxLayout()
+            group.setSpacing(10)
+            build(group)
+            info_layout.addLayout(group)
+        main_layout.addLayout(info_layout, stretch=1)
 
     def _build_header(self) -> QFrame:
         header_frame = QFrame()
