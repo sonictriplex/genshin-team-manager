@@ -46,6 +46,20 @@ def muted(text: str) -> QLabel:
     return QLabel(f"<span style='color:#7a788e; font-size:10px;'>{text}</span>")
 
 
+def normalize_build(build: dict) -> dict:
+    """Bringt ein Build in eine vergleichbare Form.
+
+    Artefakt-Slots mit Standardwerten zählen als nicht vorhanden, damit z.B. "nie ausgefüllt"
+    und "Detailansicht geöffnet, nichts eingetragen" als gleich erkannt werden.
+    """
+    defaults = ArtifactPanel.default_stats()
+    stats = {
+        slot: values for slot, values in (build.get("artifact_stats") or {}).items()
+        if values != defaults.get(slot)
+    }
+    return {**build, "artifact_stats": stats}
+
+
 # --- Kleine Widgets ---
 
 class ClickableLineEdit(QLineEdit):
@@ -398,6 +412,17 @@ class ArtifactPanel(QFrame):
     SUBSTATS = ["KT%", "KSCH%", "ANG%", "ANG (Fix)", "LP%", "LP (Fix)",
                 "DEF%", "DEF (Fix)", "Elementarkunde", "Aufladerate"]
     RARITIES = ["5★", "4★", "3★"]
+
+    @classmethod
+    def default_stats(cls) -> dict:
+        """Die Werte, die ein unbearbeitetes Panel liefert (siehe set_stats({}) / get_stats())."""
+        return {
+            slot_name: {
+                "rarity": cls.RARITIES[0], "level": 20, "main_stat": main_stats[0], "main_value": "",
+                "substats": [{"stat": "", "val": ""} for _ in range(4)],
+            }
+            for slot_name, main_stats in cls.SLOTS
+        }
 
     def __init__(self, card: CharacterCardWidget, manager: GenshinManager, parent=None):
         super().__init__(parent)

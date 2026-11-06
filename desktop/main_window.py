@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
 
 from manager import GenshinManager, DatabaseError
 from dialogs import CharacterSearchDialog
-from widgets import CharacterCardWidget, AddCharacterSlotWidget, ArtifactPanel, show_db_error
+from widgets import CharacterCardWidget, AddCharacterSlotWidget, ArtifactPanel, normalize_build, show_db_error
 
 MAX_TEAM_SIZE = 4
 CARD_MIN_WIDTH = 230
@@ -104,6 +104,41 @@ class MainWindow(QMainWindow):
         except DatabaseError as e:
             show_db_error(self, e)
             return {}
+
+    def has_unsaved_changes(self) -> bool:
+        """Prüft, ob die Ansicht vom gespeicherten Stand (Teammitglieder und Builds) abweicht."""
+        if not self.current_team_cards:
+            return False
+
+        saved_members = self.manager.saved_teams.get(self.loaded_team_name)
+        if saved_members is None:
+            return True  # Team wurde noch nie gespeichert
+
+        saved_names = [m.get("name", "") if isinstance(m, dict) else m for m in saved_members]
+        if [c.character.name for c in self.current_team_cards] != saved_names:
+            return True
+
+        try:
+            saved_builds = self.manager.load_user_characters()
+        except DatabaseError:
+            return True  # Im Zweifel lieber nachfragen
+
+        for card in self.current_team_cards:
+            saved = saved_builds.get(card.character.name)
+            if saved is None or normalize_build(card.get_card_data()) != normalize_build(saved):
+                return True
+        return False
+
+    def confirm_discard(self, title: str, question: str) -> bool:
+        """Fragt nach, wenn das aktuelle Team ungespeicherte Änderungen hat. True = weitermachen."""
+        if not self.has_unsaved_changes():
+            return True
+        answer = QMessageBox.question(
+            self, title,
+            f"Das aktuelle Team hat nicht gespeicherte Änderungen, die verloren gehen.\n\n{question}",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+        )
+        return answer == QMessageBox.Yes
 
     def current_team_data(self) -> list[dict]:
         return [{"character": c.character, "saved": c.get_card_data()} for c in self.current_team_cards]
@@ -255,15 +290,8 @@ class MainWindow(QMainWindow):
 
     def new_team(self):
         """Verwirft das aktuelle Team in der Ansicht und beginnt mit einem leeren Team."""
-        if self.current_team_cards:
-            answer = QMessageBox.question(
-                self, "Neues Team",
-                "Das aktuelle Team wird verworfen. Nicht gespeicherte Änderungen gehen verloren.\n\n"
-                "Trotzdem ein neues Team beginnen?",
-                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
-            )
-            if answer != QMessageBox.Yes:
-                return
+        if not self.confirm_discard("Neues Team", "Trotzdem ein neues Team beginnen?"):
+            return
 
         # Einen noch nicht vergebenen Namen vorschlagen: "Neues Team", "Neues Team 2", ...
         name, n = NEW_TEAM_NAME, 2
@@ -292,6 +320,14 @@ class MainWindow(QMainWindow):
     def on_team_selected(self, index: int):
         team_name = self.teams_combo.currentText()
         if team_name not in self.manager.saved_teams:
+            return
+
+        if not self.confirm_discard("Team wechseln", f"Trotzdem zu '{team_name}' wechseln?"):
+            # Auswahl auf das bisherige Team zurücksetzen, ohne erneut on_team_selected auszulösen
+            self.teams_combo.blockSignals(True)
+            previous = self.teams_combo.findText(self.loaded_team_name or "")
+            self.teams_combo.setCurrentIndex(max(previous, 0))
+            self.teams_combo.blockSignals(False)
             return
 
         self.loaded_team_name = team_name
