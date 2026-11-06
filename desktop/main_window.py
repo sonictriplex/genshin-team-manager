@@ -13,6 +13,7 @@ MAX_TEAM_SIZE = 4
 CARD_MIN_WIDTH = 230
 CARD_MAX_WIDTH = 280
 CARD_DETAIL_WIDTH = 250
+NEW_TEAM_NAME = "Neues Team"
 
 
 class MainWindow(QMainWindow):
@@ -68,9 +69,13 @@ class MainWindow(QMainWindow):
         header.setSpacing(10)
 
         header.addWidget(QLabel("<b style='color: #e1e1e6;'>Team Name:</b>"))
-        self.team_name_input = QLineEdit("Neues Team")
+        self.team_name_input = QLineEdit(NEW_TEAM_NAME)
         self.team_name_input.setFixedWidth(160)
         header.addWidget(self.team_name_input)
+
+        new_btn = QPushButton("Neues Team")
+        new_btn.clicked.connect(self.new_team)
+        header.addWidget(new_btn)
 
         save_btn = QPushButton("Team Speichern")
         save_btn.clicked.connect(self.save_current_team)
@@ -247,6 +252,29 @@ class MainWindow(QMainWindow):
         if clicked is btn_new:
             return "new"
         return None
+
+    def new_team(self):
+        """Verwirft das aktuelle Team in der Ansicht und beginnt mit einem leeren Team."""
+        if self.current_team_cards:
+            answer = QMessageBox.question(
+                self, "Neues Team",
+                "Das aktuelle Team wird verworfen. Nicht gespeicherte Änderungen gehen verloren.\n\n"
+                "Trotzdem ein neues Team beginnen?",
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+            )
+            if answer != QMessageBox.Yes:
+                return
+
+        # Einen noch nicht vergebenen Namen vorschlagen: "Neues Team", "Neues Team 2", ...
+        name, n = NEW_TEAM_NAME, 2
+        while name in self.manager.saved_teams:
+            name = f"{NEW_TEAM_NAME} {n}"
+            n += 1
+
+        self.loaded_team_name = None
+        self.team_name_input.setText(name)
+        self.update_teams_dropdown()  # Auswahl zurück auf "— Team wählen —"
+        self.render_team_cards([])
 
     def update_teams_dropdown(self, select_name: str = None):
         self.teams_combo.blockSignals(True)
