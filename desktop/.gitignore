@@ -26,3 +26,6 @@ genshin_manager.db
 
 # Altes Archiv (nur lokal)
 archive/
+
+# Export von Builds und Teams (persönliche Daten)
+genshin-team-manager.json
