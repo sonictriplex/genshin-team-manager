@@ -140,6 +140,13 @@ class MainWindow(QMainWindow):
         )
         return answer == QMessageBox.Yes
 
+    def closeEvent(self, event):
+        """Beim Schließen nachfragen, wenn ungespeicherte Änderungen vorliegen."""
+        if self.confirm_discard("Beenden", "Trotzdem beenden?"):
+            event.accept()
+        else:
+            event.ignore()
+
     def current_team_data(self) -> list[dict]:
         return [{"character": c.character, "saved": c.get_card_data()} for c in self.current_team_cards]
 
