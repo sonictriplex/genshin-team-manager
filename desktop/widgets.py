@@ -12,7 +12,7 @@ from PySide6.QtGui import QPixmap
 from models import Character, ArtifactSet, DEFAULT_TALENTS
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
-from styles import element_badge_style, set_selected
+from styles import element_badge_style, set_selected, tint_style
 
 
 # --- Hilfsfunktionen ---
@@ -153,6 +153,7 @@ class CharacterCardWidget(QFrame):
         self.init_ui()
 
     def init_ui(self):
+        self.setStyleSheet(tint_style("CharacterCardWidget", self.character.element))
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 10)
         main_layout.setSpacing(6)
@@ -450,6 +451,11 @@ class ArtifactPanel(QFrame):
     def __init__(self, card: CharacterCardWidget, manager: GenshinManager, parent=None):
         super().__init__(parent)
         self.setObjectName("artifactPanel")
+        element = card.character.element
+        self.setStyleSheet(
+            tint_style("QFrame#artifactPanel", element)
+            + tint_style("QFrame#artifactSlot", element, darken=0.15, alpha=0.85, radius=8)
+        )
         self.card = card
         self.manager = manager
         self.slots: dict[str, ArtifactSlotWidgets] = {}

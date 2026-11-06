@@ -198,6 +198,23 @@ def element_badge_style(element: str) -> str:
     )
 
 
+def tint_style(selector: str, element: str, darken: float = 1.0, alpha: float = 0.16, radius: int = 12) -> str:
+    """Halbtransparenter, nach Element getönter Hintergrund mit passendem Rand für `selector`.
+
+    `darken` < 1 dunkelt die Hintergrundfarbe ab (der Rand behält die volle Elementfarbe)."""
+    color = ELEMENT_COLORS.get(element)
+    if not color:
+        return ""
+    r, g, b = (int(color[i:i + 2], 16) for i in (1, 3, 5))
+    dr, dg, db = (int(c * darken) for c in (r, g, b))
+    return (
+        selector + " {"
+        f"background-color: rgba({dr},{dg},{db},{alpha});"
+        f"border: 1px solid rgba({r},{g},{b},0.45); border-radius: {radius}px;"
+        "}"
+    )
+
+
 def set_selected(widget, selected: bool):
     """Setzt die Property `selected` und aktualisiert den Stil des Widgets."""
     widget.setProperty("selected", selected)
