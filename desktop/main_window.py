@@ -2,7 +2,7 @@ from typing import Optional
 
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog
+    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog
 )
 
 from manager import GenshinManager, DatabaseError
@@ -27,6 +27,8 @@ class MainWindow(QMainWindow):
         self.current_team_cards: list[CharacterCardWidget] = []
         # Name des zuletzt geladenen/gespeicherten Teams (für das Erkennen von Umbenennungen)
         self.loaded_team_name: Optional[str] = None
+
+        self._build_menu()
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -63,6 +65,61 @@ class MainWindow(QMainWindow):
             self.teams_combo.setCurrentText(first_team)
         else:
             self.render_team_cards([])
+
+    def _build_menu(self):
+        menu = self.menuBar().addMenu("Datei")
+        menu.addAction("Exportieren…", self.export_data)
+        menu.addAction("Importieren…", self.import_data)
+
+    def export_data(self):
+        """Exportiert Builds und Teams in eine JSON-Datei (für die Web-Version oder als Sicherung)."""
+        path, _ = QFileDialog.getSaveFileName(
+            self, "Exportieren", "genshin-team-manager.json", "JSON-Dateien (*.json)"
+        )
+        if not path:
+            return
+        try:
+            self.manager.export_user_data(path)
+        except DatabaseError as e:
+            show_db_error(self, e)
+            return
+        QMessageBox.information(self, "Exportiert", f"Builds und Teams wurden exportiert:\n{path}")
+
+    def import_data(self):
+        """Importiert Builds und Teams aus einer JSON-Datei, wahlweise zusammenführen oder ersetzen."""
+        if not self.confirm_discard("Importieren", "Trotzdem importieren?"):
+            return
+        path, _ = QFileDialog.getOpenFileName(self, "Importieren", "", "JSON-Dateien (*.json)")
+        if not path:
+            return
+
+        box = QMessageBox(self)
+        box.setWindowTitle("Importieren")
+        box.setText("Wie soll importiert werden?")
+        box.setInformativeText(
+            "Zusammenführen: Gleichnamige Builds und Teams werden überschrieben, alles andere bleibt.\n"
+            "Alles ersetzen: Alle vorhandenen Builds und Teams werden vorher gelöscht."
+        )
+        btn_merge = box.addButton("Zusammenführen", QMessageBox.AcceptRole)
+        btn_replace = box.addButton("Alles ersetzen", QMessageBox.DestructiveRole)
+        box.addButton("Abbrechen", QMessageBox.RejectRole)
+        box.exec()
+        if box.clickedButton() not in (btn_merge, btn_replace):
+            return
+
+        try:
+            result = self.manager.import_user_data(path, replace=box.clickedButton() is btn_replace)
+        except DatabaseError as e:
+            show_db_error(self, e)
+            return
+
+        self.loaded_team_name = None
+        self.update_teams_dropdown()
+        self.render_team_cards([])
+        text = f"{result['builds']} Builds und {result['teams']} Teams importiert."
+        if result["skipped"]:
+            text += "\n\nUnbekannte Charaktere (übersprungen):\n" + ", ".join(result["skipped"])
+        QMessageBox.information(self, "Importiert", text)
 
     def _build_header(self) -> QHBoxLayout:
         header = QHBoxLayout()

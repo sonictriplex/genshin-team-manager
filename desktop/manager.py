@@ -1,11 +1,17 @@
 import json
 import os
 import sqlite3
+from datetime import datetime
 from typing import Optional
 from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
 from seed import SEED_PATH, import_seed, is_seeded
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
+
+# Austauschformat für Import/Export zwischen Desktop- und Web-Version
+EXCHANGE_FORMAT = "genshin-team-manager"
+EXCHANGE_VERSION = 1
+MAX_TEAM_SIZE = 4
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS characters (
@@ -340,6 +346,103 @@ class GenshinManager:
                 conn.commit()
         except sqlite3.Error as e:
             raise DatabaseError(f"Build für '{char_name}' konnte nicht gespeichert werden: {e}") from e
+
+    # --- IMPORT / EXPORT ---
+
+    def export_user_data(self, path: str):
+        """Schreibt Charakter-Builds und Teams (ohne Stammdaten) als JSON-Datei."""
+        builds = self.load_user_characters()
+        self.load_teams()
+        teams = [
+            {"name": name, "members": [m.get("name", "") if isinstance(m, dict) else m for m in members]}
+            for name, members in self.saved_teams.items()
+        ]
+        data = {
+            "format": EXCHANGE_FORMAT,
+            "version": EXCHANGE_VERSION,
+            "exported_at": datetime.now().isoformat(timespec="seconds"),
+            "builds": list(builds.values()),
+            "teams": teams,
+        }
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except OSError as e:
+            raise DatabaseError(f"Export nach {path} fehlgeschlagen: {e}") from e
+
+    def import_user_data(self, path: str, replace: bool = False) -> dict:
+        """Liest eine Export-Datei ein. Gleichnamige Builds/Teams werden überschrieben.
+
+        replace=True löscht vorher alle vorhandenen Builds und Teams. Unbekannte Charaktere werden
+        übersprungen. Rückgabe: {"builds": n, "teams": n, "skipped": [Namen]}.
+        """
+        try:
+            with open(path, encoding="utf-8") as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError) as e:
+            raise DatabaseError(f"Datei konnte nicht gelesen werden: {e}") from e
+
+        if not isinstance(data, dict) or data.get("format") != EXCHANGE_FORMAT:
+            raise DatabaseError("Die Datei ist keine Export-Datei des Genshin Team-Managers.")
+        if not isinstance(data.get("version"), int) or data["version"] > EXCHANGE_VERSION:
+            raise DatabaseError("Die Datei stammt aus einer neueren Version und kann nicht gelesen werden.")
+
+        result = {"builds": 0, "teams": 0, "skipped": []}
+        try:
+            with self.get_connection() as conn:
+                known = {r[0] for r in conn.execute("SELECT name FROM characters")}
+                if replace:
+                    conn.execute("DELETE FROM teams")
+                    conn.execute("DELETE FROM user_characters")
+
+                for b in data.get("builds", []):
+                    name = b.get("name") if isinstance(b, dict) else None
+                    if name not in known:
+                        result["skipped"].append(str(name))
+                        continue
+                    talents = b.get("talents") or {}
+                    stats = b.get("artifact_stats") or {}
+                    conn.execute("""
+                        INSERT OR REPLACE INTO user_characters (
+                            char_name, level, constellation, weapon, weapon_level, refinement,
+                            artifact, artifact_2, talent_attack, talent_skill, talent_burst, artifact_stats_json
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (
+                        name, b.get("level", 90), b.get("constellation", 0), b.get("weapon", ""),
+                        b.get("weapon_level", 90), b.get("refinement", 1), b.get("artifact", ""),
+                        b.get("artifact_2", ""),
+                        talents.get("attack", DEFAULT_TALENTS["attack"]),
+                        talents.get("skill", DEFAULT_TALENTS["skill"]),
+                        talents.get("burst", DEFAULT_TALENTS["burst"]),
+                        json.dumps(stats, ensure_ascii=False),
+                    ))
+                    result["builds"] += 1
+
+                for t in data.get("teams", []):
+                    team_name = (t.get("name") or "").strip() if isinstance(t, dict) else ""
+                    if not team_name:
+                        continue
+                    members = []
+                    for m in t.get("members", []):
+                        if m in known and m not in members:
+                            members.append(m)
+                        elif m not in known:
+                            result["skipped"].append(str(m))
+                    conn.execute("INSERT OR IGNORE INTO teams (name) VALUES (?)", (team_name,))
+                    team_id = conn.execute("SELECT id FROM teams WHERE name = ?", (team_name,)).fetchone()[0]
+                    conn.execute("DELETE FROM team_members WHERE team_id = ?", (team_id,))
+                    for slot, m in enumerate(members[:MAX_TEAM_SIZE]):
+                        conn.execute(
+                            "INSERT INTO team_members (team_id, char_name, slot_order) VALUES (?, ?, ?)",
+                            (team_id, m, slot),
+                        )
+                    result["teams"] += 1
+        except (sqlite3.Error, AttributeError, TypeError) as e:
+            raise DatabaseError(f"Import fehlgeschlagen, es wurde nichts verändert: {e}") from e
+
+        self.load_teams()
+        result["skipped"] = sorted(set(result["skipped"]))
+        return result
 
     # --- HILFSMETHODEN ---
 
