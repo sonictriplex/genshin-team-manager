@@ -23,3 +23,6 @@ desktop.ini
 
 # Lokale Datenbank (enthält persönliche Teams und Builds)
 genshin_manager.db
+
+# Altes Archiv (nur lokal)
+archive/
