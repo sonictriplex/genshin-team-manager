@@ -67,6 +67,11 @@ QPushButton {{
 }}
 QPushButton:hover {{ background-color: {ACCENT_HOVER}; }}
 QPushButton#dangerButton {{ background-color: {DANGER}; color: {TEXT}; }}
+/* Farblich invertiert: dunkler Hintergrund, Akzentfarbe für Text und Rahmen */
+QPushButton#secondaryButton {{
+    background-color: {BG_INPUT}; color: {ACCENT}; border: 1px solid {ACCENT};
+}}
+QPushButton#secondaryButton:hover {{ background-color: {BG_HOVER}; }}
 
 /* ---------- Suchdialoge ---------- */
 QDialog QLineEdit, QDialog QComboBox {{ padding: 5px; font-size: 12px; }}

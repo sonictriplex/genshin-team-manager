@@ -46,13 +46,15 @@ def muted(text: str) -> QLabel:
     return QLabel(f"<span style='color:#7a788e; font-size:10px;'>{text}</span>")
 
 
-def normalize_build(build: dict) -> dict:
+def normalize_build(build: dict, element: Optional[str] = None) -> dict:
     """Bringt ein Build in eine vergleichbare Form.
+
+    `element` ist das Element des Charakters (bestimmt den Standard-Hauptwert des Kelchs).
 
     Artefakt-Slots mit Standardwerten zählen als nicht vorhanden, damit z.B. "nie ausgefüllt"
     und "Detailansicht geöffnet, nichts eingetragen" als gleich erkannt werden.
     """
-    defaults = ArtifactPanel.default_stats()
+    defaults = ArtifactPanel.default_stats(element)
     stats = {
         slot: values for slot, values in (build.get("artifact_stats") or {}).items()
         if values != defaults.get(slot)
@@ -413,12 +415,27 @@ class ArtifactPanel(QFrame):
                 "DEF%", "DEF (Fix)", "Elementarkunde", "Aufladerate"]
     RARITIES = ["5★", "4★", "3★"]
 
+    # Standard-Hauptwert des Kelchs je Element des Charakters
+    GOBLET_BY_ELEMENT = {
+        "Pyro": "Pyro-SCH-Bonus%", "Hydro": "Hydro-SCH-Bonus%", "Cryo": "Kryo-SCH-Bonus%",
+        "Electro": "Elektro-SCH-Bonus%", "Anemo": "Anemo-SCH-Bonus%", "Geo": "Geo-SCH-Bonus%",
+        "Dendro": "Dendro-SCH-Bonus%",
+    }
+
     @classmethod
-    def default_stats(cls) -> dict:
+    def default_main_stat(cls, slot_name: str, main_stats: list[str], element: Optional[str]) -> str:
+        """Standard-Hauptwert eines Slots: beim Kelch der Elementschaden des Charakters, sonst der erste Eintrag."""
+        if slot_name == "Kelch":
+            return cls.GOBLET_BY_ELEMENT.get(element, main_stats[0])
+        return main_stats[0]
+
+    @classmethod
+    def default_stats(cls, element: Optional[str] = None) -> dict:
         """Die Werte, die ein unbearbeitetes Panel liefert (siehe set_stats({}) / get_stats())."""
         return {
             slot_name: {
-                "rarity": cls.RARITIES[0], "level": 20, "main_stat": main_stats[0], "main_value": "",
+                "rarity": cls.RARITIES[0], "level": 20,
+                "main_stat": cls.default_main_stat(slot_name, main_stats, element), "main_value": "",
                 "substats": [{"stat": "", "val": ""} for _ in range(4)],
             }
             for slot_name, main_stats in cls.SLOTS
@@ -535,7 +552,9 @@ class ArtifactPanel(QFrame):
                 saved = {}
             select_value(w.rarity, saved.get("rarity", "5★"))
             w.level.setValue(saved.get("level", 20))
-            select_value(w.main, saved.get("main_stat", ""))
+            main_stats = dict(self.SLOTS)[slot_name]
+            select_value(w.main, saved.get("main_stat") or
+                         self.default_main_stat(slot_name, main_stats, self.card.character.element))
             w.main_val.setText(str(saved.get("main_value", "")))
 
             subs = saved.get("substats", [])

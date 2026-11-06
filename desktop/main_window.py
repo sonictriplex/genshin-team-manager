@@ -73,13 +73,14 @@ class MainWindow(QMainWindow):
         self.team_name_input.setFixedWidth(160)
         header.addWidget(self.team_name_input)
 
-        new_btn = QPushButton("Neues Team")
-        new_btn.clicked.connect(self.new_team)
-        header.addWidget(new_btn)
-
         save_btn = QPushButton("Team Speichern")
         save_btn.clicked.connect(self.save_current_team)
         header.addWidget(save_btn)
+
+        new_btn = QPushButton("Neues Team")
+        new_btn.setObjectName("secondaryButton")
+        new_btn.clicked.connect(self.new_team)
+        header.addWidget(new_btn)
 
         header.addStretch()
 
@@ -124,8 +125,9 @@ class MainWindow(QMainWindow):
             return True  # Im Zweifel lieber nachfragen
 
         for card in self.current_team_cards:
+            element = card.character.element
             saved = saved_builds.get(card.character.name)
-            if saved is None or normalize_build(card.get_card_data()) != normalize_build(saved):
+            if saved is None or normalize_build(card.get_card_data(), element) != normalize_build(saved, element):
                 return True
         return False
 
