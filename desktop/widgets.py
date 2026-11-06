@@ -475,7 +475,7 @@ class ArtifactPanel(QFrame):
         buttons.setSpacing(8)
         for text, tooltip, handler, primary in (
             ("Zurücksetzen", "Leert alle eingegebenen Artefakt-Einzelwerte dieser Karte", self.reset, False),
-            ("Neu Laden", "Lädt die gespeicherten Artefaktwerte aus der SQLite-Datenbank neu", self.reload, False),
+            ("Neu laden", "Lädt die gespeicherten Artefaktwerte aus der SQLite-Datenbank neu", self.reload, False),
             ("Speichern", "Speichert das Build dieses Charakters zentral in der SQLite-Datenbank", self.save, True),
         ):
             btn = QPushButton(text)

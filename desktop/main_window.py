@@ -73,7 +73,7 @@ class MainWindow(QMainWindow):
         self.team_name_input.setFixedWidth(160)
         header.addWidget(self.team_name_input)
 
-        save_btn = QPushButton("Team Speichern")
+        save_btn = QPushButton("Team speichern")
         save_btn.clicked.connect(self.save_current_team)
         header.addWidget(save_btn)
 
