@@ -3,6 +3,7 @@ import os
 import sqlite3
 from typing import Optional
 from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
+from seed import SEED_PATH, import_seed, is_seeded
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
 
@@ -67,8 +68,9 @@ class DatabaseError(Exception):
 class GenshinManager:
     """Verwaltet Charaktere, Waffen, Artefakte, gespeicherte Teams und globale Charakter-Builds via SQLite."""
 
-    def __init__(self, db_path: str = DB_PATH):
+    def __init__(self, db_path: str = DB_PATH, seed_path: Optional[str] = SEED_PATH):
         self.db_path = db_path
+        self.seed_path = seed_path  # None = Stammdaten nicht automatisch einspielen
         self.available_characters: list[Character] = []
         self.available_weapons: list[Weapon] = []
         self.available_artifacts: list[ArtifactSet] = []
@@ -76,7 +78,7 @@ class GenshinManager:
         # Fehler beim Start werden gesammelt, damit die GUI sie anzeigen kann
         self.load_errors: list[str] = []
 
-        for step in (self.init_schema, self.load_characters, self.load_weapons,
+        for step in (self.init_schema, self.seed_if_empty, self.load_characters, self.load_weapons,
                      self.load_artifacts, self.load_teams):
             try:
                 step()
@@ -96,6 +98,22 @@ class GenshinManager:
                 conn.executescript(SCHEMA)
         except sqlite3.Error as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
+
+    def seed_if_empty(self):
+        """Spielt die Stammdaten aus der JSON-Datei ein, wenn die Datenbank noch keine hat."""
+        if not self.seed_path:
+            return
+        try:
+            with self.get_connection() as conn:
+                if is_seeded(conn):
+                    return
+                if not os.path.exists(self.seed_path):
+                    raise DatabaseError(
+                        f"Die Datenbank enthält keine Stammdaten und die Datei {self.seed_path} fehlt."
+                    )
+                import_seed(conn, self.seed_path)
+        except (sqlite3.Error, OSError, json.JSONDecodeError) as e:
+            raise DatabaseError(f"Stammdaten konnten nicht eingespielt werden ({self.seed_path}): {e}") from e
 
     # --- STAMMDATEN LADEN ---
 

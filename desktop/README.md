@@ -33,7 +33,18 @@ Die App lässt sich aus jedem Verzeichnis starten; Datenbank und Bilder werden r
 
 Alle Daten liegen in `genshin_manager.db` im Projektordner. Die Datei ist **nicht im Git-Repository**, weil sie neben den Stammdaten auch persönliche Teams und Builds enthält. Sie sollte daher separat gesichert werden.
 
-Fehlende Tabellen legt die App beim Start automatisch an. Eine neue, leere Datenbank enthält aber keine Charaktere, Waffen oder Artefaktsets.
+### Stammdaten
+
+Die Stammdaten (Charaktere, Waffen, Artefaktsets) liegen versioniert in `data/stammdaten.json`. Beim Start legt die App fehlende Tabellen an und spielt die Stammdaten ein, wenn die Datenbank noch keine hat. Eine frische Kopie des Repos läuft also ohne weitere Schritte. Teams und Builds sind nicht darin enthalten, sie bleiben privat in der Datenbank.
+
+Von Hand lassen sich die Stammdaten so verwalten:
+
+```bash
+python seed.py import    # fehlende Einträge in die Datenbank einspielen (vorhandene bleiben unverändert)
+python seed.py export    # Stammdaten aus der Datenbank in data/stammdaten.json schreiben
+```
+
+Neue Charaktere oder Waffen trägt man also in die Datenbank ein und führt danach `python seed.py export` aus, damit sie auch im Repo landen. Alternativ ergänzt man sie direkt in der JSON-Datei und führt `python seed.py import` aus.
 
 ### Tabellen
 
@@ -54,7 +65,9 @@ main_window.py     Hauptfenster: Teamübersicht, Detailansicht, Speichern/Laden 
 widgets.py         Charakterkarte, leerer Slot, Artefakt-Detailpanel
 dialogs.py         Such- und Auswahldialoge für Charaktere und Waffen
 styles.py          Zentrales Qt-Stylesheet und Farbpalette
-manager.py         GenshinManager: Datenbankzugriff, Schema
+manager.py         GenshinManager: Datenbankzugriff, Schema, Einspielen der Stammdaten
+seed.py            Import/Export der Stammdaten (python seed.py import|export)
+data/              stammdaten.json: Charaktere, Waffen und Artefaktsets
 models.py          Datenklassen (Character, Weapon, ArtifactSet) und Pfad-Hilfsfunktionen
 assets/images/     Icons der Charaktere und Waffen
 ```

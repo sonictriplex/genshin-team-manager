@@ -1,0 +1,2457 @@
+{
+  "characters": [
+    {
+      "name": "Albedo",
+      "element": "Geo",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/albedo.png"
+    },
+    {
+      "name": "Alhaitham",
+      "element": "Dendro",
+      "weapon_type": "Einhandschwert",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/alhaitham.png"
+    },
+    {
+      "name": "Aloy",
+      "element": "Cryo",
+      "weapon_type": "Bogen",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/aloy.png"
+    },
+    {
+      "name": "Amber",
+      "element": "Pyro",
+      "weapon_type": "Bogen",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/amber.png"
+    },
+    {
+      "name": "Arataki Itto",
+      "element": "Geo",
+      "weapon_type": "Großschwert",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/arataki_itto.png"
+    },
+    {
+      "name": "Arlecchino",
+      "element": "Pyro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/arlecchino.png"
+    },
+    {
+      "name": "Baizhu",
+      "element": "Dendro",
+      "weapon_type": "Katalysator",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/baizhu.png"
+    },
+    {
+      "name": "Barbara",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/barbara.png"
+    },
+    {
+      "name": "Beidou",
+      "element": "Electro",
+      "weapon_type": "Großschwert",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/beidou.png"
+    },
+    {
+      "name": "Bennett",
+      "element": "Pyro",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/bennett.png"
+    },
+    {
+      "name": "Candace",
+      "element": "Hydro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/candace.png"
+    },
+    {
+      "name": "Charlotte",
+      "element": "Cryo",
+      "weapon_type": "Katalysator",
+      "region": "Fontaine",
+      "rarity": 4,
+      "icon_path": "assets/images/charlotte.png"
+    },
+    {
+      "name": "Chasca",
+      "element": "Anemo",
+      "weapon_type": "Bogen",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/chasca.png"
+    },
+    {
+      "name": "Chevreuse",
+      "element": "Pyro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Fontaine",
+      "rarity": 4,
+      "icon_path": "assets/images/chevreuse.png"
+    },
+    {
+      "name": "Chiori",
+      "element": "Geo",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/chiori.png"
+    },
+    {
+      "name": "Chongyun",
+      "element": "Cryo",
+      "weapon_type": "Großschwert",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/chongyun.png"
+    },
+    {
+      "name": "Citlali",
+      "element": "Cryo",
+      "weapon_type": "Katalysator",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/citlali.png"
+    },
+    {
+      "name": "Clorinde",
+      "element": "Electro",
+      "weapon_type": "Einhandschwert",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/clorinde.png"
+    },
+    {
+      "name": "Collei",
+      "element": "Dendro",
+      "weapon_type": "Bogen",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/collei.png"
+    },
+    {
+      "name": "Cyno",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/cyno.png"
+    },
+    {
+      "name": "Dehya",
+      "element": "Pyro",
+      "weapon_type": "Großschwert",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/dehya.png"
+    },
+    {
+      "name": "Diluc",
+      "element": "Pyro",
+      "weapon_type": "Großschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/diluc.png"
+    },
+    {
+      "name": "Diona",
+      "element": "Cryo",
+      "weapon_type": "Bogen",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/diona.png"
+    },
+    {
+      "name": "Dori",
+      "element": "Electro",
+      "weapon_type": "Großschwert",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/dori.png"
+    },
+    {
+      "name": "Emilie",
+      "element": "Dendro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/emilie.png"
+    },
+    {
+      "name": "Eula",
+      "element": "Cryo",
+      "weapon_type": "Großschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/eula.png"
+    },
+    {
+      "name": "Faruzan",
+      "element": "Anemo",
+      "weapon_type": "Bogen",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/faruzan.png"
+    },
+    {
+      "name": "Fischl",
+      "element": "Electro",
+      "weapon_type": "Bogen",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/fischl.png"
+    },
+    {
+      "name": "Freminet",
+      "element": "Cryo",
+      "weapon_type": "Großschwert",
+      "region": "Fontaine",
+      "rarity": 4,
+      "icon_path": "assets/images/freminet.png"
+    },
+    {
+      "name": "Furina",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/furina.png"
+    },
+    {
+      "name": "Gaming",
+      "element": "Pyro",
+      "weapon_type": "Großschwert",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/gaming.png"
+    },
+    {
+      "name": "Ganyu",
+      "element": "Cryo",
+      "weapon_type": "Bogen",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/ganyu.png"
+    },
+    {
+      "name": "Gorou",
+      "element": "Geo",
+      "weapon_type": "Bogen",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/gorou.png"
+    },
+    {
+      "name": "Hu Tao",
+      "element": "Pyro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/hu_tao.png"
+    },
+    {
+      "name": "Iansan",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Natlan",
+      "rarity": 4,
+      "icon_path": "assets/images/iansan.png"
+    },
+    {
+      "name": "Jean",
+      "element": "Anemo",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/jean.png"
+    },
+    {
+      "name": "Kachina",
+      "element": "Geo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Natlan",
+      "rarity": 4,
+      "icon_path": "assets/images/kachina.png"
+    },
+    {
+      "name": "Kaedehara Kazuha",
+      "element": "Anemo",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/kaedehara_kazuha.png"
+    },
+    {
+      "name": "Kaeya",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/kaeya.png"
+    },
+    {
+      "name": "Kamisato Ayaka",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/kamisato_ayaka.png"
+    },
+    {
+      "name": "Kamisato Ayato",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/kamisato_ayato.png"
+    },
+    {
+      "name": "Kaveh",
+      "element": "Dendro",
+      "weapon_type": "Großschwert",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/kaveh.png"
+    },
+    {
+      "name": "Keqing",
+      "element": "Electro",
+      "weapon_type": "Einhandschwert",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/keqing.png"
+    },
+    {
+      "name": "Kinich",
+      "element": "Dendro",
+      "weapon_type": "Großschwert",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/kinich.png"
+    },
+    {
+      "name": "Kirara",
+      "element": "Dendro",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/kirara.png"
+    },
+    {
+      "name": "Klee",
+      "element": "Pyro",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/klee.png"
+    },
+    {
+      "name": "Kujou Sara",
+      "element": "Electro",
+      "weapon_type": "Bogen",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/kujou_sara.png"
+    },
+    {
+      "name": "Kuki Shinobu",
+      "element": "Electro",
+      "weapon_type": "Einhandschwert",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/kuki_shinobu.png"
+    },
+    {
+      "name": "Lan Yan",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/lan_yan.png"
+    },
+    {
+      "name": "Layla",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/layla.png"
+    },
+    {
+      "name": "Lisa",
+      "element": "Electro",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/lisa.png"
+    },
+    {
+      "name": "Lynette",
+      "element": "Anemo",
+      "weapon_type": "Einhandschwert",
+      "region": "Fontaine",
+      "rarity": 4,
+      "icon_path": "assets/images/lynette.png"
+    },
+    {
+      "name": "Lyney",
+      "element": "Pyro",
+      "weapon_type": "Bogen",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/lyney.png"
+    },
+    {
+      "name": "Mavuika",
+      "element": "Pyro",
+      "weapon_type": "Großschwert",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/mavuika.png"
+    },
+    {
+      "name": "Mika",
+      "element": "Cryo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/mika.png"
+    },
+    {
+      "name": "Mona",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/mona.png"
+    },
+    {
+      "name": "Mualani",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/mualani.png"
+    },
+    {
+      "name": "Nahida",
+      "element": "Dendro",
+      "weapon_type": "Katalysator",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/nahida.png"
+    },
+    {
+      "name": "Navia",
+      "element": "Geo",
+      "weapon_type": "Großschwert",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/navia.png"
+    },
+    {
+      "name": "Neuvillette",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/neuvillette.png"
+    },
+    {
+      "name": "Nilou",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/nilou.png"
+    },
+    {
+      "name": "Ningguang",
+      "element": "Geo",
+      "weapon_type": "Katalysator",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/ningguang.png"
+    },
+    {
+      "name": "Noelle",
+      "element": "Geo",
+      "weapon_type": "Großschwert",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/noelle.png"
+    },
+    {
+      "name": "Ororon",
+      "element": "Electro",
+      "weapon_type": "Bogen",
+      "region": "Natlan",
+      "rarity": 4,
+      "icon_path": "assets/images/ororon.png"
+    },
+    {
+      "name": "Qiqi",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/qiqi.png"
+    },
+    {
+      "name": "Raiden Shogun",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/raiden_shogun.png"
+    },
+    {
+      "name": "Razor",
+      "element": "Electro",
+      "weapon_type": "Großschwert",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/razor.png"
+    },
+    {
+      "name": "Rosaria",
+      "element": "Cryo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/rosaria.png"
+    },
+    {
+      "name": "Sangonomiya Kokomi",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/sangonomiya_kokomi.png"
+    },
+    {
+      "name": "Sayu",
+      "element": "Anemo",
+      "weapon_type": "Großschwert",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/sayu.png"
+    },
+    {
+      "name": "Sethos",
+      "element": "Electro",
+      "weapon_type": "Bogen",
+      "region": "Sumeru",
+      "rarity": 4,
+      "icon_path": "assets/images/sethos.png"
+    },
+    {
+      "name": "Shenhe",
+      "element": "Cryo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/shenhe.png"
+    },
+    {
+      "name": "Shikanoin Heizou",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/shikanoin_heizou.png"
+    },
+    {
+      "name": "Sucrose",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/sucrose.png"
+    },
+    {
+      "name": "Tartaglia",
+      "element": "Hydro",
+      "weapon_type": "Bogen",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/tartaglia.png"
+    },
+    {
+      "name": "Thoma",
+      "element": "Pyro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Inazuma",
+      "rarity": 4,
+      "icon_path": "assets/images/thoma.png"
+    },
+    {
+      "name": "Tighnari",
+      "element": "Dendro",
+      "weapon_type": "Bogen",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/tighnari.png"
+    },
+    {
+      "name": "Traveler (Anemo)",
+      "element": "Anemo",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_anemo.png"
+    },
+    {
+      "name": "Traveler (Geo)",
+      "element": "Geo",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_geo.png"
+    },
+    {
+      "name": "Traveler (Electro)",
+      "element": "Electro",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_electro.png"
+    },
+    {
+      "name": "Traveler (Dendro)",
+      "element": "Dendro",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_dendro.png"
+    },
+    {
+      "name": "Traveler (Hydro)",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_hydro.png"
+    },
+    {
+      "name": "Traveler (Pyro)",
+      "element": "Pyro",
+      "weapon_type": "Einhandschwert",
+      "region": "Andere Welt",
+      "rarity": 5,
+      "icon_path": "assets/images/traveler_pyro.png"
+    },
+    {
+      "name": "Venti",
+      "element": "Anemo",
+      "weapon_type": "Bogen",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/venti.png"
+    },
+    {
+      "name": "Wanderer",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Sumeru",
+      "rarity": 5,
+      "icon_path": "assets/images/wanderer.png"
+    },
+    {
+      "name": "Wriothesley",
+      "element": "Cryo",
+      "weapon_type": "Katalysator",
+      "region": "Fontaine",
+      "rarity": 5,
+      "icon_path": "assets/images/wriothesley.png"
+    },
+    {
+      "name": "Xiangling",
+      "element": "Pyro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/xiangling.png"
+    },
+    {
+      "name": "Xianyun",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/xianyun.png"
+    },
+    {
+      "name": "Xiao",
+      "element": "Anemo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/xiao.png"
+    },
+    {
+      "name": "Xilonen",
+      "element": "Geo",
+      "weapon_type": "Einhandschwert",
+      "region": "Natlan",
+      "rarity": 5,
+      "icon_path": "assets/images/xilonen.png"
+    },
+    {
+      "name": "Xingqiu",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/xingqiu.png"
+    },
+    {
+      "name": "Xinyan",
+      "element": "Pyro",
+      "weapon_type": "Großschwert",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/xinyan.png"
+    },
+    {
+      "name": "Yae Miko",
+      "element": "Electro",
+      "weapon_type": "Katalysator",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/yae_miko.png"
+    },
+    {
+      "name": "Yanfei",
+      "element": "Pyro",
+      "weapon_type": "Katalysator",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/yanfei.png"
+    },
+    {
+      "name": "Yaoyao",
+      "element": "Dendro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/yaoyao.png"
+    },
+    {
+      "name": "Yelan",
+      "element": "Hydro",
+      "weapon_type": "Bogen",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/yelan.png"
+    },
+    {
+      "name": "Yoimiya",
+      "element": "Pyro",
+      "weapon_type": "Bogen",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/yoimiya.png"
+    },
+    {
+      "name": "Yumemizuki Mizuki",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Inazuma",
+      "rarity": 5,
+      "icon_path": "assets/images/yumemizuki_mizuki.png"
+    },
+    {
+      "name": "Yun Jin",
+      "element": "Geo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 4,
+      "icon_path": "assets/images/yun_jin.png"
+    },
+    {
+      "name": "Zhongli",
+      "element": "Geo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/zhongli.png"
+    }
+  ],
+  "weapons": [
+    {
+      "name": "Silberlampe",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Neuer Zweig",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Schmetterlingswandel",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Klinge des Ketzerjägers",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Flammenquelle",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Exaiphanes-Klinge",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Winterfeder des weißen Sees",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Lichtbringende Mondscherbe",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Athame Artis",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Dämmerlicht des Mondwebers",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Leises Pfeifen der Stille",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Azurglanz",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Unheil von Eshu",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Lied der Gipfelpatrouille",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Robuster Knochen",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Ezpitzal-Flöte",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Absolution",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Uraku Misugiri",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Schwert des Narzissenkreuzes",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Pracht des stillen Wassers",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Werftklinge",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Wolfszahn",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schiffer des Fleuve Cendré",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Finale in der Tiefe",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Licht der schneidenden Blätter",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Toukabou Shigure",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Mondlicht von Xiphos",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Khaj-Nisut-Schlüssel",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Stammklinge",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Kagotsurube Isshin",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schwarzstein-Langschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schwarzes Schwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schwert der Dämmerung",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Himmelsflug-Schwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Windfalke",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Widerschein des Nebelsplitters",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Schwert der Niederkunft",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Silberschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 2
+    },
+    {
+      "name": "Eisenstich",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Zinnoberspindel",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Steinschneider-Prototyp",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Favonius-Schwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Blasser Schwur der Freiheit",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Schwert der Verderbnis",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Flöte",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Opferschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Moosgrüner Fels",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Haran Geppaku Futsu",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Dunkles Eisenschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Gassenleuchte",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Stumpfes Schwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 1
+    },
+    {
+      "name": "Reiseschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Gipfelbrecher",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Königliches Langschwert",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Himmelsklinge",
+      "weapon_type": "Einhandschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Amenoma Kageuchi",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Filetiermesser",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Drachenschrei",
+      "weapon_type": "Einhandschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Kühle Klinge",
+      "weapon_type": "Einhandschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Geschmiedet durch das goldene Gesetz",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Klinge der Erlösung",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Schlüssel der Überbietung",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Kampflied des Wolfs",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Universalschlüssel",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Geschmiedete Weisheit",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Die tausend flammenden Sonnen",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Fruchtbarer Haken",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Bebenmacher",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Zahn des Bergkönigs",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Megamagisches Schwert des ultimativen Oberherrn",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Urteilsspruch",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Tragbare motorisierte Säge",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Lass uns reden",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Gezeitenschatten",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schilfmeer-Bake",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Eiserne Blume",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Makhaira-Aquamarin",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Waldkönigsschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Schwarzstein-Schneide",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Himmelsflug-Großschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Unter Schnee begrabenes Sternsilber",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Regenschnitter",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Eiserner Schatten",
+      "weapon_type": "Großschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Glocke",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Rothorn-Steinbrecher",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Guhua-Prototyp",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Übungsgroßschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 1
+    },
+    {
+      "name": "Favonius-Großschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Luxuriöser Seekönig",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Knochenschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Opfergroßschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Weißes Eisengroßschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Weißer Schatten",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Wolfsgrab",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Drachenblutschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Katsuragikiri Nagamasa",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Kiefernklang",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Grobes Schwert",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Akuoumaru",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Königliches Großschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Stolz des Himmels",
+      "weapon_type": "Großschwert",
+      "rarity": 5
+    },
+    {
+      "name": "Antikes Millelithenschwert",
+      "weapon_type": "Großschwert",
+      "rarity": 4
+    },
+    {
+      "name": "Söldnerzweihänder",
+      "weapon_type": "Großschwert",
+      "rarity": 2
+    },
+    {
+      "name": "Schlagfestes Argument",
+      "weapon_type": "Großschwert",
+      "rarity": 3
+    },
+    {
+      "name": "Lüftchen und Saitenspiel",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Urzeitlicher Jadebogen",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Frostschneeschwur",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Goldener Frostschwur",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Chroniken der Morgendämmerung",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Regenakkorde der Regenbogenschlange",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Netzhaken",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Tonfolge der Einsamkeit",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Karmesinrotes Federkleid des Astralgeiers",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Mit Blumen gebundene Federn",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Zersprungene Ketten",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Wolkenweber",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Tröpfelnde Herzsaiten",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Entfernungsmesser",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Spross der flammenden Sonne",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Gesang der Stille",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Erste große Magie",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Durchdringer der Ibisse",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Gefolgsfrau des Königs",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Schwertfischer",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Pfad des Jägers",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Ausklingende Dämmerung",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Aqua Simulacra",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Schwarzstein-Kriegsbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Rabenbogen",
+      "weapon_type": "Bogen",
+      "rarity": 3
+    },
+    {
+      "name": "Donnerpuls",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Windblumenode",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Amos’ Bogen",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Compoundbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Mondschein-Prototyp",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Favonius-Jagdbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Grasgrüner Jagdbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Der Sehnenlose",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Letzter Seufzer",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Opferbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Eid des Scharfschützen",
+      "weapon_type": "Bogen",
+      "rarity": 3
+    },
+    {
+      "name": "Hamayumi",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Jagdbogen",
+      "weapon_type": "Bogen",
+      "rarity": 1
+    },
+    {
+      "name": "Mouun-Mond",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Gassenjäger",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Raubtier",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Steinschleuder",
+      "weapon_type": "Bogen",
+      "rarity": 3
+    },
+    {
+      "name": "Rostiger Bogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Mitternachtswalzer",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Königlicher Langbogen",
+      "weapon_type": "Bogen",
+      "rarity": 4
+    },
+    {
+      "name": "Himmelsflügel",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Reflexbogen",
+      "weapon_type": "Bogen",
+      "rarity": 3
+    },
+    {
+      "name": "Alter Jagdbogen",
+      "weapon_type": "Bogen",
+      "rarity": 2
+    },
+    {
+      "name": "Polarstern",
+      "weapon_type": "Bogen",
+      "rarity": 5
+    },
+    {
+      "name": "Überbringer",
+      "weapon_type": "Bogen",
+      "rarity": 3
+    },
+    {
+      "name": "Geheimes Sternorakel",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Schweres Herz des Winters",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Loblied des Strudels",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Spiel der Könige",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Echo des Herzens",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Sieben Gebote von Staub und Licht",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Nachtmusik im Schleier",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Kästchen der Wahrheit",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Froststern",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Laute des Himmelslichts",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Spiegel des Nachtwebers",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Laterne des schwarzen Marks",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Farbenfrohe Gedanken",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Frühjahrsschlaf",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Wacht des Sternenopfers",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Wellenreitender Wirbel",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Yaxche-Ring",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Aschgraues Trinkhorn",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Zeit fürs Wellenreiten",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Widerhallender Ruf des Kranichs",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Monetäre Aufsichtseinheit",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Lehre des ewigen Flusses",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Ballade des unendlichen Blaus",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Zeremonielle Jade",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Fließende Reinheit",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Jadesturz-Pracht",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Tulaytullahs Erinnerung",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Fließende Träume von tausend Nächten",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Wandernder Abendstern",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Vollmondfrucht",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Schwarzstein-Achat",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Magieführer",
+      "weapon_type": "Katalysator",
+      "rarity": 3
+    },
+    {
+      "name": "Bernstein-Prototyp",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Auge des Gelöbnisses",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Von den Heldentaten der Drachenbezwinger",
+      "weapon_type": "Katalysator",
+      "rarity": 3
+    },
+    {
+      "name": "Favonius-Kodex",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Jadekugel",
+      "weapon_type": "Katalysator",
+      "rarity": 3
+    },
+    {
+      "name": "Opferrituale",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Kaguras Wahrheit",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Hakushin-Ring",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Zwillingsnephrit",
+      "weapon_type": "Katalysator",
+      "rarity": 3
+    },
+    {
+      "name": "Landstreichernoten",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Wein und Gesang in den Gassen",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Herzensblick",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Permafrostfrucht",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Geschichten einer anderen Welt",
+      "weapon_type": "Katalysator",
+      "rarity": 3
+    },
+    {
+      "name": "Ketten des Diesseits",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Königliches Zauberbuch",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Aufzeichnungen eines Lehrlings",
+      "weapon_type": "Katalysator",
+      "rarity": 1
+    },
+    {
+      "name": "Himmelsatlas",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Gebete der Vier Winde",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Dodoco-Geschichten",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Taschenzauberbuch",
+      "weapon_type": "Katalysator",
+      "rarity": 2
+    },
+    {
+      "name": "Sonne und Mond",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Ewiger Mondschein",
+      "weapon_type": "Katalysator",
+      "rarity": 5
+    },
+    {
+      "name": "Illustrationen von Landen und Wassern",
+      "weapon_type": "Katalysator",
+      "rarity": 4
+    },
+    {
+      "name": "Frostatem",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Wächterlied",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Katastrophe und Reue",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Leuchtstab des Geistlichen",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Blutbefleckte Stadt",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Schaufel des Goldgräbers",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Zerstreutes Licht",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Sinfoniker der Düfte",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Tamayuratei no Ohanashi",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Bergschützer-Bolzen",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Spuren des Regenbogens",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Lumidouce-Elegie",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Form des scharlachroten Mondes",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Dialoge der Weisen der Wüste",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Erkundungsbohrer",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Ballade der Fjorde",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Rechtmäßige Belohnung",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Stab der roten Sande",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Spitze der klingenden Winde",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Monddurchbohrer",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Drachengratspeer",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Schwarze Quaste",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 3
+    },
+    {
+      "name": "Schwarzsteinlanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Eisenlanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 2
+    },
+    {
+      "name": "Hellebarde",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 3
+    },
+    {
+      "name": "Regenbogenstecher",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Sternsichel-Prototyp",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Favonius-Lanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Grasschnittstrahl",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Weiße Quaste",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 3
+    },
+    {
+      "name": "Mondpike",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Anfängerlanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 1
+    },
+    {
+      "name": "Wellenbrecherflosse",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Homa-Stab",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Ende des Unheils",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Königlicher Jagdspeer",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Himmelsgrat",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Kitain-Kreuzlanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Urzeitlicher Jadespeer",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 5
+    },
+    {
+      "name": "Millelithenlanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Drachenschreck",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "Duelllanze",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    },
+    {
+      "name": "„Der Fang“",
+      "weapon_type": "Stangenwaffe",
+      "rarity": 4
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "Abenteurer",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die max. LP um 1000.",
+      "bonus_4pc": "Stellt nach dem Öffnen jeglicher Truhen 5 s lang 30 % LP wieder her."
+    },
+    {
+      "name": "Altes Hofritual",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Spezialfähigkeiten verursachten Schaden um 20 %.",
+      "bonus_4pc": "Erhöht den ANG aller Truppenmitglieder nach Anwendung von Spezialfähigkeiten 12 s lang um 20 %, nicht stapelbar."
+    },
+    {
+      "name": "Archaischer Fels",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Geo-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht beim Erhalten von durch die Reaktion Kristallisation erschaffenen Splittern oder beim Auslösen der Reaktion Mond-Kristallisation den mit dem jeweiligen Element verursachten Schaden aller Truppenmitglieder 10 s lang um 35 %. Zu einem Zeitpunkt kann nur ein SCH-Bonus aufgrund dieses Effekts bestehen."
+    },
+    {
+      "name": "Ausbilder",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Erhöht die Elementarkunde aller Truppenmitglieder nach Auslösen von Elementarreaktionen 8 s lang um 120 Punkte."
+    },
+    {
+      "name": "Bedrückende Desillusionierung im Schatten",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht den durch die Reaktion Supraleiter verursachten Schaden um 80 % und den durch die Reaktion Stellar-Supraleiter verursachten Schaden um 40 %. Erhöht, wenn der Träger einen Gegner angreift, der von der Reaktion Supraleiter oder Stellar-Supraleiter betroffen ist, die KT dieses Angriffs um 16 %."
+    },
+    {
+      "name": "Berserker",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die KT um 12 %.",
+      "bonus_4pc": "Erhöht die KT bei weniger als 70 % LP zusätzlich um 24 %."
+    },
+    {
+      "name": "Beschützerinstinkt",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die VTD um 30 %.",
+      "bonus_4pc": "Erhöht für jedes unterschiedliche Element der eigenen Figuren in der Truppe den eigenen WDS des jeweiligen Elements um 30 %."
+    },
+    {
+      "name": "Blitzopfer",
+      "bonus_1pc": "Verringert die Dauer der Beeinträchtigung durch zusätzliches Elektro-Attribut um 40 %.",
+      "bonus_2pc": "",
+      "bonus_4pc": ""
+    },
+    {
+      "name": "Blumen des verlorenen Paradieses",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Erhöht den durch den Träger mit den Reaktionen „Sprießen“, „Supraspross“ und „Flammenspross“ verursachten Schaden um 40 % und den durch den Träger mit der Reaktion „Mondspross“ verursachten Schaden um 10 %. Erhöht den Bonus von obigem Effekt zusätzlich um 25 %, nachdem der Träger die Reaktionen „Sprießen“, „Supraspross“, „Flammenspross“ oder „Mondspross“ ausgelöst hat, hält 10 s, 4-fach stapelbar, 1 s Abklingzeit. Dieser Effekt kann auch dann ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet."
+    },
+    {
+      "name": "Blutiger Weg eines Ritters",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den verursachten physischen Schaden um 25 %.",
+      "bonus_4pc": "Verbraucht beim Besiegen von Gegnern 10 s lang für die Anwendung von heftigen Schlägen keine Ausdauer und erhöht den mit heftigen Schlägen verursachten Schaden um 50 %."
+    },
+    {
+      "name": "Blutroter Beweis",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht, wenn der Träger die Reaktion Stellar-Verwirbelung auslöst, seine KT 10 s lang um 16 % und den Schaden durch die Reaktion Stellar-Verwirbelung um 40 %."
+    },
+    {
+      "name": "Brennende Pyro-Hexe",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Pyro-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den mit den Reaktionen „Überladen“, „In Flammen“ und „Flammenspross“ verursachten Schaden um 40 % und den den von den Reaktionen „Verdampfen“ und „Schmelzen“ betroffenen Gegnern zugefügten Schaden um 15 %. Erhöht den Effekt eines 2er-Sets bei Anwendung von Elementarfähigkeiten 10 s lang um 50 %, 3-fach stapelbar."
+    },
+    {
+      "name": "Chronik des Wüstenpavillons",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Anemo-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht die Standardangriffs-GSW der damit ausgerüsteten Figur nach dem Treffen von Gegnern mit heftigen Schlägen um 10 % und erhöht den von Standardangriffen, heftigen Schlägen und Angriffen aus dem Fall verursachten Schaden um 40 %, hält 15 s."
+    },
+    {
+      "name": "Donner beruhigender Weiser",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Elektro-WDS um 40 %.",
+      "bonus_4pc": "Erhöht den von Elektro-Effekten betroffenen Gegnern zugefügten Schaden um 35 %."
+    },
+    {
+      "name": "Donnernder Zorn",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Elektro-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den mit den Reaktionen „Überladen“, „Unter Strom“, „Supraleiter“ und „Supraspross“ verursachten Schaden um 40 %. Erhöht den mit den Reaktionen „Suprawuchs“, „Mond unter Strom“ und „Stellar-Supraleiter“ verursachten Schaden um 20 %. Verkürzt die Abklingzeit der Elementarfähigkeit beim Auslösen dieser Elementarreaktionen und der Reaktion „Urwuchs“ um 1 s. 0,8 s Abklingzeit."
+    },
+    {
+      "name": "Echo des Opferfests",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Löst beim Treffen von Gegnern mit Standardangriffen mit einer Wahrscheinlichkeit von 36 % „Talritual“ aus: Erhöht den mit Standardangriffen verursachten Schaden um 70 % ANG. Erlischt 0,05 s nach dem Verursachen von Schaden mit Standardangriffen. Erhöht, wenn der Effekt bei einem Standardangriff nicht ausgelöst wird, die Chance, dass er beim nächsten Mal ausgelöst wird, um 20 %, 0,2 s Abklingzeit."
+    },
+    {
+      "name": "Eid der Nacht",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Angriffen aus dem Fall verursachten Schaden um 25 %.",
+      "bonus_4pc": "Erhält beim Treffen von Gegnern mit Angriffen aus dem Fall, heftigen Schlägen oder Elementarfähigkeiten des Trägers 1/2/2 Stapelung(en) „Ewiger Glanz“. 1 s Abklingzeit für jeden durch die oben genannten Angriffe erzeugten Effekt. Ewiger Glanz: Erhöht den mit Angriffen aus dem Fall verursachten Schaden 6 s um 15 %, 5-fach stapelbar. Die Wirkungsdauer jeder Stapelung wird unabhängig voneinander berechnet."
+    },
+    {
+      "name": "Eisopfer",
+      "bonus_1pc": "Verringert die Dauer der Beeinträchtigung durch zusätzliches Kryo-Attribut um 40 %.",
+      "bonus_2pc": "",
+      "bonus_4pc": ""
+    },
+    {
+      "name": "Erinnerungen des tiefen Waldes",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Dendro-Schaden um 15 %.",
+      "bonus_4pc": "Verringert nach Treffern mit der Elementarfähigkeit oder Spezialfähigkeit den Dendro-WDS des Ziels 8 s lang um 30 %. Dieser Effekt kann auch ausgelöst werden, wenn die damit ausgerüstete Figur inaktiv in der Truppe ist."
+    },
+    {
+      "name": "Fahle Flammen",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den verursachten physischen Schaden um 25 %.",
+      "bonus_4pc": "Erhöht den ANG beim Treffen von Gegnern mit Elementarfähigkeiten 7 s lang um 9 %, 2-fach stapelbar. 0,3 s Abklingzeit. Erhöht den Effekt des Sets mit 2 Teilen beim Erreichen des Limits von 2 Stapelungen um 100 %."
+    },
+    {
+      "name": "Fernweh",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht die KT heftiger Schläge um 30 %."
+    },
+    {
+      "name": "Feuer durchwandernder Heiliger",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Pyro-WDS um 40 %.",
+      "bonus_4pc": "Erhöht den von Pyro-Effekten betroffenen Gegnern zugefügten Schaden um 35 %."
+    },
+    {
+      "name": "Feueropfer",
+      "bonus_1pc": "Verringert die Dauer der Beeinträchtigung durch zusätzliches Pyro-Attribut um 40 %.",
+      "bonus_2pc": "",
+      "bonus_4pc": ""
+    },
+    {
+      "name": "Finale der tiefen Korridore",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Kryo-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den mit Standardangriffen verursachten Schaden um 60 % und den mit Spezialfähigkeiten verursachten Schaden um 60 %, wenn die Elementarenergie des Trägers 0 Punkte beträgt. Macht den Schadenbonus für Spezialfähigkeiten 6 s lang unwirksam, wenn der Träger mit seinem Standardangriff Schaden verursacht. Macht den Schadensbonus für Standardangriffe 6 s lang unwirksam, wenn der Träger mit seiner Spezialfähigkeit Schaden verursacht. Kann auch ausgelöst werden, wenn sich die Figur inaktiv in der Truppe befindet."
+    },
+    {
+      "name": "Fragment harmonischer Launen",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht beim Erhöhen oder Verringern des Werts von Eid des Lebens den von der Figur verursachten Schaden um 18 %, hält 6 s, 3-fach stapelbar."
+    },
+    {
+      "name": "Gabe des Himmels",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Aufladerate um 20 %.",
+      "bonus_4pc": "Verleiht dem Träger, nachdem er die Aufgabe der Hexe abgeschlossen und eine Elementarfähigkeit angewendet hat, den Effekt „Führung des Himmelslichts“: Verleiht allen Truppenmitgliedern in der Nähe 20 s lang einen Elementar-SCH-Bonus von 20 % für das Element des Trägers. Dieser Effekt kann auch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet. Die SCH-Bonus-Effekte mehrerer gleicher Artefaktsets sind nicht stapelbar.\n· Stuft den Effekt „Führung des Himmelslichts“ zu „Ode an die Welt“ hoch, wenn die Truppe den Effekt „Hexerei – Geheimes Ritual“ besitzt. Verleiht allen Truppenmitgliedern in der Nähe zusätzlich zum Elementartyp des Trägers einen Elementar-SCH-Bonus für das Element des eigenen aktuellen Truppenmitglieds. Erhöht die beiden oben genannten Elementar-SCH-Boni zudem auf 40 %. Elementar-SCH-Boni desselben Elementartyps können nicht gestapelt werden."
+    },
+    {
+      "name": "Gedenken an Shimenawa",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Verringert bei Anwendung einer Elementarfähigkeit die Elementarenergie um 15 Punkte, wenn die Figur mindestens 15 Punkte Elementarenergie besitzt. Erhöht daraufhin den mit Standardangriffen, heftigen Schlägen und Angriffen aus dem Fall verursachten Schaden 10 s lang um 50 %. Dieser Effekt wird während der Wirkungsdauer nicht erneut ausgelöst."
+    },
+    {
+      "name": "Gelehrter",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Aufladerate um 20 %.",
+      "bonus_4pc": "Stellt allen Truppenmitgliedern mit Bögen und Katalysatoren beim Erhalten von Elementarteilchen und Elementarkristallen zusätzlich 3 Punkte Elementarenergie wieder her. 3 s Abklingzeit."
+    },
+    {
+      "name": "Gesang von Stern und Mond",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Erhöht den mit Mondleuchten-Reaktionen verursachten Schaden um 20 %, wenn der Träger inaktiv in der Truppe ist. Erhöht den mit Mondleuchten-Reaktionen verursachten Schaden zusätzlich um 40 %, wenn die Mondomenstufe der Truppe mindestens Reifer Glanz ist. Dieser Effekt wird entfernt, wenn der Träger länger als 3 s aktiv auf dem Feld ist."
+    },
+    {
+      "name": "Glücksspieler",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Elementarfähigkeiten verursachten Schaden um 20 %.",
+      "bonus_4pc": "Überspringt die Abklingzeit der Elementarfähigkeit beim Besiegen von Gegnern mit einer Wahrscheinlichkeit von 100 %. 15 s Abklingzeit."
+    },
+    {
+      "name": "Glückspilz",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die VTD um 100 Punkte.",
+      "bonus_4pc": "Stellt beim Sammeln von Mora 300 LP wieder her."
+    },
+    {
+      "name": "Goldtruppe",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Elementarfähigkeiten verursachten Schaden um 20 %.",
+      "bonus_4pc": "Erhöht den mit Elementarfähigkeiten verursachten Schaden um 25 %. Erhöht außerdem den mit Elementarfähigkeiten verursachten Schaden ein weiteres Mal um 25 %, wenn sich die Figur inaktiv in der Truppe befindet. Der Effekt verschwindet nach 2 s, nachdem die Figur eingewechselt worden ist."
+    },
+    {
+      "name": "Grünlicher Schatten",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Anemo-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den durch die Reaktion Verwirbelung verursachten Schaden um 60 % sowie den durch die Reaktion Stellar-Verwirbelung verursachten Schaden um 20 %. Verringert den dem jeweiligen Elementartyp der Verwirbelung entsprechenden WDS des betroffenen Gegners 10 s lang um 40 %. Verringert, wenn eine Stellar-Verwirbelung auf einen Gegner ausgelöst wird, dessen Kryo-WDS um 40 %. WDS-Verringerungen desselben Elementartyps können nicht gestapelt werden."
+    },
+    {
+      "name": "Im Feuer geschmolzenes Herz",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht innerhalb von 12 s, nachdem der Träger eine Stellarfunkeln-Reaktion ausgelöst oder Schaden mit einer solchen verursacht hat, den ANG des Trägers um 12 % und den durch alle Truppenmitglieder in der Nähe mithilfe von Stellarfunkeln-Reaktionen verursachten Schaden um 50 %. Dieser Effekt kann auch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet. Die SCH-Bonus-Effekte mehrerer gleicher Artefaktsets sind nicht stapelbar."
+    },
+    {
+      "name": "Im Schnee irrender Recke",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Kryo-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht die KT beim Angreifen von Kryo-Effekten betroffener Gegner um 20 %. Erhöht die KT bei von Gefroren betroffenen Gegnern zusätzlich um 20 %."
+    },
+    {
+      "name": "Ins Herz geschlossenes Mädchen",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den aktiven Heileffekt der Figur um 15 %.",
+      "bonus_4pc": "Erhöht den passiven Heilungseffekt aller Truppenmitglieder nach Anwendung von Elementarfähigkeiten oder Spezialfähigkeiten 10 s lang um 20 %."
+    },
+    {
+      "name": "Kampfkünstler",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Standardangriffen und heftigen Schlägen verursachten Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den mit Standardangriffen und heftigen Schlägen verursachten Schaden nach Anwendung von Elementarfähigkeiten 8 s lang um 25 %."
+    },
+    {
+      "name": "Licht der Vourukasha-Oase",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die LP um 20 %.",
+      "bonus_4pc": "Erhöht den mit Elementarfähigkeiten und Spezialfähigkeiten verursachten Schaden um 10 %. Erhöht diesen Schadensbonus 5 s lang, nachdem der Träger Schaden erlitten hat, um 80 %. Dieser Effekt ist 5-fach stapelbar und die Wirkungsdauer jeder Stapelung wird unabhängig voneinander berechnet. Dieser Effekt kann auch dann ausgelöst werden, wenn sich die damit ausgerüstete Figur inaktiv in der Truppe befindet."
+    },
+    {
+      "name": "Lied vergangener Tage",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Heilungsbonus um 15 %.",
+      "bonus_4pc": "Erzeugt, wenn der Träger ein Truppenmitglied heilt, 6 s lang den Effekt „Sehnsucht“, der die Gesamtmenge der durchgeführten Heilung (einschließlich des überschüssigen Heilungswerts) aufzeichnet. Wandelt, wenn die Wirkungsdauer abläuft, den Effekt „Sehnsucht“ in den Effekt „Wellen von damals“ um: Erhöht, wenn die eigene aktuelle Figur in der Truppe einen Gegner mit einem Standardangriff, heftigen Schlag, Angriff aus dem Fall, einer Elementarfähigkeit oder einer Spezialfähigkeit trifft, den verursachten Schaden um 8 % der durch den Effekt „Sehnsucht“ aufgezeichneten Gesamtheilungsmenge. Der Effekt „Wellen von damals“ wird entfernt, nachdem er 5-mal ausgelöst wurde, oder nach 10 s. Ein einzelner „Sehnsucht“-Effekt kann bis zu 15.000 Punkte an Heilung aufzeichnen und es kann zu einem Zeitpunkt nur einen „Sehnsucht“-Effekt geben. Dieser Effekt kann die Menge an Heilung durch mehrere Träger aufzeichnen. Er kann auch noch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet."
+    },
+    {
+      "name": "Meeresmuschel",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Heilungsbonus um 15 %.",
+      "bonus_4pc": "Wenn die mit diesem Artefaktset ausgerüsteten Figuren die Figuren in der Truppe heilen, entsteht eine Meeresblase, die 3 s hält und die wiederhergestellten Lebenspunkte beim Heilen (einschließlich des überschüssigen Heilungswerts) aufzeichnet. Wenn ihre Dauer endet, explodiert die Meeresblase, was Gegnern in der Umgebung Schaden, der 90 % der insgesamt wiederhergestellten LP entspricht, zufügt (Diese SCH-Berechnungsweise gleicht der der Elementarreaktionen Unter Strom und Supraleiter, ist jedoch von der Elementarkunde, der Stufe oder dem Reaktion-SCH-Bonus unabhängig). Alle 3,5 s kann höchstens eine Meeresblase entstehen. Jede Meeresblase kann bis zu 30.000 wiederhergestellte Lebenspunkte (einschließlich des überschüssigen Heilungswerts) aufzeichnen. In der eigenen Truppe kann gleichzeitig höchstens eine Meeresblase bestehen. Wenn die mit diesem Artefaktset ausgerüsteten Figuren inaktiv in der Truppe sind, kann dieser Effekt auch ausgelöst werden."
+    },
+    {
+      "name": "Nacht der himmlischen Enthüllung",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Verleiht beim Auslösen der Mondleuchten-Reaktionen durch ein Truppenmitglied in der Nähe, wenn sich der Träger auf dem Feld befindet, 4 s lang den Effekt „Helles Mondlicht – Gedankensammelsurium“: Erhöht, wenn das Mondomen der Truppe „Anfänglicher Glanz“ / „Reifer Glanz“ ist, die KT um 15 % / 30 %. Erhöht für jeden unterschiedlichen Effekt des „Hellen Mondlichts“ der Truppenmitglieder den Schaden der von allen Truppenmitgliedern ausgelösten Mondleuchten-Reaktionen um 10 %. Der durch „Helles Mondlicht“ ausgelöste Effekt ist nicht stapelbar."
+    },
+    {
+      "name": "Nächtliches Geflüster in den widerhallenden Wäldern",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht den Geo-SCH-Bonus 10 s lang um 20 %, nachdem eine Elementarfähigkeit eingesetzt wurde. Erhöht diesen Effekt zusätzlich um 150 %, wenn die Figur von einem Kristallschild, der durch die Reaktion „Kristallisation“ entsteht, geschützt wird, oder sich in der Nähe ein durch die Reaktion „Mond-Kristallisation“ hervorgerufener Mondkäfig befindet – diese weitere Verstärkung wird 1 s nach der Nichterfüllung dieser Bedingungen entfernt."
+    },
+    {
+      "name": "Obsidiankodex",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht, wenn der Träger im Zustand „Nachtseelensegen“ und aktiv auf dem Feld ist, den verursachten Schaden um 15 %.",
+      "bonus_4pc": "Erhöht, nachdem der Träger aktiv auf dem Schlachtfeld 1 Nachtseelenpunkt verbraucht hat, die KT 6 s lang um 40 %. 1 s Abklingzeit."
+    },
+    {
+      "name": "Oceanic Symphony",
+      "bonus_1pc": "",
+      "bonus_2pc": "Elemental Skill DMG +20%.",
+      "bonus_4pc": "After the equipper's Elemental Skill hits an opponent, increases the equipping character's Max HP by 12% for 8s. Max 2 stacks."
+    },
+    {
+      "name": "Schale der üppigen Träume",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die VTD um 30 %.",
+      "bonus_4pc": "Die mit diesem Artefaktset ausgerüsteten Figuren erhalten unter den folgenden Umständen den Effekt „Neugier“: Aktuelle Figuren erhalten mit 0,3 s Abklingzeit eine Stapelung beim Treffen von Gegnern mit Geo-Angriffen, während die inaktiven Figuren in der Truppe alle 3 s eine Stapelung erhalten. 4-fach stapelbar. Jede Stapelung verleiht einen VTD-Bonus von 6 % und einen Geo-Schadens-Bonus von 6 %. Wenn kein neuer Effekt der „Neugier“ hinzukommt, erlischt alle 6 s eine Stapelung dieses Effekts."
+    },
+    {
+      "name": "Schattenjäger",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den mit Standardangriffen und heftigen Schlägen verursachten Schaden um 15 %.",
+      "bonus_4pc": "Erhöht beim Erhöhen oder Verringern der aktuellen LP die KT um 12 %. Hält 5 s. 3-fach stapelbar."
+    },
+    {
+      "name": "Schriftrolle des Recken der aschenen Stadt",
+      "bonus_1pc": "",
+      "bonus_2pc": "Stellt dem Träger beim Auslösen von „Nachtseelenaufbruch“ durch ein Truppenmitglied in der Nähe 6 Punkte Elementarenergie wieder her.",
+      "bonus_4pc": "Erhöht, nachdem der Träger eine Elementarreaktion, die mit seinem Elementartyp zusammenhängt, ausgelöst hat, den Elementar-SCH-Bonus der mit dieser Elementarreaktion zusammenhängenden Elemente aller Truppenmitglieder in der Nähe 15 s lang um 12 %. Erhöht, wenn der Träger beim Auslösen dieses Effekts im Zustand „Nachtseelensegen“ ist, den Elementar-SCH-Bonus der mit dieser Elementarreaktion zusammenhängenden Elemente aller Truppenmitglieder in der Nähe 20 s lang zusätzlich um 28 %. Dieser Effekt kann auch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet. Die SCH-Bonus-Effekte mehrerer gleicher Artefaktsets sind nicht stapelbar."
+    },
+    {
+      "name": "Serenade des seidenen Mondes",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Aufladerate um 20 %.",
+      "bonus_4pc": "Verleiht beim Verursachen von Elementar-Schaden 8 s lang den Effekt „Helles Mondlicht – Hohe Überzeugung“: Erhöht, wenn das Mondomen der Truppe „Anfänglicher Glanz“ / „Reifer Glanz“ ist, die Elementarkunde aller Figuren in der Truppe um 60/120 Punkte. Dieser Effekt kann auch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet. Erhöht für jeden unterschiedlichen Effekt des „Hellen Mondlichts“ der Truppenmitglieder den Schaden der von allen Truppenmitgliedern ausgelösten Mondleuchten-Reaktionen um 10 %. Der durch „Helles Mondlicht“ ausgelöste Effekt ist nicht stapelbar."
+    },
+    {
+      "name": "Tag des aufkommenden Windes",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Verleiht nach Treffen von Gegnern mit einem Standardangriff, heftigen Schlag, einer Elementarfähigkeit oder Spezialfähigkeit 6 s lang „Segen des Windes und des Hirtengesangs“: Erhöht den ANG um 25 %. Verbessert, wenn der Träger „Aufgabe der Hexe“ bereits abgeschlossen hat, „Segen des Windes und des Hirtengesangs“ zu „Willen des Windes und des Hirtengesangs“ und erhöht zusätzlich die KT des Trägers, der die Prüfung bestanden hat, um 20 %. Diese Effekte können auch ausgelöst werden, wenn sich der Träger inaktiv in der Truppe befindet."
+    },
+    {
+      "name": "Tief im Herzen",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Hydro-Schaden um 15 %.",
+      "bonus_4pc": "Erhöht den mit Standardangriffen und heftigen Schlägen verursachten Schaden nach Anwendung von Elementarfähigkeiten 15 s lang um 30 %."
+    },
+    {
+      "name": "Traum der Narzisse",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den Hydro-Schaden um 15 %.",
+      "bonus_4pc": "Erschafft beim Treffen von Gegnern mit Standardangriffen, heftigen Schlägen, Angriffen aus dem Fall, Elementarfähigkeiten oder Spezialfähigkeiten eine 8 s anhaltende Stapelung des Effekts „Narzisse im Spiegel“. Erhöht den ANG bei 1/2/3 Stapelungen von „Narzisse im Spiegel“ um 7/16/25 % und den Hydro-SCH-Bonus um 4/9/15 %. Die durch Standardangriffe, heftige Schläge, Angriffe aus dem Fall, Elementarfähigkeiten und Spezialfähigkeiten entstandenen Effekte von „Narzisse im Spiegel“ existieren unabhängig voneinander."
+    },
+    {
+      "name": "Umgekehrter Meteor",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Schildeffizienz um 35 %.",
+      "bonus_4pc": "Erhöht den Schaden von Standardangriffen und heftigen Schlägen bei aktivem Schild zusätzlich um 40 %."
+    },
+    {
+      "name": "Unvollendete Träumerei",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht den verursachten Schaden um 50 %, sobald der Träger den Kampf für 3 s verlassen hat. Verringert diesen Schadensbonus im Kampf jede s um 10 %, sobald 6 s lang keine Gegner in Flammen in der Nähe sind, bis auf 0 %. Erhöht den Schadensbonus jede s um 10 %, wenn Gegner in Flammen in der Nähe sind, bis auf 50 %. Der Effekt kann auch noch ausgelöst werden, wenn der Träger inaktiv in der Truppe ist."
+    },
+    {
+      "name": "Verbeugung des Gladiators",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht den mit Standardangriffen verursachten Schaden, wenn die mit diesem Artefaktset ausgestattete Figur einen Einhänder, einen Zweihänder oder eine Stangenwaffe trägt, um 35 %."
+    },
+    {
+      "name": "Verbannter",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Aufladerate um 20 %.",
+      "bonus_4pc": "Stellt allen Truppenmitgliedern (außer sich selbst) bei Anwendung von Spezialfähigkeiten 6 s lang alle 2 s 2 Punkte Elementarenergie wieder her, nicht stapelbar."
+    },
+    {
+      "name": "Vergangenheit des Zinnobers",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Verleiht Figuren nach Anwendung von Spezialfähigkeiten den 16 s anhaltenden Effekt „Schleichlicht“: Erhöht den ANG der jeweiligen Figur anfänglich um 8 %. Erhöht den ANG der Figur bei jedem LP-Verlust zusätzlich um 10 %, 0,8 s Abklingzeit. 4 ANG-Boni auf diese Weise möglich. Beendet den Effekt „Schleichlicht“ beim Auswechseln der Figur. Entfernt bei erneuter Anwendung der Spezialfähigkeit während der Wirkungsdauer von „Schleichlicht“ den bisherigen Effekt „Schleichlicht“ vollständig."
+    },
+    {
+      "name": "Vergoldeter Traum",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Verleiht der damit ausgerüsteten Figur nach Auslösen einer Elementarreaktion entsprechend den Elementartypen anderer Figuren in der Truppe unterschiedliche Boni, die 8 s halten: Die Anwesenheit von je 1 Figur des gleichen Elementartyps erhöht den ANG um 14 %. Die Anwesenheit von je 1 Figur unterschiedlichen Elementartyps erhöht die Elementarkunde um 50 Punkte. Für jeden dieser Boni werden bis zu 3 Figuren mit gleichem oder unterschiedlichem Elementartyp gewertet. Diese Effekte treten auch in Kraft, wenn die damit ausgerüstete Figur inaktiv in der Truppe ist, 8 s Abklingzeit."
+    },
+    {
+      "name": "Wagemut",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den ANG um 18 %.",
+      "bonus_4pc": "Erhöht den Gegnern mit mehr als 50 % LP zugefügten Schaden um 30 %."
+    },
+    {
+      "name": "Wanderarzt",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den passiven Heileffekt der Figur um 20 %.",
+      "bonus_4pc": "Stellt bei Anwendung von Spezialfähigkeiten 20 % LP wieder her."
+    },
+    {
+      "name": "Wanderorchester",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht Elementarkunde um 80 Punkte.",
+      "bonus_4pc": "Erhöht den mit heftigen Schlägen verursachten Schaden, wenn die Figur einen Katalysator oder einen Bogen trägt, um 35 %."
+    },
+    {
+      "name": "Wappen des getrennten Schicksals",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die Aufladerate um 20 %.",
+      "bonus_4pc": "Erhöht den mit Spezialfähigkeiten verursachten Schaden basierend auf 25 % der Aufladerate. Bis zu 75 % Bonus auf diese Weise möglich."
+    },
+    {
+      "name": "Wasseropfer",
+      "bonus_1pc": "Verringert die Dauer der Beeinträchtigung durch zusätzliches Hydro-Attribut um 40 %.",
+      "bonus_2pc": "",
+      "bonus_4pc": ""
+    },
+    {
+      "name": "Wunder",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht den WDS gegen alle Elemente um 20 %.",
+      "bonus_4pc": "Erhöht den jeweiligen WDS nach Erleiden von Elementar-SCH 10 s lang um 30 %. 10 s Abklingzeit."
+    },
+    {
+      "name": "Zähigkeit der Millelithen",
+      "bonus_1pc": "",
+      "bonus_2pc": "Erhöht die LP um 20 %.",
+      "bonus_4pc": "Erhöht beim Treffen von Gegnern mit Elementarfähigkeiten den ANG aller Truppenmitglieder in der Nähe um 20 % sowie die Schildeffizienz um 30 %, hält 3 s, 0,5 s Abklingzeit. Die Figur mit diesem Artefaktset kann diesen Effekt auch auslösen, wenn sie inaktiv in der Truppe ist."
+    }
+  ]
+}
