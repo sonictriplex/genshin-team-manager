@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDEs / Editoren
+.idea/
+.vscode/
+*.swp
+
+# Betriebssystem
+System Volume Information/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Datenbank-Sicherungen und SQLite-Hilfsdateien
+*.db.bak*
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Lokale Datenbank (enthält persönliche Teams und Builds)
+genshin_manager.db
