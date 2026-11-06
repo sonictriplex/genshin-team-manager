@@ -9,6 +9,9 @@ from styles import APP_QSS
 
 def main():
     app = QApplication(sys.argv)
+    # Eigene Fensterklasse (Wayland app_id), damit generische KWin-Regeln für "python" nicht greifen
+    app.setApplicationName("genshin-team-manager")
+    app.setDesktopFileName("genshin-team-manager")
     app.setStyleSheet(APP_QSS)
     window = MainWindow()
     window.show()
