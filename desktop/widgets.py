@@ -468,11 +468,11 @@ class ArtifactPanel(QFrame):
             grid.addWidget(self._build_slot(slot_name, main_stats), idx // 2, idx % 2)
         for row in range(3):
             grid.setRowStretch(row, 1)
-        layout.addLayout(grid)
 
+        # Die Buttons stehen in der freien Zelle neben der Krone, unten bündig mit den Slot-Karten.
+        # So füllen die Karten die ganze Höhe, und unten bleibt derselbe Abstand wie seitlich.
         buttons = QHBoxLayout()
         buttons.setSpacing(8)
-        buttons.addStretch()
         for text, tooltip, handler, primary in (
             ("Zurücksetzen", "Leert alle eingegebenen Artefakt-Einzelwerte dieser Karte", self.reset, False),
             ("Neu Laden", "Lädt die gespeicherten Artefaktwerte aus der SQLite-Datenbank neu", self.reload, False),
@@ -484,7 +484,8 @@ class ArtifactPanel(QFrame):
                 btn.setObjectName("primaryButton")
             btn.clicked.connect(handler)
             buttons.addWidget(btn)
-        layout.addLayout(buttons)
+        grid.addLayout(buttons, 2, 1, Qt.AlignBottom | Qt.AlignRight)
+        layout.addLayout(grid, stretch=1)
 
         self.set_stats(card.saved_data.get("artifact_stats", {}))
 
@@ -493,7 +494,7 @@ class ArtifactPanel(QFrame):
         box.setObjectName("artifactSlot")
         box_layout = QVBoxLayout(box)
         box_layout.setContentsMargins(6, 6, 6, 6)
-        box_layout.setSpacing(4)
+        box_layout.setSpacing(0)
 
         title = QLabel(slot_name)
         title.setObjectName("slotTitle")
@@ -513,6 +514,9 @@ class ArtifactPanel(QFrame):
         head.addWidget(rarity)
         box_layout.addLayout(head)
 
+        # Zusätzliche Höhe wird gleichmäßig auf die Abschnitte des Slots verteilt
+        box_layout.addItem(QSpacerItem(0, 4, QSizePolicy.Minimum, QSizePolicy.Expanding))
+
         main = QComboBox()
         main.addItems(main_stats)
         main_val = self._value_input()
@@ -520,6 +524,8 @@ class ArtifactPanel(QFrame):
         main_box.addWidget(main)
         main_box.addWidget(main_val)
         box_layout.addLayout(main_box)
+
+        box_layout.addItem(QSpacerItem(0, 4, QSizePolicy.Minimum, QSizePolicy.Expanding))
 
         subs = []
         sub_grid = QGridLayout()
