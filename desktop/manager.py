@@ -2,7 +2,7 @@ import json
 import os
 import sqlite3
 from typing import Optional
-from models import Character, Weapon, ArtifactSet, BASE_DIR, icon_path_for
+from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
 
@@ -231,6 +231,25 @@ class GenshinManager:
                 pass
             raise DatabaseError(f"Teams konnten nicht gespeichert werden: {e}") from e
 
+    def rename_team(self, old_name: str, new_name: str):
+        """Benennt ein Team in der DB um (ID und Reihenfolge bleiben erhalten).
+
+        Ein bereits existierendes Team mit dem neuen Namen wird dabei ersetzt.
+        """
+        try:
+            with self.get_connection() as conn:
+                conn.execute("DELETE FROM teams WHERE name = ?", (new_name,))
+                conn.execute("UPDATE teams SET name = ? WHERE name = ?", (new_name, old_name))
+        except sqlite3.Error as e:
+            raise DatabaseError(f"Team '{old_name}' konnte nicht umbenannt werden: {e}") from e
+
+        # Speicherstand anpassen, Position des Teams beibehalten
+        self.saved_teams = {
+            (new_name if name == old_name else name): members
+            for name, members in self.saved_teams.items()
+            if name != new_name
+        }
+
     # --- ZENTRALE CHARAKTER-BUILDS VERWALTEN ---
 
     def load_user_characters(self) -> dict:
@@ -295,9 +314,9 @@ class GenshinManager:
                     card_data.get("refinement", 1),
                     card_data.get("artifact", ""),
                     card_data.get("artifact_2", ""),
-                    talents.get("attack", 1),
-                    talents.get("skill", 1),
-                    talents.get("burst", 1),
+                    talents.get("attack", DEFAULT_TALENTS["attack"]),
+                    talents.get("skill", DEFAULT_TALENTS["skill"]),
+                    talents.get("burst", DEFAULT_TALENTS["burst"]),
                     artifact_stats
                 ))
                 conn.commit()

@@ -19,10 +19,13 @@ class MainWindow(QMainWindow):
     def __init__(self, manager: Optional[GenshinManager] = None):
         super().__init__()
         self.setWindowTitle("Genshin Team-Slots Manager")
-        self.setFixedSize(1080, 640)
+        self.setMinimumSize(1080, 640)
+        self.resize(1080, 640)
 
         self.manager = manager or GenshinManager()
         self.current_team_cards: list[CharacterCardWidget] = []
+        # Name des zuletzt geladenen/gespeicherten Teams (für das Erkennen von Umbenennungen)
+        self.loaded_team_name: Optional[str] = None
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -170,7 +173,10 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Team voll", f"Ein Team kann maximal {MAX_TEAM_SIZE} Charaktere enthalten.")
             return
 
-        dialog = CharacterSearchDialog(self.manager.available_characters, self)
+        # Charaktere, die schon im Team sind, werden nicht angeboten
+        in_team = {card.character.name for card in self.current_team_cards}
+        available = [c for c in self.manager.available_characters if c.name not in in_team]
+        dialog = CharacterSearchDialog(available, self)
         if dialog.exec() == QDialog.Accepted and dialog.selected:
             selected_char = dialog.selected
             team_data = self.current_team_data()
@@ -186,10 +192,30 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Fehler", "Bitte gib einen Namen für das Team ein.")
             return
 
+        old_name = self.loaded_team_name
+        is_other_team = old_name is not None and old_name != team_name and old_name in self.manager.saved_teams
+
+        if team_name in self.manager.saved_teams and team_name != old_name:
+            answer = QMessageBox.question(
+                self, "Team existiert bereits",
+                f"Es gibt bereits ein Team '{team_name}'. Soll es überschrieben werden?"
+            )
+            if answer != QMessageBox.Yes:
+                return
+
+        rename = False
+        if is_other_team:
+            choice = self.ask_rename(old_name, team_name)
+            if choice is None:
+                return
+            rename = choice == "rename"
+
         team_list = [card.get_card_data() for card in self.current_team_cards]
         try:
             for card_data in team_list:
                 self.manager.save_user_character(card_data["name"], card_data)
+            if rename:
+                self.manager.rename_team(old_name, team_name)
             self.manager.saved_teams[team_name] = team_list
             self.manager.save_teams()
         except DatabaseError as e:
@@ -197,8 +223,30 @@ class MainWindow(QMainWindow):
             self.update_teams_dropdown()
             return
 
+        self.loaded_team_name = team_name
         QMessageBox.information(self, "Gespeichert", f"Team '{team_name}' und Charakter-Builds wurden in SQLite gespeichert!")
         self.update_teams_dropdown(select_name=team_name)
+
+    def ask_rename(self, old_name: str, new_name: str) -> Optional[str]:
+        """Fragt, ob das geladene Team umbenannt oder als neues Team gespeichert werden soll.
+
+        Rückgabe: "rename", "new" oder None (abgebrochen).
+        """
+        box = QMessageBox(self)
+        box.setWindowTitle("Teamname geändert")
+        box.setText(f"Der Name wurde von '{old_name}' zu '{new_name}' geändert.")
+        box.setInformativeText("Soll das Team umbenannt oder als neues Team gespeichert werden?")
+        btn_rename = box.addButton("Umbenennen", QMessageBox.AcceptRole)
+        btn_new = box.addButton("Als neues Team", QMessageBox.AcceptRole)
+        box.addButton("Abbrechen", QMessageBox.RejectRole)
+        box.setDefaultButton(btn_rename)
+        box.exec()
+        clicked = box.clickedButton()
+        if clicked is btn_rename:
+            return "rename"
+        if clicked is btn_new:
+            return "new"
+        return None
 
     def update_teams_dropdown(self, select_name: str = None):
         self.teams_combo.blockSignals(True)
@@ -218,6 +266,7 @@ class MainWindow(QMainWindow):
         if team_name not in self.manager.saved_teams:
             return
 
+        self.loaded_team_name = team_name
         self.team_name_input.setText(team_name)
         user_builds = self.load_builds()
 
@@ -243,6 +292,7 @@ class MainWindow(QMainWindow):
             self.update_teams_dropdown(select_name=team_name)
             return
 
+        self.loaded_team_name = None
         QMessageBox.information(self, "Gelöscht", f"Team '{team_name}' wurde aus SQLite gelöscht.")
         self.update_teams_dropdown()
         self.render_team_cards([])

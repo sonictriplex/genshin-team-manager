@@ -13,7 +13,17 @@ from models import Character, Weapon
 WEAPON_TYPES = ["Einhandschwert", "Großschwert", "Stangenwaffe", "Bogen", "Katalysator"]
 REGIONS = ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontaine", "Natlan",
            "Snezhnaya", "Nod-Krai", "Andere Welt", "Sonstige"]
-ELEMENTS = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo", "Adaptive"]
+ELEMENTS = ["Anemo", "Geo", "Electro", "Dendro", "Hydro", "Pyro", "Cryo"]
+
+
+def present_values(items: list, attr: str, preferred_order: list) -> list:
+    """Alle in den Daten vorkommenden Werte eines Attributs.
+
+    Bekannte Werte erscheinen in der Reihenfolge von `preferred_order`, unbekannte alphabetisch dahinter.
+    """
+    present = {getattr(item, attr) for item in items}
+    known = [v for v in preferred_order if v in present]
+    return known + sorted(present - set(known))
 
 
 class SearchDialog(QDialog):
@@ -143,8 +153,9 @@ class WeaponSearchDialog(SearchDialog):
         self.resize(650, 500)
 
     def create_filters(self):
-        self.type_filter = self.add_filter_combo("Alle Typen", WEAPON_TYPES)
-        self.rarity_filter = self.add_filter_combo("Alle Seltenheiten", [5, 4, 3, 2, 1], lambda r: f"{r} ★")
+        self.type_filter = self.add_filter_combo("Alle Typen", present_values(self.items, "weapon_type", WEAPON_TYPES))
+        rarities = sorted({w.rarity for w in self.items}, reverse=True)
+        self.rarity_filter = self.add_filter_combo("Alle Seltenheiten", rarities, lambda r: f"{r} ★")
         if self.preset_type:
             # Signale blockieren: gefiltert wird erst am Ende von SearchDialog.__init__
             self.type_filter.blockSignals(True)
@@ -172,9 +183,10 @@ class CharacterSearchDialog(SearchDialog):
         self.resize(750, 520)
 
     def create_filters(self):
-        self.region_filter = self.add_filter_combo("Alle Regionen", REGIONS)
-        self.element_filter = self.add_filter_combo("Alle Elemente", ELEMENTS)
-        self.rarity_filter = self.add_filter_combo("Alle Seltenheiten", [5, 4], lambda r: f"{r} ★")
+        self.region_filter = self.add_filter_combo("Alle Regionen", present_values(self.items, "region", REGIONS))
+        self.element_filter = self.add_filter_combo("Alle Elemente", present_values(self.items, "element", ELEMENTS))
+        rarities = sorted({c.rarity for c in self.items}, reverse=True)
+        self.rarity_filter = self.add_filter_combo("Alle Seltenheiten", rarities, lambda r: f"{r} ★")
 
     def matches(self, c: Character) -> bool:
         return (self.search_ok(c.name)

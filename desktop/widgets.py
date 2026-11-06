@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap
 
-from models import Character, ArtifactSet
+from models import Character, ArtifactSet, DEFAULT_TALENTS
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
 from styles import element_badge_style, set_selected
@@ -299,10 +299,10 @@ class CharacterCardWidget(QFrame):
         talent_layout = QHBoxLayout()
         talent_layout.setSpacing(4)
         self.talent_spins = {}
-        for key, label, default in (("attack", "A:", 1), ("skill", "E:", 9), ("burst", "Q:", 8)):
+        for key, label in (("attack", "A:"), ("skill", "E:"), ("burst", "Q:")):
             spin = QSpinBox()
             spin.setRange(1, 13)
-            spin.setValue(talents.get(key, default))
+            spin.setValue(talents.get(key, DEFAULT_TALENTS[key]))
             spin.setFixedWidth(48)
             self.talent_spins[key] = spin
             talent_layout.addWidget(muted(label))

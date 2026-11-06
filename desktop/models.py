@@ -6,6 +6,9 @@ from typing import Optional
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGES_DIR = os.path.join(BASE_DIR, "assets", "images")
 
+# Standard-Talentstufen für Charaktere ohne gespeichertes Build (wie in der DB)
+DEFAULT_TALENTS = {"attack": 1, "skill": 1, "burst": 1}
+
 
 def resolve_path(path: str) -> str:
     """Löst einen (in der DB relativ gespeicherten) Pfad gegen das Projektverzeichnis auf."""
