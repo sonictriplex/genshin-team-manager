@@ -622,7 +622,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_anemo.png"
+      "icon_path": "assets/images/traveler.png"
     },
     {
       "name": "Traveler (Geo)",
@@ -630,7 +630,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_geo.png"
+      "icon_path": "assets/images/traveler.png"
     },
     {
       "name": "Traveler (Electro)",
@@ -638,7 +638,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_electro.png"
+      "icon_path": "assets/images/traveler.png"
     },
     {
       "name": "Traveler (Dendro)",
@@ -654,7 +654,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_hydro.png"
+      "icon_path": "assets/images/traveler.png"
     },
     {
       "name": "Traveler (Pyro)",
@@ -662,7 +662,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_pyro.png"
+      "icon_path": "assets/images/traveler.png"
     },
     {
       "name": "Venti",
