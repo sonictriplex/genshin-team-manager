@@ -59,9 +59,9 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
 
 ## Token-Login für Apps
 
-Clients ohne Cookies (z. B. die Android-App) melden sich über `POST api/auth.php?action=token` mit `{username, password, device?}` an und erhalten `{token, expires_at, username}`. Danach senden sie bei jeder Anfrage `Authorization: Bearer <token>`; alle Endpunkte mit `require_login()` akzeptieren das wie eine Session. Ein Token gilt 90 Tage, pro Nutzer bleiben höchstens 10 gültig, in der Datenbank steht nur der SHA-256-Hash. `POST api/auth.php?action=logout` mit Token widerruft ihn. **Nur über HTTPS betreiben.**
+Clients ohne Cookies (z. B. die Android-App) melden sich über `POST api/auth.php?action=token` mit `{username, password, device?}` an und erhalten `{token, expires_at, username}`. Danach senden sie bei jeder Anfrage den Token mit, entweder als `Authorization: Bearer <token>` oder als `X-Auth-Token: <token>`; alle Endpunkte mit `require_login()` akzeptieren das wie eine Session. Ein Token gilt 90 Tage, pro Nutzer bleiben höchstens 10 gültig, in der Datenbank steht nur der SHA-256-Hash. `POST api/auth.php?action=logout` mit Token widerruft ihn. **Nur über HTTPS betreiben.**
 
-Voraussetzung: der Webserver muss den `Authorization`-Header an PHP durchreichen. Bei Apache mit CGI/FPM fehlt er oft; dort hilft in der `.htaccess` die Zeile `SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1`. Bei nginx + PHP-FPM wird er normalerweise durchgereicht.
+**Warum zwei Header?** Viele Hoster reichen den `Authorization`-Header nicht an PHP durch (nginx mit PHP-FPM, Apache mit CGI), eigene Header kommen dagegen immer an. Die Android-App sendet deshalb beide, und `auth_check.php` nimmt den Bearer-Token, wenn er ankommt, sonst `X-Auth-Token`. Eine Serverkonfiguration ist dafür nicht nötig. Ob der Header bei dir ankommt, lässt sich mit einem kleinen PHP-Skript prüfen, das `isset($_SERVER['HTTP_AUTHORIZATION'])` und `isset($_SERVER['HTTP_X_AUTH_TOKEN'])` ausgibt.
 
 ## Lokal gegen echtes MariaDB testen
 

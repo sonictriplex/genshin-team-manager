@@ -44,9 +44,16 @@ class ApiClient(
         return base.newBuilder().apply { query.forEach { (k, v) -> addQueryParameter(k, v) } }.build()
     }
 
+    /**
+     * Anfrage mit Token. Der Token geht in zwei Headern mit: "Authorization: Bearer" (Standard) und
+     * "X-Auth-Token". Viele Hoster reichen den Authorization-Header nicht an PHP durch (z. B. nginx mit
+     * PHP-FPM); eigene Header kommen immer an. Der Server nimmt, was er bekommt.
+     */
     private fun authorized(url: HttpUrl): Request.Builder {
         val token = tokenProvider() ?: throw UnauthorizedException("Nicht eingeloggt")
-        return Request.Builder().url(url).header("Authorization", "Bearer $token")
+        return Request.Builder().url(url)
+            .header("Authorization", "Bearer $token")
+            .header("X-Auth-Token", token)
     }
 
     /** Meldet sich an und gibt Token und Benutzernamen zurück. */

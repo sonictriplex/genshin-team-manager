@@ -1,5 +1,7 @@
 package de.sonictriplex.genshinteams.data
 
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
@@ -125,5 +127,41 @@ class MoveTest {
         assertEquals(team, team.moved(0, -1))   // außerhalb: unverändert
         assertEquals(team, team.moved(2, 4))
         assertEquals(team, team.moved(1, 1))
+    }
+}
+
+/** Prüft, welche Header die App mit dem Token sendet (ohne Netzwerk, mit abgefangener Anfrage). */
+class ApiHeadersTest {
+    private val example = java.io.File(System.getProperty("shared.dir"), "testdata/export-beispiel.json").readText()
+
+    private fun clientWith(captured: MutableList<okhttp3.Request>): okhttp3.OkHttpClient =
+        okhttp3.OkHttpClient.Builder().addInterceptor { chain ->
+            captured += chain.request()
+            okhttp3.Response.Builder()
+                .request(chain.request()).protocol(okhttp3.Protocol.HTTP_1_1).code(200).message("OK")
+                .body(example.toResponseBody("application/json".toMediaType())).build()
+        }.build()
+
+    @Test
+    fun tokenGehtInBeidenHeadernMit() {
+        val captured = mutableListOf<okhttp3.Request>()
+        val api = ApiClient("https://example.org", { "t".repeat(64) }, clientWith(captured))
+
+        val data = kotlinx.coroutines.runBlocking { api.fetchUserData() }
+
+        assertEquals(2, data.builds.size)
+        val request = captured.single()
+        assertEquals("https://example.org/api/transfer.php", request.url.toString())
+        assertEquals("Bearer " + "t".repeat(64), request.header("Authorization"))
+        assertEquals("t".repeat(64), request.header("X-Auth-Token"))
+    }
+
+    @Test
+    fun ohneTokenWirdNichtsGesendet() {
+        val captured = mutableListOf<okhttp3.Request>()
+        val api = ApiClient("https://example.org", { null }, clientWith(captured))
+
+        assertThrows(UnauthorizedException::class.java) { kotlinx.coroutines.runBlocking { api.fetchUserData() } }
+        assertTrue(captured.isEmpty())
     }
 }

@@ -1,6 +1,12 @@
 <?php
 // api/auth_check.php
-/** Liest den Bearer-Token aus dem Authorization-Header (leer, wenn keiner gesendet wurde). */
+/**
+ * Liest den API-Token aus der Anfrage (leer, wenn keiner gesendet wurde):
+ * 1. "Authorization: Bearer <token>" (Standard)
+ * 2. "X-Auth-Token: <token>" als Ausweichmöglichkeit. Viele Hoster (nginx + PHP-FPM, Apache mit CGI)
+ *    reichen den Authorization-Header nicht an PHP durch; eigene Header kommen dagegen immer an.
+ * Ein gültiger Bearer-Token hat Vorrang. Beide haben dasselbe Format (64 Zeichen, a-z A-Z 0-9).
+ */
 function bearer_token(): string {
     $h = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
     if ($h === '' && function_exists('getallheaders')) {
@@ -8,7 +14,10 @@ function bearer_token(): string {
             if (strtolower($k) === 'authorization') { $h = $v; break; }
         }
     }
-    return preg_match('/^Bearer\s+([A-Za-z0-9]{64})$/', trim($h), $m) ? $m[1] : '';
+    if (preg_match('/^Bearer\s+([A-Za-z0-9]{64})$/', trim($h), $m)) return $m[1];
+
+    $x = trim((string)($_SERVER['HTTP_X_AUTH_TOKEN'] ?? ''));
+    return preg_match('/^[A-Za-z0-9]{64}$/', $x) ? $x : '';
 }
 
 // Clients mit Token (z. B. die Android-App) brauchen keine Session und kein Cookie.

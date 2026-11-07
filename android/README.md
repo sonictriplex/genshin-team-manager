@@ -10,6 +10,10 @@ Online-Client für die Web-Version. Die App greift **nicht** direkt auf MySQL zu
 - OkHttp und kotlinx.serialization für die API; Server-Adresse in app-privaten SharedPreferences, der Token verschlüsselt mit einem AES-Schlüssel aus dem Android Keystore (`TokenCipher`). Ist der Schlüssel ungültig, gilt man als abgemeldet; ein Klartext-Token aus Version 0.1 wird beim ersten Start verschlüsselt
 - `minSdk` 26, `compileSdk` 37, Gradle 9.6 (Wrapper), Android Gradle Plugin 9.5
 
+## Token-Header
+
+Die App sendet den Token in zwei Headern: `Authorization: Bearer …` und `X-Auth-Token`. Hintergrund: Viele Hoster reichen den Authorization-Header nicht an PHP durch, der eigene Header kommt dagegen immer an. Der Server nimmt, was er bekommt (`web/api/auth_check.php`).
+
 ## Aussehen
 
 Immer dunkel wie Desktop und Web (Palette aus `desktop/styles.py`). Überschriften in der Genshin-Schrift `shared/assets/zh-cn.ttf`, Charakterkarten mit Verlauf in der Elementfarbe und Rahmen nach Seltenheit (5★ golden, 4★ violett).
