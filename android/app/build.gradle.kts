@@ -21,6 +21,11 @@ android {
         targetSdk = 36
         versionCode = 2
         versionName = "1.0.1"
+
+        // Der Server, mit dem die App spricht (die Web-Version, siehe ../web). Bei einem Umzug hier ändern.
+        buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://genshin-manager.media-matrix.de\"")
+        // Release: Adresse fest, kein Eingabefeld. Debug und Staging lassen sie änderbar (lokale Testserver).
+        buildConfigField("boolean", "SERVER_EDITABLE", "false")
     }
 
     signingConfigs {
@@ -35,6 +40,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("boolean", "SERVER_EDITABLE", "true")
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -50,11 +58,13 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
             matchingFallbacks += "release"
+            buildConfigField("boolean", "SERVER_EDITABLE", "true")
         }
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     // "staging" erlaubt Klartext-HTTP wie "debug" und nutzt dafür dieselbe Konfiguration

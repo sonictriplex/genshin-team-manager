@@ -7,8 +7,12 @@ Online-Client für die Web-Version. Die App greift **nicht** direkt auf MySQL zu
 ## Technik
 
 - Kotlin, Jetpack Compose (Material 3), Navigation Compose
-- OkHttp und kotlinx.serialization für die API; Server-Adresse in app-privaten SharedPreferences, der Token verschlüsselt mit einem AES-Schlüssel aus dem Android Keystore (`TokenCipher`). Ist der Schlüssel ungültig, gilt man als abgemeldet; ein Klartext-Token aus Version 0.1 wird beim ersten Start verschlüsselt
+- OkHttp und kotlinx.serialization für die API; Benutzername in app-privaten SharedPreferences, der Token verschlüsselt mit einem AES-Schlüssel aus dem Android Keystore (`TokenCipher`). Ist der Schlüssel ungültig, gilt man als abgemeldet; ein Klartext-Token aus Version 0.1 wird beim ersten Start verschlüsselt
 - `minSdk` 26, `compileSdk` 37, Gradle 9.6 (Wrapper), Android Gradle Plugin 9.5
+
+## Server-Adresse
+
+Die App spricht mit einem festen Server: `BuildConfig.DEFAULT_SERVER_URL` in `app/build.gradle.kts` (aktuell `https://genshin-manager.media-matrix.de`). Im **Release-Build** gibt es dafür kein Eingabefeld, die Anmeldeseite zeigt nur den Host. Eine früher gespeicherte Adresse wird ignoriert. **Debug** und **Staging** zeigen das Feld weiter (mit der festen Adresse vorbelegt), damit sich lokale Testserver eintragen lassen. Bei einem Umzug der Web-Version die Adresse in `build.gradle.kts` ändern und neu bauen.
 
 ## Offline-Cache
 

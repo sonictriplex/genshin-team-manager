@@ -22,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import de.sonictriplex.genshinteams.BuildConfig
 
 @Composable
 fun LoginScreen(vm: AppViewModel) {
-    var server by rememberSaveable { mutableStateOf(vm.session.serverUrl.ifEmpty { "https://" }) }
+    // Nur in Debug und Staging bearbeitbar; im Release ist der Server fest (BuildConfig.DEFAULT_SERVER_URL)
+    var server by rememberSaveable { mutableStateOf(vm.serverUrl) }
     var username by rememberSaveable { mutableStateOf(vm.session.username) }
     var password by rememberSaveable { mutableStateOf("") }
 
@@ -35,12 +37,22 @@ fun LoginScreen(vm: AppViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Genshin Teams", style = MaterialTheme.typography.headlineMedium)
-        Column(Modifier.widthIn(max = 420.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedTextField(
-                server, { server = it }, label = { Text("Server") }, singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
-                modifier = Modifier.fillMaxWidth(),
+        if (!BuildConfig.SERVER_EDITABLE) {
+            // Zeigt, wohin die Anmeldung geht (nur der Host, ohne https://)
+            Text(
+                BuildConfig.DEFAULT_SERVER_URL.removePrefix("https://").removePrefix("http://"),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+        Column(Modifier.widthIn(max = 420.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (BuildConfig.SERVER_EDITABLE) {
+                OutlinedTextField(
+                    server, { server = it }, label = { Text("Server") }, singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             OutlinedTextField(
                 username, { username = it }, label = { Text("Benutzername") }, singleLine = true,
                 modifier = Modifier.fillMaxWidth(),

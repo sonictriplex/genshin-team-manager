@@ -253,3 +253,17 @@ class NetworkErrorTest {
         assertEquals("Fehler beim Laden.", e.message)
     }
 }
+
+class ServerConfigTest {
+    @Test
+    fun festeServeradresseIstEineGueltigeHttpsAdresse() {
+        val url = de.sonictriplex.genshinteams.BuildConfig.DEFAULT_SERVER_URL
+        assertTrue(url.startsWith("https://"))
+        assertTrue("kein Schrägstrich am Ende: $url", !url.endsWith("/"))
+        val parsed = okhttp3.HttpUrl.Companion.run { url.toHttpUrl() }
+        assertEquals("genshin-manager.media-matrix.de", parsed.host)
+        // ApiClient hängt /api/ an die Adresse an
+        assertEquals("https://genshin-manager.media-matrix.de/api/transfer.php",
+            ApiClient(url, { null }).let { url + "/api/transfer.php" })
+    }
+}

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import de.sonictriplex.genshinteams.BuildConfig
 import de.sonictriplex.genshinteams.data.ApiClient
 import de.sonictriplex.genshinteams.data.ApiException
 import de.sonictriplex.genshinteams.data.Build
@@ -53,7 +54,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         if (loggedIn) {
-            cache.load(session.serverUrl, session.username)?.let {
+            cache.load(serverUrl, session.username)?.let {
                 userData = it.data
                 dataSavedAt = it.savedAt
             }
@@ -61,7 +62,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun api(baseUrl: String = session.serverUrl) = ApiClient(baseUrl, { session.token })
+    /**
+     * Der Server: im Release immer die fest eingestellte Adresse (eine früher gespeicherte wird ignoriert),
+     * in Debug und Staging die zuletzt eingegebene.
+     */
+    val serverUrl: String
+        get() = if (BuildConfig.SERVER_EDITABLE) session.serverUrl.ifEmpty { BuildConfig.DEFAULT_SERVER_URL } else BuildConfig.DEFAULT_SERVER_URL
+
+    private fun api(baseUrl: String = serverUrl) = ApiClient(baseUrl, { session.token })
 
     fun login(serverUrl: String, username: String, password: String) {
         val url = serverUrl.trim().trimEnd('/')
@@ -118,7 +126,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private suspend fun storeCache(data: ExchangeFile) {
         val now = System.currentTimeMillis()
         dataSavedAt = now
-        val server = session.serverUrl
+        val server = serverUrl
         val user = session.username
         withContext(Dispatchers.IO) { cache.save(server, user, data, now) }
     }
