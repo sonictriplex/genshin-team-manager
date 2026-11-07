@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,7 +34,6 @@ import de.sonictriplex.genshinteams.data.withSlot
 import de.sonictriplex.genshinteams.data.withSubstat
 
 /** Bearbeiten und Speichern des Builds eines Charakters. Zurück verwirft ungespeicherte Änderungen. */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
     val character = vm.stammdaten.character(name)
@@ -50,9 +47,11 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("$name bearbeiten") },
-                navigationIcon = { TextButton(onClick = leave, enabled = !vm.saving) { Text("Abbrechen") } },
+            AppTopBar(
+                title = name,   // "bearbeiten" ergibt sich aus der Ansicht; der Name allein bleibt auch auf schmalen Displays lesbar
+                navigation = NavigationKind.Close,
+                onNavigate = leave,
+                navigationEnabled = !vm.saving,
                 actions = {
                     TextButton(onClick = { vm.saveBuild(build, onSaved = onDone) }, enabled = !vm.saving) {
                         if (vm.saving) CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp) else Text("Speichern")
@@ -76,12 +75,13 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
                         Dropdown("C${build.constellation}", (0..6).map { "C$it" }, { build = build.copy(constellation = it.drop(1).toInt()) })
                     }
                 }
+                Label("Talente: Angriff (A) · Skill (E) · Burst (Q)")
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     val t = build.talents
                     val max = BuildOptions.TALENT_MAX
-                    IntField("Angriff", t.attack, 1..max, { build = build.copy(talents = t.copy(attack = it)) }, Modifier.weight(1f))
-                    IntField("Skill", t.skill, 1..max, { build = build.copy(talents = t.copy(skill = it)) }, Modifier.weight(1f))
-                    IntField("Burst", t.burst, 1..max, { build = build.copy(talents = t.copy(burst = it)) }, Modifier.weight(1f))
+                    IntField("A", t.attack, 1..max, { build = build.copy(talents = t.copy(attack = it)) }, Modifier.weight(1f))
+                    IntField("E", t.skill, 1..max, { build = build.copy(talents = t.copy(skill = it)) }, Modifier.weight(1f))
+                    IntField("Q", t.burst, 1..max, { build = build.copy(talents = t.copy(burst = it)) }, Modifier.weight(1f))
                 }
             }
 

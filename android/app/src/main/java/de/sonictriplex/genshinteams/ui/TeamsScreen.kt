@@ -3,6 +3,18 @@ package de.sonictriplex.genshinteams.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,12 +27,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,21 +40,43 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: () -> Unit, onEditTeam: (String) -> Unit) {
     val data = vm.userData
     var deleting by remember { mutableStateOf<String?>(null) }
+    var menuOpen by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Teams") },
+            AppTopBar(
+                title = "Teams",
                 actions = {
-                    TextButton(onClick = onNewTeam, enabled = !vm.offline) { Text("Neues Team") }
-                    TextButton(onClick = vm::refresh, enabled = !vm.busy) { Text("Neu laden") }
-                    TextButton(onClick = vm::logout, enabled = !vm.busy) { Text("Abmelden") }
+                    IconButton(onClick = vm::refresh, enabled = !vm.busy) {
+                        Icon(Icons.Filled.Refresh, contentDescription = "Neu laden")
+                    }
+                    Box {
+                        IconButton(onClick = { menuOpen = true }) {
+                            Icon(Icons.Filled.MoreVert, contentDescription = "Menü")
+                        }
+                        DropdownMenu(menuOpen, { menuOpen = false }) {
+                            DropdownMenuItem(
+                                text = { Text("Abmelden") },
+                                onClick = { menuOpen = false; vm.logout() },
+                                enabled = !vm.busy,
+                            )
+                        }
+                    }
                 },
             )
+        },
+        // Neue Teams lassen sich nur mit Verbindung anlegen
+        floatingActionButton = {
+            if (!vm.offline) {
+                ExtendedFloatingActionButton(
+                    onClick = onNewTeam,
+                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                    text = { Text("Neues Team") },
+                )
+            }
         },
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
@@ -56,16 +88,28 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                 data == null -> Unit
                 data.teams.isEmpty() -> Text("Noch keine Teams. Lege sie in der Web- oder Desktop-Version an.", Modifier.padding(16.dp))
                 else -> LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
+                    contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(data.teams, key = { it.name }) { team ->
                         AppCard {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                // Der Name bekommt den ganzen Platz; die Aktionen sind kompakte Symbole
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(team.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.weight(1f))
-                                    TextButton(onClick = { onEditTeam(team.name) }, enabled = !vm.offline) { Text("Bearbeiten") }
-                                    TextButton(onClick = { deleting = team.name }, enabled = !vm.offline) { Text("Löschen") }
+                                    Text(
+                                        team.name,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.tertiary,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.weight(1f),
+                                    )
+                                    IconButton(onClick = { onEditTeam(team.name) }, enabled = !vm.offline) {
+                                        Icon(Icons.Filled.Edit, contentDescription = "Team bearbeiten")
+                                    }
+                                    IconButton(onClick = { deleting = team.name }, enabled = !vm.offline) {
+                                        Icon(Icons.Filled.Delete, contentDescription = "Team löschen")
+                                    }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     team.members.forEach { member ->

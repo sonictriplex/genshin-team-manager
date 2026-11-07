@@ -11,12 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +23,6 @@ import de.sonictriplex.genshinteams.data.ARTIFACT_SLOTS
 import de.sonictriplex.genshinteams.data.Build
 
 /** Ansicht des Builds eines Charakters; Bearbeiten über die Leiste oben. */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -> Unit) {
     val character = vm.stammdaten.character(name)
@@ -33,9 +30,10 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(name) },
-                navigationIcon = { TextButton(onClick = onBack) { Text("Zurück") } },
+            AppTopBar(
+                title = name,
+                navigation = NavigationKind.Back,
+                onNavigate = onBack,
                 actions = { TextButton(onClick = onEdit, enabled = !vm.offline) { Text(if (build == null) "Anlegen" else "Bearbeiten") } },
             )
         },
@@ -58,7 +56,9 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -
                     Column {
                         if (character != null) {
                             Text(character.element, color = elementColor(character.element), style = MaterialTheme.typography.titleMedium)
-                            Text("${character.rarity} ★ · ${character.weaponType} · ${character.region}")
+                            // Zwei Zeilen statt einer langen, damit auch bei schmalem Display kein Wort umbricht
+                        Text("${character.rarity} ★ · ${character.region}")
+                        Text(character.weaponType)
                         }
                     }
                 }

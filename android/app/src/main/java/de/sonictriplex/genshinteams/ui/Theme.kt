@@ -28,6 +28,8 @@ object Palette {
 private val GenshinColors = darkColorScheme(
     primary = Palette.Accent,
     onPrimary = Palette.BgInput,
+    primaryContainer = Palette.Accent,          // u. a. der Knopf "Neues Team"
+    onPrimaryContainer = Palette.BgInput,
     secondary = Palette.Accent,
     tertiary = Palette.Gold,
     background = Palette.BgWindow,

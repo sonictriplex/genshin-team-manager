@@ -16,14 +16,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +41,6 @@ import de.sonictriplex.genshinteams.data.moved
 import de.sonictriplex.genshinteams.data.validateTeamName
 
 /** Neues Team anlegen ([originalName] = null) oder ein vorhandenes bearbeiten. */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) {
     var name by rememberSaveable { mutableStateOf(originalName.orEmpty()) }
@@ -76,9 +73,11 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(if (originalName == null) "Neues Team" else "Team bearbeiten") },
-                navigationIcon = { TextButton(onClick = leave, enabled = !vm.saving) { Text("Abbrechen") } },
+            AppTopBar(
+                title = originalName ?: "Neues Team",
+                navigation = NavigationKind.Close,
+                onNavigate = leave,
+                navigationEnabled = !vm.saving,
                 actions = {
                     TextButton(onClick = ::save, enabled = !vm.saving) {
                         if (vm.saving) CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp) else Text("Speichern")
