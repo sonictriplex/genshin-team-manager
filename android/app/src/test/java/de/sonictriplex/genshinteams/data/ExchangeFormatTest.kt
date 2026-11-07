@@ -267,3 +267,74 @@ class ServerConfigTest {
             ApiClient(url, { null }).let { url + "/api/transfer.php" })
     }
 }
+
+class RegistrationTest {
+    @Test
+    fun eingabenWerdenVorabGeprueft() {
+        assertEquals(null, validateRegistration("jens", "geheim1", "geheim1"))
+        assertEquals(null, validateRegistration("  abc  ", "123456", "123456"))            // Leerzeichen am Rand zählen nicht
+        assertTrue(validateRegistration("ab", "geheim1", "geheim1")!!.contains("Benutzername"))
+        assertTrue(validateRegistration("   ab ", "geheim1", "geheim1")!!.contains("mindestens 3"))
+        assertTrue(validateRegistration("jens", "12345", "12345")!!.contains("Passwort"))
+        assertTrue(validateRegistration("jens", "geheim1", "geheim2")!!.contains("stimmen nicht überein"))
+        // die Reihenfolge der Prüfungen: erst Name, dann Länge, dann Wiederholung
+        assertTrue(validateRegistration("ab", "x", "y")!!.contains("Benutzername"))
+    }
+
+    /** Beantwortet Anfragen der Reihe nach und merkt sich sie: (Adresse, Body) je Anfrage. */
+    private class Script(private vararg val replies: Pair<Int, String>) {
+        val seen = mutableListOf<Pair<String, String>>()
+        fun client() = okhttp3.OkHttpClient.Builder().addInterceptor { chain ->
+            val request = chain.request()
+            val buffer = okio.Buffer().also { b -> request.body?.writeTo(b) }
+            seen += request.url.encodedPath + "?" + request.url.encodedQuery to buffer.readUtf8()
+            val (code, json) = replies[seen.size - 1]
+            okhttp3.Response.Builder().request(request).protocol(okhttp3.Protocol.HTTP_1_1).code(code).message("x")
+                .body(json.toResponseBody("application/json".toMediaType())).build()
+        }.build()
+    }
+
+    @Test
+    fun registrierungLegtKontoAnUndMeldetDanachMitTokenAn() {
+        val script = Script(
+            200 to """{"success":true,"username":"neu"}""",
+            200 to """{"token":"${"a".repeat(64)}","username":"neu","expires_at":"2027-01-01 00:00:00"}""",
+        )
+        val api = ApiClient("https://example.org", { null }, script.client())
+
+        val (token, name) = kotlinx.coroutines.runBlocking { api.register("neu", "geheim1") }
+
+        assertEquals("a".repeat(64), token)
+        assertEquals("neu", name)
+        assertEquals(2, script.seen.size)
+        assertEquals("/api/auth.php?action=register", script.seen[0].first)
+        assertTrue(script.seen[0].second.contains("\"username\":\"neu\""))
+        assertTrue(script.seen[0].second.contains("\"password\":\"geheim1\""))
+        assertEquals("/api/auth.php?action=token", script.seen[1].first)
+    }
+
+    @Test
+    fun vergebenerNameWirdMitDerServermeldungGemeldetUndEsGibtKeinenTokenAbruf() {
+        val script = Script(409 to """{"error":"Dieser Benutzername ist bereits vergeben."}""")
+        val api = ApiClient("https://example.org", { null }, script.client())
+
+        val e = assertThrows(ApiException::class.java) { kotlinx.coroutines.runBlocking { api.register("jens", "geheim1") } }
+
+        assertEquals("Dieser Benutzername ist bereits vergeben.", e.message)
+        assertEquals(1, script.seen.size)
+    }
+
+    @Test
+    fun scheitertDieAnmeldungNachDerRegistrierungWirdDasErklaert() {
+        val script = Script(
+            200 to """{"success":true}""",
+            500 to """{"error":"Token konnte nicht erstellt werden."}""",
+        )
+        val api = ApiClient("https://example.org", { null }, script.client())
+
+        val e = assertThrows(ApiException::class.java) { kotlinx.coroutines.runBlocking { api.register("neu", "geheim1") } }
+
+        assertTrue(e.message!!.contains("Konto wurde angelegt"))
+        assertEquals(2, script.seen.size)
+    }
+}

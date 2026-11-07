@@ -86,7 +86,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
             when {
                 data == null && vm.busy -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))
                 data == null -> Unit
-                data.teams.isEmpty() -> Text("Noch keine Teams. Lege sie in der Web- oder Desktop-Version an.", Modifier.padding(16.dp))
+                data.teams.isEmpty() -> Text("Noch keine Teams. Tippe auf „Neues Team“, um das erste anzulegen.", Modifier.padding(16.dp))
                 else -> LazyColumn(
                     contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),

@@ -17,6 +17,7 @@ Teams aus bis zu vier Charakteren zusammenstellen und für jeden Charakter einen
 - **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)
 - **Austausch** von Builds und Teams zwischen den Clients als JSON-Datei
+- **Konto anlegen** (Android): Registrierung direkt in der App
 - **Offline ansehen** (Android): Teams und Builds bleiben auch ohne Verbindung sichtbar
 
 Ein Build gehört zum **Charakter, nicht zum Team**: Kommt ein Charakter in mehreren Teams vor, hat er überall denselben Build.

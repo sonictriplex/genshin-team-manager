@@ -12,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.BuildConfig
+import de.sonictriplex.genshinteams.data.MIN_PASSWORD_LENGTH
+import de.sonictriplex.genshinteams.data.MIN_USERNAME_LENGTH
 
 @Composable
 fun LoginScreen(vm: AppViewModel) {
@@ -30,6 +33,9 @@ fun LoginScreen(vm: AppViewModel) {
     var server by rememberSaveable { mutableStateOf(vm.serverUrl) }
     var username by rememberSaveable { mutableStateOf(vm.session.username) }
     var password by rememberSaveable { mutableStateOf("") }
+    var repeat by rememberSaveable { mutableStateOf("") }
+    // false: Anmelden, true: neues Konto anlegen
+    var registerMode by rememberSaveable { mutableStateOf(false) }
 
     Column(
         Modifier.fillMaxSize().padding(24.dp),
@@ -63,13 +69,40 @@ fun LoginScreen(vm: AppViewModel) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth(),
             )
+            if (registerMode) {
+                OutlinedTextField(
+                    repeat, { repeat = it }, label = { Text("Passwort wiederholen") }, singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(
+                    "Mindestens $MIN_USERNAME_LENGTH Zeichen für den Benutzernamen, $MIN_PASSWORD_LENGTH für das Passwort. " +
+                        "Das Konto gilt auch in der Web-Version.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             vm.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
             Button(
-                onClick = { vm.login(server, username, password) },
+                onClick = {
+                    if (registerMode) vm.register(server, username, password, repeat) else vm.login(server, username, password)
+                },
                 enabled = !vm.busy,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                if (vm.busy) CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp) else Text("Anmelden")
+                if (vm.busy) {
+                    CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp)
+                } else {
+                    Text(if (registerMode) "Konto erstellen" else "Anmelden")
+                }
+            }
+            TextButton(
+                onClick = { registerMode = !registerMode; repeat = ""; vm.dismissError() },
+                enabled = !vm.busy,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            ) {
+                Text(if (registerMode) "Schon ein Konto? Anmelden" else "Noch kein Konto? Registrieren")
             }
         }
     }

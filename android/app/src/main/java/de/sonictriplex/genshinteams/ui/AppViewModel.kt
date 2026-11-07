@@ -17,6 +17,7 @@ import de.sonictriplex.genshinteams.data.StammdatenRepository
 import de.sonictriplex.genshinteams.data.Team
 import de.sonictriplex.genshinteams.data.UnauthorizedException
 import de.sonictriplex.genshinteams.data.UserDataCache
+import de.sonictriplex.genshinteams.data.validateRegistration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,11 +78,27 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             error = "Bitte Server, Benutzername und Passwort eingeben."
             return
         }
+        authenticate(url) { it.login(username.trim(), password) }
+    }
+
+    /** Legt ein neues Konto an und meldet danach an (Ablauf wie [login]). */
+    fun register(serverUrl: String, username: String, password: String, repeat: String) {
+        val url = serverUrl.trim().trimEnd('/')
+        if (url.isEmpty()) {
+            error = "Bitte einen Server angeben."
+            return
+        }
+        validateRegistration(username, password, repeat)?.let { error = it; return }
+        authenticate(url) { it.register(username.trim(), password) }
+    }
+
+    /** Gemeinsamer Ablauf von Anmeldung und Registrierung: Token holen, Sitzung speichern, Daten laden. */
+    private fun authenticate(url: String, action: suspend (ApiClient) -> Pair<String, String>) {
         viewModelScope.launch {
             busy = true
             error = null
             try {
-                val (token, name) = api(url).login(username.trim(), password)
+                val (token, name) = action(api(url))
                 session.serverUrl = url
                 session.username = name
                 session.token = token

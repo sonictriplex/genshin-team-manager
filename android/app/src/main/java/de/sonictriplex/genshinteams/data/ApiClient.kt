@@ -26,6 +26,9 @@ class UnauthorizedException(message: String) : ApiException(message)
 private data class TokenRequest(val username: String, val password: String, val device: String)
 
 @Serializable
+private data class RegisterRequest(val username: String, val password: String)
+
+@Serializable
 private data class TokenResponse(val token: String, val username: String = "")
 
 @Serializable
@@ -66,6 +69,23 @@ class ApiClient(
             .post(body.toRequestBody(JSON_TYPE)).build()
         val parsed = decode(TokenResponse.serializer(), execute(request))
         return parsed.token to parsed.username.ifBlank { username }
+    }
+
+    /**
+     * Legt ein neues Konto an und meldet sich danach an. Die API liefert bei der Registrierung nur eine Session
+     * (Cookie), keinen Token; deshalb folgt der normale Token-Login mit denselben Daten.
+     * Serverfehler (Name vergeben, zu kurz) kommen als [ApiException] mit der Meldung des Servers an.
+     */
+    suspend fun register(username: String, password: String): Pair<String, String> {
+        val body = AppJson.encodeToString(RegisterRequest.serializer(), RegisterRequest(username, password))
+        val request = Request.Builder().url(endpoint("auth.php", mapOf("action" to "register")))
+            .post(body.toRequestBody(JSON_TYPE)).build()
+        execute(request)
+        return try {
+            login(username, password)
+        } catch (e: ApiException) {
+            throw ApiException("Das Konto wurde angelegt, die Anmeldung ist aber fehlgeschlagen. Bitte melde dich an.", e)
+        }
     }
 
     /** Widerruft den Token auf dem Server. Fehler sind unkritisch, die lokale Abmeldung zählt. */
