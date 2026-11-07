@@ -8,11 +8,12 @@ $action = $_GET['action'] ?? '';
 
 // 1. Status prüfen (Wer bin ich?)
 if ($action === 'status') {
-    if (isset($_SESSION['user_id'])) {
+    $current = current_user();
+    if ($current !== null) {
         echo json_encode([
             "logged_in" => true,
-            "username"  => $_SESSION['username'],
-            "user_id"   => $_SESSION['user_id']
+            "username"  => $current['username'],
+            "user_id"   => $current['id']
         ], JSON_UNESCAPED_UNICODE);
     } else {
         echo json_encode(["logged_in" => false], JSON_UNESCAPED_UNICODE);
@@ -83,13 +84,77 @@ if ($action === 'login') {
     exit();
 }
 
-// 4. Logout
+// 4. Token-Login für Apps ohne Cookies (POST {username, password, device?})
+//    Antwort: {token, expires_at, username}. Der Token wird nur als SHA-256-Hash gespeichert und
+//    ist danach nicht mehr abrufbar. Er gilt TOKEN_LIFETIME_DAYS Tage und wird per
+//    "Authorization: Bearer <token>" gesendet. Nur über HTTPS verwenden.
+const TOKEN_LIFETIME_DAYS = 90;
+const TOKEN_MAX_PER_USER = 10;
+
+if ($action === 'token') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        header('Allow: POST');
+        echo json_encode(["error" => "Token nur per POST abrufbar."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    $username = trim($data['username'] ?? '');
+    $password = $data['password'] ?? '';
+    $device = mb_substr(trim((string)($data['device'] ?? '')), 0, 100);
+
+    $stmt = $pdo->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user || !password_verify($password, $user['password_hash'])) {
+        http_response_code(401);
+        echo json_encode(["error" => "Benutzername oder Passwort falsch."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    try {
+        $token = bin2hex(random_bytes(32));
+        $expires = date('Y-m-d H:i:s', time() + 86400 * TOKEN_LIFETIME_DAYS);
+
+        // Abgelaufene Token aufräumen und die ältesten entfernen, wenn zu viele ausgestellt wurden
+        $pdo->prepare("DELETE FROM api_tokens WHERE user_id = ? AND expires_at <= NOW()")->execute([$user['id']]);
+        $pdo->prepare("
+            DELETE FROM api_tokens WHERE user_id = ? AND id NOT IN (
+                SELECT id FROM (SELECT id FROM api_tokens WHERE user_id = ? ORDER BY id DESC LIMIT " . (TOKEN_MAX_PER_USER - 1) . ") keep
+            )
+        ")->execute([$user['id'], $user['id']]);
+
+        $pdo->prepare("INSERT INTO api_tokens (user_id, token_hash, device, expires_at) VALUES (?, ?, ?, ?)")
+            ->execute([$user['id'], hash('sha256', $token), $device, $expires]);
+
+        echo json_encode([
+            "token"      => $token,
+            "expires_at" => $expires,
+            "username"   => $user['username'],
+        ], JSON_UNESCAPED_UNICODE);
+    } catch (Exception $e) {
+        http_response_code(500);
+        error_log("auth.php token: " . $e->getMessage());
+        echo json_encode(["error" => "Token konnte nicht erstellt werden."], JSON_UNESCAPED_UNICODE);
+    }
+    exit();
+}
+
+// 5. Logout
 if ($action === 'logout') {
     // Nur per POST, damit ein Logout nicht über einen fremden Link/Bild ausgelöst werden kann
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         header('Allow: POST');
         echo json_encode(["error" => "Logout nur per POST erlaubt."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    // Mit Bearer-Token: genau diesen Token widerrufen (es gibt keine Session/kein Cookie)
+    if (($GLOBALS['auth_token'] ?? '') !== '') {
+        $pdo->prepare("DELETE FROM api_tokens WHERE token_hash = ?")->execute([hash('sha256', $GLOBALS['auth_token'])]);
+        echo json_encode(["success" => true], JSON_UNESCAPED_UNICODE);
         exit();
     }
 
