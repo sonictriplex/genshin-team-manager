@@ -3,6 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/rate_limit.php';
 
 $action = $_GET['action'] ?? '';
 
@@ -33,6 +34,9 @@ if ($action === 'register') {
         echo json_encode(["error" => "Benutzername (min. 3 Zeichen) oder Passwort (min. 6 Zeichen) zu kurz."], JSON_UNESCAPED_UNICODE);
         exit();
     }
+
+    // Begrenzung: höchstens wenige Registrierungsversuche je IP und Stunde (siehe rate_limit.php)
+    rl_register_gate($pdo);
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -65,11 +69,15 @@ if ($action === 'login') {
     $username = trim($data['username'] ?? '');
     $password = $data['password'] ?? '';
 
+    rl_login_gate($pdo, $username);   // 429, wenn zu viele Fehlversuche (siehe rate_limit.php)
+
     $stmt = $pdo->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password_hash'])) {
+        rl_login_succeeded($pdo, $username);
+
         // Neue Session-ID gegen Session-Fixation
         session_regenerate_id(true);
 
@@ -78,6 +86,7 @@ if ($action === 'login') {
 
         echo json_encode(["success" => true, "username" => $user['username']], JSON_UNESCAPED_UNICODE);
     } else {
+        rl_login_failed($pdo, $username);
         http_response_code(401);
         echo json_encode(["error" => "Benutzername oder Passwort falsch."], JSON_UNESCAPED_UNICODE);
     }
@@ -103,15 +112,19 @@ if ($action === 'token') {
     $password = $data['password'] ?? '';
     $device = mb_substr(trim((string)($data['device'] ?? '')), 0, 100);
 
+    rl_login_gate($pdo, $username);   // 429, wenn zu viele Fehlversuche (siehe rate_limit.php)
+
     $stmt = $pdo->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
+        rl_login_failed($pdo, $username);
         http_response_code(401);
         echo json_encode(["error" => "Benutzername oder Passwort falsch."], JSON_UNESCAPED_UNICODE);
         exit();
     }
+    rl_login_succeeded($pdo, $username);
 
     try {
         $token = bin2hex(random_bytes(32));

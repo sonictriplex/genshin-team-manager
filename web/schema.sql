@@ -83,3 +83,13 @@ CREATE TABLE IF NOT EXISTS api_tokens (
     UNIQUE KEY uq_api_tokens_hash (token_hash),
     KEY idx_api_tokens_user (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Begrenzung von Anmelde- und Registrierungsversuchen (siehe migrations/002_auth_attempts.sql)
+CREATE TABLE IF NOT EXISTS auth_attempts (
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    scope      VARCHAR(20) NOT NULL,
+    subject    CHAR(64)    NOT NULL,
+    created_at DATETIME    NOT NULL,
+    KEY idx_auth_attempts_lookup (scope, subject, created_at),
+    KEY idx_auth_attempts_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

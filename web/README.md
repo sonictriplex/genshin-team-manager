@@ -27,6 +27,7 @@ api/
   db.php            Datenbankverbindung
   auth_check.php    Session-Setup, Bearer-Token, require_login()
   auth.php          ?action=status|register|login|token|logout
+  rate_limit.php    Begrenzung von Anmelde- und Registrierungsversuchen
   characters.php    Charakterliste (GET)
   weapons.php       Waffenliste (GET)
   artifacts.php     Artefaktsets (GET)
@@ -67,7 +68,27 @@ npm install
 npm test
 ```
 
-`tests/cards.test.js` lädt `index.html` in jsdom (mit einer fetch-Attrappe, Stammdaten aus `shared/stammdaten.json`) und prüft das Verschieben der Teamkarten: Pfeile, Drag & Drop, Ablage auf dem freien Platz, ignorierte fremde Drags und dass „Team speichern“ die neue Reihenfolge sendet. jsdom kennt kein echtes Drag & Drop, die Ereignisse werden nachgebaut; das Verhalten beim Ziehen mit der Maus im Browser prüft das nicht. Benötigt wird Node.js 20 oder neuer; `tests/` gehört nicht zum Deployment.
+`tests/frontend.test.js` lädt `index.html` in jsdom (mit einer fetch-Attrappe, Stammdaten aus `shared/stammdaten.json`) und prüft das Verschieben der Teamkarten (Pfeile, Drag & Drop, Ablage auf dem freien Platz, ignorierte fremde Drags, gesendete Reihenfolge), das Benutzermenü und die Anzeige von Anmeldefehlern. jsdom kennt kein echtes Drag & Drop, die Ereignisse werden nachgebaut; das Verhalten beim Ziehen mit der Maus im Browser prüft das nicht. Benötigt wird Node.js 20 oder neuer; `tests/` gehört nicht zum Deployment.
+
+## Begrenzung von Anmeldungen und Registrierungen
+
+Schutz vor Durchprobieren von Passwörtern und vor massenhaftem Anlegen von Konten (`api/rate_limit.php`, Tabelle `auth_attempts` aus `migrations/002_auth_attempts.sql`). Bei Überschreitung antwortet die API mit **HTTP 429**, dem Header `Retry-After` und einer deutschen Meldung („Zu viele Anmeldeversuche. Bitte versuche es in 12 Minuten erneut.“), die Web-Oberfläche und die Android-App anzeigen.
+
+| Aktion | Gezählt | Grenze | Fenster |
+|---|---|---|---|
+| Anmeldung (Session und Token) | Fehlversuche je Benutzername | 8 | 15 Minuten |
+| Anmeldung (Session und Token) | Fehlversuche je IP-Adresse | 15 | 15 Minuten |
+| Registrierung | Versuche je IP-Adresse | 5 | 1 Stunde |
+| Registrierung | Versuche insgesamt | 60 | 1 Stunde |
+
+- Gesperrt wird auch bei **richtigem** Passwort, bis die Sperre abläuft; eine erfolgreiche Anmeldung setzt den Zähler des Benutzernamens zurück. Ein unbekannter Benutzername wird genauso gezählt (kein Erraten von Konten über das Sperrverhalten).
+- Die Werte stehen als Konstanten am Anfang von `rate_limit.php`.
+- Gespeichert werden nur SHA-256-Werte von IP und Benutzername, nie Klartext; Zeilen werden nach spätestens 2 Stunden gelöscht.
+- **Client-IP:** Hinter einem Reverse-Proxy (nginx) steht in `REMOTE_ADDR` die Adresse des Proxys. Deshalb gilt `X-Real-IP` bzw. das erste `X-Forwarded-For`, aber nur, wenn die Verbindung von einer lokalen oder privaten Adresse kommt (sonst ließe sich der Header fälschen). Ist der Client nicht bestimmbar, gibt es keine IP-Begrenzung, nur die je Benutzername.
+- **Ausfallsicher:** Fehlt die Tabelle (Migration noch nicht gelaufen) oder schlägt die Zählung fehl, wird nicht gesperrt und die Anmeldung funktioniert wie zuvor. Code und Migration können in beliebiger Reihenfolge eingespielt werden.
+- **Grenze des Verfahrens:** Wer den Namen eines Kontos kennt, kann es durch absichtliche Fehlversuche für 15 Minuten sperren. Das ist der Preis der Sperre je Benutzername.
+
+Tests: `web/tests/rate_limit_test.php` (Logik direkt gegen die Datenbank, nur lokal) und `web/tests/api_rate_limit.sh <Adresse>` (Ende-zu-Ende über HTTP, nur lokal). Beide laufen gegen die Datenbank aus „Lokal gegen echtes MariaDB testen“, auch gegen MySQL 5.7.
 
 ## Token-Login für Apps
 

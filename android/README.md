@@ -12,7 +12,7 @@ Online-Client für die Web-Version. Die App greift **nicht** direkt auf MySQL zu
 
 ## Registrierung
 
-Auf der Anmeldeseite wechselt „Noch kein Konto? Registrieren“ in den Modus „Konto erstellen“ (zusätzlich „Passwort wiederholen“). Das Konto ist dasselbe wie in der Web-Version. Vorab prüft die App Benutzername (mindestens 3 Zeichen), Passwort (mindestens 6) und die Wiederholung; Serverfehler wie „Dieser Benutzername ist bereits vergeben.“ erscheinen unverändert. Die API liefert bei `auth.php?action=register` nur eine Session, keinen Token; die App meldet sich deshalb direkt danach per Token an (`ApiClient.register`). Scheitert nur dieser zweite Schritt, weist die Meldung darauf hin, dass das Konto angelegt ist und man sich normal anmelden kann. Die Registrierung ist, wie in der Web-Version, für jeden offen.
+Auf der Anmeldeseite wechselt „Noch kein Konto? Registrieren“ in den Modus „Konto erstellen“ (zusätzlich „Passwort wiederholen“). Das Konto ist dasselbe wie in der Web-Version. Vorab prüft die App Benutzername (mindestens 3 Zeichen), Passwort (mindestens 6) und die Wiederholung; Serverfehler wie „Dieser Benutzername ist bereits vergeben.“ erscheinen unverändert. Die API liefert bei `auth.php?action=register` nur eine Session, keinen Token; die App meldet sich deshalb direkt danach per Token an (`ApiClient.register`). Scheitert nur dieser zweite Schritt, weist die Meldung darauf hin, dass das Konto angelegt ist und man sich normal anmelden kann. Die Registrierung ist, wie in der Web-Version, für jeden offen, aber auf dem Server begrenzt (siehe `web/README.md`); die App zeigt die Meldung bei zu vielen Versuchen unverändert an.
 
 ## Server-Adresse
 
@@ -91,4 +91,3 @@ Der Release-Build ist mit R8 verkleinert (ca. 15 MB statt 28 MB), nicht debuggba
 
 - Änderungen offline vormerken und später abgleichen (braucht eine Konfliktlösung, siehe Offline-Cache)
 - Passwort ändern und Konto löschen (dafür fehlen API-Endpunkte)
-- Begrenzung der Anmeldeversuche und der Registrierungen auf dem Server (gilt auch für die Web-Version)

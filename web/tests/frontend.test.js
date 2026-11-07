@@ -1,4 +1,4 @@
-// Tests für das Verschieben der Teamkarten in web/index.html (Pfeile und Drag & Drop).
+// Tests für das Web-Frontend (web/index.html): Verschieben der Teamkarten (Pfeile, Drag & Drop), Benutzermenü, Anzeige von Anmeldefehlern.
 //
 // Start: cd web/tests && npm install && npm test
 //
@@ -224,4 +224,26 @@ test('Team-Steuerung: Name, Speichern, Neues Team, Auswahl und Löschen sind vor
     assert.ok(labels.some(l => l.includes('Neues Team')));
     assert.ok(labels.includes('Team löschen'));
     assert.equal(p.d.getElementById('teamsSelect').value, 'Test', 'das geladene Team ist ausgewählt');
+});
+
+// --- Anmeldefehler (auch die Sperre bei zu vielen Versuchen) ---
+
+test('Anmeldefehler vom Server, auch 429 bei zu vielen Versuchen, erscheinen im Dialog', async () => {
+    const p = await loadPage({ loggedIn: false });
+    const form = { preventDefault() {} };
+    p.d.getElementById('authUsername').value = 'jens';
+    p.d.getElementById('authPassword').value = 'falsch';
+    const error = p.d.getElementById('authError');
+
+    const reply = (ok, status, error) => async () => ({ ok, status, json: async () => ({ error }) });
+
+    p.w.fetch = reply(false, 401, 'Benutzername oder Passwort falsch.');
+    await p.w.handleAuthSubmit(form);
+    assert.equal(error.classList.contains('hidden'), false);
+    assert.equal(error.textContent || error.innerText, 'Benutzername oder Passwort falsch.');
+
+    p.w.fetch = reply(false, 429, 'Zu viele Anmeldeversuche. Bitte versuche es in 12 Minuten erneut.');
+    await p.w.handleAuthSubmit(form);
+    assert.match(error.textContent || error.innerText, /Zu viele Anmeldeversuche.*12 Minuten/);
+    assert.equal(error.classList.contains('hidden'), false);
 });
