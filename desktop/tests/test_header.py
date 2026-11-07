@@ -1,0 +1,108 @@
+"""Tests für die Werkzeugleiste (Kopfzeile) des Hauptfensters.
+
+Start (im Ordner desktop/):  python -m unittest discover -s tests -v
+"""
+import os
+import sys
+import tempfile
+import unittest
+import warnings
+from unittest import mock
+
+warnings.simplefilter("ignore", ResourceWarning)
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
+from PySide6.QtWidgets import QApplication, QMessageBox, QPushButton
+
+from manager import GenshinManager
+from main_window import MainWindow
+from styles import APP_QSS
+
+app = None
+
+
+def setUpModule():
+    global app
+    app = QApplication.instance() or QApplication([])
+    app.setStyleSheet(APP_QSS)
+
+
+class HeaderTest(unittest.TestCase):
+    def setUp(self):
+        warnings.simplefilter("ignore", ResourceWarning)   # gilt nur innerhalb des Tests (unittest setzt die Filter pro Test)
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.manager = GenshinManager(os.path.join(self.tmp.name, "test.db"))
+        self.answer = QMessageBox.Yes      # Antwort auf Rückfragen; pro Test änderbar
+        for name, result in (("information", QMessageBox.Ok), ("warning", QMessageBox.Ok), ("critical", QMessageBox.Ok)):
+            patcher = mock.patch.object(QMessageBox, name, staticmethod(lambda *a, _r=result, **k: _r))
+            patcher.start()
+            self.addCleanup(patcher.stop)
+        patcher = mock.patch.object(QMessageBox, "question", staticmethod(lambda *a, **k: self.answer))
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
+        self.window = MainWindow(self.manager)
+        self.window.show()
+        self.addCleanup(self.window.close)
+        app.processEvents()
+
+    def button(self, text):
+        return next(b for b in self.window.findChildren(QPushButton) if b.text() == text)
+
+    def delete_button(self):
+        return next(b for b in self.window.findChildren(QPushButton) if b.accessibleName() == "Team löschen")
+
+    def save_team(self, name, members=("Furina",)):
+        team = [{"character": self.manager.get_character_by_name(n), "saved": {}} for n in members]
+        self.window.render_team_cards(team)
+        self.window.team_name_input.setText(name)
+        self.window.save_current_team()
+        app.processEvents()
+
+    def test_vorhandene_bedienelemente_mit_kurzen_beschriftungen(self):
+        self.assertEqual(self.window.team_name_input.placeholderText(), "Teamname")
+        self.button("Speichern")
+        self.button("+ Neues Team")
+        self.assertEqual(self.window.team_name_input.text(), "Neues Team")
+
+    def test_loeschen_ist_ein_symbolknopf_mit_tooltip(self):
+        delete = self.delete_button()
+        self.assertEqual(delete.text(), "")
+        self.assertFalse(delete.icon().isNull(), "das Symbol muss geladen werden")
+        self.assertEqual(delete.toolTip(), "Team löschen")
+        self.assertEqual(delete.objectName(), "dangerButton")
+
+    def test_felder_passen_sich_der_breite_an(self):
+        for width in (1080, 1500):
+            self.window.resize(width, 640)
+            app.processEvents()
+            name_width = self.window.team_name_input.width()
+            combo_width = self.window.teams_combo.width()
+            self.assertGreaterEqual(name_width, 140)
+            self.assertLessEqual(name_width, 260)
+            self.assertGreaterEqual(combo_width, 160)
+            self.assertLessEqual(combo_width, 320)
+
+    def test_loeschen_fragt_nach_und_loescht_das_ausgewaehlte_team(self):
+        self.save_team("Zu loeschen")
+        self.assertIn("Zu loeschen", self.manager.saved_teams)
+        self.window.teams_combo.setCurrentText("Zu loeschen")
+
+        self.answer = QMessageBox.No
+        self.delete_button().click()
+        self.assertIn("Zu loeschen", self.manager.saved_teams, "bei Nein bleibt das Team")
+
+        self.answer = QMessageBox.Yes
+        self.delete_button().click()
+        self.assertNotIn("Zu loeschen", self.manager.saved_teams)
+
+    def test_datei_menue_hat_export_und_import(self):
+        menus = {a.text(): a.menu() for a in self.window.menuBar().actions()}
+        self.assertIn("Datei", menus)
+        self.assertEqual([a.text() for a in menus["Datei"].actions()], ["Exportieren…", "Importieren…"])
+
+
+if __name__ == "__main__":
+    unittest.main()

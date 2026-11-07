@@ -8,6 +8,7 @@ Web-App zum Zusammenstellen von Genshin-Impact-Teams und Verwalten der Charakter
 - Teams mit bis zu 4 Charakteren anlegen, speichern und löschen; die Karten lassen sich per Drag & Drop am Kopfbereich oder mit den Pfeilen ‹ › umsortieren
 - Pro Charakter: Level, Konstellation, Talente, Waffe (Level, Raffinierung), Artefaktsets (4er oder 2×2er) und die Substats aller 5 Artefakte (Blume, Feder, Sanduhr, Kelch, Krone)
 - Suchbare Auswahllisten für Charaktere und Waffen
+- Kopfzeile mit Benutzermenü (Exportieren, Importieren, Logout); die Team-Steuerung darunter bricht auf schmalen Displays gruppenweise um und lässt sich am Handy bedienen
 
 Builds werden **pro Nutzer und Charakter** gespeichert, nicht pro Team. Ändert man den Build eines Charakters, gilt die Änderung in allen Teams, in denen er vorkommt.
 

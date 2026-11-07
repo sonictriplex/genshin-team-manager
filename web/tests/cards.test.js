@@ -23,10 +23,10 @@ const CHARACTERS = NAMES.map(n => STAMMDATEN.characters.find(c => c.name === n))
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /** Lädt die Seite mit einem Team aus Furina, Nilou und Barbara (in dieser Reihenfolge). */
-async function loadPage() {
+async function loadPage({ loggedIn = true } = {}) {
     const posted = [];
     const routes = {
-        'auth.php?action=status': { logged_in: true, username: 'tester', user_id: 1 },
+        'auth.php?action=status': loggedIn ? { logged_in: true, username: 'tester', user_id: 1 } : { logged_in: false },
         'characters.php': CHARACTERS,
         'weapons.php': [],
         'artifacts.php': [],
@@ -69,6 +69,9 @@ async function loadPage() {
     }
     return { w, d, posted, cards, handles, order, freeSlot, button, drag };
 }
+
+/** Jsdom-Klick, der wie im Browser bis zum document sprudelt. */
+const click = (w, el) => el.dispatchEvent(new w.MouseEvent('click', { bubbles: true, cancelable: true }));
 
 test('Startreihenfolge und Pfeile an den Rändern', async () => {
     const p = await loadPage();
@@ -153,4 +156,72 @@ test('Speichern sendet die neue Reihenfolge', async () => {
     assert.ok(p.posted[0].url.endsWith('/api/teams.php'));
     assert.equal(p.posted[0].body.name, 'Test');
     assert.deepEqual(p.posted[0].body.members.map(m => m.name), ['Barbara', 'Nilou', 'Furina']);
+});
+
+// --- Kopfzeile mit Benutzermenü (Export, Import, Logout) ---
+
+test('Benutzermenü ist nach der Anmeldung sichtbar und zeigt den Namen; der alte Footer ist weg', async () => {
+    const p = await loadPage();
+    const menu = p.d.getElementById('userMenu');
+    assert.equal(menu.classList.contains('hidden'), false);
+    assert.equal(p.d.getElementById('userInfo').textContent, 'tester');
+    assert.match(p.d.getElementById('userMenuName').textContent, /tester/);
+    assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, 'zunächst zu');
+    assert.equal(p.d.querySelector('footer'), null);
+});
+
+test('Ohne Anmeldung bleibt das Benutzermenü verborgen und die Anmeldung erscheint', async () => {
+    const p = await loadPage({ loggedIn: false });
+    assert.equal(p.d.getElementById('userMenu').classList.contains('hidden'), true);
+    assert.equal(p.d.getElementById('authModal').classList.contains('hidden'), false);
+});
+
+test('Das Menü öffnet und schließt per Klick, Klick daneben und Escape', async () => {
+    const p = await loadPage();
+    const button = p.d.getElementById('userMenuButton');
+    const list = p.d.getElementById('userMenuList');
+
+    click(p.w, button);
+    assert.equal(list.classList.contains('hidden'), false);
+    assert.equal(button.getAttribute('aria-expanded'), 'true');
+
+    click(p.w, button);
+    assert.equal(list.classList.contains('hidden'), true, 'zweiter Klick schließt');
+
+    click(p.w, button);
+    click(p.w, p.d.body);
+    assert.equal(list.classList.contains('hidden'), true, 'Klick daneben schließt');
+    assert.equal(button.getAttribute('aria-expanded'), 'false');
+
+    click(p.w, button);
+    p.d.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    assert.equal(list.classList.contains('hidden'), true, 'Escape schließt');
+});
+
+test('Menüpunkte lösen Export, Import und Logout aus und schließen das Menü', async () => {
+    const p = await loadPage();
+    const calls = [];
+    p.w.exportData = () => calls.push('export');
+    p.w.handleLogout = () => calls.push('logout');
+    const importInput = p.d.getElementById('importFile');
+    importInput.click = () => calls.push('import');
+
+    const item = text => [...p.d.querySelectorAll('#userMenuList [role=menuitem]')].find(b => b.textContent.trim() === text);
+    for (const text of ['Exportieren', 'Importieren', 'Logout']) {
+        click(p.w, p.d.getElementById('userMenuButton'));
+        click(p.w, item(text));
+        assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, `${text} schließt das Menü`);
+    }
+    assert.deepEqual(calls, ['export', 'import', 'logout']);
+});
+
+test('Team-Steuerung: Name, Speichern, Neues Team, Auswahl und Löschen sind vorhanden', async () => {
+    const p = await loadPage();
+    assert.ok(p.d.getElementById('teamNameInput'));
+    assert.ok(p.d.getElementById('teamsSelect'));
+    const labels = [...p.d.querySelectorAll('button')].map(b => (b.getAttribute('aria-label') || b.textContent).trim());
+    assert.ok(labels.includes('Speichern'));
+    assert.ok(labels.some(l => l.includes('Neues Team')));
+    assert.ok(labels.includes('Team löschen'));
+    assert.equal(p.d.getElementById('teamsSelect').value, 'Test', 'das geladene Team ist ausgewählt');
 });

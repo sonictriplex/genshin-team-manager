@@ -44,6 +44,7 @@ class CardOrderTest(unittest.TestCase):
     NAMES = ("Furina", "Nilou", "Barbara")
 
     def setUp(self):
+        warnings.simplefilter("ignore", ResourceWarning)   # gilt nur innerhalb des Tests (unittest setzt die Filter pro Test)
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.manager = GenshinManager(os.path.join(self.tmp.name, "test.db"))

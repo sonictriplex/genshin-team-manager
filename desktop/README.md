@@ -7,6 +7,7 @@ Desktop-App zum Zusammenstellen von Genshin-Impact-Teams und zum Verwalten der C
 - **Teams**: Teams mit bis zu 4 Charakteren anlegen, speichern, laden, umbenennen und löschen; die Reihenfolge der Karten ändert man per Drag & Drop am Kopfbereich der Karte oder mit den Pfeilen ‹ ›
 - **Charakter-Builds**: pro Charakter Level, Sternbild (C0–C6), Waffe mit Level und Veredelung, zwei Artefaktsets und Talentstufen (A/E/Q)
 - **Artefakt-Detailwerte**: für Blume, Feder, Sanduhr, Kelch und Krone jeweils Seltenheit, Level, Hauptwert und bis zu 4 Substats
+- **Werkzeugleiste**: Name, Speichern und Neues Team links, Teamauswahl und Löschen (Symbolknopf mit Rückfrage) rechts; Exportieren und Importieren im Menü „Datei“
 - **Suche**: Charaktere nach Region, Element und Seltenheit filtern, Waffen nach Typ und Seltenheit
 - **Tooltips** mit den 2er- und 4er-Boni der Artefaktsets
 
@@ -69,6 +70,7 @@ python -m unittest discover -s tests -v
 ## Projektstruktur
 
 ```
+icons/             Symbole der Oberfläche (SVG)
 main.py            Startpunkt, setzt das Stylesheet und öffnet das Hauptfenster
 main_window.py     Hauptfenster: Teamübersicht, Detailansicht, Speichern/Laden von Teams
 widgets.py         Charakterkarte, leerer Slot, Artefakt-Detailpanel

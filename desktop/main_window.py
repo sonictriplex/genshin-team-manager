@@ -1,11 +1,15 @@
+import os
 from typing import Optional
 
+from PySide6.QtCore import QSize, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog
+    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog, QSizePolicy
 )
 
 from manager import GenshinManager, DatabaseError
+from models import BASE_DIR
 from dialogs import CharacterSearchDialog
 from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, ArtifactPanel, normalize_build, show_db_error
 
@@ -123,33 +127,51 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, "Importiert", text)
 
     def _build_header(self) -> QHBoxLayout:
+        """Werkzeugleiste: links Name, Speichern, Neues Team, rechts Teamauswahl und Löschen.
+
+        Wie in der Web- und Android-Version: kurze Beschriftungen, Felder passen sich der Breite an, Löschen ist ein
+        Symbolknopf. Datei-Funktionen (Exportieren, Importieren) stehen im Menü "Datei" der Menüleiste.
+        """
         header = QHBoxLayout()
         header.setSpacing(10)
 
-        header.addWidget(QLabel("<b style='color: #e1e1e6;'>Team Name:</b>"))
+        header.addWidget(QLabel("<b style='color: #e1e1e6;'>Name:</b>"))
         self.team_name_input = QLineEdit(NEW_TEAM_NAME)
-        self.team_name_input.setFixedWidth(160)
-        header.addWidget(self.team_name_input)
+        self.team_name_input.setPlaceholderText("Teamname")
+        self.team_name_input.setMinimumWidth(140)
+        self.team_name_input.setMaximumWidth(260)
+        header.addWidget(self.team_name_input, stretch=1)
 
-        save_btn = QPushButton("Team speichern")
+        save_btn = QPushButton("Speichern")
+        save_btn.setToolTip("Speichert das Team mit allen Builds")
         save_btn.clicked.connect(self.save_current_team)
         header.addWidget(save_btn)
 
-        new_btn = QPushButton("Neues Team")
+        new_btn = QPushButton("+ Neues Team")
         new_btn.setObjectName("secondaryButton")
+        new_btn.setToolTip("Beginnt ein leeres Team")
         new_btn.clicked.connect(self.new_team)
         header.addWidget(new_btn)
 
-        header.addStretch()
+        header.addSpacing(20)
+        header.addStretch(1)
 
-        header.addWidget(QLabel("<b style='color: #e1e1e6;'>Gespeicherte Teams:</b>"))
+        header.addWidget(QLabel("<b style='color: #e1e1e6;'>Teams:</b>"))
         self.teams_combo = QComboBox()
-        self.teams_combo.setFixedWidth(180)
+        self.teams_combo.setMinimumWidth(160)
+        self.teams_combo.setMaximumWidth(320)
+        self.teams_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.teams_combo.currentIndexChanged.connect(self.on_team_selected)
-        header.addWidget(self.teams_combo)
+        header.addWidget(self.teams_combo, stretch=1)
 
-        delete_btn = QPushButton("Löschen")
+        delete_btn = QPushButton()
         delete_btn.setObjectName("dangerButton")
+        delete_btn.setIcon(QIcon(os.path.join(BASE_DIR, "icons", "trash.svg")))
+        delete_btn.setIconSize(QSize(16, 16))
+        delete_btn.setFixedSize(34, 30)
+        delete_btn.setToolTip("Team löschen")
+        delete_btn.setAccessibleName("Team löschen")
+        delete_btn.setCursor(Qt.PointingHandCursor)
         delete_btn.clicked.connect(self.delete_current_team)
         header.addWidget(delete_btn)
         return header
@@ -437,6 +459,15 @@ class MainWindow(QMainWindow):
     def delete_current_team(self):
         team_name = self.teams_combo.currentText()
         if team_name not in self.manager.saved_teams:
+            return
+
+        # Löschen ist ein reiner Symbolknopf: vorher nachfragen (wie in der Web- und Android-Version)
+        answer = QMessageBox.question(
+            self, "Team löschen",
+            f"Das Team „{team_name}“ wird gelöscht. Die Builds der Charaktere bleiben erhalten.",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+        )
+        if answer != QMessageBox.Yes:
             return
 
         del self.manager.saved_teams[team_name]

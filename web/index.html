@@ -63,32 +63,52 @@
     <!-- DARK OVERLAY & BLUR FÜR BESSERE LESBARKEIT -->
     <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] pointer-events-none -z-10"></div>
 
-    <!-- SEITEN-ÜBERSCHRIFT MIT TTF-SCHRIFTART -->
-    <header class="w-full max-w-7xl mx-auto mt-8 mb-12 text-center">
-        <h1 class="genshin-title text-3xl sm:text-4xl font-bold text-accent tracking-wide">
-            GENSHIN IMPACT Team & Build Manager
+    <!-- KOPFZEILE: Titel links, Benutzermenü rechts (Export, Import, Logout) -->
+    <header class="w-full max-w-7xl mx-auto mt-4 mb-5 flex items-center justify-between gap-3 px-1">
+        <h1 class="genshin-title text-xl sm:text-3xl font-bold text-accent tracking-wide min-w-0 truncate" title="GENSHIN IMPACT Team & Build Manager">
+            <span class="sm:hidden">GENSHIN Teams</span><span class="hidden sm:inline">GENSHIN IMPACT Team & Build Manager</span>
         </h1>
+
+        <div id="userMenu" class="hidden relative flex-shrink-0">
+            <button id="userMenuButton" type="button" onclick="toggleUserMenu(event)" aria-haspopup="true" aria-expanded="false" aria-controls="userMenuList"
+                class="flex items-center gap-2 bg-cardBg/80 hover:bg-[#2d293e] text-accent border border-[#332d47] font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md max-w-[11rem]">
+                <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5Z"/></svg>
+                <span id="userInfo" class="truncate"></span>
+                <svg class="w-3 h-3 flex-shrink-0" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M2 4l4 4 4-4z"/></svg>
+            </button>
+            <div id="userMenuList" role="menu" class="hidden absolute right-0 mt-2 w-52 bg-[#1a1825] border border-[#332d47] rounded-lg shadow-2xl z-40 py-1 text-sm">
+                <div id="userMenuName" class="px-4 py-2 text-xs text-gray-400 border-b border-white/10 truncate"></div>
+                <button type="button" role="menuitem" onclick="closeUserMenu(); exportData()" title="Speichert alle Builds und Teams als JSON-Datei (kompatibel mit der Desktop-Version)"
+                    class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors">Exportieren</button>
+                <button type="button" role="menuitem" onclick="closeUserMenu(); document.getElementById('importFile').click()" title="Liest Builds und Teams aus einer JSON-Datei der Web- oder Desktop-Version ein"
+                    class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors">Importieren</button>
+                <button type="button" role="menuitem" id="logoutBtn" onclick="closeUserMenu(); handleLogout()"
+                    class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#2d293e] hover:text-danger border-t border-white/10 transition-colors">Logout</button>
+            </div>
+            <input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importData(this)">
+        </div>
     </header>
 
-    <!-- HEADER / TOP BAR (TEAM-STEUERUNG) -->
-    <div class="flex flex-wrap items-center justify-between gap-4 bg-cardBg/80 backdrop-blur-md p-4 rounded-xl border border-[#2d293e]/60 shadow-2xl mb-6 max-w-7xl w-full mx-auto">
-        <div class="flex items-center gap-3">
-            <span class="text-gray-300 font-bold text-sm">Team Name:</span>
-            <input type="text" id="teamNameInput" value="Neues Team" class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none w-44">
-            <button onclick="saveCurrentTeam()" class="bg-accent hover:bg-accentHover text-darkBg font-bold text-sm px-4 py-1.5 rounded-md transition-colors shadow-md">Team Speichern</button>
-
-            <!-- BUTTON NEUES TEAM -->
-            <button onclick="createNewTeam()" class="bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-[#332d47] border-accent/60 font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md flex items-center gap-1.5" title="Erstellt ein leeres Team">
-                <span>+</span> Neues Team
+    <!-- TEAM-STEUERUNG: zwei Gruppen, die als Ganzes umbrechen (nie mitten in einer Beschriftung) -->
+    <div class="flex flex-wrap items-center gap-3 bg-cardBg/80 backdrop-blur-md p-3 rounded-xl border border-[#2d293e]/60 shadow-2xl mb-6 max-w-7xl w-full mx-auto">
+        <div class="flex flex-wrap items-center gap-2 flex-1 min-w-[17rem]">
+            <input type="text" id="teamNameInput" value="Neues Team" placeholder="Teamname" aria-label="Teamname"
+                class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none flex-1 min-w-[8rem]">
+            <button onclick="saveCurrentTeam()" class="whitespace-nowrap bg-accent hover:bg-accentHover text-darkBg font-bold text-sm px-4 py-1.5 rounded-md transition-colors shadow-md">Speichern</button>
+            <button onclick="createNewTeam()" class="whitespace-nowrap bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-accent/60 font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md flex items-center gap-1.5" title="Erstellt ein leeres Team">
+                <span aria-hidden="true">+</span> Neues Team
             </button>
         </div>
 
-        <div class="flex items-center gap-3">
-            <span class="text-gray-300 font-bold text-sm">Gespeicherte Teams:</span>
-            <select id="teamsSelect" onchange="onTeamSelected(this.value)" class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none w-48">
+        <div class="flex items-center gap-2 flex-1 min-w-[17rem]">
+            <select id="teamsSelect" onchange="onTeamSelected(this.value)" aria-label="Gespeicherte Teams"
+                class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none min-w-0 flex-1">
                 <option value="">— Team wählen —</option>
             </select>
-            <button onclick="deleteCurrentTeam()" class="bg-danger hover:opacity-90 text-white font-bold text-sm px-3 py-1.5 rounded-md transition-opacity shadow-md">Löschen</button>
+            <button onclick="deleteCurrentTeam()" title="Team löschen" aria-label="Team löschen"
+                class="flex-shrink-0 w-9 h-9 flex items-center justify-center bg-danger hover:opacity-90 text-white rounded-md transition-opacity shadow-md">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-3 6h12l-1 12H7L6 9Z"/></svg>
+            </button>
         </div>
     </div>
 
@@ -116,19 +136,6 @@
         </div>
 
     </main>
-
-    <!-- FOOTER (ZENTRIERTE USER-INFO & LOGOUT-BUTTON) -->
-    <footer class="w-full max-w-7xl mx-auto mt-8 mb-4 flex flex-col items-center justify-center gap-2">
-        <span id="userInfo" class="text-xs font-bold text-accent hidden"></span>
-        <div id="transferButtons" class="hidden flex items-center gap-2">
-            <button onclick="exportData()" class="bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-[#332d47] font-bold text-xs px-4 py-1.5 rounded-md transition-colors shadow-md" title="Speichert alle Builds und Teams als JSON-Datei (kompatibel mit der Desktop-Version)">Exportieren</button>
-            <button onclick="document.getElementById('importFile').click()" class="bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-[#332d47] font-bold text-xs px-4 py-1.5 rounded-md transition-colors shadow-md" title="Liest Builds und Teams aus einer JSON-Datei der Web- oder Desktop-Version ein">Importieren</button>
-            <input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importData(this)">
-        </div>
-        <button onclick="handleLogout()" id="logoutBtn" class="hidden bg-[#2d293e] hover:bg-[#3d3752] text-gray-300 border border-[#332d47] font-bold text-xs px-4 py-1.5 rounded-md transition-colors shadow-md">
-            Logout
-        </button>
-    </footer>
 
     <!-- MODAL: LOGIN / REGISTRIERUNG -->
     <div id="authModal" class="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
@@ -322,14 +329,9 @@
                     currentUsername = data.username;
                     document.getElementById('authModal').classList.add('hidden');
 
-                    const userSpan = document.getElementById('userInfo');
-                    if (userSpan) {
-                        userSpan.innerText = `Eingeloggt als: ${data.username}`;
-                        userSpan.classList.remove('hidden');
-                    }
-                    const logoutBtn = document.getElementById('logoutBtn');
-                    if (logoutBtn) logoutBtn.classList.remove('hidden');
-                    document.getElementById('transferButtons').classList.remove('hidden');
+                    document.getElementById('userInfo').textContent = data.username;
+                    document.getElementById('userMenuName').textContent = `Eingeloggt als ${data.username}`;
+                    document.getElementById('userMenu').classList.remove('hidden');
 
                     await loadInitialData();
                 } else {
@@ -378,6 +380,26 @@
                 errDiv.classList.remove('hidden');
             }
         }
+
+        // --- Benutzermenü (Export, Import, Logout) ---
+        function setUserMenuOpen(open) {
+            document.getElementById('userMenuList').classList.toggle('hidden', !open);
+            document.getElementById('userMenuButton').setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+
+        function closeUserMenu() { setUserMenuOpen(false); }
+
+        function toggleUserMenu(event) {
+            if (event) event.stopPropagation();
+            setUserMenuOpen(document.getElementById('userMenuList').classList.contains('hidden'));
+        }
+
+        // Klick daneben oder Escape schließt das Menü
+        document.addEventListener('click', event => {
+            const menu = document.getElementById('userMenu');
+            if (menu && !menu.contains(event.target)) closeUserMenu();
+        });
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') closeUserMenu(); });
 
         async function handleLogout() {
             try {
