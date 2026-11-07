@@ -7,3 +7,8 @@ captures/
 .cxx/
 *.apk
 *.aab
+
+# Signierschlüssel und Zugangsdaten: nie einchecken
+keystore.properties
+*.keystore
+*.jks

@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+}
+
+// Signierung: Zugangsdaten stehen in keystore.properties (nicht im Git, Vorlage: keystore.properties.example)
+val keystoreProps = Properties().apply {
+    rootProject.file("keystore.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
 }
 
 android {
@@ -16,15 +23,43 @@ android {
         versionName = "0.1.0"
     }
 
+    signingConfigs {
+        if (keystoreProps.isNotEmpty()) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Ohne keystore.properties entsteht eine unsignierte APK
+            signingConfigs.findByName("release")?.let { signingConfig = it }
+        }
+        // Nur zum Testen: wie "release" (R8, ohne Debug), aber mit Debug-Schlüssel und HTTP zum
+        // lokalen Entwicklungsserver (10.0.2.2). Läuft parallel zur echten App (anderer Paketname).
+        create("staging") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+            matchingFallbacks += "release"
         }
     }
 
     buildFeatures {
         compose = true
     }
+
+    // "staging" erlaubt Klartext-HTTP wie "debug" und nutzt dafür dieselbe Konfiguration
+    sourceSets["staging"].res.directories.add("src/debug/res")
+    sourceSets["staging"].manifest.srcFile("src/debug/AndroidManifest.xml")
 
     // Gemeinsame Daten des Monorepos (Bilder, Schrift, Stammdaten) direkt als Assets einbinden.
     // Unter assets/ liegen sie dann wie im Repo: assets/images/<name>.png, stammdaten.json

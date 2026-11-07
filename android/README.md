@@ -37,8 +37,34 @@ Oder den Ordner `android/` in Android Studio öffnen.
 
 Im Debug-Build ist Klartext-HTTP zu `10.0.2.2` und `localhost` erlaubt, um im Emulator gegen einen lokalen PHP-Server (`php -S 127.0.0.1:8000`) zu testen; als Server-Adresse dann `http://10.0.2.2:8000`. Release-Builds erlauben nur HTTPS.
 
+## Release-Build
+
+**Einmalig: Signierschlüssel anlegen** (die Dateien stehen in `.gitignore`)
+
+```sh
+cd android
+keytool -genkeypair -keystore release.keystore -alias genshin-teams -keyalg RSA -keysize 4096 -validity 10000
+cp keystore.properties.example keystore.properties   # Passwörter eintragen
+```
+
+**Bauen**
+
+```sh
+./gradlew :app:assembleRelease    # app/build/outputs/apk/release/app-release.apk  (zum direkten Installieren)
+./gradlew :app:bundleRelease      # app/build/outputs/bundle/release/app-release.aab (für den Play Store)
+```
+
+Der Release-Build ist mit R8 verkleinert (ca. 15 MB statt 28 MB), nicht debuggbar und erlaubt nur HTTPS. Ohne `keystore.properties` entsteht eine unsignierte APK.
+
+**Wichtig**
+- `release.keystore` und `keystore.properties` sichern (z. B. Passwortmanager). Ohne den Schlüssel lässt sich die App nicht mehr aktualisieren, nur neu installieren.
+- Debug- und Release-Build haben denselben Paketnamen, aber verschiedene Schlüssel. Beim Wechsel die andere Version zuerst deinstallieren.
+- Versionen in `app/build.gradle.kts` hochzählen (`versionCode` bei jeder Auslieferung, `versionName` nach Belieben).
+- Das Icon wurde aus `shared/assets/images/paimon.png` erzeugt (`res/drawable-nodpi/ic_launcher_foreground.png`).
+
+**Testen mit R8:** `./gradlew :app:assembleStaging` baut dieselbe verkleinerte App (Paketname `…staging`, läuft parallel zur echten), erlaubt aber HTTP zu `10.0.2.2` für einen lokalen Server. Damit lässt sich prüfen, dass R8 nichts Nötiges entfernt hat (JSON lesen und schreiben, Anmeldung).
+
 ## Nächste Schritte
 
-- Release-Build mit Signierung und Minify
 - Offline-Cache der Teams und Builds
 - Registrierung neuer Konten in der App
