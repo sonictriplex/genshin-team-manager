@@ -59,13 +59,18 @@ class Character:
 
 class Weapon:
     """Modelliert eine Genshin Impact Waffe."""
-    def __init__(self, name: str, weapon_type: str, rarity: int):
+    def __init__(self, name: str, weapon_type: str, rarity: int, icon_path: Optional[str] = None):
         self.name = name
         self.weapon_type = weapon_type
         self.rarity = rarity
+        self._icon_path = icon_path
 
     @property
     def icon_path(self) -> str:
+        if self._icon_path:
+            explicit = resolve_path(self._icon_path)
+            if os.path.exists(explicit):
+                return explicit
         return icon_path_for(self.name)
 
 

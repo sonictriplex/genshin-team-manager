@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS weapons (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL,
     weapon_type TEXT NOT NULL,
-    rarity INTEGER NOT NULL
+    rarity INTEGER NOT NULL,
+    icon_path TEXT
 );
 CREATE TABLE IF NOT EXISTS artifacts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -102,8 +103,22 @@ class GenshinManager:
         try:
             with self.get_connection() as conn:
                 conn.executescript(SCHEMA)
+                self._migrate_weapon_icons(conn)
         except sqlite3.Error as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
+
+    @staticmethod
+    def _migrate_weapon_icons(conn: sqlite3.Connection):
+        """Ältere Datenbanken: Spalte weapons.icon_path ergänzen und aus vorhandenen Bildern befüllen."""
+        columns = [r[1] for r in conn.execute("PRAGMA table_info(weapons)")]
+        if "icon_path" in columns:
+            return
+        conn.execute("ALTER TABLE weapons ADD COLUMN icon_path TEXT")
+        for (name,) in conn.execute("SELECT name FROM weapons").fetchall():
+            path = icon_path_for(name)
+            if os.path.exists(path):
+                conn.execute("UPDATE weapons SET icon_path = ? WHERE name = ?",
+                             (f"assets/images/{os.path.basename(path)}", name))
 
     def seed_if_empty(self):
         """Spielt die Stammdaten aus der JSON-Datei ein, wenn die Datenbank noch keine hat."""
@@ -153,12 +168,12 @@ class GenshinManager:
             with self.get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT name, weapon_type, rarity 
+                    SELECT name, weapon_type, rarity, icon_path
                     FROM weapons ORDER BY name ASC
                 """)
                 rows = cursor.fetchall()
                 self.available_weapons = [
-                    Weapon(name=row[0], weapon_type=row[1], rarity=row[2])
+                    Weapon(name=row[0], weapon_type=row[1], rarity=row[2], icon_path=row[3])
                     for row in rows
                 ]
         except sqlite3.Error as e:

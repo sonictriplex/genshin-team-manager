@@ -805,1267 +805,1520 @@
     {
       "name": "Silberlampe",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Neuer Zweig",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Schmetterlingswandel",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Klinge des Ketzerjägers",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Flammenquelle",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Exaiphanes-Klinge",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Winterfeder des weißen Sees",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Lichtbringende Mondscherbe",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/lichtbringende_mondscherbe.png"
     },
     {
       "name": "Athame Artis",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/athame_artis.png"
     },
     {
       "name": "Dämmerlicht des Mondwebers",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Leises Pfeifen der Stille",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Azurglanz",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Unheil von Eshu",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/unheil_von_eshu.png"
     },
     {
       "name": "Lied der Gipfelpatrouille",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/lied_der_gipfelpatrouille.png"
     },
     {
       "name": "Robuster Knochen",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/robuster_knochen.png"
     },
     {
       "name": "Ezpitzal-Flöte",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Absolution",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/absolution.png"
     },
     {
       "name": "Uraku Misugiri",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/uraku_misugiri.png"
     },
     {
       "name": "Schwert des Narzissenkreuzes",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwert_des_narzissenkreuzes.png"
     },
     {
       "name": "Pracht des stillen Wassers",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/pracht_des_stillen_wassers.png"
     },
     {
       "name": "Werftklinge",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/werftklinge.png"
     },
     {
       "name": "Wolfszahn",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wolfszahn.png"
     },
     {
       "name": "Schiffer des Fleuve Cendré",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schiffer_des_fleuve_cendré.png"
     },
     {
       "name": "Finale in der Tiefe",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/finale_in_der_tiefe.png"
     },
     {
       "name": "Licht der schneidenden Blätter",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/licht_der_schneidenden_blätter.png"
     },
     {
       "name": "Toukabou Shigure",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/toukabou_shigure.png"
     },
     {
       "name": "Mondlicht von Xiphos",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/mondlicht_von_xiphos.png"
     },
     {
       "name": "Khaj-Nisut-Schlüssel",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Stammklinge",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/stammklinge.png"
     },
     {
       "name": "Kagotsurube Isshin",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/kagotsurube_isshin.png"
     },
     {
       "name": "Schwarzstein-Langschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Schwarzes Schwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwarzes_schwert.png"
     },
     {
       "name": "Schwert der Dämmerung",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/schwert_der_dämmerung.png"
     },
     {
       "name": "Himmelsflug-Schwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": null
     },
     {
       "name": "Windfalke",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/windfalke.png"
     },
     {
       "name": "Widerschein des Nebelsplitters",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/widerschein_des_nebelsplitters.png"
     },
     {
       "name": "Schwert der Niederkunft",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwert_der_niederkunft.png"
     },
     {
       "name": "Silberschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 2
+      "rarity": 2,
+      "icon_path": "assets/images/silberschwert.png"
     },
     {
       "name": "Eisenstich",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/eisenstich.png"
     },
     {
       "name": "Zinnoberspindel",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/zinnoberspindel.png"
     },
     {
       "name": "Steinschneider-Prototyp",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Favonius-Schwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Blasser Schwur der Freiheit",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/blasser_schwur_der_freiheit.png"
     },
     {
       "name": "Schwert der Verderbnis",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwert_der_verderbnis.png"
     },
     {
       "name": "Flöte",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/flöte.png"
     },
     {
       "name": "Opferschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/opferschwert.png"
     },
     {
       "name": "Moosgrüner Fels",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/moosgrüner_fels.png"
     },
     {
       "name": "Haran Geppaku Futsu",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/haran_geppaku_futsu.png"
     },
     {
       "name": "Dunkles Eisenschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/dunkles_eisenschwert.png"
     },
     {
       "name": "Gassenleuchte",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/gassenleuchte.png"
     },
     {
       "name": "Stumpfes Schwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 1
+      "rarity": 1,
+      "icon_path": "assets/images/stumpfes_schwert.png"
     },
     {
       "name": "Reiseschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/reiseschwert.png"
     },
     {
       "name": "Gipfelbrecher",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/gipfelbrecher.png"
     },
     {
       "name": "Königliches Langschwert",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/königliches_langschwert.png"
     },
     {
       "name": "Himmelsklinge",
       "weapon_type": "Einhandschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/himmelsklinge.png"
     },
     {
       "name": "Amenoma Kageuchi",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/amenoma_kageuchi.png"
     },
     {
       "name": "Filetiermesser",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/filetiermesser.png"
     },
     {
       "name": "Drachenschrei",
       "weapon_type": "Einhandschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/drachenschrei.png"
     },
     {
       "name": "Kühle Klinge",
       "weapon_type": "Einhandschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/kühle_klinge.png"
     },
     {
       "name": "Geschmiedet durch das goldene Gesetz",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Klinge der Erlösung",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Schlüssel der Überbietung",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Kampflied des Wolfs",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Universalschlüssel",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Geschmiedete Weisheit",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Die tausend flammenden Sonnen",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/die_tausend_flammenden_sonnen.png"
     },
     {
       "name": "Fruchtbarer Haken",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/fruchtbarer_haken.png"
     },
     {
       "name": "Bebenmacher",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/bebenmacher.png"
     },
     {
       "name": "Zahn des Bergkönigs",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/zahn_des_bergkönigs.png"
     },
     {
       "name": "Megamagisches Schwert des ultimativen Oberherrn",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/megamagisches_schwert_des_ultimativen_oberherrn.png"
     },
     {
       "name": "Urteilsspruch",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/urteilsspruch.png"
     },
     {
       "name": "Tragbare motorisierte Säge",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/tragbare_motorisierte_säge.png"
     },
     {
       "name": "Lass uns reden",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/lass_uns_reden.png"
     },
     {
       "name": "Gezeitenschatten",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/gezeitenschatten.png"
     },
     {
       "name": "Schilfmeer-Bake",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Eiserne Blume",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/eiserne_blume.png"
     },
     {
       "name": "Makhaira-Aquamarin",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Waldkönigsschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/waldkönigsschwert.png"
     },
     {
       "name": "Schwarzstein-Schneide",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Himmelsflug-Großschwert",
       "weapon_type": "Großschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": null
     },
     {
       "name": "Unter Schnee begrabenes Sternsilber",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/unter_schnee_begrabenes_sternsilber.png"
     },
     {
       "name": "Regenschnitter",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/regenschnitter.png"
     },
     {
       "name": "Eiserner Schatten",
       "weapon_type": "Großschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/eiserner_schatten.png"
     },
     {
       "name": "Glocke",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/glocke.png"
     },
     {
       "name": "Rothorn-Steinbrecher",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Guhua-Prototyp",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Übungsgroßschwert",
       "weapon_type": "Großschwert",
-      "rarity": 1
+      "rarity": 1,
+      "icon_path": "assets/images/übungsgroßschwert.png"
     },
     {
       "name": "Favonius-Großschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Luxuriöser Seekönig",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/luxuriöser_seekönig.png"
     },
     {
       "name": "Knochenschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/knochenschwert.png"
     },
     {
       "name": "Opfergroßschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/opfergroßschwert.png"
     },
     {
       "name": "Weißes Eisengroßschwert",
       "weapon_type": "Großschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/weißes_eisengroßschwert.png"
     },
     {
       "name": "Weißer Schatten",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/weißer_schatten.png"
     },
     {
       "name": "Wolfsgrab",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/wolfsgrab.png"
     },
     {
       "name": "Drachenblutschwert",
       "weapon_type": "Großschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/drachenblutschwert.png"
     },
     {
       "name": "Katsuragikiri Nagamasa",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/katsuragikiri_nagamasa.png"
     },
     {
       "name": "Kiefernklang",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/kiefernklang.png"
     },
     {
       "name": "Grobes Schwert",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/grobes_schwert.png"
     },
     {
       "name": "Akuoumaru",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/akuoumaru.png"
     },
     {
       "name": "Königliches Großschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/königliches_großschwert.png"
     },
     {
       "name": "Stolz des Himmels",
       "weapon_type": "Großschwert",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/stolz_des_himmels.png"
     },
     {
       "name": "Antikes Millelithenschwert",
       "weapon_type": "Großschwert",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/antikes_millelithenschwert.png"
     },
     {
       "name": "Söldnerzweihänder",
       "weapon_type": "Großschwert",
-      "rarity": 2
+      "rarity": 2,
+      "icon_path": "assets/images/söldnerzweihänder.png"
     },
     {
       "name": "Schlagfestes Argument",
       "weapon_type": "Großschwert",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/schlagfestes_argument.png"
     },
     {
       "name": "Lüftchen und Saitenspiel",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Urzeitlicher Jadebogen",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Frostschneeschwur",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Goldener Frostschwur",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Chroniken der Morgendämmerung",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Regenakkorde der Regenbogenschlange",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Netzhaken",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Tonfolge der Einsamkeit",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Karmesinrotes Federkleid des Astralgeiers",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/karmesinrotes_federkleid_des_astralgeiers.png"
     },
     {
       "name": "Mit Blumen gebundene Federn",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Zersprungene Ketten",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/zersprungene_ketten.png"
     },
     {
       "name": "Wolkenweber",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wolkenweber.png"
     },
     {
       "name": "Tröpfelnde Herzsaiten",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/tröpfelnde_herzsaiten.png"
     },
     {
       "name": "Entfernungsmesser",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/entfernungsmesser.png"
     },
     {
       "name": "Spross der flammenden Sonne",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/spross_der_flammenden_sonne.png"
     },
     {
       "name": "Gesang der Stille",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/gesang_der_stille.png"
     },
     {
       "name": "Erste große Magie",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/erste_große_magie.png"
     },
     {
       "name": "Durchdringer der Ibisse",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/durchdringer_der_ibisse.png"
     },
     {
       "name": "Gefolgsfrau des Königs",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/gefolgsfrau_des_königs.png"
     },
     {
       "name": "Schwertfischer",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwertfischer.png"
     },
     {
       "name": "Pfad des Jägers",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/pfad_des_jägers.png"
     },
     {
       "name": "Ausklingende Dämmerung",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/ausklingende_dämmerung.png"
     },
     {
       "name": "Aqua Simulacra",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/aqua_simulacra.png"
     },
     {
       "name": "Schwarzstein-Kriegsbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Rabenbogen",
       "weapon_type": "Bogen",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/rabenbogen.png"
     },
     {
       "name": "Donnerpuls",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/donnerpuls.png"
     },
     {
       "name": "Windblumenode",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/windblumenode.png"
     },
     {
       "name": "Amos’ Bogen",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/amos_bogen.png"
     },
     {
       "name": "Compoundbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/compoundbogen.png"
     },
     {
       "name": "Mondschein-Prototyp",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Favonius-Jagdbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Grasgrüner Jagdbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/grasgrüner_jagdbogen.png"
     },
     {
       "name": "Der Sehnenlose",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/der_sehnenlose.png"
     },
     {
       "name": "Letzter Seufzer",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/letzter_seufzer.png"
     },
     {
       "name": "Opferbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/opferbogen.png"
     },
     {
       "name": "Eid des Scharfschützen",
       "weapon_type": "Bogen",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/eid_des_scharfschützen.png"
     },
     {
       "name": "Hamayumi",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/hamayumi.png"
     },
     {
       "name": "Jagdbogen",
       "weapon_type": "Bogen",
-      "rarity": 1
+      "rarity": 1,
+      "icon_path": "assets/images/jagdbogen.png"
     },
     {
       "name": "Mouun-Mond",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Gassenjäger",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/gassenjäger.png"
     },
     {
       "name": "Raubtier",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/raubtier.png"
     },
     {
       "name": "Steinschleuder",
       "weapon_type": "Bogen",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/steinschleuder.png"
     },
     {
       "name": "Rostiger Bogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/rostiger_bogen.png"
     },
     {
       "name": "Mitternachtswalzer",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/mitternachtswalzer.png"
     },
     {
       "name": "Königlicher Langbogen",
       "weapon_type": "Bogen",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/königlicher_langbogen.png"
     },
     {
       "name": "Himmelsflügel",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/himmelsflügel.png"
     },
     {
       "name": "Reflexbogen",
       "weapon_type": "Bogen",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/reflexbogen.png"
     },
     {
       "name": "Alter Jagdbogen",
       "weapon_type": "Bogen",
-      "rarity": 2
+      "rarity": 2,
+      "icon_path": "assets/images/alter_jagdbogen.png"
     },
     {
       "name": "Polarstern",
       "weapon_type": "Bogen",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/polarstern.png"
     },
     {
       "name": "Überbringer",
       "weapon_type": "Bogen",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/überbringer.png"
     },
     {
       "name": "Geheimes Sternorakel",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Schweres Herz des Winters",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/schweres_herz_des_winters.png"
     },
     {
       "name": "Loblied des Strudels",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Spiel der Könige",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Echo des Herzens",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Sieben Gebote von Staub und Licht",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Nachtmusik im Schleier",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Kästchen der Wahrheit",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Froststern",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Laute des Himmelslichts",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Spiegel des Nachtwebers",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Laterne des schwarzen Marks",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Farbenfrohe Gedanken",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Frühjahrsschlaf",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Wacht des Sternenopfers",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Wellenreitender Wirbel",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wellenreitender_wirbel.png"
     },
     {
       "name": "Yaxche-Ring",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Aschgraues Trinkhorn",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/aschgraues_trinkhorn.png"
     },
     {
       "name": "Zeit fürs Wellenreiten",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Widerhallender Ruf des Kranichs",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/widerhallender_ruf_des_kranichs.png"
     },
     {
       "name": "Monetäre Aufsichtseinheit",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/monetäre_aufsichtseinheit.png"
     },
     {
       "name": "Lehre des ewigen Flusses",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/lehre_des_ewigen_flusses.png"
     },
     {
       "name": "Ballade des unendlichen Blaus",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/ballade_des_unendlichen_blaus.png"
     },
     {
       "name": "Zeremonielle Jade",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/zeremonielle_jade.png"
     },
     {
       "name": "Fließende Reinheit",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/fließende_reinheit.png"
     },
     {
       "name": "Jadesturz-Pracht",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Tulaytullahs Erinnerung",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/tulaytullahs_erinnerung.png"
     },
     {
       "name": "Fließende Träume von tausend Nächten",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/fließende_träume_von_tausend_nächten.png"
     },
     {
       "name": "Wandernder Abendstern",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wandernder_abendstern.png"
     },
     {
       "name": "Vollmondfrucht",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/vollmondfrucht.png"
     },
     {
       "name": "Schwarzstein-Achat",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Magieführer",
       "weapon_type": "Katalysator",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/magieführer.png"
     },
     {
       "name": "Bernstein-Prototyp",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Auge des Gelöbnisses",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/auge_des_gelöbnisses.png"
     },
     {
       "name": "Von den Heldentaten der Drachenbezwinger",
       "weapon_type": "Katalysator",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/von_den_heldentaten_der_drachenbezwinger.png"
     },
     {
       "name": "Favonius-Kodex",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Jadekugel",
       "weapon_type": "Katalysator",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/jadekugel.png"
     },
     {
       "name": "Opferrituale",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/opferrituale.png"
     },
     {
       "name": "Kaguras Wahrheit",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/kaguras_wahrheit.png"
     },
     {
       "name": "Hakushin-Ring",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Zwillingsnephrit",
       "weapon_type": "Katalysator",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/zwillingsnephrit.png"
     },
     {
       "name": "Landstreichernoten",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/landstreichernoten.png"
     },
     {
       "name": "Wein und Gesang in den Gassen",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wein_und_gesang_in_den_gassen.png"
     },
     {
       "name": "Herzensblick",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/herzensblick.png"
     },
     {
       "name": "Permafrostfrucht",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/permafrostfrucht.png"
     },
     {
       "name": "Geschichten einer anderen Welt",
       "weapon_type": "Katalysator",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/geschichten_einer_anderen_welt.png"
     },
     {
       "name": "Ketten des Diesseits",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/ketten_des_diesseits.png"
     },
     {
       "name": "Königliches Zauberbuch",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/königliches_zauberbuch.png"
     },
     {
       "name": "Aufzeichnungen eines Lehrlings",
       "weapon_type": "Katalysator",
-      "rarity": 1
+      "rarity": 1,
+      "icon_path": "assets/images/aufzeichnungen_eines_lehrlings.png"
     },
     {
       "name": "Himmelsatlas",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/himmelsatlas.png"
     },
     {
       "name": "Gebete der Vier Winde",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/gebete_der_vier_winde.png"
     },
     {
       "name": "Dodoco-Geschichten",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Taschenzauberbuch",
       "weapon_type": "Katalysator",
-      "rarity": 2
+      "rarity": 2,
+      "icon_path": "assets/images/taschenzauberbuch.png"
     },
     {
       "name": "Sonne und Mond",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/sonne_und_mond.png"
     },
     {
       "name": "Ewiger Mondschein",
       "weapon_type": "Katalysator",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/ewiger_mondschein.png"
     },
     {
       "name": "Illustrationen von Landen und Wassern",
       "weapon_type": "Katalysator",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/illustrationen_von_landen_und_wassern.png"
     },
     {
       "name": "Frostatem",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/frostatem.png"
     },
     {
       "name": "Wächterlied",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Katastrophe und Reue",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Leuchtstab des Geistlichen",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Blutbefleckte Stadt",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Schaufel des Goldgräbers",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schaufel_des_goldgräbers.png"
     },
     {
       "name": "Zerstreutes Licht",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Sinfoniker der Düfte",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Tamayuratei no Ohanashi",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Bergschützer-Bolzen",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Spuren des Regenbogens",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/spuren_des_regenbogens.png"
     },
     {
       "name": "Lumidouce-Elegie",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Form des scharlachroten Mondes",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/form_des_scharlachroten_mondes.png"
     },
     {
       "name": "Dialoge der Weisen der Wüste",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/dialoge_der_weisen_der_wüste.png"
     },
     {
       "name": "Erkundungsbohrer",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/erkundungsbohrer.png"
     },
     {
       "name": "Ballade der Fjorde",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/ballade_der_fjorde.png"
     },
     {
       "name": "Rechtmäßige Belohnung",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/rechtmäßige_belohnung.png"
     },
     {
       "name": "Stab der roten Sande",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/stab_der_roten_sande.png"
     },
     {
       "name": "Spitze der klingenden Winde",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/spitze_der_klingenden_winde.png"
     },
     {
       "name": "Monddurchbohrer",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/monddurchbohrer.png"
     },
     {
       "name": "Drachengratspeer",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/drachengratspeer.png"
     },
     {
       "name": "Schwarze Quaste",
       "weapon_type": "Stangenwaffe",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/schwarze_quaste.png"
     },
     {
       "name": "Schwarzsteinlanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/schwarzsteinlanze.png"
     },
     {
       "name": "Eisenlanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 2
+      "rarity": 2,
+      "icon_path": "assets/images/eisenlanze.png"
     },
     {
       "name": "Hellebarde",
       "weapon_type": "Stangenwaffe",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/hellebarde.png"
     },
     {
       "name": "Regenbogenstecher",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/regenbogenstecher.png"
     },
     {
       "name": "Sternsichel-Prototyp",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Favonius-Lanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Grasschnittstrahl",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/grasschnittstrahl.png"
     },
     {
       "name": "Weiße Quaste",
       "weapon_type": "Stangenwaffe",
-      "rarity": 3
+      "rarity": 3,
+      "icon_path": "assets/images/weiße_quaste.png"
     },
     {
       "name": "Mondpike",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/mondpike.png"
     },
     {
       "name": "Anfängerlanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 1
+      "rarity": 1,
+      "icon_path": "assets/images/anfängerlanze.png"
     },
     {
       "name": "Wellenbrecherflosse",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/wellenbrecherflosse.png"
     },
     {
       "name": "Homa-Stab",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": null
     },
     {
       "name": "Ende des Unheils",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/ende_des_unheils.png"
     },
     {
       "name": "Königlicher Jagdspeer",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/königlicher_jagdspeer.png"
     },
     {
       "name": "Himmelsgrat",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/himmelsgrat.png"
     },
     {
       "name": "Kitain-Kreuzlanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": null
     },
     {
       "name": "Urzeitlicher Jadespeer",
       "weapon_type": "Stangenwaffe",
-      "rarity": 5
+      "rarity": 5,
+      "icon_path": "assets/images/urzeitlicher_jadespeer.png"
     },
     {
       "name": "Millelithenlanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/millelithenlanze.png"
     },
     {
       "name": "Drachenschreck",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/drachenschreck.png"
     },
     {
       "name": "Duelllanze",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/duelllanze.png"
     },
     {
       "name": "„Der Fang“",
       "weapon_type": "Stangenwaffe",
-      "rarity": 4
+      "rarity": 4,
+      "icon_path": "assets/images/der_fang.png"
     }
   ],
   "artifacts": [

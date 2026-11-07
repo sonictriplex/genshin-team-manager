@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Genshin Team-Manager – Austauschformat",
+  "type": "object",
+  "required": ["format", "version", "builds", "teams"],
+  "properties": {
+    "format": { "const": "genshin-team-manager" },
+    "version": { "type": "integer", "minimum": 1 },
+    "exported_at": { "type": "string" },
+    "builds": { "type": "array", "items": { "$ref": "#/$defs/build" } },
+    "teams": { "type": "array", "items": { "$ref": "#/$defs/team" } }
+  },
+  "$defs": {
+    "build": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "level": { "type": "integer", "minimum": 1, "maximum": 90 },
+        "constellation": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "weapon": { "type": "string" },
+        "weapon_level": { "type": "integer", "minimum": 1, "maximum": 90 },
+        "refinement": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "artifact": { "type": "string" },
+        "artifact_2": { "type": "string" },
+        "talents": {
+          "type": "object",
+          "properties": {
+            "attack": { "type": "integer", "minimum": 1, "maximum": 13 },
+            "skill": { "type": "integer", "minimum": 1, "maximum": 13 },
+            "burst": { "type": "integer", "minimum": 1, "maximum": 13 }
+          }
+        },
+        "artifact_stats": {
+          "type": "object",
+          "propertyNames": { "enum": ["Blume", "Feder", "Sanduhr", "Kelch", "Krone"] },
+          "additionalProperties": { "$ref": "#/$defs/slot" }
+        }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "properties": {
+        "rarity": { "type": "string" },
+        "level": { "type": "integer" },
+        "main_stat": { "type": "string" },
+        "main_value": { "type": "string" },
+        "substats": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "properties": { "stat": { "type": "string" }, "val": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "team": {
+      "type": "object",
+      "required": ["name", "members"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "members": { "type": "array", "maxItems": 4, "items": { "type": "string" }, "uniqueItems": true }
+      }
+    }
+  }
+}

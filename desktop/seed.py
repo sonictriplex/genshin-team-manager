@@ -22,7 +22,7 @@ SEED_PATH = os.path.join(SHARED_DIR, "stammdaten.json")
 # Tabelle -> Spalten, die exportiert/importiert werden (die id wird von SQLite vergeben)
 TABLES = {
     "characters": ["name", "element", "weapon_type", "region", "rarity", "icon_path"],
-    "weapons": ["name", "weapon_type", "rarity"],
+    "weapons": ["name", "weapon_type", "rarity", "icon_path"],
     "artifacts": ["name", "bonus_1pc", "bonus_2pc", "bonus_4pc"],
 }
 

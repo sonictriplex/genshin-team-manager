@@ -1,0 +1,101 @@
+{
+  "format": "genshin-team-manager",
+  "version": 1,
+  "exported_at": "2026-01-01T12:00:00",
+  "builds": [
+    {
+      "name": "Nilou",
+      "level": 90,
+      "constellation": 0,
+      "weapon": "Eisenstich",
+      "weapon_level": 80,
+      "refinement": 1,
+      "artifact": "Zähigkeit der Millelithen",
+      "artifact_2": "Licht der Vourukasha-Oase",
+      "artifact_stats": {
+        "Blume": {
+          "level": 20,
+          "rarity": "5★",
+          "main_stat": "LP (Fix)",
+          "main_value": "4780",
+          "substats": [
+            {
+              "stat": "KT%",
+              "val": "6,6"
+            },
+            {
+              "stat": "LP%",
+              "val": "15,7"
+            },
+            {
+              "stat": "DEF (Fix)",
+              "val": "19"
+            },
+            {
+              "stat": "Elementarkunde",
+              "val": "68"
+            }
+          ]
+        },
+        "Feder": {
+          "level": 20,
+          "rarity": "5★",
+          "main_stat": "ANG (Fix)",
+          "main_value": "311",
+          "substats": [
+            {
+              "stat": "LP%",
+              "val": "11,7"
+            },
+            {
+              "stat": "KT%",
+              "val": "6,2"
+            },
+            {
+              "stat": "Elementarkunde",
+              "val": "51"
+            },
+            {
+              "stat": "DEF%",
+              "val": "6,6"
+            }
+          ]
+        }
+      },
+      "talents": {
+        "attack": 1,
+        "skill": 9,
+        "burst": 9
+      }
+    },
+    {
+      "name": "Barbara",
+      "level": 80,
+      "constellation": 2,
+      "weapon": "",
+      "weapon_level": 90,
+      "refinement": 1,
+      "artifact": "",
+      "artifact_2": "",
+      "artifact_stats": {},
+      "talents": {
+        "attack": 1,
+        "skill": 1,
+        "burst": 1
+      }
+    }
+  ],
+  "teams": [
+    {
+      "name": "Beispielteam",
+      "members": [
+        "Nilou",
+        "Barbara"
+      ]
+    },
+    {
+      "name": "Leeres Team",
+      "members": []
+    }
+  ]
+}
