@@ -5,3 +5,8 @@ desktop/genshin-team-manager.json
 
 # Altes Archiv (nur lokal)
 archive/
+
+# Zugangsdaten für den Upload
+deploy/*.local.*
+deploy/backup/
+deploy/build/
