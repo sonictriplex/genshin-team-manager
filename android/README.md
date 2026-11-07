@@ -81,6 +81,7 @@ Der Release-Build ist mit R8 verkleinert (ca. 15 MB statt 28 MB), nicht debuggba
 
 **Wichtig**
 - `release.keystore` und `keystore.properties` sichern (z. B. Passwortmanager). Ohne den Schlüssel lässt sich die App nicht mehr aktualisieren, nur neu installieren.
+- **Schlüssel wiederherstellen** (neuer Rechner): Repo klonen, `release.keystore` und `keystore.properties` aus der Sicherung nach `android/` kopieren, mit `keytool -list -v -keystore android/release.keystore` prüfen und wie oben bauen. Der SHA-256-Fingerabdruck der signierten APK muss derselbe sein wie bei der installierten App.
 - Debug- und Release-Build haben denselben Paketnamen, aber verschiedene Schlüssel. Beim Wechsel die andere Version zuerst deinstallieren.
 - Versionen in `app/build.gradle.kts` hochzählen (`versionCode` bei jeder Auslieferung, `versionName` nach Belieben).
 - Das Icon wurde aus `shared/assets/images/paimon.png` erzeugt (`res/drawable-nodpi/ic_launcher_foreground.png`).
