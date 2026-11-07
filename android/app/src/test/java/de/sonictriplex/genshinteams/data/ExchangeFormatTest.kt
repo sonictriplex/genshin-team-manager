@@ -3,6 +3,8 @@ package de.sonictriplex.genshinteams.data
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Test
 import java.io.File
 
@@ -50,5 +52,42 @@ class ExchangeFormatTest {
         assertEquals("assets/images/hu_tao.png", iconPathFor("Hu Tao"))
         assertEquals("assets/images/traveler.png", iconPathFor("Traveler (Dendro)"))
         assertEquals("assets/images/kaedehara_kazuha.png", iconPathFor("Kaedehara Kazuha"))
+    }
+}
+
+class BuildEditingTest {
+    private val shared = File(System.getProperty("shared.dir"))
+
+    @Test
+    fun normalisierenErgaenztAlleSlotsMitVierSubstats() {
+        val build = Build(name = "Barbara", artifact = "— Keins —").normalized()
+        assertEquals("", build.artifact)
+        assertEquals(ARTIFACT_SLOTS.toSet(), build.artifactStats.keys)
+        build.artifactStats.values.forEach { assertEquals(4, it.substats.size) }
+        assertEquals("LP (Fix)", build.artifactStats.getValue("Blume").mainStat)
+    }
+
+    @Test
+    fun speichernBeachtetNurGeaenderteSlotsUndBleibtImAustauschformat() {
+        val original = parseExchange(File(shared, "testdata/export-beispiel.json").readText()).builds.first()
+        val edited = original.normalized()
+            .withSlot("Feder") { s -> s.copy(level = 16).withSubstat(0) { it.copy(stat = "KT%", value = "3,9") } }
+
+        // Der Body ist selbst eine gültige Austauschdatei, die der Server (und die anderen Clients) lesen
+        val body = buildImportPayload(edited)
+        val sent = AppJson.parseToJsonElement(body).jsonObject
+        assertEquals("merge", sent.getValue("mode").jsonPrimitive.content)
+        val data = parseExchange(sent.getValue("data").toString())
+        assertEquals(1, data.builds.size)
+        assertEquals(emptyList<Team>(), data.teams)
+
+        val feder = data.builds.single().artifactStats.getValue("Feder")
+        assertEquals(16, feder.level)
+        assertEquals("3,9", feder.substats[0].value)
+        // JSON-Feldnamen des Formats ("val", "weapon_level", ...) und Standardwerte sind enthalten
+        assertTrue(body.contains("\"val\":\"3,9\""))
+        assertTrue(body.contains("\"weapon_level\":80"))
+        assertTrue(body.contains("\"artifact_2\":"))
+        assertTrue(body.contains("\"talents\":{\"attack\":1,\"skill\":9,\"burst\":9}"))
     }
 }

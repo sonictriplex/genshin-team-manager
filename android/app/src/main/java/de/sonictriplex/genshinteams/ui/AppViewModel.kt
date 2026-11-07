@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.sonictriplex.genshinteams.data.ApiClient
 import de.sonictriplex.genshinteams.data.ApiException
+import de.sonictriplex.genshinteams.data.Build
 import de.sonictriplex.genshinteams.data.ExchangeFile
 import de.sonictriplex.genshinteams.data.SessionStore
 import de.sonictriplex.genshinteams.data.StammdatenRepository
@@ -24,6 +25,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     var busy by mutableStateOf(false)
         private set
     var error by mutableStateOf<String?>(null)
+        private set
+    var saving by mutableStateOf(false)
         private set
     var userData by mutableStateOf<ExchangeFile?>(null)
         private set
@@ -75,6 +78,26 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             busy = true
             try { api().logout() } finally { clearSession(); busy = false }
+        }
+    }
+
+    /** Speichert einen Build auf dem Server und übernimmt ihn danach in die lokale Ansicht. */
+    fun saveBuild(build: Build, onSaved: () -> Unit) {
+        viewModelScope.launch {
+            saving = true
+            error = null
+            try {
+                api().saveBuild(build)
+                userData = userData?.let { d -> d.copy(builds = d.builds.filterNot { it.name == build.name } + build) }
+                onSaved()
+            } catch (e: UnauthorizedException) {
+                clearSession()
+                error = "Sitzung abgelaufen. Bitte erneut anmelden."
+            } catch (e: ApiException) {
+                error = e.message
+            } finally {
+                saving = false
+            }
         }
     }
 

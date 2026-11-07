@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.sonictriplex.genshinteams.ui.AppViewModel
 import de.sonictriplex.genshinteams.ui.BuildScreen
+import de.sonictriplex.genshinteams.ui.EditBuildScreen
 import de.sonictriplex.genshinteams.ui.GenshinTheme
 import de.sonictriplex.genshinteams.ui.LoginScreen
 import de.sonictriplex.genshinteams.ui.TeamsScreen
@@ -50,7 +51,11 @@ private fun App(vm: AppViewModel = viewModel()) {
         }
         composable("character/{name}") { entry ->
             val name = entry.arguments?.getString("name").orEmpty()
-            BuildScreen(vm, name, onBack = { nav.popBackStack() })
+            BuildScreen(vm, name, onBack = { nav.popBackStack() }, onEdit = { nav.navigate("character/${Uri.encode(name)}/edit") })
+        }
+        composable("character/{name}/edit") { entry ->
+            val name = entry.arguments?.getString("name").orEmpty()
+            EditBuildScreen(vm, name, onDone = { nav.popBackStack() })
         }
     }
 }

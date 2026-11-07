@@ -1,6 +1,5 @@
 package de.sonictriplex.genshinteams.data
 
-import android.os.Build
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -69,6 +68,23 @@ class ApiClient(
         }
     }
 
+    /**
+     * Speichert einen Build des Nutzers (überschreibt den vorhandenen Build des Charakters).
+     * Der Server begrenzt die Werte auf die erlaubten Bereiche.
+     */
+    suspend fun saveBuild(build: Build) {
+        val token = tokenProvider() ?: throw UnauthorizedException("Nicht eingeloggt")
+        val request = Request.Builder().url(url("transfer.php"))
+            .header("Authorization", "Bearer $token")
+            .post(buildImportPayload(build).toRequestBody(JSON_TYPE)).build()
+        val result = try {
+            AppJson.decodeFromString(ImportResponse.serializer(), execute(request))
+        } catch (e: kotlinx.serialization.SerializationException) {
+            throw ApiException("Ungültige Antwort des Servers", e)
+        }
+        if (result.builds < 1) throw ApiException("Der Server hat den Build nicht übernommen (Charakter unbekannt).")
+    }
+
     private suspend fun execute(request: Request): String = withContext(Dispatchers.IO) {
         try {
             http.newCall(request).execute().use { response ->
@@ -86,7 +102,7 @@ class ApiClient(
         }
     }
 
-    private fun deviceName() = "${Build.MANUFACTURER} ${Build.MODEL}".trim().take(100)
+    private fun deviceName() = "${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}".trim().take(100)
 
     companion object {
         private val JSON_TYPE = "application/json; charset=utf-8".toMediaType()

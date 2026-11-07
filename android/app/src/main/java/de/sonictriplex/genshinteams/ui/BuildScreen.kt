@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.data.ARTIFACT_SLOTS
 import de.sonictriplex.genshinteams.data.Build
 
-/** Schreibgeschützte Ansicht des Builds eines Charakters (Bearbeiten folgt in einer späteren Version). */
+/** Ansicht des Builds eines Charakters; Bearbeiten über die Leiste oben. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit) {
+fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -> Unit) {
     val character = vm.stammdaten.character(name)
     val build: Build? = vm.userData?.builds?.firstOrNull { it.name == name }
 
@@ -35,6 +35,7 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit) {
             TopAppBar(
                 title = { Text(name) },
                 navigationIcon = { TextButton(onClick = onBack) { Text("Zurück") } },
+                actions = { TextButton(onClick = onEdit) { Text(if (build == null) "Anlegen" else "Bearbeiten") } },
             )
         },
     ) { padding ->
