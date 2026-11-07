@@ -19,8 +19,8 @@ android {
         applicationId = "de.sonictriplex.genshinteams"
         minSdk = 26
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.1.0"
 
         // Der Server, mit dem die App spricht (die Web-Version, siehe ../web). Bei einem Umzug hier ändern.
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://genshin-manager.media-matrix.de\"")
