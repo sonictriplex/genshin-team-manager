@@ -12,6 +12,7 @@ import de.sonictriplex.genshinteams.data.Build
 import de.sonictriplex.genshinteams.data.ExchangeFile
 import de.sonictriplex.genshinteams.data.SessionStore
 import de.sonictriplex.genshinteams.data.StammdatenRepository
+import de.sonictriplex.genshinteams.data.Team
 import de.sonictriplex.genshinteams.data.UnauthorizedException
 import kotlinx.coroutines.launch
 
@@ -81,15 +82,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** Speichert einen Build auf dem Server und übernimmt ihn danach in die lokale Ansicht. */
-    fun saveBuild(build: Build, onSaved: () -> Unit) {
+    /** Führt eine Schreibaktion aus: Ladezustand, Fehlermeldung und abgelaufene Sitzung einheitlich behandelt. */
+    private fun write(action: suspend (ApiClient) -> Unit, onSuccess: () -> Unit) {
         viewModelScope.launch {
             saving = true
             error = null
             try {
-                api().saveBuild(build)
-                userData = userData?.let { d -> d.copy(builds = d.builds.filterNot { it.name == build.name } + build) }
-                onSaved()
+                action(api())
+                onSuccess()
             } catch (e: UnauthorizedException) {
                 clearSession()
                 error = "Sitzung abgelaufen. Bitte erneut anmelden."
@@ -99,6 +99,38 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 saving = false
             }
         }
+    }
+
+    /** Speichert einen Build auf dem Server und übernimmt ihn danach in die lokale Ansicht. */
+    fun saveBuild(build: Build, onSaved: () -> Unit) = write({ it.saveBuild(build) }) {
+        userData = userData?.let { d -> d.copy(builds = d.builds.filterNot { it.name == build.name } + build) }
+        onSaved()
+    }
+
+    /**
+     * Speichert ein Team. [originalName] ist der bisherige Name beim Bearbeiten (null bei einem neuen Team);
+     * wurde das Team umbenannt, wird der alte Eintrag danach gelöscht.
+     */
+    fun saveTeam(team: Team, originalName: String?, onSaved: () -> Unit) = write({ api ->
+        api.saveTeam(team)
+        if (originalName != null && originalName != team.name) api.deleteTeam(originalName)
+    }) {
+        userData = userData?.let { d ->
+            val inPlace = originalName != null && originalName == team.name
+            d.copy(
+                teams = if (inPlace) {
+                    d.teams.map { if (it.name == team.name) team else it }
+                } else {
+                    // Der Server sortiert nach Anlage: neue und umbenannte Teams stehen am Ende
+                    d.teams.filterNot { it.name == team.name || it.name == originalName } + team
+                },
+            )
+        }
+        onSaved()
+    }
+
+    fun deleteTeam(name: String) = write({ it.deleteTeam(name) }) {
+        userData = userData?.let { d -> d.copy(teams = d.teams.filterNot { it.name == name }) }
     }
 
     fun dismissError() { error = null }

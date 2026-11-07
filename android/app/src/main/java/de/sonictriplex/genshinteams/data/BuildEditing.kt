@@ -59,11 +59,28 @@ private val SaveJson = Json {
     explicitNulls = false
 }
 
-/** Body für `POST api/transfer.php`: genau ein Build, Modus "merge", Teams bleiben unberührt. */
-fun buildImportPayload(build: Build): String = SaveJson.encodeToString(
+/** Body für `POST api/transfer.php` im Modus "merge": nur die übergebenen Builds und Teams werden geschrieben. */
+fun importPayload(builds: List<Build> = emptyList(), teams: List<Team> = emptyList()): String = SaveJson.encodeToString(
     ImportRequest.serializer(),
-    ImportRequest("merge", ExchangeFile(EXCHANGE_FORMAT, EXCHANGE_VERSION, builds = listOf(build))),
+    ImportRequest("merge", ExchangeFile(EXCHANGE_FORMAT, EXCHANGE_VERSION, builds = builds, teams = teams)),
 )
+
+const val MAX_TEAM_SIZE = 4
+const val MAX_TEAM_NAME = 255
+
+/**
+ * Prüft einen Teamnamen und gibt eine Fehlermeldung zurück, oder null wenn er gültig ist.
+ * [original] ist der bisherige Name beim Bearbeiten (darf unverändert bleiben).
+ */
+fun validateTeamName(name: String, existing: List<String>, original: String?): String? {
+    val trimmed = name.trim()
+    return when {
+        trimmed.isEmpty() -> "Bitte einen Teamnamen eingeben."
+        trimmed.length > MAX_TEAM_NAME -> "Der Teamname ist zu lang."
+        trimmed != original && trimmed in existing -> "Ein Team mit diesem Namen gibt es schon."
+        else -> null
+    }
+}
 
 @kotlinx.serialization.Serializable
 data class ImportRequest(val mode: String, val data: ExchangeFile)

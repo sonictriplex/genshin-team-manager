@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import de.sonictriplex.genshinteams.ui.AppViewModel
 import de.sonictriplex.genshinteams.ui.BuildScreen
 import de.sonictriplex.genshinteams.ui.EditBuildScreen
+import de.sonictriplex.genshinteams.ui.EditTeamScreen
 import de.sonictriplex.genshinteams.ui.GenshinTheme
 import de.sonictriplex.genshinteams.ui.LoginScreen
 import de.sonictriplex.genshinteams.ui.TeamsScreen
@@ -47,7 +48,16 @@ private fun App(vm: AppViewModel = viewModel()) {
 
     NavHost(nav, startDestination = "teams") {
         composable("teams") {
-            TeamsScreen(vm, onOpenCharacter = { nav.navigate("character/${Uri.encode(it)}") })
+            TeamsScreen(
+                vm,
+                onOpenCharacter = { nav.navigate("character/${Uri.encode(it)}") },
+                onNewTeam = { nav.navigate("team/new") },
+                onEditTeam = { nav.navigate("team/edit/${Uri.encode(it)}") },
+            )
+        }
+        composable("team/new") { EditTeamScreen(vm, originalName = null, onDone = { nav.popBackStack() }) }
+        composable("team/edit/{name}") { entry ->
+            EditTeamScreen(vm, entry.arguments?.getString("name").orEmpty(), onDone = { nav.popBackStack() })
         }
         composable("character/{name}") { entry ->
             val name = entry.arguments?.getString("name").orEmpty()

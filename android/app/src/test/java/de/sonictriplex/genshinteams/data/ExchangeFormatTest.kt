@@ -74,7 +74,7 @@ class BuildEditingTest {
             .withSlot("Feder") { s -> s.copy(level = 16).withSubstat(0) { it.copy(stat = "KT%", value = "3,9") } }
 
         // Der Body ist selbst eine gültige Austauschdatei, die der Server (und die anderen Clients) lesen
-        val body = buildImportPayload(edited)
+        val body = importPayload(builds = listOf(edited))
         val sent = AppJson.parseToJsonElement(body).jsonObject
         assertEquals("merge", sent.getValue("mode").jsonPrimitive.content)
         val data = parseExchange(sent.getValue("data").toString())
@@ -89,5 +89,28 @@ class BuildEditingTest {
         assertTrue(body.contains("\"weapon_level\":80"))
         assertTrue(body.contains("\"artifact_2\":"))
         assertTrue(body.contains("\"talents\":{\"attack\":1,\"skill\":9,\"burst\":9}"))
+    }
+}
+
+class TeamEditingTest {
+    @Test
+    fun teamPayloadEnthaeltNurDasTeam() {
+        val body = importPayload(teams = listOf(Team("Bloom", listOf("Nilou", "Barbara"))))
+        val sent = AppJson.parseToJsonElement(body).jsonObject
+        assertEquals("merge", sent.getValue("mode").jsonPrimitive.content)
+        val data = parseExchange(sent.getValue("data").toString())
+        assertEquals(emptyList<Build>(), data.builds)
+        assertEquals(listOf(Team("Bloom", listOf("Nilou", "Barbara"))), data.teams)
+    }
+
+    @Test
+    fun teamnameWirdGeprueft() {
+        val existing = listOf("A", "B")
+        assertEquals(null, validateTeamName("Neu", existing, null))
+        assertEquals(null, validateTeamName("  B  ", existing, "B"))           // unverändert beim Bearbeiten
+        assertTrue(validateTeamName("   ", existing, null)!!.contains("eingeben"))
+        assertTrue(validateTeamName("A", existing, null)!!.contains("schon"))
+        assertTrue(validateTeamName("A", existing, "B")!!.contains("schon"))   // Umbenennen auf ein anderes Team
+        assertTrue(validateTeamName("x".repeat(256), existing, null)!!.contains("lang"))
     }
 }

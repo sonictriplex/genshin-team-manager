@@ -2,7 +2,10 @@ package de.sonictriplex.genshinteams.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.Serializable
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,7 +23,7 @@ class UnauthorizedException(message: String) : ApiException(message)
 private data class TokenRequest(val username: String, val password: String, val device: String)
 
 @Serializable
-private data class TokenResponse(val token: String, val username: String = "", val expires_at: String = "")
+private data class TokenResponse(val token: String, val username: String = "")
 
 @Serializable
 private data class ErrorResponse(val error: String = "")
@@ -34,36 +37,44 @@ class ApiClient(
     private val tokenProvider: () -> String?,
     private val http: OkHttpClient = defaultClient,
 ) {
-    private fun url(endpoint: String) = baseUrl.trimEnd('/') + "/api/" + endpoint
+    /** Baut die URL eines Endpunkts; eine ungültige Server-Adresse wird zur verständlichen Meldung. */
+    private fun endpoint(file: String, query: Map<String, String> = emptyMap()): HttpUrl {
+        val base = (baseUrl.trimEnd('/') + "/api/" + file).toHttpUrlOrNull()
+            ?: throw ApiException("Ungültige Server-Adresse.")
+        return base.newBuilder().apply { query.forEach { (k, v) -> addQueryParameter(k, v) } }.build()
+    }
+
+    private fun authorized(url: HttpUrl): Request.Builder {
+        val token = tokenProvider() ?: throw UnauthorizedException("Nicht eingeloggt")
+        return Request.Builder().url(url).header("Authorization", "Bearer $token")
+    }
 
     /** Meldet sich an und gibt Token und Benutzernamen zurück. */
     suspend fun login(username: String, password: String): Pair<String, String> {
         val body = AppJson.encodeToString(TokenRequest.serializer(), TokenRequest(username, password, deviceName()))
-        val request = Request.Builder().url(url("auth.php?action=token"))
+        val request = Request.Builder().url(endpoint("auth.php", mapOf("action" to "token")))
             .post(body.toRequestBody(JSON_TYPE)).build()
-        val response = execute(request)
-        val parsed = AppJson.decodeFromString(TokenResponse.serializer(), response)
+        val parsed = decode(TokenResponse.serializer(), execute(request))
         return parsed.token to parsed.username.ifBlank { username }
     }
 
     /** Widerruft den Token auf dem Server. Fehler sind unkritisch, die lokale Abmeldung zählt. */
     suspend fun logout() {
-        val request = Request.Builder().url(url("auth.php?action=logout"))
-            .header("Authorization", "Bearer ${tokenProvider() ?: return}")
-            .post("".toRequestBody(JSON_TYPE)).build()
-        try { execute(request) } catch (_: ApiException) { }
+        try {
+            val request = authorized(endpoint("auth.php", mapOf("action" to "logout")))
+                .post("".toRequestBody(JSON_TYPE)).build()
+            execute(request)
+        } catch (_: ApiException) { }
     }
 
     /** Builds und Teams des angemeldeten Nutzers im gemeinsamen Austauschformat. */
     suspend fun fetchUserData(): ExchangeFile {
-        val token = tokenProvider() ?: throw UnauthorizedException("Nicht eingeloggt")
-        val request = Request.Builder().url(url("transfer.php"))
-            .header("Authorization", "Bearer $token").get().build()
+        val request = authorized(endpoint("transfer.php")).get().build()
         return try {
             parseExchange(execute(request))
         } catch (e: IllegalArgumentException) {
             throw ApiException(e.message ?: "Ungültige Antwort des Servers", e)
-        } catch (e: kotlinx.serialization.SerializationException) {
+        } catch (e: SerializationException) {
             throw ApiException("Ungültige Antwort des Servers", e)
         }
     }
@@ -73,16 +84,31 @@ class ApiClient(
      * Der Server begrenzt die Werte auf die erlaubten Bereiche.
      */
     suspend fun saveBuild(build: Build) {
-        val token = tokenProvider() ?: throw UnauthorizedException("Nicht eingeloggt")
-        val request = Request.Builder().url(url("transfer.php"))
-            .header("Authorization", "Bearer $token")
-            .post(buildImportPayload(build).toRequestBody(JSON_TYPE)).build()
-        val result = try {
-            AppJson.decodeFromString(ImportResponse.serializer(), execute(request))
-        } catch (e: kotlinx.serialization.SerializationException) {
-            throw ApiException("Ungültige Antwort des Servers", e)
-        }
+        val result = import(importPayload(builds = listOf(build)))
         if (result.builds < 1) throw ApiException("Der Server hat den Build nicht übernommen (Charakter unbekannt).")
+    }
+
+    /** Speichert ein Team (legt es an oder überschreibt das gleichnamige). Builds bleiben unberührt. */
+    suspend fun saveTeam(team: Team) {
+        val result = import(importPayload(teams = listOf(team)))
+        if (result.teams < 1) throw ApiException("Der Server hat das Team nicht übernommen.")
+    }
+
+    /** Löscht das Team mit diesem Namen. */
+    suspend fun deleteTeam(name: String) {
+        val request = authorized(endpoint("teams.php", mapOf("name" to name))).delete().build()
+        execute(request)
+    }
+
+    private suspend fun import(payload: String): ImportResponse {
+        val request = authorized(endpoint("transfer.php")).post(payload.toRequestBody(JSON_TYPE)).build()
+        return decode(ImportResponse.serializer(), execute(request))
+    }
+
+    private fun <T> decode(serializer: kotlinx.serialization.KSerializer<T>, text: String): T = try {
+        AppJson.decodeFromString(serializer, text)
+    } catch (e: SerializationException) {
+        throw ApiException("Ungültige Antwort des Servers", e)
     }
 
     private suspend fun execute(request: Request): String = withContext(Dispatchers.IO) {
@@ -97,8 +123,6 @@ class ApiClient(
             }
         } catch (e: IOException) {
             throw ApiException("Server nicht erreichbar. Adresse und Netzwerk prüfen.", e)
-        } catch (e: IllegalArgumentException) {
-            throw ApiException("Ungültige Server-Adresse.", e)
         }
     }
 
