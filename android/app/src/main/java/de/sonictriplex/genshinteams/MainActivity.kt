@@ -11,8 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -45,8 +46,8 @@ class MainActivity : ComponentActivity() {
 private fun App(vm: AppViewModel = viewModel()) {
     val nav = rememberNavController()
 
-    // Beim Start mit gespeicherter Anmeldung die Daten laden
-    LaunchedEffect(Unit) { if (vm.loggedIn && vm.userData == null) vm.refresh() }
+    // War der Server zuletzt nicht erreichbar, beim Zurückkehren in die App erneut versuchen
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { vm.retryIfOffline() }
 
     if (!vm.loggedIn) {
         LoginScreen(vm)

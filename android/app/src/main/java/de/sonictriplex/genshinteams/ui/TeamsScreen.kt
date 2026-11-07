@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -39,7 +40,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
             TopAppBar(
                 title = { Text("Teams") },
                 actions = {
-                    TextButton(onClick = onNewTeam) { Text("Neues Team") }
+                    TextButton(onClick = onNewTeam, enabled = !vm.offline) { Text("Neues Team") }
                     TextButton(onClick = vm::refresh, enabled = !vm.busy) { Text("Neu laden") }
                     TextButton(onClick = vm::logout, enabled = !vm.busy) { Text("Abmelden") }
                 },
@@ -47,6 +48,8 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
         },
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
+            if (vm.busy && data != null) LinearProgressIndicator(Modifier.fillMaxWidth())
+            if (vm.offline) OfflineBanner(vm.dataSavedAt)
             vm.error?.let { Text(it, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(16.dp)) }
             when {
                 data == null && vm.busy -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))
@@ -61,8 +64,8 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Text(team.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.weight(1f))
-                                    TextButton(onClick = { onEditTeam(team.name) }) { Text("Bearbeiten") }
-                                    TextButton(onClick = { deleting = team.name }) { Text("Löschen") }
+                                    TextButton(onClick = { onEditTeam(team.name) }, enabled = !vm.offline) { Text("Bearbeiten") }
+                                    TextButton(onClick = { deleting = team.name }, enabled = !vm.offline) { Text("Löschen") }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     team.members.forEach { member ->

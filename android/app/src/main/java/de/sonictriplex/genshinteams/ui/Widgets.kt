@@ -81,3 +81,23 @@ fun AppCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -
         Column(Modifier.padding(12.dp), content = content)
     }
 }
+
+/** Hinweis, dass die Anzeige aus dem Cache stammt: Zeitpunkt des letzten Abgleichs und gesperrte Änderungen. */
+@Composable
+fun OfflineBanner(savedAt: Long?, modifier: Modifier = Modifier) {
+    val stand = savedAt?.let {
+        java.time.format.DateTimeFormatter.ofLocalizedDateTime(java.time.format.FormatStyle.MEDIUM)
+            .withLocale(java.util.Locale.GERMAN)
+            .format(java.time.Instant.ofEpochMilli(it).atZone(java.time.ZoneId.systemDefault()))
+    }
+    androidx.compose.foundation.layout.Row(
+        modifier.fillMaxWidth().background(Palette.Gold.copy(alpha = 0.18f)).padding(horizontal = 16.dp, vertical = 10.dp),
+    ) {
+        Text(
+            text = "Offline" + (stand?.let { " – Stand vom $it" } ?: "") +
+                ". Bearbeiten ist erst wieder mit Verbindung möglich.",
+            style = MaterialTheme.typography.bodySmall,
+            color = Palette.Gold,
+        )
+    }
+}

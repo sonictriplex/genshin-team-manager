@@ -11,15 +11,26 @@ import de.sonictriplex.genshinteams.data.ApiException
 import de.sonictriplex.genshinteams.data.Build
 import de.sonictriplex.genshinteams.data.ExchangeFile
 import de.sonictriplex.genshinteams.data.SessionStore
+import de.sonictriplex.genshinteams.data.NetworkException
 import de.sonictriplex.genshinteams.data.StammdatenRepository
 import de.sonictriplex.genshinteams.data.Team
 import de.sonictriplex.genshinteams.data.UnauthorizedException
+import de.sonictriplex.genshinteams.data.UserDataCache
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-/** Zustand der App: Anmeldung, geladene Nutzerdaten, Lade- und Fehlerstatus. */
+/**
+ * Zustand der App: Anmeldung, geladene Nutzerdaten, Lade- und Fehlerstatus.
+ *
+ * Offline-Cache: Beim Start erscheinen sofort die zuletzt geladenen Teams und Builds, danach wird im
+ * Hintergrund aktualisiert. Ist der Server nicht erreichbar, bleibt der Cache sichtbar ([offline]) und
+ * Änderungen sind gesperrt, bis wieder eine Verbindung besteht.
+ */
 class AppViewModel(app: Application) : AndroidViewModel(app) {
     val session = SessionStore(app)
     val stammdaten = StammdatenRepository(app)
+    private val cache = UserDataCache(app.filesDir)
 
     var loggedIn by mutableStateOf(session.token != null)
         private set
@@ -31,6 +42,24 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         private set
     var userData by mutableStateOf<ExchangeFile?>(null)
         private set
+
+    /** true, wenn die angezeigten Daten aus dem Cache stammen, weil der Server nicht erreichbar war. */
+    var offline by mutableStateOf(false)
+        private set
+
+    /** Zeitpunkt (ms), zu dem [userData] zuletzt mit dem Server übereinstimmte. */
+    var dataSavedAt by mutableStateOf<Long?>(null)
+        private set
+
+    init {
+        if (loggedIn) {
+            cache.load(session.serverUrl, session.username)?.let {
+                userData = it.data
+                dataSavedAt = it.savedAt
+            }
+            refresh()
+        }
+    }
 
     private fun api(baseUrl: String = session.serverUrl) = ApiClient(baseUrl, { session.token })
 
@@ -63,16 +92,35 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             busy = true
             error = null
             try {
-                userData = api().fetchUserData()
+                val fresh = api().fetchUserData()
+                userData = fresh
+                offline = false
+                storeCache(fresh)
             } catch (e: UnauthorizedException) {
                 clearSession()
                 error = "Sitzung abgelaufen. Bitte erneut anmelden."
+            } catch (e: NetworkException) {
+                // Mit Cache: den letzten Stand weiter zeigen. Ohne Cache bleibt nur die Fehlermeldung.
+                if (userData != null) offline = true else error = e.message
             } catch (e: ApiException) {
                 error = e.message
             } finally {
                 busy = false
             }
         }
+    }
+
+    /** Ruft die Daten erneut ab, wenn der Server zuletzt nicht erreichbar war (z. B. beim Zurückkehren in die App). */
+    fun retryIfOffline() {
+        if (loggedIn && offline && !busy) refresh()
+    }
+
+    private suspend fun storeCache(data: ExchangeFile) {
+        val now = System.currentTimeMillis()
+        dataSavedAt = now
+        val server = session.serverUrl
+        val user = session.username
+        withContext(Dispatchers.IO) { cache.save(server, user, data, now) }
     }
 
     fun logout() {
@@ -91,6 +139,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             try {
                 action(api())
                 onSuccess()
+                userData?.let { storeCache(it) }   // der Cache folgt den eigenen Änderungen
             } catch (e: UnauthorizedException) {
                 clearSession()
                 error = "Sitzung abgelaufen. Bitte erneut anmelden."
@@ -140,5 +189,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         session.token = null
         loggedIn = false
         userData = null
+        offline = false
+        dataSavedAt = null
+        cache.clear()   // Daten eines abgemeldeten Nutzers nicht auf dem Gerät lassen
     }
 }

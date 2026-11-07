@@ -165,3 +165,91 @@ class ApiHeadersTest {
         assertTrue(captured.isEmpty())
     }
 }
+
+class UserDataCacheTest {
+    private val example = parseExchange(java.io.File(System.getProperty("shared.dir"), "testdata/export-beispiel.json").readText())
+    private fun tempDir() = java.nio.file.Files.createTempDirectory("cache-test").toFile().also { it.deleteOnExit() }
+
+    @Test
+    fun speichernUndLadenErgibtDieselbenDaten() {
+        val cache = UserDataCache(tempDir())
+        assertEquals(null, cache.load("https://example.org", "jens"))
+
+        cache.save("https://example.org", "jens", example, now = 1_700_000_000_000)
+        val loaded = cache.load("https://example.org", "jens")!!
+
+        assertEquals(example, loaded.data)
+        assertEquals(1_700_000_000_000, loaded.savedAt)
+        assertEquals(listOf("Nilou", "Barbara"), loaded.data.teams.first().members)
+    }
+
+    @Test
+    fun cacheGiltNurFuerDenGleichenServerUndNutzer() {
+        val cache = UserDataCache(tempDir())
+        cache.save("https://example.org/", "jens", example)
+
+        assertTrue(cache.load("https://example.org", "jens") != null)          // Schrägstrich am Ende egal
+        assertEquals(null, cache.load("https://example.org", "anna"))          // anderer Nutzer
+        assertEquals(null, cache.load("https://anderer-server.de", "jens"))    // anderer Server
+    }
+
+    @Test
+    fun beschaedigterCacheIstKeinCacheUndStuertztNicht() {
+        val dir = tempDir()
+        val cache = UserDataCache(dir)
+        java.io.File(dir, "userdata-cache.json").writeText("{ das ist kein gültiges json")
+        assertEquals(null, cache.load("https://example.org", "jens"))
+
+        cache.save("https://example.org", "jens", example)     // wird einfach überschrieben
+        assertTrue(cache.load("https://example.org", "jens") != null)
+    }
+
+    @Test
+    fun neuerStandErsetztDenAltenUndLoeschenRaeumtAuf() {
+        val dir = tempDir()
+        val cache = UserDataCache(dir)
+        cache.save("https://example.org", "jens", example, now = 1)
+        val changed = example.copy(teams = example.teams + Team("Neu", listOf("Furina")))
+        cache.save("https://example.org", "jens", changed, now = 2)
+
+        val loaded = cache.load("https://example.org", "jens")!!
+        assertEquals(3, loaded.data.teams.size)
+        assertEquals(2, loaded.savedAt)
+        assertEquals(listOf("userdata-cache.json"), dir.list()!!.toList())   // keine Temp-Datei übrig
+
+        cache.clear()
+        assertEquals(null, cache.load("https://example.org", "jens"))
+        assertTrue(dir.list()!!.isEmpty())
+    }
+}
+
+class NetworkErrorTest {
+    private fun clientThrowing(error: java.io.IOException) = okhttp3.OkHttpClient.Builder()
+        .addInterceptor { throw error }.build()
+
+    @Test
+    fun fehlendeVerbindungIstEineNetworkException() {
+        val api = ApiClient("https://example.org", { "t".repeat(64) }, clientThrowing(java.net.UnknownHostException("kein Netz")))
+        val e = assertThrows(NetworkException::class.java) { kotlinx.coroutines.runBlocking { api.fetchUserData() } }
+        assertTrue(e.message!!.contains("nicht erreichbar"))
+    }
+
+    @Test
+    fun zeitueberschreitungIstEineNetworkException() {
+        val api = ApiClient("https://example.org", { "t".repeat(64) }, clientThrowing(java.net.SocketTimeoutException("timeout")))
+        assertThrows(NetworkException::class.java) { kotlinx.coroutines.runBlocking { api.fetchUserData() } }
+    }
+
+    @Test
+    fun serverfehlerIstKeineNetworkException() {
+        val http = okhttp3.OkHttpClient.Builder().addInterceptor { chain ->
+            okhttp3.Response.Builder().request(chain.request()).protocol(okhttp3.Protocol.HTTP_1_1).code(500).message("err")
+                .body("""{"error":"Fehler beim Laden."}""".toResponseBody("application/json".toMediaType())).build()
+        }.build()
+        val api = ApiClient("https://example.org", { "t".repeat(64) }, http)
+
+        val e = assertThrows(ApiException::class.java) { kotlinx.coroutines.runBlocking { api.fetchUserData() } }
+        assertTrue(e !is NetworkException)
+        assertEquals("Fehler beim Laden.", e.message)
+    }
+}

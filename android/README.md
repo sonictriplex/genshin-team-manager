@@ -2,13 +2,24 @@
 
 Online-Client für die Web-Version. Die App greift **nicht** direkt auf MySQL zu, sondern über die PHP-API in `../web/api/` (Anmeldung per Token, siehe `../web/README.md`).
 
-**Stand:** Anmelden, Teamliste, Build-Ansicht sowie Bearbeiten und Speichern von Builds und Teams (anlegen, ändern, umbenennen, löschen) funktionieren.
+**Stand:** Anmelden, Teamliste, Build-Ansicht sowie Bearbeiten und Speichern von Builds und Teams (anlegen, ändern, umbenennen, löschen) funktionieren. Teams und Builds lassen sich auch offline ansehen.
 
 ## Technik
 
 - Kotlin, Jetpack Compose (Material 3), Navigation Compose
 - OkHttp und kotlinx.serialization für die API; Server-Adresse in app-privaten SharedPreferences, der Token verschlüsselt mit einem AES-Schlüssel aus dem Android Keystore (`TokenCipher`). Ist der Schlüssel ungültig, gilt man als abgemeldet; ein Klartext-Token aus Version 0.1 wird beim ersten Start verschlüsselt
 - `minSdk` 26, `compileSdk` 37, Gradle 9.6 (Wrapper), Android Gradle Plugin 9.5
+
+## Offline-Cache
+
+Die zuletzt geladenen Teams und Builds liegen im app-privaten Speicher (`files/userdata-cache.json`, im Austauschformat, gebunden an Server und Benutzernamen; `data/UserDataCache.kt`).
+
+- Beim Start erscheinen sie **sofort**, im Hintergrund wird aktualisiert (dünner Fortschrittsbalken).
+- Ist der Server nicht erreichbar, bleibt der Stand sichtbar, mit dem Hinweis „Offline – Stand vom …“. **Bearbeiten ist dann gesperrt** (Neues Team, Bearbeiten, Löschen), bis wieder eine Verbindung besteht. Ein Abgleich eigener Änderungen aus dem Offline-Betrieb gibt es bewusst nicht, das bräuchte Konfliktlösung.
+- Beim Zurückkehren in die App und über „Neu laden“ wird erneut versucht; gelingt es, verschwindet der Hinweis.
+- Eigene Änderungen (Speichern, Löschen) aktualisieren den Cache.
+- Beim **Abmelden** und bei abgelaufener Sitzung wird der Cache gelöscht. Er ist nicht verschlüsselt (anders als der Token), enthält aber nur Teams und Builds, keine Zugangsdaten.
+- Nur ohne Cache und ohne Verbindung (erster Start) erscheint die Fehlermeldung statt der Liste.
 
 ## Token-Header
 
@@ -70,5 +81,4 @@ Der Release-Build ist mit R8 verkleinert (ca. 15 MB statt 28 MB), nicht debuggba
 
 ## Nächste Schritte
 
-- Offline-Cache der Teams und Builds
 - Registrierung neuer Konten in der App

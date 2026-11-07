@@ -16,6 +16,9 @@ import java.util.concurrent.TimeUnit
 /** Fehler der Web-API mit verständlicher Meldung für die Oberfläche. */
 open class ApiException(message: String, cause: Throwable? = null) : Exception(message, cause)
 
+/** Der Server war nicht erreichbar (kein Netz, Zeitüberschreitung, falsche Adresse). */
+class NetworkException(message: String, cause: Throwable? = null) : ApiException(message, cause)
+
 /** Der Token ist ungültig oder abgelaufen: neu anmelden. */
 class UnauthorizedException(message: String) : ApiException(message)
 
@@ -129,7 +132,7 @@ class ApiClient(
                 throw ApiException(message)
             }
         } catch (e: IOException) {
-            throw ApiException("Server nicht erreichbar. Adresse und Netzwerk prüfen.", e)
+            throw NetworkException("Server nicht erreichbar. Adresse und Netzwerk prüfen.", e)
         }
     }
 
@@ -138,6 +141,7 @@ class ApiClient(
     companion object {
         private val JSON_TYPE = "application/json; charset=utf-8".toMediaType()
         private val defaultClient = OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)   // ohne Netz früh aufgeben und den Cache zeigen
             .callTimeout(30, TimeUnit.SECONDS)
             .build()
     }
