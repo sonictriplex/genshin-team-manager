@@ -57,6 +57,15 @@ Neue Charaktere oder Waffen trägt man also in die Datenbank ein und führt dana
 | `teams` | Teamnamen |
 | `team_members` | Zuordnung Team → Charakter mit Slot-Reihenfolge |
 
+## Tests
+
+```bash
+cd desktop
+python -m unittest discover -s tests -v
+```
+
+`tests/test_card_order.py` prüft das Verschieben der Karten (Pfeile, Drag & Drop, Speichern der Reihenfolge) und die Migration älterer Datenbanken auf `weapons.icon_path`. Die Oberfläche läuft ohne Bildschirm (`QT_QPA_PLATFORM=offscreen`), die Datenbank ist eine Wegwerf-Datei; zusätzliche Pakete sind nicht nötig. Das Ziehen mit der Maus selbst lässt sich so nicht auslösen: Getestet wird, dass ein Drag am Kartenkopf startet und das Ablegen die richtige Position trifft.
+
 ## Projektstruktur
 
 ```
@@ -67,6 +76,7 @@ dialogs.py         Such- und Auswahldialoge für Charaktere und Waffen
 styles.py          Zentrales Qt-Stylesheet und Farbpalette
 manager.py         GenshinManager: Datenbankzugriff, Schema, Einspielen der Stammdaten
 seed.py            Import/Export der Stammdaten (python seed.py import|export)
+tests/             Tests (unittest)
 models.py          Datenklassen (Character, Weapon, ArtifactSet) und Pfad-Hilfsfunktionen
 ../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Icons)
 ```

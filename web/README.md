@@ -21,6 +21,7 @@ Es gibt keinen Build-Schritt und keine Abhängigkeiten, die installiert werden m
 
 ```
 index.html          Komplettes Frontend
+tests/              Tests des Frontends (Node, jsdom), nicht für den Server
 api/
   db.php            Datenbankverbindung
   auth_check.php    Session-Setup, Bearer-Token, require_login()
@@ -34,7 +35,7 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
 
 ## Einrichtung
 
-1. **Webserver mit PHP** (z. B. Apache oder nginx + PHP-FPM) mit der PDO-MySQL-Erweiterung. Der Inhalt von `web/` muss im **Web-Root** liegen (beim Hochladen den Symlink `assets` auflösen, z. B. `rsync -rL web/ …`), weil das Frontend absolute Pfade (`/api`, `/assets/images`) verwendet.
+1. **Webserver mit PHP** (z. B. Apache oder nginx + PHP-FPM) mit der PDO-MySQL-Erweiterung. Der Inhalt von `web/` muss im **Web-Root** liegen (beim Hochladen den Symlink `assets` auflösen und `tests/` weglassen, z. B. `rsync -rL --exclude tests web/ …`), weil das Frontend absolute Pfade (`/api`, `/assets/images`) verwendet.
 
 2. **Datenbank** anlegen. `schema.sql` enthält das Schema, ist aber aus den Abfragen in `api/*.php` abgeleitet und nicht aus der Produktivdatenbank exportiert (vorher mit `SHOW CREATE TABLE` abgleichen). Eine bestehende Datenbank braucht nur die Dateien aus `migrations/` (aktuell `001_api_tokens.sql`). Wichtig sind die eindeutigen Schlüssel `teams (user_id, name)` und `user_characters (user_id, char_name)`.
 
@@ -56,6 +57,16 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
    ```
 
    Danach http://localhost:8000 öffnen.
+
+## Tests
+
+```sh
+cd web/tests
+npm install
+npm test
+```
+
+`tests/cards.test.js` lädt `index.html` in jsdom (mit einer fetch-Attrappe, Stammdaten aus `shared/stammdaten.json`) und prüft das Verschieben der Teamkarten: Pfeile, Drag & Drop, Ablage auf dem freien Platz, ignorierte fremde Drags und dass „Team speichern“ die neue Reihenfolge sendet. jsdom kennt kein echtes Drag & Drop, die Ereignisse werden nachgebaut; das Verhalten beim Ziehen mit der Maus im Browser prüft das nicht. Benötigt wird Node.js 20 oder neuer; `tests/` gehört nicht zum Deployment.
 
 ## Token-Login für Apps
 
