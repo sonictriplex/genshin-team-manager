@@ -27,7 +27,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Die App lässt sich aus jedem Verzeichnis starten; Datenbank und Bilder werden relativ zum Projektordner gefunden.
+Die App lässt sich aus jedem Verzeichnis starten; Datenbank (`desktop/genshin_manager.db`) und Bilder (`shared/`) werden relativ zum Repo gefunden.
 
 ## Datenbank
 
@@ -35,13 +35,13 @@ Alle Daten liegen in `genshin_manager.db` im Projektordner. Die Datei ist **nich
 
 ### Stammdaten
 
-Die Stammdaten (Charaktere, Waffen, Artefaktsets) liegen versioniert in `data/stammdaten.json`. Beim Start legt die App fehlende Tabellen an und spielt die Stammdaten ein, wenn die Datenbank noch keine hat. Eine frische Kopie des Repos läuft also ohne weitere Schritte. Teams und Builds sind nicht darin enthalten, sie bleiben privat in der Datenbank.
+Die Stammdaten (Charaktere, Waffen, Artefaktsets) liegen versioniert in `shared/stammdaten.json`. Beim Start legt die App fehlende Tabellen an und spielt die Stammdaten ein, wenn die Datenbank noch keine hat. Eine frische Kopie des Repos läuft also ohne weitere Schritte. Teams und Builds sind nicht darin enthalten, sie bleiben privat in der Datenbank.
 
 Von Hand lassen sich die Stammdaten so verwalten:
 
 ```bash
 python seed.py import    # fehlende Einträge in die Datenbank einspielen (vorhandene bleiben unverändert)
-python seed.py export    # Stammdaten aus der Datenbank in data/stammdaten.json schreiben
+python seed.py export    # Stammdaten aus der Datenbank in shared/stammdaten.json schreiben
 ```
 
 Neue Charaktere oder Waffen trägt man also in die Datenbank ein und führt danach `python seed.py export` aus, damit sie auch im Repo landen. Alternativ ergänzt man sie direkt in der JSON-Datei und führt `python seed.py import` aus.
@@ -67,14 +67,13 @@ dialogs.py         Such- und Auswahldialoge für Charaktere und Waffen
 styles.py          Zentrales Qt-Stylesheet und Farbpalette
 manager.py         GenshinManager: Datenbankzugriff, Schema, Einspielen der Stammdaten
 seed.py            Import/Export der Stammdaten (python seed.py import|export)
-data/              stammdaten.json: Charaktere, Waffen und Artefaktsets
 models.py          Datenklassen (Character, Weapon, ArtifactSet) und Pfad-Hilfsfunktionen
-assets/images/     Icons der Charaktere und Waffen
+../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Icons)
 ```
 
 ## Icons
 
-Icons werden in `assets/images/` über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. Beispiele:
+Icons werden in `shared/assets/images/` über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. Beispiele:
 
 - `Kaedehara Kazuha` → `kaedehara_kazuha.png`
 - `Traveler (Dendro)` → `traveler.png`, sofern in der Datenbank kein eigener Pfad hinterlegt ist

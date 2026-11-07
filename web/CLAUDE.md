@@ -12,7 +12,7 @@ There is no build step, package manager, linter or test suite. The app is plain 
 
 **Frontend — `index.html`** (everything in one file): Tailwind via CDN (theme colors configured inline in `tailwind.config`), custom `GenshinFont` from `assets/zh-cn.ttf`, and one inline `<script>` holding all app logic. Key global state: `availableCharacters/Weapons/Artifacts` (master data), `savedTeams` (object keyed by team name), `currentTeamMembers` (array of `{character, saved}`), `activeDetailIndex`. Rendering is done by building HTML strings and assigning `innerHTML` — every DB/user value inserted that way must go through `escapeHtml()`. Clicks in the character/weapon picker tables use event delegation on `tr[data-name]` rather than inline `onclick` with names.
 
-- Absolute paths are assumed: `API_BASE = '/api'`, `IMAGE_BASE = '/assets/images'` — the app must be served from the web root.
+- Absolute paths are assumed: `API_BASE = '/api'`, `IMAGE_BASE = '/assets/images'` — the app must be served from the web root. In this monorepo `web/assets` is a symlink to `../shared/assets` (resolve it when deploying, e.g. `rsync -rL`).
 - Character/weapon icons are resolved by name in `getIconUrl()`: lowercase, spaces → `_`, apostrophes/quotes/hyphens stripped, anything from `(` on dropped, `.png` appended (e.g. "Hu Tao" → `hu_tao.png`). New images in `assets/images/` must follow this convention.
 - Artifact slots are German: `Blume, Feder, Sanduhr, Kelch, Krone`; substats come from `SUBSTAT_OPTIONS`. Placeholder select values start with `—` (e.g. `"— Keiner —"`).
 - Before saving, `syncActiveDetailStats()` pulls the open detail form into state and `normalizeMember()` guarantees `artifact_stats` is an object, never an array.

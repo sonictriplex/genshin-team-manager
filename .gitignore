@@ -1,0 +1,7 @@
+# Lokale Daten (enthalten persönliche Teams und Builds)
+desktop/genshin_manager.db
+genshin-team-manager.json
+desktop/genshin-team-manager.json
+
+# Altes Archiv (nur lokal)
+archive/

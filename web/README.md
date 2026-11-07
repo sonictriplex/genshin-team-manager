@@ -29,14 +29,12 @@ api/
   weapons.php       Waffenliste (GET)
   artifacts.php     Artefaktsets (GET)
   teams.php         Teams des Nutzers (GET / POST / DELETE)
-assets/
-  images/           Charakter- und Waffenbilder (<name>.png)
-  zh-cn.ttf         Schriftart
+assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart zh-cn.ttf)
 ```
 
 ## Einrichtung
 
-1. **Webserver mit PHP** (z. B. Apache oder nginx + PHP-FPM) mit der PDO-MySQL-Erweiterung. Das Projekt muss im **Web-Root** liegen, weil das Frontend absolute Pfade (`/api`, `/assets/images`) verwendet.
+1. **Webserver mit PHP** (z. B. Apache oder nginx + PHP-FPM) mit der PDO-MySQL-Erweiterung. Der Inhalt von `web/` muss im **Web-Root** liegen (beim Hochladen den Symlink `assets` auflösen, z. B. `rsync -rL web/ …`), weil das Frontend absolute Pfade (`/api`, `/assets/images`) verwendet.
 
 2. **Datenbank** anlegen. Ein SQL-Schema ist nicht im Repo enthalten; benötigt werden die Tabellen `users`, `characters`, `weapons`, `artifacts`, `teams`, `team_members` und `user_characters`. Die verwendeten Spalten sind aus den Abfragen in `api/*.php` ersichtlich. Wichtig sind die eindeutigen Schlüssel `teams (user_id, name)` und `user_characters (user_id, char_name)`.
 

@@ -1,4 +1,4 @@
-"""Stammdaten (Charaktere, Waffen, Artefaktsets) aus/in `data/stammdaten.json`.
+"""Stammdaten (Charaktere, Waffen, Artefaktsets) aus/in `shared/stammdaten.json`.
 
 Die Datenbank selbst liegt nicht im Repository. Damit eine neue, leere Datenbank trotzdem
 nutzbar ist, werden die Stammdaten aus der versionierten JSON-Datei eingespielt, und zwar
@@ -14,10 +14,10 @@ import json
 import os
 import sqlite3
 
-from models import BASE_DIR
+from models import BASE_DIR, SHARED_DIR
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
-SEED_PATH = os.path.join(BASE_DIR, "data", "stammdaten.json")
+SEED_PATH = os.path.join(SHARED_DIR, "stammdaten.json")
 
 # Tabelle -> Spalten, die exportiert/importiert werden (die id wird von SQLite vergeben)
 TABLES = {
@@ -69,7 +69,7 @@ def main():
     parser = argparse.ArgumentParser(description="Stammdaten importieren oder exportieren")
     parser.add_argument("action", choices=["import", "export"])
     parser.add_argument("--db", default=DB_PATH, help="Pfad zur Datenbank (Standard: genshin_manager.db)")
-    parser.add_argument("--file", default=SEED_PATH, help="Pfad zur JSON-Datei (Standard: data/stammdaten.json)")
+    parser.add_argument("--file", default=SEED_PATH, help="Pfad zur JSON-Datei (Standard: shared/stammdaten.json)")
     args = parser.parse_args()
 
     if args.action == "import":

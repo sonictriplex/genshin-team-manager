@@ -4,15 +4,17 @@ from typing import Optional
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-IMAGES_DIR = os.path.join(BASE_DIR, "assets", "images")
+# Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
+SHARED_DIR = os.path.join(os.path.dirname(BASE_DIR), "shared")
+IMAGES_DIR = os.path.join(SHARED_DIR, "assets", "images")
 
 # Standard-Talentstufen für Charaktere ohne gespeichertes Build (wie in der DB)
 DEFAULT_TALENTS = {"attack": 1, "skill": 1, "burst": 1}
 
 
 def resolve_path(path: str) -> str:
-    """Löst einen (in der DB relativ gespeicherten) Pfad gegen das Projektverzeichnis auf."""
-    return path if os.path.isabs(path) else os.path.join(BASE_DIR, path)
+    """Löst einen (in der DB relativ gespeicherten) Pfad gegen das gemeinsame Verzeichnis `shared/` auf."""
+    return path if os.path.isabs(path) else os.path.join(SHARED_DIR, path)
 
 
 def icon_path_for(name: str) -> str:
