@@ -4,7 +4,7 @@ Desktop-App zum Zusammenstellen von Genshin-Impact-Teams und zum Verwalten der C
 
 ## Funktionen
 
-- **Teams**: Teams mit bis zu 4 Charakteren anlegen, speichern, laden, umbenennen und löschen
+- **Teams**: Teams mit bis zu 4 Charakteren anlegen, speichern, laden, umbenennen und löschen; die Reihenfolge der Karten ändert man per Drag & Drop am Kopfbereich der Karte oder mit den Pfeilen ‹ ›
 - **Charakter-Builds**: pro Charakter Level, Sternbild (C0–C6), Waffe mit Level und Veredelung, zwei Artefaktsets und Talentstufen (A/E/Q)
 - **Artefakt-Detailwerte**: für Blume, Feder, Sanduhr, Kelch und Krone jeweils Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche**: Charaktere nach Region, Element und Seltenheit filtern, Waffen nach Typ und Seltenheit

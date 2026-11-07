@@ -555,6 +555,15 @@
                     <span class="text-5xl text-accent mb-3 font-bold">+</span>
                     <span class="text-sm text-[#8a889e] font-bold">Charakter hinzufügen</span>
                 `;
+                // Karte auf den freien Platz ziehen = ans Ende verschieben
+                addSlot.addEventListener('dragover', e => { if (dragSourceIndex < 0) return; e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+                addSlot.addEventListener('drop', e => {
+                    if (dragSourceIndex < 0) return;
+                    e.preventDefault();
+                    const from = dragSourceIndex;
+                    dragSourceIndex = -1;
+                    moveCharacterTo(from, currentTeamMembers.length - 1);
+                });
                 grid.appendChild(addSlot);
             }
         }
@@ -577,10 +586,14 @@
 
             card.innerHTML = `
                 <!-- 1/3 KOPFBEREICH (BILD & RARITÄT) -->
-                <div class="h-44 relative p-3 flex flex-col justify-between flex-shrink-0" style="${rarityGradient}">
+                <div class="h-44 relative p-3 flex flex-col justify-between flex-shrink-0 ${!isDetailMode ? 'cursor-grab' : ''}" style="${rarityGradient}" ${!isDetailMode ? 'draggable="true" data-drag-handle title="Ziehen, um die Karte zu verschieben"' : ''}>
                     <div class="flex justify-between items-center z-10">
                         <span class="bg-black/60 text-white font-bold px-2 py-0.5 rounded text-xs">${char.rarity || 4}★</span>
-                        ${!isDetailMode ? `<button onclick="removeCharacter(${index})" class="w-6 h-6 bg-black/60 hover:bg-danger text-white rounded-full flex items-center justify-center font-bold text-xs transition-colors">✕</button>` : ''}
+                        ${!isDetailMode ? `<div class="flex items-center gap-1">
+                            <button onclick="moveCharacter(${index}, -1)" ${index === 0 ? 'disabled' : ''} title="Nach links" class="w-6 h-6 bg-black/60 hover:bg-accent hover:text-darkBg text-white rounded-full flex items-center justify-center font-bold text-sm transition-colors disabled:opacity-30 disabled:cursor-default disabled:hover:bg-black/60 disabled:hover:text-white">‹</button>
+                            <button onclick="moveCharacter(${index}, 1)" ${index === currentTeamMembers.length - 1 ? 'disabled' : ''} title="Nach rechts" class="w-6 h-6 bg-black/60 hover:bg-accent hover:text-darkBg text-white rounded-full flex items-center justify-center font-bold text-sm transition-colors disabled:opacity-30 disabled:cursor-default disabled:hover:bg-black/60 disabled:hover:text-white">›</button>
+                            <button onclick="removeCharacter(${index})" title="Entfernen" class="w-6 h-6 bg-black/60 hover:bg-danger text-white rounded-full flex items-center justify-center font-bold text-xs transition-colors">✕</button>
+                        </div>` : ''}
                     </div>
                     <img src="${escapeHtml(getIconUrl(char.name))}" onerror="this.src=''" alt="${escapeHtml(char.name)}" class="h-32 w-32 object-contain mx-auto my-auto drop-shadow-lg">
                 </div>
@@ -671,6 +684,7 @@
                 </div>
             `;
 
+            if (!isDetailMode) setupCardDragAndDrop(card, index);
             return card;
         }
 
@@ -683,6 +697,64 @@
             if (!currentTeamMembers[index].saved) currentTeamMembers[index].saved = {};
             if (!currentTeamMembers[index].saved.talents) currentTeamMembers[index].saved.talents = {};
             currentTeamMembers[index].saved.talents[talentProp] = parseInt(val) || 1;
+        }
+
+        // --- Karten verschieben (Pfeile und Drag & Drop) ---
+
+        // Index der gerade gezogenen Karte, sonst -1 (so werden fremde Drags wie Dateien ignoriert)
+        let dragSourceIndex = -1;
+
+        // Verschiebt ein Teammitglied an eine neue Position; die Reihenfolge wird beim Speichern übernommen
+        function moveCharacterTo(from, to) {
+            const n = currentTeamMembers.length;
+            if (from === to || from < 0 || to < 0 || from >= n || to >= n) return;
+            const [item] = currentTeamMembers.splice(from, 1);
+            currentTeamMembers.splice(to, 0, item);
+            renderOverview();
+        }
+
+        function moveCharacter(index, direction) {
+            moveCharacterTo(index, index + direction);
+        }
+
+        function clearDropMarks() {
+            document.querySelectorAll('#overviewView .ring-2').forEach(el => el.classList.remove('ring-2', 'ring-accent'));
+        }
+
+        // Karten lassen sich am Kopfbereich ziehen (nicht an den Eingabefeldern, damit Text markierbar bleibt)
+        function setupCardDragAndDrop(card, index) {
+            const handle = card.querySelector('[data-drag-handle]');
+            if (!handle) return;
+
+            handle.addEventListener('dragstart', e => {
+                dragSourceIndex = index;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', String(index));
+                if (e.dataTransfer.setDragImage) e.dataTransfer.setDragImage(card, 135, 40);
+                card.classList.add('opacity-50');
+            });
+            handle.addEventListener('dragend', () => {
+                dragSourceIndex = -1;
+                card.classList.remove('opacity-50');
+                clearDropMarks();
+            });
+
+            card.addEventListener('dragover', e => {
+                if (dragSourceIndex < 0) return;
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (index !== dragSourceIndex) card.classList.add('ring-2', 'ring-accent');
+            });
+            card.addEventListener('dragleave', e => {
+                if (!card.contains(e.relatedTarget)) card.classList.remove('ring-2', 'ring-accent');
+            });
+            card.addEventListener('drop', e => {
+                if (dragSourceIndex < 0) return;
+                e.preventDefault();
+                const from = dragSourceIndex;
+                dragSourceIndex = -1;
+                moveCharacterTo(from, index);
+            });
         }
 
         function removeCharacter(index) {

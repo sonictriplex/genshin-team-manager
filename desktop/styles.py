@@ -133,6 +133,13 @@ QPushButton#closeButton {{
 }}
 QPushButton#closeButton:hover {{ background-color: {DANGER}; }}
 
+QPushButton#moveButton {{
+    background-color: rgba(0, 0, 0, 0.6); color: {TEXT};
+    border-radius: 11px; font-size: 14px; font-weight: bold; padding: 0px;
+}}
+QPushButton#moveButton:hover {{ background-color: {ACCENT}; color: {BG_INPUT}; }}
+QPushButton#moveButton:disabled {{ background-color: rgba(0, 0, 0, 0.3); color: {TEXT_MUTED}; }}
+
 QLabel#cardName {{ font-size: 15px; color: {TEXT}; }}
 QLabel#cardSubInfo {{ font-size: 11px; color: #7a788e; }}
 QLabel#sectionTitle {{ color: {GOLD}; font-size: 11px; font-weight: bold; margin-top: 4px; }}

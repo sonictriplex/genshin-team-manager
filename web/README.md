@@ -5,7 +5,7 @@ Web-App zum Zusammenstellen von Genshin-Impact-Teams und Verwalten der Charakter
 ## Funktionen
 
 - Registrierung und Login (Session-basiert)
-- Teams mit bis zu 4 Charakteren anlegen, speichern und löschen
+- Teams mit bis zu 4 Charakteren anlegen, speichern und löschen; die Karten lassen sich per Drag & Drop am Kopfbereich oder mit den Pfeilen ‹ › umsortieren
 - Pro Charakter: Level, Konstellation, Talente, Waffe (Level, Raffinierung), Artefaktsets (4er oder 2×2er) und die Substats aller 5 Artefakte (Blume, Feder, Sanduhr, Kelch, Krone)
 - Suchbare Auswahllisten für Charaktere und Waffen
 

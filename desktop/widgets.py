@@ -3,16 +3,16 @@ from dataclasses import dataclass
 from typing import Optional
 
 from PySide6.QtWidgets import (
-    QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
+    QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
     QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy
 )
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt, Signal, QMimeData, QPoint
+from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor
 
 from models import Character, ArtifactSet, DEFAULT_TALENTS
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
-from styles import element_badge_style, set_selected, tint_style
+from styles import element_badge_style, set_selected, tint_style, ACCENT
 
 
 # --- Hilfsfunktionen ---
@@ -137,13 +137,95 @@ class AddCharacterSlotWidget(QFrame):
 
 # --- Charakterkarte ---
 
+# MIME-Typ beim Ziehen einer Karte; die Nutzdaten sind der Charaktername (innerhalb eines Teams eindeutig)
+CARD_MIME = "application/x-genshin-team-card"
+CARD_HEADER_HEIGHT = 140
+
+
+class CardDropArea(QWidget):
+    """Übersicht der Teamkarten: nimmt eine gezogene Karte an und meldet ihre neue Position.
+
+    Die Zielposition ergibt sich aus der Zahl der anderen Karten, deren Mitte links vom Loslassen liegt.
+    Beim Ziehen zeigt eine Linie, wo die Karte eingefügt wird.
+    """
+    card_dropped = Signal(str, int)   # Charaktername, neuer Index
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAcceptDrops(True)
+        self._indicator_x: Optional[int] = None
+
+    def _other_cards(self, name: str) -> list:
+        """Die Karten im Layout (ohne die gezogene). Nur das Layout zählt: entfernte Karten, die noch auf
+        deleteLater() warten, sind zwar noch Kindobjekte, aber nicht mehr Teil des Teams."""
+        layout = self.layout()
+        widgets = (layout.itemAt(i).widget() for i in range(layout.count())) if layout else ()
+        return [w for w in widgets if isinstance(w, CharacterCardWidget) and w.character.name != name]
+
+    def target_index(self, name: str, x: int) -> int:
+        return sum(1 for c in self._other_cards(name) if c.geometry().center().x() < x)
+
+    def _indicator_for(self, name: str, x: int) -> Optional[int]:
+        cards = sorted(self._other_cards(name), key=lambda c: c.geometry().x())
+        if not cards:
+            return None
+        index = self.target_index(name, x)
+        if index < len(cards):
+            return cards[index].geometry().left() - 6
+        return cards[-1].geometry().right() + 6
+
+    @staticmethod
+    def _name_of(event) -> Optional[str]:
+        mime = event.mimeData()
+        if not mime.hasFormat(CARD_MIME):
+            return None
+        return bytes(mime.data(CARD_MIME).data()).decode("utf-8")
+
+    def dragEnterEvent(self, event):
+        if self._name_of(event) is not None:
+            event.acceptProposedAction()
+        else:
+            event.ignore()
+
+    def dragMoveEvent(self, event):
+        name = self._name_of(event)
+        if name is None:
+            event.ignore()
+            return
+        event.acceptProposedAction()
+        self._indicator_x = self._indicator_for(name, event.position().toPoint().x())
+        self.update()
+
+    def dragLeaveEvent(self, event):
+        self._indicator_x = None
+        self.update()
+
+    def dropEvent(self, event):
+        name = self._name_of(event)
+        self._indicator_x = None
+        self.update()
+        if name is None:
+            event.ignore()
+            return
+        event.acceptProposedAction()
+        self.card_dropped.emit(name, self.target_index(name, event.position().toPoint().x()))
+
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        if self._indicator_x is not None:
+            painter = QPainter(self)
+            painter.fillRect(self._indicator_x - 2, 10, 4, self.height() - 20, QColor(ACCENT))
+
+
 class CharacterCardWidget(QFrame):
     """Charakterkarte mit Level, Sternbildern, Waffe, Artefakten und Talenten."""
     close_requested = Signal(object)
     toggle_detail_requested = Signal(object, bool)
+    move_requested = Signal(object, int)   # Karte, Richtung (-1 = nach links, +1 = nach rechts)
 
     def __init__(self, character: Character, manager: GenshinManager, saved_data: dict = None, parent=None):
         super().__init__(parent)
+        self._drag_start: Optional[QPoint] = None
         self.character = character
         self.manager = manager
         self.saved_data = saved_data or {}
@@ -180,7 +262,9 @@ class CharacterCardWidget(QFrame):
         header_frame = QFrame()
         header_frame.setObjectName("cardHeader")
         header_frame.setProperty("rarity", str(self.character.rarity))
-        header_frame.setFixedHeight(140)
+        header_frame.setFixedHeight(CARD_HEADER_HEIGHT)
+        header_frame.setCursor(Qt.OpenHandCursor)
+        header_frame.setToolTip("Ziehen, um die Karte zu verschieben")
 
         header_layout = QVBoxLayout(header_frame)
         header_layout.setContentsMargins(8, 8, 8, 8)
@@ -198,8 +282,13 @@ class CharacterCardWidget(QFrame):
         close_btn.setCursor(Qt.PointingHandCursor)
         close_btn.clicked.connect(lambda: self.close_requested.emit(self))
 
+        self.move_left_btn = self._move_button("‹", "Nach links", -1)
+        self.move_right_btn = self._move_button("›", "Nach rechts", 1)
+
         top_bar.addWidget(rarity_badge)
         top_bar.addStretch()
+        top_bar.addWidget(self.move_left_btn)
+        top_bar.addWidget(self.move_right_btn)
         top_bar.addWidget(close_btn)
         header_layout.addLayout(top_bar)
 
@@ -213,6 +302,50 @@ class CharacterCardWidget(QFrame):
             img_label.setText(f"[ {self.character.name} ]")
         header_layout.addWidget(img_label)
         return header_frame
+
+    def _move_button(self, text: str, tooltip: str, direction: int) -> QPushButton:
+        button = QPushButton(text)
+        button.setObjectName("moveButton")
+        button.setFixedSize(22, 22)
+        button.setToolTip(tooltip)
+        button.setCursor(Qt.PointingHandCursor)
+        button.clicked.connect(lambda: self.move_requested.emit(self, direction))
+        return button
+
+    def set_move_enabled(self, left: bool, right: bool):
+        """Schaltet die Pfeile an den Rändern des Teams ab."""
+        self.move_left_btn.setEnabled(left)
+        self.move_right_btn.setEnabled(right)
+
+    # --- Karte per Drag & Drop verschieben (am Kopfbereich anfassen) ---
+
+    def mousePressEvent(self, event):
+        in_header = event.position().y() < CARD_HEADER_HEIGHT
+        if event.button() == Qt.LeftButton and in_header and not self.is_detail_open:
+            self._drag_start = event.position().toPoint()
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if (self._drag_start is not None and event.buttons() & Qt.LeftButton
+                and (event.position().toPoint() - self._drag_start).manhattanLength() >= QApplication.startDragDistance()):
+            self.start_drag()
+            return
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        self._drag_start = None
+        super().mouseReleaseEvent(event)
+
+    def start_drag(self):
+        self._drag_start = None
+        mime = QMimeData()
+        mime.setData(CARD_MIME, self.character.name.encode("utf-8"))
+        drag = QDrag(self)
+        drag.setMimeData(mime)
+        preview = self.grab().scaledToWidth(max(1, self.width() // 2), Qt.SmoothTransformation)
+        drag.setPixmap(preview)
+        drag.setHotSpot(QPoint(preview.width() // 2, 20))
+        drag.exec(Qt.MoveAction)
 
     def _build_info(self, layout: QVBoxLayout):
         name_elem_box = QHBoxLayout()

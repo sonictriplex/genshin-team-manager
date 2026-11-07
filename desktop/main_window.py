@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
 
 from manager import GenshinManager, DatabaseError
 from dialogs import CharacterSearchDialog
-from widgets import CharacterCardWidget, AddCharacterSlotWidget, ArtifactPanel, normalize_build, show_db_error
+from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, ArtifactPanel, normalize_build, show_db_error
 
 MAX_TEAM_SIZE = 4
 CARD_MIN_WIDTH = 230
@@ -38,7 +38,8 @@ class MainWindow(QMainWindow):
         # Seite 1: Teamübersicht, Seite 2: Karte + Artefakt-Detailpanel
         self.stack = QStackedWidget()
 
-        self.team_overview_widget = QWidget()
+        self.team_overview_widget = CardDropArea()
+        self.team_overview_widget.card_dropped.connect(self.on_card_dropped)
         self.cards_layout = QHBoxLayout(self.team_overview_widget)
         self.cards_layout.setContentsMargins(15, 10, 15, 10)
         self.cards_layout.setSpacing(12)
@@ -235,8 +236,13 @@ class MainWindow(QMainWindow):
             card.setMaximumWidth(CARD_MAX_WIDTH)
             card.close_requested.connect(self.remove_character)
             card.toggle_detail_requested.connect(self.handle_toggle_detail)
+            card.move_requested.connect(self.on_move_requested)
             self.cards_layout.addWidget(card, stretch=1)
             self.current_team_cards.append(card)
+
+        last = len(self.current_team_cards) - 1
+        for i, card in enumerate(self.current_team_cards):
+            card.set_move_enabled(i > 0, i < last)
 
         if len(self.current_team_cards) < MAX_TEAM_SIZE:
             add_slot = AddCharacterSlotWidget()
@@ -268,6 +274,25 @@ class MainWindow(QMainWindow):
         card.is_detail_open = False
         card.toggle_stats_btn.setText("+")
         self.stack.setCurrentWidget(self.team_overview_widget)
+
+    def move_card(self, from_index: int, to_index: int):
+        """Verschiebt eine Karte im Team. Eingaben der Karten bleiben erhalten; gespeichert wird per Speichern."""
+        count = len(self.current_team_cards)
+        if from_index == to_index or not (0 <= from_index < count and 0 <= to_index < count):
+            return
+        team_data = self.current_team_data()
+        team_data.insert(to_index, team_data.pop(from_index))
+        self.render_team_cards(team_data)
+
+    def on_move_requested(self, card: CharacterCardWidget, direction: int):
+        if card in self.current_team_cards:
+            index = self.current_team_cards.index(card)
+            self.move_card(index, index + direction)
+
+    def on_card_dropped(self, name: str, target_index: int):
+        names = [c.character.name for c in self.current_team_cards]
+        if name in names:
+            self.move_card(names.index(name), target_index)
 
     def remove_character(self, card: CharacterCardWidget):
         if card in self.current_team_cards:
