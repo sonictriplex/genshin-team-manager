@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -57,19 +57,19 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(data.teams, key = { it.name }) { team ->
-                        Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)) {
-                            Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        AppCard {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(team.name, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                                    Text(team.name, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.weight(1f))
                                     TextButton(onClick = { onEditTeam(team.name) }) { Text("Bearbeiten") }
                                     TextButton(onClick = { deleting = team.name }) { Text("Löschen") }
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     team.members.forEach { member ->
-                                        NameIcon(
-                                            member, vm.stammdaten, 64.dp,
-                                            Modifier.clickable { onOpenCharacter(member) },
-                                        )
+                                        Column(Modifier.width(64.dp).clickable { onOpenCharacter(member) }, horizontalAlignment = Alignment.CenterHorizontally) {
+                                            NameIcon(member, vm.stammdaten, 64.dp)
+                                            Text(member, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                        }
                                     }
                                 }
                             }

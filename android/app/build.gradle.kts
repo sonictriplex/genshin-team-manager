@@ -30,7 +30,7 @@ android {
     // Unter assets/ liegen sie dann wie im Repo: assets/images/<name>.png, stammdaten.json
     sourceSets["main"].assets.directories.add("../../shared")
     // Spezifikation und Testdaten gehören nicht in die APK
-    androidResources.ignoreAssetsPatterns.addAll(listOf("!testdata", "!*.md", "!*.schema.json", "!*.ttf"))
+    androidResources.ignoreAssetsPatterns.addAll(listOf("!testdata", "!*.md", "!*.schema.json"))
 
     testOptions {
         unitTests.all {

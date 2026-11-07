@@ -1,6 +1,8 @@
 package de.sonictriplex.genshinteams.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.data.MAX_TEAM_NAME
 import de.sonictriplex.genshinteams.data.MAX_TEAM_SIZE
 import de.sonictriplex.genshinteams.data.Team
+import de.sonictriplex.genshinteams.data.moved
 import de.sonictriplex.genshinteams.data.validateTeamName
 
 /** Neues Team anlegen ([originalName] = null) oder ein vorhandenes bearbeiten. */
@@ -49,9 +52,21 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
             originalName?.let { n -> vm.userData?.teams?.firstOrNull { it.name == n }?.let { list.addAll(it.members) } }
         }
     }
+    val initialName = originalName.orEmpty()
+    val initialMembers = remember { members.toList() }
+    val dirty = name.trim() != initialName || members.toList() != initialMembers
+    var confirmDiscard by remember { mutableStateOf(false) }
+    val leave = { if (dirty) confirmDiscard = true else onDone() }
+    BackHandler(enabled = dirty && !vm.saving) { leave() }
     var nameError by remember { mutableStateOf<String?>(null) }
     var pickingSlot by remember { mutableStateOf<Int?>(null) }
     LaunchedEffect(Unit) { vm.dismissError() }
+
+    fun move(from: Int, to: Int) {
+        val reordered = members.toList().moved(from, to)
+        members.clear()
+        members.addAll(reordered)
+    }
 
     fun save() {
         val existing = vm.userData?.teams.orEmpty().map { it.name }
@@ -63,7 +78,7 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
         topBar = {
             TopAppBar(
                 title = { Text(if (originalName == null) "Neues Team" else "Team bearbeiten") },
-                navigationIcon = { TextButton(onClick = onDone, enabled = !vm.saving) { Text("Abbrechen") } },
+                navigationIcon = { TextButton(onClick = leave, enabled = !vm.saving) { Text("Abbrechen") } },
                 actions = {
                     TextButton(onClick = ::save, enabled = !vm.saving) {
                         if (vm.saving) CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp) else Text("Speichern")
@@ -77,6 +92,7 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             vm.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            if (confirmDiscard) DiscardDialog(onConfirm = { confirmDiscard = false; onDone() }, onDismiss = { confirmDiscard = false })
             OutlinedTextField(
                 name, { name = it.take(MAX_TEAM_NAME); nameError = null },
                 label = { Text("Teamname") }, singleLine = true, isError = nameError != null,
@@ -91,13 +107,17 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
                         if (member != null) {
                             NameIcon(member, vm.stammdaten, 72.dp, Modifier.clickable { pickingSlot = slot })
                             Text(member, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Row {
+                                MoveButton("‹", enabled = slot > 0) { move(slot, slot - 1) }
+                                MoveButton("›", enabled = slot < members.size - 1) { move(slot, slot + 1) }
+                            }
                         } else {
                             EmptySlot { pickingSlot = members.size }
                         }
                     }
                 }
             }
-            Text("Tippe auf einen Charakter, um ihn zu ersetzen oder zu entfernen.", style = MaterialTheme.typography.bodySmall)
+            Text("Tippe auf einen Charakter, um ihn zu ersetzen oder zu entfernen. Mit ‹ und › änderst du die Reihenfolge.", style = MaterialTheme.typography.bodySmall)
         }
     }
 
@@ -124,6 +144,13 @@ fun EditTeamScreen(vm: AppViewModel, originalName: String?, onDone: () -> Unit) 
             },
             onDismiss = { pickingSlot = null },
         )
+    }
+}
+
+@Composable
+private fun MoveButton(label: String, enabled: Boolean, onClick: () -> Unit) {
+    TextButton(onClick, enabled = enabled, modifier = Modifier.size(width = 36.dp, height = 40.dp), contentPadding = PaddingValues(0.dp)) {
+        Text(label, style = MaterialTheme.typography.headlineSmall)
     }
 }
 

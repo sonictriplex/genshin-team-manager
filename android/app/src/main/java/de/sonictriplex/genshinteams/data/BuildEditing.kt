@@ -65,6 +65,12 @@ fun importPayload(builds: List<Build> = emptyList(), teams: List<Team> = emptyLi
     ImportRequest("merge", ExchangeFile(EXCHANGE_FORMAT, EXCHANGE_VERSION, builds = builds, teams = teams)),
 )
 
+/** Verschiebt das Element an Position [from] nach [to] (z. B. um die Reihenfolge im Team zu ändern). */
+fun <T> List<T>.moved(from: Int, to: Int): List<T> {
+    if (from !in indices || to !in indices || from == to) return this
+    return toMutableList().apply { add(to, removeAt(from)) }
+}
+
 const val MAX_TEAM_SIZE = 4
 const val MAX_TEAM_NAME = 255
 

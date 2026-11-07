@@ -114,3 +114,16 @@ class TeamEditingTest {
         assertTrue(validateTeamName("x".repeat(256), existing, null)!!.contains("lang"))
     }
 }
+
+class MoveTest {
+    @Test
+    fun verschiebenAendertNurDieReihenfolge() {
+        val team = listOf("A", "B", "C", "D")
+        assertEquals(listOf("B", "A", "C", "D"), team.moved(0, 1))
+        assertEquals(listOf("A", "B", "D", "C"), team.moved(3, 2))
+        assertEquals(listOf("D", "A", "B", "C"), team.moved(3, 0))
+        assertEquals(team, team.moved(0, -1))   // außerhalb: unverändert
+        assertEquals(team, team.moved(2, 4))
+        assertEquals(team, team.moved(1, 1))
+    }
+}

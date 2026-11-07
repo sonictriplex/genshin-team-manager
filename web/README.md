@@ -63,6 +63,21 @@ Clients ohne Cookies (z. B. die Android-App) melden sich über `POST api/auth.ph
 
 Voraussetzung: der Webserver muss den `Authorization`-Header an PHP durchreichen. Bei Apache mit CGI/FPM fehlt er oft; dort hilft in der `.htaccess` die Zeile `SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1`. Bei nginx + PHP-FPM wird er normalerweise durchgereicht.
 
+## Lokal gegen echtes MariaDB testen
+
+Ohne eigenen MySQL-Server lässt sich die API mit Podman prüfen (Port 3306 muss frei sein; `db.php` kennt keinen anderen):
+
+```sh
+podman run -d --name gtm-mariadb -e MARIADB_ROOT_PASSWORD=testroot -e MARIADB_DATABASE=genshin-manager \
+  -p 127.0.0.1:3306:3306 docker.io/library/mariadb:lts
+podman exec -i gtm-mariadb mariadb -uroot -ptestroot genshin-manager < web/schema.sql
+# Stammdaten aus ../shared/stammdaten.json in characters/weapons/artifacts einspielen, dann:
+cd web && DB_HOST=127.0.0.1 DB_NAME=genshin-manager DB_USER=root DB_PASS=testroot \
+  php -d extension=pdo_mysql -S 127.0.0.1:8000
+```
+
+Der Emulator erreicht den Rechner unter `http://10.0.2.2:8000`. Aufräumen: `podman rm -f gtm-mariadb`. Auf Arch Linux ist `pdo_mysql` installiert, aber in der `php.ini` deaktiviert, daher der Parameter `-d extension=pdo_mysql`.
+
 ## Bilder
 
 Bilder werden anhand des Namens gefunden: Kleinbuchstaben, Leerzeichen werden zu `_`, Apostrophe und Bindestriche fallen weg, alles ab `(` wird ignoriert. Beispiel: „Hu Tao“ → `assets/images/hu_tao.png`.

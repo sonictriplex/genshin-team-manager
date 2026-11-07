@@ -78,6 +78,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun logout() {
         viewModelScope.launch {
             busy = true
+            error = null
             try { api().logout() } finally { clearSession(); busy = false }
         }
     }

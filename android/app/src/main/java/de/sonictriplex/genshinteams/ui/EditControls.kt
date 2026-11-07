@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -67,6 +68,18 @@ fun Dropdown(selected: String, options: List<String>, onSelect: (String) -> Unit
             }
         }
     }
+}
+
+/** Rückfrage beim Verlassen mit ungespeicherten Änderungen. */
+@Composable
+fun DiscardDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Änderungen verwerfen?") },
+        text = { Text("Deine Änderungen wurden noch nicht gespeichert.") },
+        confirmButton = { TextButton(onClick = onConfirm) { Text("Verwerfen") } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Weiter bearbeiten") } },
+    )
 }
 
 /** Eintrag einer Suchliste; [withIcon] zeigt das Bild aus den Assets an. */

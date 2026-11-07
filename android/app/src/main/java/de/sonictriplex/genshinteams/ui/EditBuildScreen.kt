@@ -1,5 +1,6 @@
 package de.sonictriplex.genshinteams.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -41,16 +40,19 @@ import de.sonictriplex.genshinteams.data.withSubstat
 @Composable
 fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
     val character = vm.stammdaten.character(name)
-    var build by remember {
-        mutableStateOf((vm.userData?.builds?.firstOrNull { it.name == name } ?: Build(name = name)).normalized())
-    }
+    val initial = remember { (vm.userData?.builds?.firstOrNull { it.name == name } ?: Build(name = name)).normalized() }
+    var build by remember { mutableStateOf(initial) }
+    val dirty = build != initial
+    var confirmDiscard by remember { mutableStateOf(false) }
+    val leave = { if (dirty) confirmDiscard = true else onDone() }
+    BackHandler(enabled = dirty && !vm.saving) { leave() }
     LaunchedEffect(Unit) { vm.dismissError() }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("$name bearbeiten") },
-                navigationIcon = { TextButton(onClick = onDone, enabled = !vm.saving) { Text("Abbrechen") } },
+                navigationIcon = { TextButton(onClick = leave, enabled = !vm.saving) { Text("Abbrechen") } },
                 actions = {
                     TextButton(onClick = { vm.saveBuild(build, onSaved = onDone) }, enabled = !vm.saving) {
                         if (vm.saving) CircularProgressIndicator(Modifier.padding(2.dp), strokeWidth = 2.dp) else Text("Speichern")
@@ -64,6 +66,7 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             vm.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+            if (confirmDiscard) DiscardDialog(onConfirm = { confirmDiscard = false; onDone() }, onDismiss = { confirmDiscard = false })
 
             Card("Charakter") {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -173,9 +176,9 @@ private fun Label(text: String) = Text(text, style = MaterialTheme.typography.la
 
 @Composable
 private fun Card(title: String, content: @Composable () -> Unit) {
-    androidx.compose.material3.Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)) {
-        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+    AppCard {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.tertiary)
             content()
         }
     }
