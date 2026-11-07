@@ -48,7 +48,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
     Scaffold(
         topBar = {
             AppTopBar(
-                title = "Teams",
+                title = "Team & Build Manager",
                 actions = {
                     IconButton(onClick = vm::refresh, enabled = !vm.busy) {
                         Icon(Icons.Filled.Refresh, contentDescription = "Neu laden")
