@@ -280,6 +280,7 @@
         let savedTeams = {};
 
         let currentTeamMembers = [];
+        let loadedTeamName = "";      // Name des zuletzt geöffneten, gespeicherten Teams (für das Umbenennen)
         let activeDetailIndex = -1;
         let activeWeaponTargetIndex = -1;
 
@@ -455,6 +456,7 @@
 
         function createNewTeam() {
             activeDetailIndex = -1;
+            loadedTeamName = "";
             document.getElementById('teamNameInput').value = "Neues Team";
             document.getElementById('teamsSelect').value = "";
             currentTeamMembers = [];
@@ -533,6 +535,7 @@
 
         function onTeamSelected(teamName) {
             if (!teamName || !savedTeams[teamName]) return;
+            loadedTeamName = teamName;
             document.getElementById('teamNameInput').value = teamName;
             document.getElementById('teamsSelect').value = teamName;
 
@@ -1022,6 +1025,17 @@
             const name = document.getElementById('teamNameInput').value.trim();
             if (!name) return alert("Bitte Teamnamen eingeben!");
 
+            // Wurde der Name eines geöffneten Teams geändert: umbenennen oder als neues Team speichern?
+            let renameFrom = "";
+            if (loadedTeamName && loadedTeamName !== name && savedTeams[loadedTeamName]) {
+                if (confirm(`Der Name wurde von „${loadedTeamName}“ zu „${name}“ geändert.\n\nOK: Team umbenennen\nAbbrechen: weitere Auswahl`)) {
+                    if (savedTeams[name] && !confirm(`Ein Team „${name}“ gibt es schon. Es würde überschrieben.\n\nTrotzdem umbenennen?`)) return;
+                    renameFrom = loadedTeamName;
+                } else if (!confirm(`Stattdessen als neues Team „${name}“ speichern?\nDas Team „${loadedTeamName}“ bleibt unverändert.\n\nOK: als neues Team speichern\nAbbrechen: nichts speichern`)) {
+                    return;
+                }
+            }
+
             // 1. Sichere bestehende Detail-Formularwerte in den Speicher
             if (activeDetailIndex >= 0) {
                 syncActiveDetailStats();
@@ -1045,7 +1059,12 @@
                 });
 
                 const data = await res.json();
-                alert(data.message || data.error || "Team erfolgreich gespeichert!");
+
+                // Umbenennen: erst nach erfolgreichem Speichern das Team unter dem alten Namen entfernen
+                if (renameFrom && res.ok) {
+                    await fetch(`${API_BASE}/teams.php?name=${encodeURIComponent(renameFrom)}`, { method: 'DELETE' });
+                }
+                alert(renameFrom && res.ok ? `Team „${renameFrom}“ wurde in „${name}“ umbenannt.` : (data.message || data.error || "Team erfolgreich gespeichert!"));
 
                 // 2. Teamdaten neu aus dem Backend laden
                 await loadInitialData(name);

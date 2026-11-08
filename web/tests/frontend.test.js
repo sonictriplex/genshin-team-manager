@@ -22,9 +22,13 @@ const NAMES = ['Furina', 'Nilou', 'Barbara', 'Collei'];
 const CHARACTERS = NAMES.map(n => STAMMDATEN.characters.find(c => c.name === n));
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-/** Lädt die Seite mit einem Team aus Furina, Nilou und Barbara (in dieser Reihenfolge). */
-async function loadPage({ loggedIn = true } = {}) {
+/**
+ * Lädt die Seite mit einem Team "Test" aus Furina, Nilou und Barbara (in dieser Reihenfolge).
+ * Die Seite startet mit der Übersicht aller Teams; `openTeam` öffnet das Team danach wie ein Klick auf seine Karte.
+ */
+async function loadPage({ loggedIn = true, openTeam = true } = {}) {
     const posted = [];
+    const deleted = [];
     const routes = {
         'auth.php?action=status': loggedIn ? { logged_in: true, username: 'tester', user_id: 1 } : { logged_in: false },
         'characters.php': CHARACTERS,
@@ -40,6 +44,10 @@ async function loadPage({ loggedIn = true } = {}) {
             window.tailwind = {};
             window.alert = () => {};
             window.fetch = async (url, options = {}) => {
+                if (options.method === 'DELETE') {
+                    deleted.push(decodeURIComponent(String(url).split('name=')[1]));
+                    return { ok: true, json: async () => ({ message: 'gelöscht' }) };
+                }
                 if (options.method === 'POST') {
                     posted.push({ url: String(url), body: JSON.parse(options.body) });
                     return { ok: true, json: async () => ({ message: 'ok' }) };
@@ -53,6 +61,7 @@ async function loadPage({ loggedIn = true } = {}) {
 
     const w = dom.window;
     const d = w.document;
+    if (loggedIn && openTeam) w.onTeamSelected('Test');
     const cards = () => [...d.querySelectorAll('#overviewView [data-drag-handle]')].map(h => h.parentElement);
     const handles = () => [...d.querySelectorAll('#overviewView [data-drag-handle]')];
     const order = () => cards().map(c => c.querySelector('span.truncate').textContent);
@@ -67,7 +76,7 @@ async function loadPage({ loggedIn = true } = {}) {
         target.dispatchEvent(event);
         return event;
     }
-    return { w, d, posted, cards, handles, order, freeSlot, button, drag };
+    return { w, d, posted, deleted, cards, handles, order, freeSlot, button, drag };
 }
 
 /** Jsdom-Klick, der wie im Browser bis zum document sprudelt. */
@@ -160,14 +169,17 @@ test('Speichern sendet die neue Reihenfolge', async () => {
 
 // --- Kopfzeile mit Benutzermenü (Export, Import, Logout) ---
 
-test('Benutzermenü ist nach der Anmeldung sichtbar und zeigt den Namen; der alte Footer ist weg', async () => {
+test('Benutzermenü ist nach der Anmeldung sichtbar und zeigt den Namen; der Footer zeigt nur das Logo', async () => {
     const p = await loadPage();
     const menu = p.d.getElementById('userMenu');
     assert.equal(menu.classList.contains('hidden'), false);
     assert.equal(p.d.getElementById('userInfo').textContent, 'tester');
     assert.match(p.d.getElementById('userMenuName').textContent, /tester/);
     assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, 'zunächst zu');
-    assert.equal(p.d.querySelector('footer'), null);
+    const footer = p.d.querySelector('footer');
+    assert.ok(footer, 'Footer mit Logo');
+    assert.equal(footer.textContent.trim(), '', 'nur das Logo, keine Nutzerangaben');
+    assert.match(footer.querySelector('img').getAttribute('src'), /mm_logo\.png$/);
 });
 
 test('Ohne Anmeldung bleibt das Benutzermenü verborgen und die Anmeldung erscheint', async () => {
@@ -221,8 +233,11 @@ test('Team-Steuerung: Name, Speichern, Neues Team, Auswahl und Löschen sind vor
     assert.ok(p.d.getElementById('teamsSelect'));
     const labels = [...p.d.querySelectorAll('button')].map(b => (b.getAttribute('aria-label') || b.textContent).trim());
     assert.ok(labels.includes('Speichern'));
-    assert.ok(labels.some(l => l.includes('Neues Team')));
     assert.ok(labels.includes('Team löschen'));
+    const menu = [...p.d.querySelectorAll('#userMenuList [role=menuitem]')].map(b => b.textContent.trim());
+    assert.ok(menu.includes('Alle Teams') && menu.includes('Neues Team'), 'Alle Teams und Neues Team stehen im Menü');
+    const outside = [...p.d.querySelectorAll('button')].filter(b => !b.closest('#userMenuList')).map(b => b.textContent.trim());
+    assert.ok(!outside.includes('Alle Teams') && !outside.some(l => l.includes('Neues Team')), 'keine Knöpfe mehr in der Leiste');
     assert.equal(p.d.getElementById('teamsSelect').value, 'Test', 'das geladene Team ist ausgewählt');
 });
 
@@ -246,4 +261,57 @@ test('Anmeldefehler vom Server, auch 429 bei zu vielen Versuchen, erscheinen im 
     await p.w.handleAuthSubmit(form);
     assert.match(error.textContent || error.innerText, /Zu viele Anmeldeversuche.*12 Minuten/);
     assert.equal(error.classList.contains('hidden'), false);
+});
+
+// --- Übersicht aller Teams und Umbenennen ---
+
+test('Der Start zeigt die Übersicht aller Teams; ein Klick auf die Karte öffnet das Team', async () => {
+    const p = await loadPage({ openTeam: false });
+    assert.equal(p.d.getElementById('allTeamsView').classList.contains('hidden'), false);
+    assert.equal(p.d.getElementById('overviewView').classList.contains('hidden'), true);
+    const cards = [...p.d.querySelectorAll('#allTeamsView > div')];
+    assert.equal(cards.length, 1);
+    assert.match(cards[0].textContent, /Test/);
+    assert.equal(cards[0].querySelectorAll('img').length, 3);
+    click(p.w, cards[0]);
+    assert.equal(p.d.getElementById('allTeamsView').classList.contains('hidden'), true);
+    assert.deepEqual(p.order(), ['Furina', 'Nilou', 'Barbara']);
+});
+
+test('Umbenennen: neu speichern, danach das alte Team löschen', async () => {
+    const p = await loadPage();
+    p.w.confirm = () => true;
+    p.d.getElementById('teamNameInput').value = 'Neu';
+    await p.w.saveCurrentTeam();
+    assert.equal(p.posted.at(-1).body.name, 'Neu');
+    assert.deepEqual(p.deleted, ['Test']);
+});
+
+test('Namen ändern und "Als neues Team": das alte Team bleibt', async () => {
+    const p = await loadPage();
+    const answers = [false, true];       // erst "Umbenennen" ablehnen, dann "als neues Team" bestätigen
+    p.w.confirm = () => answers.shift();
+    p.d.getElementById('teamNameInput').value = 'Kopie';
+    await p.w.saveCurrentTeam();
+    assert.equal(p.posted.at(-1).body.name, 'Kopie');
+    assert.deepEqual(p.deleted, []);
+});
+
+test('Namen ändern und alles abbrechen: nichts wird gespeichert', async () => {
+    const p = await loadPage();
+    p.w.confirm = () => false;
+    p.d.getElementById('teamNameInput').value = 'Egal';
+    await p.w.saveCurrentTeam();
+    assert.equal(p.posted.length, 0);
+    assert.deepEqual(p.deleted, []);
+});
+
+test('Ohne Namensänderung wird nicht gefragt und nichts gelöscht', async () => {
+    const p = await loadPage();
+    let asked = false;
+    p.w.confirm = () => { asked = true; return true; };
+    await p.w.saveCurrentTeam();
+    assert.equal(asked, false);
+    assert.equal(p.posted.at(-1).body.name, 'Test');
+    assert.deepEqual(p.deleted, []);
 });
