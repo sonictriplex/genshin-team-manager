@@ -54,7 +54,7 @@ php -S localhost:8000
 
 **Android**
 
-Die fertige APK steht bei den [Releases](../../releases). Zum Selbstbauen den Ordner `android/` in Android Studio öffnen oder `./gradlew :app:assembleDebug` ausführen. Die App braucht eine erreichbare Web-Version als Server.
+Eine fertige APK wird nicht verteilt, die App baut man selbst: den Ordner `android/` in Android Studio öffnen oder `./gradlew :app:assembleDebug` ausführen (Details in [android/README.md](android/README.md)). Die App braucht eine erreichbare Web-Version als Server.
 
 ## Wie die Teile zusammenhängen
 
@@ -112,11 +112,11 @@ Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/
 
 - **Web-Version hochladen:** `deploy/deploy.sh --dry-run` zeigt, was sich ändern würde, `deploy/deploy.sh` lädt es per FTPS hoch (Zugangsdaten in `deploy/deploy.local.env`, Vorlage: `deploy/deploy.example.env`; Anleitung in [deploy/README.md](deploy/README.md)). Das Skript lädt nur Geändertes hoch, sichert vorher die überschriebenen Dateien und fasst `api/db.php` sowie `api/config.local.php` nie an.
 - **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen); jede Migration einmal ausführen.
-- **Android-Release:** Signieren und Bauen beschreibt [android/README.md](android/README.md). Die fertige APK hängt am GitHub-Release.
+- **Android-Release:** Signieren und Bauen beschreibt [android/README.md](android/README.md). Eine fertige APK wird nicht veröffentlicht.
 
 ## Änderungsverlauf
 
-Siehe [CHANGELOG.md](CHANGELOG.md) und die [Releases](../../releases) der Android-App.
+Siehe [CHANGELOG.md](CHANGELOG.md).
 
 ## Persönliche Daten
 

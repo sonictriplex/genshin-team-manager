@@ -1,6 +1,9 @@
 # Änderungsverlauf
 
-Die Android-App wird als GitHub-Release mit APK veröffentlicht (Tags `v1.x.y`); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Die ausführlichen Release-Notizen stehen bei den [Releases](../../releases).
+Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
+
+## Android 1.2.2 (08.11.2026)
+- App-Icon zeigt Lan Yan
 
 ## Android 1.2.1 (07.11.2026)
 - Überschrift der Teamliste: „Team & Build Manager“
