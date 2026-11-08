@@ -1,5 +1,18 @@
 package de.sonictriplex.genshinteams.ui
 
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -32,7 +45,7 @@ private val GenshinColors = darkColorScheme(
     onPrimaryContainer = Palette.BgInput,
     secondary = Palette.Accent,
     tertiary = Palette.Gold,
-    background = Palette.BgWindow,
+    background = Color.Transparent,             // Scaffolds zeigen das Hintergrundbild (siehe AppBackground)
     onBackground = Palette.Text,
     surface = Palette.BgPanel,
     onSurface = Palette.Text,
@@ -78,4 +91,31 @@ fun rarityColor(rarity: Int): Color = when (rarity) {
     4 -> Palette.Epic
     3 -> Color(0xFF5B8FD9)
     else -> Color(0xFF8A889E)
+}
+
+/**
+ * Vollbild-Hintergrund wie in der Web-Version (shared/assets/images/genshin-impact.jpg, zugeschnitten wie
+ * `background-size: cover`), mit dunkler Abdeckung für die Lesbarkeit. Vor dem Laden bleibt es einfarbig.
+ */
+@Composable
+fun AppBackground(content: @Composable () -> Unit) {
+    val context = LocalContext.current
+    val image by produceState<ImageBitmap?>(null) {
+        value = withContext(Dispatchers.IO) {
+            try {
+                // Das Bild ist 2752×1536 px; auf Handygröße verkleinert laden spart Speicher
+                val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
+                context.assets.open("assets/images/genshin-impact.jpg").use { BitmapFactory.decodeStream(it, null, opts) }?.asImageBitmap()
+            } catch (_: java.io.IOException) {
+                null
+            }
+        }
+    }
+    Box(Modifier.fillMaxSize().background(Palette.BgWindow)) {
+        image?.let {
+            Image(it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+            Box(Modifier.fillMaxSize().background(Palette.BgWindow.copy(alpha = 0.45f)))
+        }
+        content()
+    }
 }

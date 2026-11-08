@@ -4,6 +4,7 @@ Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst g
 
 ## Android 1.2.2 (08.11.2026)
 - App-Icon zeigt Lan Yan
+- Hintergrundbild wie in der Web-Version
 
 ## Android 1.2.1 (07.11.2026)
 - Überschrift der Teamliste: „Team & Build Manager“

@@ -4,11 +4,11 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import android.graphics.Color
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
+import de.sonictriplex.genshinteams.ui.AppBackground
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,12 +31,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Die App ist immer dunkel: helle Symbole in den Systemleisten, unabhängig vom Systemmodus
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
-            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
         )
         setContent {
             GenshinTheme {
-                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) { App() }
+                AppBackground {
+                    Surface(Modifier.fillMaxSize(), color = Color.Transparent) { App() }
+                }
             }
         }
     }
