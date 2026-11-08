@@ -135,6 +135,9 @@ class AddCharacterSlotWidget(QFrame):
             self.clicked.emit()
 
 
+TEAM_SIZE = 4
+
+
 class TeamSummaryCard(QFrame):
     """Karte in der Übersicht aller Teams: Teamname und die Icons der Charaktere. Ein Klick öffnet das Team."""
     clicked = Signal(str)
@@ -151,31 +154,53 @@ class TeamSummaryCard(QFrame):
         title.setObjectName("teamCardTitle")
         layout.addWidget(title)
 
-        row = QHBoxLayout()
-        row.setSpacing(8)
-        for char in members:
-            col = QVBoxLayout()
-            col.setSpacing(2)
+        # Vier gleich breite Plätze füllen die Kartenbreite; die Icons sind quadratisch und wachsen mit der Karte
+        self._icons: list[tuple[QLabel, Optional[QPixmap]]] = []
+        self._names: list[tuple[QLabel, str]] = []
+        row = QGridLayout()
+        row.setSpacing(10)
+        for i in range(TEAM_SIZE):
+            row.setColumnStretch(i, 1)
+        for i, char in enumerate(members[:TEAM_SIZE]):
             icon = QLabel()
-            icon.setFixedSize(64, 64)
             icon.setAlignment(Qt.AlignCenter)
             border = "#d89f53" if char.rarity == 5 else "#a561c9"
             icon.setStyleSheet(f"border: 2px solid {border}; border-radius: 8px; background-color: #12101b;")
-            if char.icon_path and os.path.exists(char.icon_path):
-                icon.setPixmap(QPixmap(char.icon_path).scaled(60, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-            col.addWidget(icon)
+            pixmap = QPixmap(char.icon_path) if char.icon_path and os.path.exists(char.icon_path) else None
+            self._icons.append((icon, pixmap))
+            row.addWidget(icon, 0, i, Qt.AlignHCenter)
             label = QLabel(char.name)
             label.setObjectName("teamCardMember")
             label.setAlignment(Qt.AlignCenter)
-            label.setFixedWidth(64)
+            label.setMinimumWidth(10)
             label.setToolTip(char.name)
-            label.setText(label.fontMetrics().elidedText(char.name, Qt.ElideRight, 64))
-            col.addWidget(label)
-            row.addLayout(col)
+            self._names.append((label, char.name))
+            row.addWidget(label, 1, i)
         if not members:
-            row.addWidget(muted("Keine Charaktere"))
-        row.addStretch(1)
+            row.addWidget(muted("Keine Charaktere"), 0, 0, 1, TEAM_SIZE)
         layout.addLayout(row)
+        layout.addStretch(1)      # Inhalt oben, falls die Karte höher ist (gleiche Zeilenhöhe wie die Nachbarkarte)
+        # Die Breite bestimmt allein die Übersicht (gleich breite Spalten); die Icons richten sich danach
+        self.setMinimumWidth(0)
+        self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Preferred)
+        self._fit_icons()
+
+    def _fit_icons(self):
+        """Icongröße an die Kartenbreite anpassen (vier Plätze, quadratisch)."""
+        layout = self.layout()
+        margins = layout.contentsMargins()
+        spacing = 10
+        side = max(48, (self.width() - margins.left() - margins.right() - spacing * (TEAM_SIZE - 1)) // TEAM_SIZE)
+        for icon, pixmap in self._icons:
+            icon.setFixedSize(side, side)
+            if pixmap is not None:
+                icon.setPixmap(pixmap.scaled(side - 4, side - 4, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        for label, name in self._names:
+            label.setText(label.fontMetrics().elidedText(name, Qt.ElideRight, side))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._fit_icons()
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:

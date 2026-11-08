@@ -623,14 +623,14 @@
                     const c = m.character || {};
                     const border = c.rarity == 5 ? '#d89f53' : '#a561c9';
                     const cname = c.name || '';
-                    return `<div class="w-16 text-center flex-shrink-0">
-                        <img src="${escapeHtml(getIconUrl(cname))}" alt="" loading="lazy" class="w-16 h-16 rounded-lg object-cover bg-inputBg" style="border: 2px solid ${border}">
-                        <div class="text-[11px] text-gray-200 truncate mt-1" title="${escapeHtml(cname)}">${escapeHtml(cname)}</div>
+                    return `<div class="min-w-0 text-center">
+                        <img src="${escapeHtml(getIconUrl(cname))}" alt="" loading="lazy" class="w-full aspect-square rounded-lg object-cover bg-inputBg" style="border: 2px solid ${border}">
+                        <div class="text-xs text-gray-200 truncate mt-1" title="${escapeHtml(cname)}">${escapeHtml(cname)}</div>
                     </div>`;
                 }).join('');
                 card.innerHTML = `
                     <h3 class="genshin-title font-bold text-gold mb-3 truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</h3>
-                    <div class="flex gap-2">${members || '<span class="text-sm text-gray-400">Keine Charaktere</span>'}</div>`;
+                    <div class="grid grid-cols-4 gap-3">${members || '<span class="col-span-4 text-sm text-gray-400">Keine Charaktere</span>'}</div>`;
                 grid.appendChild(card);
             });
         }
