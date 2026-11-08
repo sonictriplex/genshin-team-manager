@@ -2,7 +2,7 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
-## Android 1.2.2 (08.11.2026)
+## Android 1.3.0 (08.11.2026)
 - App-Icon zeigt Lan Yan
 - Hintergrundbild wie in der Web-Version
 
