@@ -485,7 +485,7 @@ class MainWindow(QMainWindow):
         names = list(self.manager.saved_teams)
         if not names:
             self.all_teams_grid.addWidget(QLabel("Noch keine Teams. Lege mit „+ Neues Team“ das erste an."), 0, 0)
-        columns = 3
+        columns = 2
         for i, name in enumerate(names):
             members = []
             for entry in self.manager.saved_teams[name]:
