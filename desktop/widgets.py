@@ -135,6 +135,53 @@ class AddCharacterSlotWidget(QFrame):
             self.clicked.emit()
 
 
+class TeamSummaryCard(QFrame):
+    """Karte in der Übersicht aller Teams: Teamname und die Icons der Charaktere. Ein Klick öffnet das Team."""
+    clicked = Signal(str)
+
+    def __init__(self, name: str, members: list[Character], parent=None):
+        super().__init__(parent)
+        self.team_name = name
+        self.setObjectName("teamCard")
+        self.setCursor(Qt.PointingHandCursor)
+        self.setToolTip("Team öffnen")
+
+        layout = QVBoxLayout(self)
+        title = QLabel(name)
+        title.setObjectName("teamCardTitle")
+        layout.addWidget(title)
+
+        row = QHBoxLayout()
+        row.setSpacing(8)
+        for char in members:
+            col = QVBoxLayout()
+            col.setSpacing(2)
+            icon = QLabel()
+            icon.setFixedSize(64, 64)
+            icon.setAlignment(Qt.AlignCenter)
+            border = "#d89f53" if char.rarity == 5 else "#a561c9"
+            icon.setStyleSheet(f"border: 2px solid {border}; border-radius: 8px; background-color: #12101b;")
+            if char.icon_path and os.path.exists(char.icon_path):
+                icon.setPixmap(QPixmap(char.icon_path).scaled(60, 60, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            col.addWidget(icon)
+            label = QLabel(char.name)
+            label.setObjectName("teamCardMember")
+            label.setAlignment(Qt.AlignCenter)
+            label.setFixedWidth(64)
+            label.setToolTip(char.name)
+            label.setText(label.fontMetrics().elidedText(char.name, Qt.ElideRight, 64))
+            col.addWidget(label)
+            row.addLayout(col)
+        if not members:
+            row.addWidget(muted("Keine Charaktere"))
+        row.addStretch(1)
+        layout.addLayout(row)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit(self.team_name)
+
+
 # --- Charakterkarte ---
 
 # MIME-Typ beim Ziehen einer Karte; die Nutzdaten sind der Charaktername (innerhalb eines Teams eindeutig)

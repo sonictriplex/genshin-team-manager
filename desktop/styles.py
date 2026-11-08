@@ -73,6 +73,15 @@ QPushButton#secondaryButton {{
 }}
 QPushButton#secondaryButton:hover {{ background-color: {BG_HOVER}; }}
 
+/* ---------- Übersicht aller Teams ---------- */
+QScrollArea#allTeamsScroll, QWidget#allTeamsContent {{ background-color: {BG_WINDOW}; }}
+QFrame#teamCard {{
+    background-color: {BG_PANEL}; border: 1px solid {BORDER}; border-radius: 10px;
+}}
+QFrame#teamCard:hover {{ border-color: {ACCENT}; }}
+QLabel#teamCardTitle {{ color: {GOLD}; font-size: 15px; font-weight: bold; background: transparent; }}
+QLabel#teamCardMember {{ color: {TEXT_SOFT}; font-size: 11px; background: transparent; }}
+
 /* ---------- Suchdialoge ---------- */
 QDialog QLineEdit, QDialog QComboBox {{ padding: 5px; font-size: 12px; }}
 QDialog QPushButton {{ border-radius: 4px; }}

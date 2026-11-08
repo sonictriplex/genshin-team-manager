@@ -5,13 +5,13 @@ from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog, QSizePolicy
+    QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog, QSizePolicy, QScrollArea, QGridLayout
 )
 
 from manager import GenshinManager, DatabaseError
 from models import BASE_DIR
 from dialogs import CharacterSearchDialog
-from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, ArtifactPanel, normalize_build, show_db_error
+from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, TeamSummaryCard, ArtifactPanel, normalize_build, show_db_error
 
 MAX_TEAM_SIZE = 4
 CARD_MIN_WIDTH = 230
@@ -53,8 +53,21 @@ class MainWindow(QMainWindow):
         self.detail_layout.setContentsMargins(15, 10, 15, 10)
         self.detail_layout.setSpacing(15)
 
+        # Seite 3: Übersicht aller Teams (Knopf "Alle Teams")
+        self.all_teams_scroll = QScrollArea()
+        self.all_teams_scroll.setWidgetResizable(True)
+        self.all_teams_scroll.setFrameShape(QScrollArea.NoFrame)
+        self.all_teams_scroll.setObjectName("allTeamsScroll")
+        self.all_teams_content = QWidget()
+        self.all_teams_content.setObjectName("allTeamsContent")
+        self.all_teams_grid = QGridLayout(self.all_teams_content)
+        self.all_teams_grid.setContentsMargins(15, 10, 15, 10)
+        self.all_teams_grid.setSpacing(12)
+        self.all_teams_scroll.setWidget(self.all_teams_content)
+
         self.stack.addWidget(self.team_overview_widget)
         self.stack.addWidget(self.detail_widget)
+        self.stack.addWidget(self.all_teams_scroll)
         main_layout.addWidget(self.stack)
 
         self.update_teams_dropdown()
@@ -155,6 +168,12 @@ class MainWindow(QMainWindow):
 
         header.addSpacing(20)
         header.addStretch(1)
+
+        all_btn = QPushButton("Alle Teams")
+        all_btn.setObjectName("secondaryButton")
+        all_btn.setToolTip("Zeigt alle Teams auf einen Blick")
+        all_btn.clicked.connect(self.show_all_teams)
+        header.addWidget(all_btn)
 
         header.addWidget(QLabel("<b style='color: #e1e1e6;'>Teams:</b>"))
         self.teams_combo = QComboBox()
@@ -455,6 +474,39 @@ class MainWindow(QMainWindow):
                 "saved": user_builds.get(char_name, {"name": char_name}),
             })
         self.render_team_cards(team_data)
+
+    def show_all_teams(self):
+        """Übersicht aller gespeicherten Teams; ein Klick auf ein Team öffnet es (mit Rückfrage bei ungespeicherten Änderungen)."""
+        while self.all_teams_grid.count():
+            widget = self.all_teams_grid.takeAt(0).widget()
+            if widget:
+                widget.deleteLater()
+
+        names = list(self.manager.saved_teams)
+        if not names:
+            self.all_teams_grid.addWidget(QLabel("Noch keine Teams. Lege mit „+ Neues Team“ das erste an."), 0, 0)
+        columns = 3
+        for i, name in enumerate(names):
+            members = []
+            for entry in self.manager.saved_teams[name]:
+                char_name = entry.get("name", "") if isinstance(entry, dict) else entry
+                members.append(self.manager.get_character_by_name(char_name))
+            card = TeamSummaryCard(name, members)
+            card.clicked.connect(self.open_team_from_overview)
+            self.all_teams_grid.addWidget(card, i // columns, i % columns)
+        for c in range(columns):
+            self.all_teams_grid.setColumnStretch(c, 1)
+        self.all_teams_grid.setRowStretch(len(names) // columns + 1, 1)
+        self.stack.setCurrentWidget(self.all_teams_scroll)
+
+    def open_team_from_overview(self, name: str):
+        idx = self.teams_combo.findText(name)
+        if idx < 0:
+            return
+        self.teams_combo.blockSignals(True)
+        self.teams_combo.setCurrentIndex(idx)
+        self.teams_combo.blockSignals(False)
+        self.on_team_selected(idx)
 
     def delete_current_team(self):
         team_name = self.teams_combo.currentText()

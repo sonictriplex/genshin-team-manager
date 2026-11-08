@@ -101,6 +101,7 @@
         </div>
 
         <div class="flex items-center gap-2 flex-1 min-w-[17rem]">
+            <button onclick="showAllTeams()" class="whitespace-nowrap bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-accent/60 font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md flex-shrink-0" title="Zeigt alle Teams auf einen Blick">Alle Teams</button>
             <select id="teamsSelect" onchange="onTeamSelected(this.value)" aria-label="Gespeicherte Teams"
                 class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none min-w-0 flex-1">
                 <option value="">— Team wählen —</option>
@@ -114,6 +115,9 @@
 
     <!-- MAIN STACK CONTAINER -->
     <main class="flex-1 flex flex-col items-center w-full">
+
+        <!-- ÜBERSICHT ALLER TEAMS (Button "Alle Teams") -->
+        <div id="allTeamsView" class="hidden w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
 
         <!-- TEAM OVERVIEW -->
         <div id="overviewView" class="flex flex-wrap justify-center gap-6 w-full max-w-7xl">
@@ -558,6 +562,7 @@
                 syncActiveDetailStats();
             }
 
+            document.getElementById('allTeamsView').classList.add('hidden');
             document.getElementById('overviewView').classList.remove('hidden');
             document.getElementById('detailView').classList.add('hidden');
             activeDetailIndex = -1;
@@ -588,6 +593,46 @@
                 });
                 grid.appendChild(addSlot);
             }
+        }
+
+        // Übersicht aller gespeicherten Teams: je Team eine Karte mit den Icons der Charaktere (Klick öffnet das Team)
+        function showAllTeams() {
+            if (activeDetailIndex >= 0) syncActiveDetailStats();
+            activeDetailIndex = -1;
+            document.getElementById('overviewView').classList.add('hidden');
+            document.getElementById('detailView').classList.add('hidden');
+            const grid = document.getElementById('allTeamsView');
+            grid.classList.remove('hidden');
+            grid.innerHTML = '';
+
+            const names = Object.keys(savedTeams || {});
+            if (names.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-300">Noch keine Teams. Lege mit „Neues Team“ das erste an.</p>';
+                return;
+            }
+            names.forEach(name => {
+                const card = document.createElement('div');
+                card.className = "bg-cardBg/85 backdrop-blur-md border border-[#332d47] hover:border-accent rounded-xl p-4 cursor-pointer transition-colors shadow-2xl";
+                card.tabIndex = 0;
+                card.setAttribute('role', 'button');
+                card.title = 'Team öffnen';
+                card.onclick = () => onTeamSelected(name);
+                card.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTeamSelected(name); } };
+
+                const members = (savedTeams[name] || []).map(m => {
+                    const c = m.character || {};
+                    const border = c.rarity == 5 ? '#d89f53' : '#a561c9';
+                    const cname = c.name || '';
+                    return `<div class="w-16 text-center flex-shrink-0">
+                        <img src="${escapeHtml(getIconUrl(cname))}" alt="" loading="lazy" class="w-16 h-16 rounded-lg object-cover bg-inputBg" style="border: 2px solid ${border}">
+                        <div class="text-[11px] text-gray-200 truncate mt-1" title="${escapeHtml(cname)}">${escapeHtml(cname)}</div>
+                    </div>`;
+                }).join('');
+                card.innerHTML = `
+                    <h3 class="genshin-title font-bold text-gold mb-3 truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</h3>
+                    <div class="flex gap-2">${members || '<span class="text-sm text-gray-400">Keine Charaktere</span>'}</div>`;
+                grid.appendChild(card);
+            });
         }
 
         function createCharacterCard(item, index, isDetailMode) {

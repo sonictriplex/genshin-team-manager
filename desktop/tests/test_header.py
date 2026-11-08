@@ -98,6 +98,28 @@ class HeaderTest(unittest.TestCase):
         self.delete_button().click()
         self.assertNotIn("Zu loeschen", self.manager.saved_teams)
 
+    def test_alle_teams_zeigt_eine_karte_je_team_und_oeffnet_das_angeklickte(self):
+        from widgets import TeamSummaryCard
+        self.save_team("Erstes", ("Furina",))
+        self.window.new_team()      # sonst fragt das Speichern unter anderem Namen nach dem Umbenennen
+        self.save_team("Zweites", ("Furina", "Nilou"))
+        self.button("Alle Teams").click()
+        app.processEvents()
+        self.assertIs(self.window.stack.currentWidget(), self.window.all_teams_scroll)
+        cards = self.window.all_teams_content.findChildren(TeamSummaryCard)
+        self.assertEqual(sorted(c.team_name for c in cards), ["Erstes", "Zweites"])
+
+        next(c for c in cards if c.team_name == "Zweites").clicked.emit("Zweites")
+        app.processEvents()
+        self.assertIs(self.window.stack.currentWidget(), self.window.team_overview_widget)
+        self.assertEqual(self.window.team_name_input.text(), "Zweites")
+        self.assertEqual(self.window.teams_combo.currentText(), "Zweites")
+        self.assertEqual(len(self.window.current_team_cards), 2)
+
+    def test_alle_teams_ohne_teams_zeigt_hinweis(self):
+        self.button("Alle Teams").click()
+        self.assertIs(self.window.stack.currentWidget(), self.window.all_teams_scroll)
+
     def test_datei_menue_hat_export_und_import(self):
         menus = {a.text(): a.menu() for a in self.window.menuBar().actions()}
         self.assertIn("Datei", menus)
