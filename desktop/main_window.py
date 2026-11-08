@@ -53,7 +53,7 @@ class MainWindow(QMainWindow):
         self.detail_layout.setContentsMargins(15, 10, 15, 10)
         self.detail_layout.setSpacing(15)
 
-        # Seite 3: Übersicht aller Teams (Knopf "Alle Teams")
+        # Seite 3: Übersicht aller Teams (Menü "Datei → Alle Teams")
         self.all_teams_scroll = QScrollArea()
         self.all_teams_scroll.setWidgetResizable(True)
         self.all_teams_scroll.setFrameShape(QScrollArea.NoFrame)
@@ -78,14 +78,16 @@ class MainWindow(QMainWindow):
                 "Beim Laden der Datenbank sind Fehler aufgetreten:\n\n" + "\n".join(self.manager.load_errors)
             )
 
+        # Beim Start zuerst alle Teams zeigen; ohne Teams ein leeres Team zum Anlegen
+        self.render_team_cards([])
         if self.manager.saved_teams:
-            first_team = next(iter(self.manager.saved_teams))
-            self.teams_combo.setCurrentText(first_team)
-        else:
-            self.render_team_cards([])
+            self.show_all_teams()
 
     def _build_menu(self):
         menu = self.menuBar().addMenu("Datei")
+        menu.addAction("Alle Teams", self.show_all_teams)
+        menu.addAction("Neues Team", self.new_team)
+        menu.addSeparator()
         menu.addAction("Exportieren…", self.export_data)
         menu.addAction("Importieren…", self.import_data)
 
@@ -140,7 +142,7 @@ class MainWindow(QMainWindow):
         QMessageBox.information(self, "Importiert", text)
 
     def _build_header(self) -> QHBoxLayout:
-        """Werkzeugleiste: links Name, Speichern, Neues Team, rechts Teamauswahl und Löschen.
+        """Werkzeugleiste: links Name und Speichern, rechts Teamauswahl und Löschen.
 
         Wie in der Web- und Android-Version: kurze Beschriftungen, Felder passen sich der Breite an, Löschen ist ein
         Symbolknopf. Datei-Funktionen (Exportieren, Importieren) stehen im Menü "Datei" der Menüleiste.
@@ -160,20 +162,8 @@ class MainWindow(QMainWindow):
         save_btn.clicked.connect(self.save_current_team)
         header.addWidget(save_btn)
 
-        new_btn = QPushButton("+ Neues Team")
-        new_btn.setObjectName("secondaryButton")
-        new_btn.setToolTip("Beginnt ein leeres Team")
-        new_btn.clicked.connect(self.new_team)
-        header.addWidget(new_btn)
-
         header.addSpacing(20)
         header.addStretch(1)
-
-        all_btn = QPushButton("Alle Teams")
-        all_btn.setObjectName("secondaryButton")
-        all_btn.setToolTip("Zeigt alle Teams auf einen Blick")
-        all_btn.clicked.connect(self.show_all_teams)
-        header.addWidget(all_btn)
 
         header.addWidget(QLabel("<b style='color: #e1e1e6;'>Teams:</b>"))
         self.teams_combo = QComboBox()
@@ -484,7 +474,7 @@ class MainWindow(QMainWindow):
 
         names = list(self.manager.saved_teams)
         if not names:
-            self.all_teams_grid.addWidget(QLabel("Noch keine Teams. Lege mit „+ Neues Team“ das erste an."), 0, 0)
+            self.all_teams_grid.addWidget(QLabel("Noch keine Teams. Lege über „Datei → Neues Team“ das erste an."), 0, 0)
         columns = 2
         for i, name in enumerate(names):
             members = []

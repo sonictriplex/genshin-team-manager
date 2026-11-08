@@ -78,6 +78,10 @@
             </button>
             <div id="userMenuList" role="menu" class="hidden absolute right-0 mt-2 w-52 bg-[#1a1825] border border-[#332d47] rounded-lg shadow-2xl z-40 py-1 text-sm">
                 <div id="userMenuName" class="px-4 py-2 text-xs text-gray-400 border-b border-white/10 truncate"></div>
+                <button type="button" role="menuitem" onclick="closeUserMenu(); showAllTeams()" title="Zeigt alle Teams auf einen Blick"
+                    class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors">Alle Teams</button>
+                <button type="button" role="menuitem" onclick="closeUserMenu(); createNewTeam()" title="Beginnt ein leeres Team"
+                    class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors border-b border-white/10">Neues Team</button>
                 <button type="button" role="menuitem" onclick="closeUserMenu(); exportData()" title="Speichert alle Builds und Teams als JSON-Datei (kompatibel mit der Desktop-Version)"
                     class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors">Exportieren</button>
                 <button type="button" role="menuitem" onclick="closeUserMenu(); document.getElementById('importFile').click()" title="Liest Builds und Teams aus einer JSON-Datei der Web- oder Desktop-Version ein"
@@ -95,13 +99,9 @@
             <input type="text" id="teamNameInput" value="Neues Team" placeholder="Teamname" aria-label="Teamname"
                 class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none flex-1 min-w-[8rem]">
             <button onclick="saveCurrentTeam()" class="whitespace-nowrap bg-accent hover:bg-accentHover text-darkBg font-bold text-sm px-4 py-1.5 rounded-md transition-colors shadow-md">Speichern</button>
-            <button onclick="createNewTeam()" class="whitespace-nowrap bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-accent/60 font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md flex items-center gap-1.5" title="Erstellt ein leeres Team">
-                <span aria-hidden="true">+</span> Neues Team
-            </button>
         </div>
 
         <div class="flex items-center gap-2 flex-1 min-w-[17rem]">
-            <button onclick="showAllTeams()" class="whitespace-nowrap bg-[#2d293e] hover:bg-[#3d3752] text-accent border border-accent/60 font-bold text-sm px-3 py-1.5 rounded-md transition-colors shadow-md flex-shrink-0" title="Zeigt alle Teams auf einen Blick">Alle Teams</button>
             <select id="teamsSelect" onchange="onTeamSelected(this.value)" aria-label="Gespeicherte Teams"
                 class="bg-inputBg text-white px-3 py-1.5 rounded-md border border-[#332d47] text-sm focus:border-accent outline-none min-w-0 flex-1">
                 <option value="">— Team wählen —</option>
@@ -433,14 +433,16 @@
                 savedTeams = await fetchSafe(`${API_BASE}/teams.php`, {});
 
                 const teamNames = Object.keys(savedTeams);
-                const targetTeam = preferredTeam || (teamNames.length > 0 ? teamNames[0] : "");
+                // Nach dem Start (und nach Löschen/Import) erst alle Teams zeigen; nach dem Speichern bleibt das Team offen
+                const targetTeam = preferredTeam && savedTeams[preferredTeam] ? preferredTeam : "";
 
                 updateTeamsDropdown(targetTeam);
 
-                if (targetTeam && savedTeams[targetTeam]) {
+                if (targetTeam) {
                     onTeamSelected(targetTeam);
                 } else {
                     createNewTeam();
+                    if (teamNames.length > 0) showAllTeams();
                 }
             } catch (err) {
                 console.error("Fehler beim Laden der Stammdaten:", err);
@@ -607,7 +609,7 @@
 
             const names = Object.keys(savedTeams || {});
             if (names.length === 0) {
-                grid.innerHTML = '<p class="col-span-full text-center text-gray-300">Noch keine Teams. Lege mit „Neues Team“ das erste an.</p>';
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-300">Noch keine Teams. Lege über das Benutzermenü „Neues Team“ das erste an.</p>';
                 return;
             }
             names.forEach(name => {

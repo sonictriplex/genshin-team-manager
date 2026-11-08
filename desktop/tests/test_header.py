@@ -51,6 +51,10 @@ class HeaderTest(unittest.TestCase):
     def button(self, text):
         return next(b for b in self.window.findChildren(QPushButton) if b.text() == text)
 
+    def menu_action(self, text):
+        file_menu = next(a.menu() for a in self.window.menuBar().actions() if a.text() == "Datei")
+        return next(a for a in file_menu.actions() if a.text() == text)
+
     def delete_button(self):
         return next(b for b in self.window.findChildren(QPushButton) if b.accessibleName() == "Team löschen")
 
@@ -64,7 +68,6 @@ class HeaderTest(unittest.TestCase):
     def test_vorhandene_bedienelemente_mit_kurzen_beschriftungen(self):
         self.assertEqual(self.window.team_name_input.placeholderText(), "Teamname")
         self.button("Speichern")
-        self.button("+ Neues Team")
         self.assertEqual(self.window.team_name_input.text(), "Neues Team")
 
     def test_loeschen_ist_ein_symbolknopf_mit_tooltip(self):
@@ -103,7 +106,7 @@ class HeaderTest(unittest.TestCase):
         self.save_team("Erstes", ("Furina",))
         self.window.new_team()      # sonst fragt das Speichern unter anderem Namen nach dem Umbenennen
         self.save_team("Zweites", ("Furina", "Nilou"))
-        self.button("Alle Teams").click()
+        self.menu_action("Alle Teams").trigger()
         app.processEvents()
         self.assertIs(self.window.stack.currentWidget(), self.window.all_teams_scroll)
         cards = self.window.all_teams_content.findChildren(TeamSummaryCard)
@@ -117,13 +120,19 @@ class HeaderTest(unittest.TestCase):
         self.assertEqual(len(self.window.current_team_cards), 2)
 
     def test_alle_teams_ohne_teams_zeigt_hinweis(self):
-        self.button("Alle Teams").click()
+        self.menu_action("Alle Teams").trigger()
         self.assertIs(self.window.stack.currentWidget(), self.window.all_teams_scroll)
+
+    def test_start_mit_vorhandenen_teams_zeigt_alle_teams(self):
+        self.save_team("Startteam")
+        window = MainWindow(self.manager)      # neues Fenster mit denselben Daten, wie ein Neustart
+        self.addCleanup(window.close)
+        self.assertIs(window.stack.currentWidget(), window.all_teams_scroll)
 
     def test_datei_menue_hat_export_und_import(self):
         menus = {a.text(): a.menu() for a in self.window.menuBar().actions()}
         self.assertIn("Datei", menus)
-        self.assertEqual([a.text() for a in menus["Datei"].actions()], ["Exportieren…", "Importieren…"])
+        self.assertEqual([a.text() for a in menus["Datei"].actions()], ["Alle Teams", "Neues Team", "", "Exportieren…", "Importieren…"])
 
 
 if __name__ == "__main__":
