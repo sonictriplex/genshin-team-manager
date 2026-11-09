@@ -1200,10 +1200,18 @@
                 return;
             }
 
-            currentTeamMembers.push({
-                character: charObj,
-                saved: { name: charName, level: 90, constellation: 0, artifact_stats: {} }
-            });
+            // Builds gelten pro Nutzer und Charakter: vorhandenen Build aus einem gespeicherten Team übernehmen
+            let saved = null;
+            for (const members of Object.values(savedTeams || {})) {
+                const found = (members || []).find(m => m.character?.name === charName && m.saved);
+                if (found) {
+                    saved = JSON.parse(JSON.stringify(found.saved));
+                    break;
+                }
+            }
+            if (!saved) saved = { name: charName, level: 90, constellation: 0, artifact_stats: {} };
+
+            currentTeamMembers.push({ character: charObj, saved });
             closeCharModal();
             renderOverview();
         }
