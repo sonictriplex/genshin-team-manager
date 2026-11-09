@@ -28,6 +28,7 @@ Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst g
 - Erste Version: Anmeldung per Token, Teams und Builds ansehen, bearbeiten und speichern, Charaktere umsortieren, Genshin-Design
 
 ## Server / Web
+- **Web:** Ein Charakter, der schon in einem anderen Team ist, behält beim Hinzufügen zu einem neuen Team seinen Build (vorher startete er mit Standardwerten und überschrieb den gespeicherten Build)
 - **Begrenzung von Anmelde- und Registrierungsversuchen** (HTTP 429, `Retry-After`), Migration `002_auth_attempts.sql`
 - **Web und Desktop:** Kopfzeile wie in der Android-App (Benutzermenü, kompakte Team-Steuerung, Löschen als Symbolknopf; Desktop fragt vor dem Löschen nach)
 - **Web und Desktop:** Teamkarten per Drag & Drop und Pfeilen verschieben
