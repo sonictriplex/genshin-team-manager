@@ -2,6 +2,9 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
+## Android 1.4.0 (09.11.2026)
+- Teams in der Liste per Pfeil nach oben/unten verschieben; die Reihenfolge wird auf dem Server gespeichert
+
 ## Android 1.3.0 (08.11.2026)
 - App-Icon zeigt Lan Yan
 - Hintergrundbild wie in der Web-Version
@@ -38,5 +41,5 @@ Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst g
 
 ## Projekt
 - Desktop, Web und Android in einem Repository, gemeinsame Daten in `shared/` (Stammdaten, Bilder, Austauschformat mit Schema)
-- Tests für alle drei Clients (Android 23, Web 14 plus API-Tests, Desktop 14)
+- Tests für alle drei Clients (Android 24, Web 21 plus API-Tests, Desktop 20)
 - Deploy-Skript `deploy/deploy.sh` (FTPS, nur Geändertes, mit Sicherung)
