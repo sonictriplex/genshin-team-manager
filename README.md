@@ -12,7 +12,7 @@ Teams aus bis zu vier Charakteren zusammenstellen und für jeden Charakter einen
 
 ## Funktionen
 
-- **Teams** mit bis zu 4 Charakteren anlegen, speichern, umbenennen und löschen; die Reihenfolge ändert man per Drag & Drop oder mit Pfeilen (Desktop, Web) bzw. mit Pfeilen (Android)
+- **Teams** mit bis zu 4 Charakteren anlegen, speichern, umbenennen und löschen; die Reihenfolge der Teams in der Übersicht lässt sich verschieben (Pfeile, auf Web und Desktop auch per Drag & Drop) und wird gespeichert; die Reihenfolge ändert man per Drag & Drop oder mit Pfeilen (Desktop, Web) bzw. mit Pfeilen (Android)
 - **Builds pro Charakter:** Level, Sternbild (C0–C6), Talente (A/E/Q), Waffe mit Level und Veredelung, zwei Artefaktsets
 - **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)

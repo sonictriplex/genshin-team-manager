@@ -619,9 +619,11 @@
                 grid.innerHTML = '<p class="col-span-full text-center text-gray-300">Noch keine Teams. Lege über das Benutzermenü „Neues Team“ das erste an.</p>';
                 return;
             }
-            names.forEach(name => {
+            names.forEach((name, index) => {
                 const card = document.createElement('div');
                 card.className = "bg-cardBg/85 backdrop-blur-md border border-[#332d47] hover:border-accent rounded-xl p-4 cursor-pointer transition-colors shadow-2xl";
+                card.draggable = true;
+                card.dataset.teamName = name;
                 card.tabIndex = 0;
                 card.setAttribute('role', 'button');
                 card.title = 'Team öffnen';
@@ -637,11 +639,86 @@
                         <div class="text-xs text-gray-200 truncate mt-1" title="${escapeHtml(cname)}">${escapeHtml(cname)}</div>
                     </div>`;
                 }).join('');
+                const arrowClass = "w-6 h-6 bg-black/60 hover:bg-accent hover:text-darkBg text-white rounded-full flex items-center justify-center font-bold text-sm transition-colors disabled:opacity-30 disabled:cursor-default disabled:hover:bg-black/60 disabled:hover:text-white";
                 card.innerHTML = `
-                    <h3 class="genshin-title font-bold text-gold mb-3 truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</h3>
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <h3 class="genshin-title font-bold text-gold truncate" title="${escapeHtml(name)}">${escapeHtml(name)}</h3>
+                        <div class="flex items-center gap-1 flex-shrink-0">
+                            <button type="button" data-move="-1" ${index === 0 ? 'disabled' : ''} title="Nach vorn" class="${arrowClass}">‹</button>
+                            <button type="button" data-move="1" ${index === names.length - 1 ? 'disabled' : ''} title="Nach hinten" class="${arrowClass}">›</button>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-4 gap-3">${members || '<span class="col-span-4 text-sm text-gray-400">Keine Charaktere</span>'}</div>`;
+                card.querySelectorAll('button[data-move]').forEach(btn => {
+                    btn.onclick = e => { e.stopPropagation(); moveTeam(name, index + Number(btn.dataset.move)); };
+                    btn.onkeydown = e => e.stopPropagation();
+                });
+
+                // Karten per Drag & Drop verschieben
+                card.addEventListener('dragstart', e => {
+                    teamDragName = name;
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', name);
+                    card.classList.add('opacity-50');
+                });
+                card.addEventListener('dragend', () => {
+                    teamDragName = null;
+                    card.classList.remove('opacity-50');
+                    clearTeamDropMarks();
+                });
+                card.addEventListener('dragover', e => {
+                    if (teamDragName === null) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (name !== teamDragName) card.classList.add('ring-2', 'ring-accent');
+                });
+                card.addEventListener('dragleave', e => {
+                    if (!card.contains(e.relatedTarget)) card.classList.remove('ring-2', 'ring-accent');
+                });
+                card.addEventListener('drop', e => {
+                    if (teamDragName === null) return;
+                    e.preventDefault();
+                    const from = names.indexOf(teamDragName);
+                    teamDragName = null;
+                    moveTeam(names[from], index);
+                });
                 grid.appendChild(card);
             });
+        }
+
+        let teamDragName = null;
+
+        function clearTeamDropMarks() {
+            document.querySelectorAll('#allTeamsView .ring-2').forEach(el => el.classList.remove('ring-2', 'ring-accent'));
+        }
+
+        // Verschiebt ein Team in der Übersicht an eine neue Stelle und speichert die Reihenfolge
+        async function moveTeam(name, toIndex) {
+            const names = Object.keys(savedTeams);
+            const from = names.indexOf(name);
+            if (from < 0 || toIndex < 0 || toIndex >= names.length || from === toIndex) return;
+
+            const previous = savedTeams;
+            names.splice(toIndex, 0, names.splice(from, 1)[0]);
+            savedTeams = {};
+            names.forEach(n => { savedTeams[n] = previous[n]; });
+            updateTeamsDropdown(loadedTeamName || "");
+            showAllTeams();
+
+            try {
+                const res = await fetch(`${API_BASE}/teams.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ order: names })
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            } catch (e) {
+                console.warn('Reihenfolge konnte nicht gespeichert werden:', e);
+                savedTeams = previous;
+                updateTeamsDropdown(loadedTeamName || "");
+                showAllTeams();
+                alert('Die Reihenfolge konnte nicht gespeichert werden.');
+            }
         }
 
         function createCharacterCard(item, index, isDetailMode) {

@@ -78,7 +78,7 @@ QScrollArea#allTeamsScroll, QWidget#allTeamsContent {{ background-color: {BG_WIN
 QFrame#teamCard {{
     background-color: {BG_PANEL}; border: 1px solid {BORDER}; border-radius: 10px;
 }}
-QFrame#teamCard:hover {{ border-color: {ACCENT}; }}
+QFrame#teamCard:hover, QFrame#teamCard[selected="true"] {{ border-color: {ACCENT}; }}
 QLabel#teamCardTitle {{ color: {GOLD}; font-size: 15px; font-weight: bold; background: transparent; }}
 QLabel#teamCardMember {{ color: {TEXT_SOFT}; font-size: 11px; background: transparent; }}
 

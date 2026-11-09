@@ -29,7 +29,7 @@ Die Dateien `deploy.local.env` und `backup/` stehen in `.gitignore`. In `backup/
 ## Datenbank-Änderungen (Migrationen)
 Neue Tabellen stehen in `web/migrations/` und müssen einmal auf dem Server ausgeführt werden (z. B. in phpMyAdmin, oder per Einmal-Skript über den Webserver, das die `db.php` des Servers benutzt und sich danach selbst löscht). Der Code ist so geschrieben, dass er auch ohne die neue Tabelle weiterläuft; die Reihenfolge von Upload und Migration ist daher egal.
 
-Eine Migration ist erledigt, wenn die Tabelle existiert. Stand Produktivserver: `001_api_tokens` und `002_auth_attempts` sind ausgeführt.
+Eine Migration ist erledigt, wenn die Tabelle existiert. Stand Produktivserver: `001_api_tokens` und `002_auth_attempts` sind ausgeführt; `003_team_position` (Reihenfolge der Teams) muss **vor** dem Hochladen des neuen Codes ausgeführt werden, weil `teams.php` und `transfer.php` die Spalte `position` voraussetzen.
 
 ## Wiederherstellen (alten Stand zurückspielen)
 Die gesicherte Datei aus `backup/<Zeitstempel>/` wieder hochladen, oder den alten Stand aus dem Git holen (`git checkout <Commit> -- web/index.html`) und `deploy.sh` ausführen.

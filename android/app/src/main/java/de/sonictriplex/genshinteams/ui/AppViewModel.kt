@@ -10,6 +10,7 @@ import de.sonictriplex.genshinteams.BuildConfig
 import de.sonictriplex.genshinteams.data.ApiClient
 import de.sonictriplex.genshinteams.data.ApiException
 import de.sonictriplex.genshinteams.data.Build
+import de.sonictriplex.genshinteams.data.moved
 import de.sonictriplex.genshinteams.data.ExchangeFile
 import de.sonictriplex.genshinteams.data.SessionStore
 import de.sonictriplex.genshinteams.data.NetworkException
@@ -196,12 +197,24 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 teams = if (inPlace) {
                     d.teams.map { if (it.name == team.name) team else it }
                 } else {
-                    // Der Server sortiert nach Anlage: neue und umbenannte Teams stehen am Ende
+                    // Neue und umbenannte Teams stehen auf dem Server am Ende der Reihenfolge
                     d.teams.filterNot { it.name == team.name || it.name == originalName } + team
                 },
             )
         }
         onSaved()
+    }
+
+    /** Verschiebt ein Team in der Liste um [delta] Plätze (-1 = nach oben) und speichert die Reihenfolge auf dem Server. */
+    fun moveTeam(name: String, delta: Int) {
+        val teams = userData?.teams ?: return
+        val from = teams.indexOfFirst { it.name == name }
+        val to = from + delta
+        if (from < 0 || to !in teams.indices) return
+        val moved = teams.moved(from, to)
+        write({ it.saveTeamOrder(moved.map { t -> t.name }) }) {
+            userData = userData?.copy(teams = moved)
+        }
     }
 
     fun deleteTeam(name: String) = write({ it.deleteTeam(name) }) {

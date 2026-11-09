@@ -130,6 +130,12 @@ class ApiClient(
         execute(request)
     }
 
+    /** Speichert die Reihenfolge der Teams (Namen in der gewünschten Reihenfolge). */
+    suspend fun saveTeamOrder(names: List<String>) {
+        val request = authorized(endpoint("teams.php")).post(teamOrderPayload(names).toRequestBody(JSON_TYPE)).build()
+        execute(request)
+    }
+
     private suspend fun import(payload: String): ImportResponse {
         val request = authorized(endpoint("transfer.php")).post(payload.toRequestBody(JSON_TYPE)).build()
         return decode(ImportResponse.serializer(), execute(request))

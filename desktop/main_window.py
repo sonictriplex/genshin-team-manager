@@ -481,13 +481,39 @@ class MainWindow(QMainWindow):
             for entry in self.manager.saved_teams[name]:
                 char_name = entry.get("name", "") if isinstance(entry, dict) else entry
                 members.append(self.manager.get_character_by_name(char_name))
-            card = TeamSummaryCard(name, members)
+            card = TeamSummaryCard(name, members, can_move_back=i > 0, can_move_forward=i < len(names) - 1)
             card.clicked.connect(self.open_team_from_overview)
+            card.move_requested.connect(self.on_team_move_requested)
+            card.team_dropped.connect(self.on_team_dropped)
             self.all_teams_grid.addWidget(card, i // columns, i % columns)
         for c in range(columns):
             self.all_teams_grid.setColumnStretch(c, 1)
         self.all_teams_grid.setRowStretch(len(names) // columns + 1, 1)
         self.stack.setCurrentWidget(self.all_teams_scroll)
+
+    def move_team(self, name: str, to_index: int):
+        """Verschiebt ein Team in der Übersicht an eine neue Stelle und speichert die Reihenfolge."""
+        names = list(self.manager.saved_teams)
+        if name not in names or not 0 <= to_index < len(names) or names.index(name) == to_index:
+            return
+        names.insert(to_index, names.pop(names.index(name)))
+        try:
+            self.manager.set_team_order(names)
+        except DatabaseError as e:
+            show_db_error(self, e)
+            return
+        self.update_teams_dropdown(self.loaded_team_name)
+        self.show_all_teams()
+
+    def on_team_move_requested(self, name: str, direction: int):
+        names = list(self.manager.saved_teams)
+        if name in names:
+            self.move_team(name, names.index(name) + direction)
+
+    def on_team_dropped(self, name: str, target: str):
+        names = list(self.manager.saved_teams)
+        if name in names and target in names:
+            self.move_team(name, names.index(target))
 
     def open_team_from_overview(self, name: str):
         idx = self.teams_combo.findText(name)

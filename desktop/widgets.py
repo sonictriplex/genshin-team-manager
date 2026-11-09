@@ -136,23 +136,38 @@ class AddCharacterSlotWidget(QFrame):
 
 
 TEAM_SIZE = 4
+TEAM_MIME = "application/x-genshin-team-summary"   # Nutzdaten: der Teamname
 
 
 class TeamSummaryCard(QFrame):
     """Karte in der Übersicht aller Teams: Teamname und die Icons der Charaktere. Ein Klick öffnet das Team."""
     clicked = Signal(str)
+    move_requested = Signal(str, int)      # Teamname, Richtung (-1 = nach vorn, +1 = nach hinten)
+    team_dropped = Signal(str, str)        # gezogenes Team, Team, auf dem es abgelegt wurde
 
-    def __init__(self, name: str, members: list[Character], parent=None):
+    def __init__(self, name: str, members: list[Character], parent=None, can_move_back=False, can_move_forward=False):
         super().__init__(parent)
         self.team_name = name
+        self._press_pos: Optional[QPoint] = None
         self.setObjectName("teamCard")
         self.setCursor(Qt.PointingHandCursor)
         self.setToolTip("Team öffnen")
+        self.setAcceptDrops(True)
 
         layout = QVBoxLayout(self)
+        head = QHBoxLayout()
         title = QLabel(name)
         title.setObjectName("teamCardTitle")
-        layout.addWidget(title)
+        head.addWidget(title, stretch=1)
+        for text, direction, enabled, tip in (("‹", -1, can_move_back, "Nach vorn"), ("›", 1, can_move_forward, "Nach hinten")):
+            button = QPushButton(text)
+            button.setFixedSize(24, 24)
+            button.setToolTip(tip)
+            button.setEnabled(enabled)
+            button.setCursor(Qt.ArrowCursor)
+            button.clicked.connect(lambda _=False, d=direction: self.move_requested.emit(self.team_name, d))
+            head.addWidget(button)
+        layout.addLayout(head)
 
         # Vier gleich breite Plätze füllen die Kartenbreite; die Icons sind quadratisch und wachsen mit der Karte
         self._icons: list[tuple[QLabel, Optional[QPixmap]]] = []
@@ -202,9 +217,63 @@ class TeamSummaryCard(QFrame):
         super().resizeEvent(event)
         self._fit_icons()
 
+    # --- Öffnen per Klick, Verschieben per Ziehen ---
+
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
-            self.clicked.emit(self.team_name)
+            self._press_pos = event.position().toPoint()
+
+    def mouseMoveEvent(self, event):
+        if (self._press_pos is not None and event.buttons() & Qt.LeftButton
+                and (event.position().toPoint() - self._press_pos).manhattanLength() >= QApplication.startDragDistance()):
+            self._press_pos = None
+            self.start_drag()
+
+    def mouseReleaseEvent(self, event):
+        # Ein Klick (ohne Ziehen) öffnet das Team
+        if event.button() == Qt.LeftButton and self._press_pos is not None:
+            self._press_pos = None
+            if self.rect().contains(event.position().toPoint()):
+                self.clicked.emit(self.team_name)
+
+    def start_drag(self):
+        mime = QMimeData()
+        mime.setData(TEAM_MIME, self.team_name.encode("utf-8"))
+        drag = QDrag(self)
+        drag.setMimeData(mime)
+        preview = self.grab()
+        drag.setPixmap(preview)
+        drag.setHotSpot(QPoint(preview.width() // 2, 20))
+        drag.exec(Qt.MoveAction)
+
+    @staticmethod
+    def _dragged_name(event) -> Optional[str]:
+        mime = event.mimeData()
+        if not mime.hasFormat(TEAM_MIME):
+            return None
+        return bytes(mime.data(TEAM_MIME).data()).decode("utf-8")
+
+    def dragEnterEvent(self, event):
+        name = self._dragged_name(event)
+        if name is None:
+            event.ignore()
+            return
+        event.acceptProposedAction()
+        if name != self.team_name:
+            set_selected(self, True)
+
+    def dragLeaveEvent(self, event):
+        set_selected(self, False)
+
+    def dropEvent(self, event):
+        set_selected(self, False)
+        name = self._dragged_name(event)
+        if name is None:
+            event.ignore()
+            return
+        event.acceptProposedAction()
+        if name != self.team_name:
+            self.team_dropped.emit(name, self.team_name)
 
 
 # --- Charakterkarte ---

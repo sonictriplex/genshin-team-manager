@@ -119,6 +119,11 @@ class TeamEditingTest {
 
 class MoveTest {
     @Test
+    fun reihenfolgeDerTeamsGehtAlsOrderListeAnDenServer() {
+        assertEquals("""{"order":["B","A \"x\"","C"]}""", teamOrderPayload(listOf("B", "A \"x\"", "C")))
+    }
+
+    @Test
     fun verschiebenAendertNurDieReihenfolge() {
         val team = listOf("A", "B", "C", "D")
         assertEquals(listOf("B", "A", "C", "D"), team.moved(0, 1))

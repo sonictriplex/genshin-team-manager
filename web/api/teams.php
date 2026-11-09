@@ -12,7 +12,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method === 'GET') {
     try {
         // Teams des aktuell eingeloggten Benutzers abfragen
-        $stmtTeams = $pdo->prepare("SELECT id, name FROM teams WHERE user_id = ? ORDER BY id ASC");
+        $stmtTeams = $pdo->prepare("SELECT id, name FROM teams WHERE user_id = ? ORDER BY position ASC, id ASC");
         $stmtTeams->execute([$user_id]);
         $teams = $stmtTeams->fetchAll(PDO::FETCH_ASSOC);
 
@@ -89,6 +89,28 @@ if ($method === 'GET') {
 
 } elseif ($method === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true) ?? [];
+    // Reihenfolge der Teams speichern: {order: [Teamname, ...]}
+    if (is_array($data['order'] ?? null)) {
+        $pdo->beginTransaction();
+        try {
+            $stmtPos = $pdo->prepare("UPDATE teams SET position = ? WHERE user_id = ? AND name = ?");
+            $pos = 0;
+            foreach ($data['order'] as $n) {
+                if (!is_string($n)) continue;
+                $pos++;
+                $stmtPos->execute([$pos, $user_id, $n]);
+            }
+            $pdo->commit();
+            echo json_encode(["message" => "Reihenfolge gespeichert."], JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            http_response_code(500);
+            error_log("teams.php ORDER: " . $e->getMessage());
+            echo json_encode(["error" => "Fehler beim Speichern der Reihenfolge."], JSON_UNESCAPED_UNICODE);
+        }
+        exit();
+    }
+
     $teamName = trim($data['name'] ?? '');
     $members = is_array($data['members'] ?? null) ? $data['members'] : [];
 
@@ -116,11 +138,13 @@ if ($method === 'GET') {
         // Dank UNIQUE (user_id, name) gibt es auch bei parallelen Requests (Doppelklick)
         // nie zwei gleiche Teams. LAST_INSERT_ID(id) liefert in beiden Fällen die Team-ID.
         // Die Zeile ist danach bis zum Commit gesperrt, ein paralleler Request wartet.
+        // Ein neues Team kommt ans Ende der Reihenfolge (position), ein vorhandenes behält seinen Platz.
         $stmtTeam = $pdo->prepare("
-        INSERT INTO teams (user_id, name) VALUES (?, ?)
+        INSERT INTO teams (user_id, name, position)
+        SELECT ?, ?, COALESCE(MAX(position), 0) + 1 FROM teams WHERE user_id = ?
         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
         ");
-        $stmtTeam->execute([$user_id, $teamName]);
+        $stmtTeam->execute([$user_id, $teamName, $user_id]);
         $teamId = (int)$pdo->lastInsertId();
 
         // Bisherige Mitglieder entfernen (bei einem neuen Team gibt es keine)

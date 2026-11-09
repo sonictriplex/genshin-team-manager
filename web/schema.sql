@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS teams (
     id      INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     name    VARCHAR(255) NOT NULL,
+    position INT NOT NULL DEFAULT 0,
     UNIQUE KEY uq_user_team (user_id, name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

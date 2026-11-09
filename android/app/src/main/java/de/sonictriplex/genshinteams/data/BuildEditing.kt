@@ -1,5 +1,9 @@
 package de.sonictriplex.genshinteams.data
 
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import kotlinx.serialization.json.Json
 
 /** Auswahllisten der Build-Bearbeitung (identisch zu web/index.html und desktop/widgets.py). */
@@ -64,6 +68,10 @@ fun importPayload(builds: List<Build> = emptyList(), teams: List<Team> = emptyLi
     ImportRequest.serializer(),
     ImportRequest("merge", ExchangeFile(EXCHANGE_FORMAT, EXCHANGE_VERSION, builds = builds, teams = teams)),
 )
+
+/** Anfrage an teams.php, die die Reihenfolge der Teams speichert: {"order": ["Team A", "Team B", ...]}. */
+fun teamOrderPayload(names: List<String>): String =
+    buildJsonObject { put("order", JsonArray(names.map { JsonPrimitive(it) })) }.toString()
 
 /** Verschiebt das Element an Position [from] nach [to] (z. B. um die Reihenfolge im Team zu ändern). */
 fun <T> List<T>.moved(from: Int, to: Int): List<T> {

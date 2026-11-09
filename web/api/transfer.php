@@ -51,7 +51,7 @@ if ($method === 'GET') {
             ];
         }
 
-        $stmtTeams = $pdo->prepare("SELECT id, name FROM teams WHERE user_id = ? ORDER BY id ASC");
+        $stmtTeams = $pdo->prepare("SELECT id, name FROM teams WHERE user_id = ? ORDER BY position ASC, id ASC");
         $stmtTeams->execute([$user_id]);
         $stmtMembers = $pdo->prepare("SELECT char_name FROM team_members WHERE team_id = ? ORDER BY slot_order ASC");
 
@@ -143,7 +143,8 @@ try {
     }
 
     $stmtTeam = $pdo->prepare("
-        INSERT INTO teams (user_id, name) VALUES (?, ?)
+        INSERT INTO teams (user_id, name, position)
+        SELECT ?, ?, COALESCE(MAX(position), 0) + 1 FROM teams WHERE user_id = ?
         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
     ");
     $stmtDel = $pdo->prepare("DELETE FROM team_members WHERE team_id = ?");
@@ -163,7 +164,7 @@ try {
             if (!in_array($m, $members, true)) $members[] = $m;
         }
 
-        $stmtTeam->execute([$user_id, $teamName]);
+        $stmtTeam->execute([$user_id, $teamName, $user_id]);
         $teamId = (int)$pdo->lastInsertId();
         $stmtDel->execute([$teamId]);
         foreach (array_slice($members, 0, 4) as $slot => $m) {

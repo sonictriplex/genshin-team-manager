@@ -26,7 +26,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  * Lädt die Seite mit einem Team "Test" aus Furina, Nilou und Barbara (in dieser Reihenfolge).
  * Die Seite startet mit der Übersicht aller Teams; `openTeam` öffnet das Team danach wie ein Klick auf seine Karte.
  */
-async function loadPage({ loggedIn = true, openTeam = true } = {}) {
+async function loadPage({ loggedIn = true, openTeam = true, teams = null } = {}) {
     const posted = [];
     const deleted = [];
     const routes = {
@@ -34,7 +34,7 @@ async function loadPage({ loggedIn = true, openTeam = true } = {}) {
         'characters.php': CHARACTERS,
         'weapons.php': [],
         'artifacts.php': [],
-        'teams.php': { Test: CHARACTERS.slice(0, 3).map(c => ({ character: c, saved: { level: 90 } })) },
+        'teams.php': teams || { Test: CHARACTERS.slice(0, 3).map(c => ({ character: c, saved: { level: 90 } })) },
     };
     const dom = new JSDOM(INDEX, {
         runScripts: 'dangerously',
@@ -276,6 +276,36 @@ test('Der Start zeigt die Übersicht aller Teams; ein Klick auf die Karte öffne
     click(p.w, cards[0]);
     assert.equal(p.d.getElementById('allTeamsView').classList.contains('hidden'), true);
     assert.deepEqual(p.order(), ['Furina', 'Nilou', 'Barbara']);
+});
+
+const THREE_TEAMS = () => {
+    const members = n => CHARACTERS.slice(0, n).map(c => ({ character: c, saved: { level: 90 } }));
+    return { Alpha: members(1), Beta: members(2), Gamma: members(3) };
+};
+const teamOrder = p => [...p.d.querySelectorAll('#allTeamsView > div')].map(c => c.dataset.teamName);
+
+test('Teamübersicht: Pfeile verschieben das Team und speichern die Reihenfolge', async () => {
+    const p = await loadPage({ openTeam: false, teams: THREE_TEAMS() });
+    assert.deepEqual(teamOrder(p), ['Alpha', 'Beta', 'Gamma']);
+    const cards = () => [...p.d.querySelectorAll('#allTeamsView > div')];
+    assert.equal(cards()[0].querySelector('button[title="Nach vorn"]').disabled, true);
+    assert.equal(cards()[2].querySelector('button[title="Nach hinten"]').disabled, true);
+    cards()[0].querySelector('button[title="Nach hinten"]').click();
+    assert.deepEqual(teamOrder(p), ['Beta', 'Alpha', 'Gamma']);
+    assert.equal(p.d.getElementById('allTeamsView').classList.contains('hidden'), false, 'Klick auf den Pfeil öffnet das Team nicht');
+    await sleep(20);
+    assert.deepEqual(p.posted.at(-1).body, { order: ['Beta', 'Alpha', 'Gamma'] });
+});
+
+test('Teamübersicht: Drop auf eine andere Karte verschiebt das Team', async () => {
+    const p = await loadPage({ openTeam: false, teams: THREE_TEAMS() });
+    const cards = () => [...p.d.querySelectorAll('#allTeamsView > div')];
+    p.drag('dragstart', cards()[2]);
+    p.drag('dragover', cards()[0]);
+    p.drag('drop', cards()[0]);
+    assert.deepEqual(teamOrder(p), ['Gamma', 'Alpha', 'Beta']);
+    await sleep(20);
+    assert.deepEqual(p.posted.at(-1).body, { order: ['Gamma', 'Alpha', 'Beta'] });
 });
 
 test('Umbenennen: neu speichern, danach das alte Team löschen', async () => {

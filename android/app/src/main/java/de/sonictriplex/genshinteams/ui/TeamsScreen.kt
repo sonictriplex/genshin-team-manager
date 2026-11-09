@@ -8,6 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
@@ -23,7 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -91,7 +93,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                     contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    items(data.teams, key = { it.name }) { team ->
+                    itemsIndexed(data.teams, key = { _, team -> team.name }) { index, team ->
                         AppCard {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 // Der Name bekommt den ganzen Platz; die Aktionen sind kompakte Symbole
@@ -104,6 +106,12 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                                         overflow = TextOverflow.Ellipsis,
                                         modifier = Modifier.weight(1f),
                                     )
+                                    IconButton(onClick = { vm.moveTeam(team.name, -1) }, enabled = !vm.offline && !vm.saving && index > 0) {
+                                        Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "Team nach oben")
+                                    }
+                                    IconButton(onClick = { vm.moveTeam(team.name, 1) }, enabled = !vm.offline && !vm.saving && index < data.teams.lastIndex) {
+                                        Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Team nach unten")
+                                    }
                                     IconButton(onClick = { onEditTeam(team.name) }, enabled = !vm.offline) {
                                         Icon(Icons.Filled.Edit, contentDescription = "Team bearbeiten")
                                     }

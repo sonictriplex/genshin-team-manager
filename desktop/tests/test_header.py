@@ -134,6 +134,48 @@ class HeaderTest(unittest.TestCase):
         self.assertIn("Datei", menus)
         self.assertEqual([a.text() for a in menus["Datei"].actions()], ["Alle Teams", "Neues Team", "", "Exportieren…", "Importieren…"])
 
+    def save_teams(self, *names):
+        """Legt mehrere Teams nacheinander an (zwischendurch "Neues Team", sonst fragt das Speichern nach dem Umbenennen)."""
+        for name in names:
+            self.window.new_team()
+            self.save_team(name)
+
+    def overview_names(self):
+        grid = self.window.all_teams_grid
+        cards = [grid.itemAt(i).widget() for i in range(grid.count())]
+        return [c.team_name for c in cards if c is not None and hasattr(c, "team_name")]
+
+    def test_teamuebersicht_pfeile_verschieben_und_speichern_die_reihenfolge(self):
+        self.save_teams("Alpha", "Beta", "Gamma")
+        self.window.show_all_teams()
+        app.processEvents()
+        self.assertEqual(self.overview_names(), ["Alpha", "Beta", "Gamma"])
+        self.window.on_team_move_requested("Alpha", 1)
+        app.processEvents()
+        self.assertEqual(self.overview_names(), ["Beta", "Alpha", "Gamma"])
+        # Dropdown und Datenbank folgen der neuen Reihenfolge
+        self.assertEqual([self.window.teams_combo.itemText(i) for i in range(1, 4)], ["Beta", "Alpha", "Gamma"])
+        self.manager.load_teams()
+        self.assertEqual(list(self.manager.saved_teams), ["Beta", "Alpha", "Gamma"])
+
+    def test_teamuebersicht_drop_verschiebt_das_team_und_neue_teams_kommen_ans_ende(self):
+        self.save_teams("Alpha", "Beta", "Gamma")
+        self.window.on_team_dropped("Gamma", "Alpha")
+        self.assertEqual(self.overview_names(), ["Gamma", "Alpha", "Beta"])
+        self.save_teams("Delta")
+        self.manager.load_teams()
+        self.assertEqual(list(self.manager.saved_teams), ["Gamma", "Alpha", "Beta", "Delta"])
+
+    def test_teamuebersicht_pfeile_an_den_raendern_sind_deaktiviert(self):
+        self.save_teams("Alpha", "Beta")
+        self.window.show_all_teams()
+        grid = self.window.all_teams_grid
+        first, last = grid.itemAt(0).widget(), grid.itemAt(1).widget()
+        buttons = lambda card: card.findChildren(QPushButton)
+        self.assertFalse(buttons(first)[0].isEnabled())
+        self.assertTrue(buttons(first)[1].isEnabled())
+        self.assertFalse(buttons(last)[1].isEnabled())
+
 
 if __name__ == "__main__":
     unittest.main()

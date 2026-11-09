@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS user_characters (
 );
 CREATE TABLE IF NOT EXISTS teams (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL
+    name TEXT UNIQUE NOT NULL,
+    position INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS team_members (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -104,6 +105,7 @@ class GenshinManager:
             with self.get_connection() as conn:
                 conn.executescript(SCHEMA)
                 self._migrate_weapon_icons(conn)
+                self._migrate_team_position(conn)
         except sqlite3.Error as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
 
@@ -119,6 +121,15 @@ class GenshinManager:
             if os.path.exists(path):
                 conn.execute("UPDATE weapons SET icon_path = ? WHERE name = ?",
                              (f"assets/images/{os.path.basename(path)}", name))
+
+    @staticmethod
+    def _migrate_team_position(conn: sqlite3.Connection):
+        """Ältere Datenbanken: Spalte teams.position (Reihenfolge der Teams) ergänzen, Startwert ist die Anlage-Reihenfolge."""
+        columns = [r[1] for r in conn.execute("PRAGMA table_info(teams)")]
+        if "position" in columns:
+            return
+        conn.execute("ALTER TABLE teams ADD COLUMN position INTEGER NOT NULL DEFAULT 0")
+        conn.execute("UPDATE teams SET position = id")
 
     def seed_if_empty(self):
         """Spielt die Stammdaten aus der JSON-Datei ein, wenn die Datenbank noch keine hat."""
@@ -209,7 +220,7 @@ class GenshinManager:
         try:
             with self.get_connection() as conn:
                 cursor = conn.cursor()
-                cursor.execute("SELECT id, name FROM teams ORDER BY id ASC")
+                cursor.execute("SELECT id, name FROM teams ORDER BY position ASC, id ASC")
                 teams_rows = cursor.fetchall()
 
                 teams_dict = {}
@@ -243,7 +254,9 @@ class GenshinManager:
 
                 # 2. Teams und Mitglieder aktualisieren / einfügen
                 for team_name, char_names in self.saved_teams.items():
-                    cursor.execute("INSERT OR IGNORE INTO teams (name) VALUES (?)", (team_name,))
+                    cursor.execute(
+                        "INSERT OR IGNORE INTO teams (name, position) "
+                        "SELECT ?, COALESCE(MAX(position), 0) + 1 FROM teams", (team_name,))
                     cursor.execute("SELECT id FROM teams WHERE name = ?", (team_name,))
                     team_id = cursor.fetchone()[0]
 
@@ -288,6 +301,19 @@ class GenshinManager:
             for name, members in self.saved_teams.items()
             if name != new_name
         }
+
+    def set_team_order(self, names: list):
+        """Speichert die Reihenfolge der Teams (Namen in der gewünschten Reihenfolge) und passt den Speicherstand an."""
+        try:
+            with self.get_connection() as conn:
+                for position, name in enumerate(names, start=1):
+                    conn.execute("UPDATE teams SET position = ? WHERE name = ?", (position, name))
+        except sqlite3.Error as e:
+            raise DatabaseError(f"Reihenfolge der Teams konnte nicht gespeichert werden: {e}") from e
+
+        ordered = {n: self.saved_teams[n] for n in names if n in self.saved_teams}
+        ordered.update({n: m for n, m in self.saved_teams.items() if n not in ordered})
+        self.saved_teams = ordered
 
     # --- ZENTRALE CHARAKTER-BUILDS VERWALTEN ---
 
@@ -443,7 +469,9 @@ class GenshinManager:
                             members.append(m)
                         elif m not in known:
                             result["skipped"].append(str(m))
-                    conn.execute("INSERT OR IGNORE INTO teams (name) VALUES (?)", (team_name,))
+                    conn.execute(
+                        "INSERT OR IGNORE INTO teams (name, position) "
+                        "SELECT ?, COALESCE(MAX(position), 0) + 1 FROM teams", (team_name,))
                     team_id = conn.execute("SELECT id FROM teams WHERE name = ?", (team_name,)).fetchone()[0]
                     conn.execute("DELETE FROM team_members WHERE team_id = ?", (team_id,))
                     for slot, m in enumerate(members[:MAX_TEAM_SIZE]):
