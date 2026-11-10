@@ -426,3 +426,14 @@ test('Anmeldeseite hat die Überschrift in der Genshin-Schrift', async () => {
     assert.ok(heading.classList.contains('genshin-title'), 'Genshin-Schrift');
     assert.equal(p.d.getElementById('authModal').classList.contains('hidden'), false, 'Anmeldedialog sichtbar');
 });
+
+test('Anmeldeseite: Überschrift steht über der Box, der Dialog bringt sein eigenes Hintergrundbild mit', async () => {
+    const p = await loadPage({ loggedIn: false });
+    const modal = p.d.getElementById('authModal');
+    const heading = modal.querySelector('h1');
+    const card = p.d.getElementById('authTitle').parentElement;
+    assert.ok(!card.contains(heading), 'Überschrift steht nicht in der Box');
+    assert.equal(heading.nextElementSibling, card, 'Box folgt direkt auf die Überschrift');
+    assert.ok(heading.classList.contains('text-center'), 'zentriert');
+    assert.match(modal.getAttribute('style'), /genshin-impact\.jpg/, 'Hintergrundbild');
+});

@@ -2,6 +2,15 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.6.3 (11.11.2026)
+- Anmeldeseite: Die Überschrift „GENSHIN IMPACT Team & Build Manager“ steht zentriert über der Anmeldebox statt darin, und das Hintergrundbild ist wieder zu sehen (leicht abgedunkelt wie auf der Hauptseite, statt fast schwarz und verwischt)
+
+## Android 1.6.3 (11.11.2026)
+- Nur die Versionsnummer (gemeinsame Version 1.6.3); funktional ändert sich in der App nichts
+
+## Desktop 1.6.3 (11.11.2026)
+- Nur die Versionsnummer (gemeinsame Version 1.6.3); funktional ändert sich am Desktop nichts
+
 ## Web 1.6.2 (11.11.2026)
 - Anmeldeseite: Überschrift „GENSHIN IMPACT Team & Build Manager“ in der Genshin-Schrift (wie in der Kopfzeile)
 
