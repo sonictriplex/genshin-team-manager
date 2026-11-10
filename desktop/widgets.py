@@ -161,10 +161,11 @@ class TeamSummaryCard(QFrame):
         head.addWidget(title, stretch=1)
         for text, direction, enabled, tip in (("‹", -1, can_move_back, "Nach vorn"), ("›", 1, can_move_forward, "Nach hinten")):
             button = QPushButton(text)
+            button.setObjectName("teamMoveButton")
             button.setFixedSize(24, 24)
             button.setToolTip(tip)
             button.setEnabled(enabled)
-            button.setCursor(Qt.ArrowCursor)
+            button.setCursor(Qt.PointingHandCursor)
             button.clicked.connect(lambda _=False, d=direction: self.move_requested.emit(self.team_name, d))
             head.addWidget(button)
         layout.addLayout(head)

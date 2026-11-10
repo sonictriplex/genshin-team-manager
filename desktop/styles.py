@@ -79,6 +79,12 @@ QFrame#teamCard {{
     background-color: rgba(26, 24, 37, 100); border: 1px solid {BORDER}; border-radius: 10px;
 }}
 QFrame#teamCard:hover, QFrame#teamCard[selected="true"] {{ border-color: {ACCENT}; }}
+QPushButton#teamMoveButton {{
+    background-color: rgba(0, 0, 0, 0.45); color: {ACCENT};
+    border: 1px solid {BORDER}; border-radius: 12px; font-size: 16px; font-weight: bold; padding: 0px 0px 2px 0px;
+}}
+QPushButton#teamMoveButton:hover {{ background-color: {ACCENT}; color: {BG_INPUT}; border-color: {ACCENT}; }}
+QPushButton#teamMoveButton:disabled {{ background-color: rgba(0, 0, 0, 0.2); color: {TEXT_MUTED}; border-color: {BORDER_SOFT}; }}
 QLabel#teamCardTitle {{ color: {GOLD}; font-size: 15px; font-weight: bold; background: transparent; }}
 QLabel#teamCardMember {{ color: {TEXT_SOFT}; font-size: 11px; background: transparent; }}
 
