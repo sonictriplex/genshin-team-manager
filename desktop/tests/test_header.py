@@ -13,7 +13,7 @@ warnings.simplefilter("ignore", ResourceWarning)
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
-from PySide6.QtWidgets import QApplication, QMessageBox, QPushButton
+from PySide6.QtWidgets import QApplication, QLabel, QMessageBox, QPushButton
 
 from manager import GenshinManager
 from main_window import MainWindow
@@ -179,3 +179,24 @@ class HeaderTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AboutTest(HeaderTest):
+    def test_about_menu_opens_dialog_with_version_matching_changelog(self):
+        import re
+        from dialogs import AboutDialog
+        from models import APP_VERSION
+        changelog = open(os.path.join(os.path.dirname(__file__), "..", "..", "CHANGELOG.md"), encoding="utf-8").read()
+        self.assertEqual(APP_VERSION, re.search(r"^## Desktop (\d+\.\d+\.\d+)", changelog, re.M).group(1))
+
+        help_menu = next(a.menu() for a in self.window.menuBar().actions() if a.text() == "Hilfe")
+        about = next(a for a in help_menu.actions() if a.text() == "Über…")
+        opened = []
+        with mock.patch.object(AboutDialog, "exec", lambda dialog: opened.append(dialog)):
+            about.trigger()
+        self.assertEqual(len(opened), 1)
+        self.assertIn(APP_VERSION, opened[0].version_label.text())
+        texts = " ".join(label.text() for label in opened[0].findChildren(QLabel))
+        self.assertIn("HoYoverse", texts)
+        self.assertTrue(any(l.objectName() == "aboutLogo" and l.pixmap() and not l.pixmap().isNull() for l in opened[0].findChildren(QLabel)),
+                        "das media-matrix-Logo wird angezeigt")

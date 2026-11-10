@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
 
 from manager import GenshinManager, DatabaseError
 from models import BASE_DIR, IMAGES_DIR
-from dialogs import CharacterSearchDialog
+from dialogs import AboutDialog, CharacterSearchDialog
 from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, TeamSummaryCard, ArtifactPanel, normalize_build, show_db_error
 
 MAX_TEAM_SIZE = 4
@@ -139,6 +139,10 @@ class MainWindow(QMainWindow):
         menu.addSeparator()
         menu.addAction("Exportieren…", self.export_data)
         menu.addAction("Importieren…", self.import_data)
+        self.menuBar().addMenu("Hilfe").addAction("Über…", self.show_about)
+
+    def show_about(self):
+        AboutDialog(self).exec()
 
     def export_data(self):
         """Exportiert Builds und Teams in eine JSON-Datei (für die Web-Version oder als Sicherung)."""

@@ -6,9 +6,9 @@ from PySide6.QtWidgets import (
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QAbstractItemView
 )
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPixmap
 
-from models import Character, Weapon
+from models import APP_VERSION, IMAGES_DIR, Character, Weapon
 
 WEAPON_TYPES = ["Einhandschwert", "Großschwert", "Stangenwaffe", "Bogen", "Katalysator"]
 REGIONS = ["Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontaine", "Natlan",
@@ -196,3 +196,61 @@ class CharacterSearchDialog(SearchDialog):
 
     def row_values(self, c: Character):
         return c.icon_path, [c.name, c.element, c.weapon_type, c.region, f"{c.rarity} ★"]
+
+
+class AboutDialog(QDialog):
+    """Kleiner „Über“-Dialog: Name, Version, Kurzbeschreibung und der Hinweis zum Fanprojekt."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Über Team & Build Manager")
+        layout = QVBoxLayout(self)
+        layout.setSpacing(8)
+
+        icon_path = os.path.join(IMAGES_DIR, "paimon.png")
+        if os.path.exists(icon_path):
+            icon = QLabel()
+            icon.setPixmap(QPixmap(icon_path).scaled(72, 72, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            icon.setAlignment(Qt.AlignCenter)
+            layout.addWidget(icon)
+
+        title = QLabel("Genshin Impact – Team & Build Manager")
+        title.setObjectName("aboutTitle")
+        title.setAlignment(Qt.AlignCenter)
+        title.setStyleSheet("font-size: 16px; font-weight: bold;")
+        layout.addWidget(title)
+
+        self.version_label = QLabel(f"Desktop-Version {APP_VERSION}")
+        self.version_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.version_label)
+
+        info = QLabel(
+            "Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten. "
+            "Die Daten liegen lokal in einer SQLite-Datei."
+        )
+        info.setWordWrap(True)
+        info.setAlignment(Qt.AlignCenter)
+        layout.addWidget(info)
+
+        disclaimer = QLabel(
+            "Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige "
+            "Namen und Bilder sind Eigentum von HoYoverse."
+        )
+        disclaimer.setWordWrap(True)
+        disclaimer.setAlignment(Qt.AlignCenter)
+        disclaimer.setStyleSheet("color: #9a97ab; font-size: 11px;")
+        layout.addWidget(disclaimer)
+
+        logo_path = os.path.join(IMAGES_DIR, "mm_logo.png")
+        if os.path.exists(logo_path):
+            logo = QLabel()
+            logo.setObjectName("aboutLogo")
+            logo.setPixmap(QPixmap(logo_path).scaledToHeight(41, Qt.SmoothTransformation))
+            logo.setAlignment(Qt.AlignCenter)
+            logo.setToolTip("the media-matrix")
+            layout.addWidget(logo)
+
+        close = QPushButton("Schließen")
+        close.clicked.connect(self.accept)
+        layout.addWidget(close, alignment=Qt.AlignCenter)
+        self.setFixedWidth(380)
