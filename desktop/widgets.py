@@ -6,8 +6,8 @@ from PySide6.QtWidgets import (
     QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
     QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy
 )
-from PySide6.QtCore import Qt, Signal, QMimeData, QPoint
-from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont
+from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
+from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath
 
 from models import Character, ArtifactSet, DEFAULT_TALENTS
 from manager import GenshinManager, DatabaseError
@@ -108,7 +108,32 @@ class ChoiceButtonRow(QHBoxLayout):
             set_selected(btn, val == value)
 
 
-class AddCharacterSlotWidget(QFrame):
+class FrostedMixin:
+    """Milchglas-Effekt wie `backdrop-blur` in der Web-Version: Hinter dem (halbtransparenten) Widget erscheint der
+    verwaschene Teil des Hintergrundbilds. Das Hintergrund-Widget (`frost_pixmap()`) liegt weiter oben im Fensterbaum."""
+
+    FROST_RADIUS = 10
+
+    def paintEvent(self, event):
+        background = self.parentWidget()
+        while background is not None and not hasattr(background, "frost_pixmap"):
+            background = background.parentWidget()
+        if background is not None:
+            frost = background.frost_pixmap()
+            if not frost.isNull():
+                origin = self.mapTo(background, QPoint(0, 0))
+                painter = QPainter(self)
+                path = QPainterPath()
+                path.addRoundedRect(QRectF(self.rect()), self.FROST_RADIUS, self.FROST_RADIUS)
+                painter.setClipPath(path)
+                painter.drawPixmap(0, 0, frost, origin.x(), origin.y(), self.width(), self.height())
+                painter.end()
+        super().paintEvent(event)
+
+
+class AddCharacterSlotWidget(FrostedMixin, QFrame):
+    FROST_RADIUS = 12
+
     """Platzhalter-Karte zum Hinzufügen eines neuen Charakters."""
     clicked = Signal()
 
@@ -139,7 +164,7 @@ TEAM_SIZE = 4
 TEAM_MIME = "application/x-genshin-team-summary"   # Nutzdaten: der Teamname
 
 
-class TeamSummaryCard(QFrame):
+class TeamSummaryCard(FrostedMixin, QFrame):
     """Karte in der Übersicht aller Teams: Teamname und die Icons der Charaktere. Ein Klick öffnet das Team."""
     clicked = Signal(str)
     move_requested = Signal(str, int)      # Teamname, Richtung (-1 = nach vorn, +1 = nach hinten)

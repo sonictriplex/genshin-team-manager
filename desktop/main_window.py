@@ -29,14 +29,44 @@ class BackgroundWidget(QWidget):
     def __init__(self):
         super().__init__()
         self._image = QPixmap(os.path.join(IMAGES_DIR, "genshin-impact.jpg"))
+        self._cache_size = None
+        self._sharp = QPixmap()
+        self._frost = QPixmap()
+
+    def _blur(self, pixmap: QPixmap, factor: int) -> QPixmap:
+        """Verwischt durch Verkleinern und Wiedervergrößern (günstiger Weichzeichner)."""
+        small = pixmap.scaled(max(1, pixmap.width() // factor), max(1, pixmap.height() // factor),
+                              Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        return small.scaled(pixmap.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+
+    def _build_cache(self):
+        if self._cache_size == self.size():
+            return
+        self._cache_size = self.size()
+        self._sharp = self._frost = QPixmap()
+        if self._image.isNull() or self.width() < 2 or self.height() < 2:
+            return
+        scaled = self._image.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+        x, y = (scaled.width() - self.width()) // 2, (scaled.height() - self.height()) // 2
+        base = scaled.copy(x, y, self.width(), self.height())
+        # Hintergrund leicht weichgezeichnet (wie `backdrop-blur-[2px]` im Web), hinter Karten stark (Milchglas)
+        for attr, factor in (("_sharp", 2), ("_frost", 10)):
+            pixmap = self._blur(base, factor)
+            painter = QPainter(pixmap)
+            painter.fillRect(pixmap.rect(), self.OVERLAY)
+            painter.end()
+            setattr(self, attr, pixmap)
+
+    def frost_pixmap(self) -> QPixmap:
+        """Stark verwaschene Fassung des Hintergrunds für halbtransparente Karten (siehe FrostedMixin)."""
+        self._build_cache()
+        return self._frost
 
     def paintEvent(self, event):
-        if self._image.isNull():
-            return
-        painter = QPainter(self)
-        scaled = self._image.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
-        painter.drawPixmap((self.width() - scaled.width()) // 2, (self.height() - scaled.height()) // 2, scaled)
-        painter.fillRect(self.rect(), self.OVERLAY)
+        self._build_cache()
+        if not self._sharp.isNull():
+            painter = QPainter(self)
+            painter.drawPixmap(0, 0, self._sharp)
 
 
 class MainWindow(QMainWindow):
