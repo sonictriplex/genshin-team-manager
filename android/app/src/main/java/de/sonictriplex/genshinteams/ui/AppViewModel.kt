@@ -46,6 +46,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     var userData by mutableStateOf<ExchangeFile?>(null)
         private set
 
+    /** Fehlermeldung des Dialogs „Konto löschen“ (z. B. falsches Passwort); getrennt von [error]. */
+    var accountError by mutableStateOf<String?>(null)
+        private set
+
     /** true, wenn die angezeigten Daten aus dem Cache stammen, weil der Server nicht erreichbar war. */
     var offline by mutableStateOf(false)
         private set
@@ -156,6 +160,28 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             try { api().logout() } finally { clearSession(); busy = false }
         }
     }
+
+    /** Löscht das Konto auf dem Server und meldet danach lokal ab. Fehler erscheinen im Dialog ([accountError]). */
+    fun deleteAccount(password: String) {
+        viewModelScope.launch {
+            saving = true
+            accountError = null
+            try {
+                api().deleteAccount(password)
+                session.username = ""   // der gelöschte Name soll nicht mehr im Anmeldefeld stehen
+                clearSession()
+            } catch (e: UnauthorizedException) {
+                clearSession()
+                error = "Sitzung abgelaufen. Bitte erneut anmelden."
+            } catch (e: ApiException) {
+                accountError = e.message
+            } finally {
+                saving = false
+            }
+        }
+    }
+
+    fun dismissAccountError() { accountError = null }
 
     /** Führt eine Schreibaktion aus: Ladezustand, Fehlermeldung und abgelaufene Sitzung einheitlich behandelt. */
     private fun write(action: suspend (ApiClient) -> Unit, onSuccess: () -> Unit) {

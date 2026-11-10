@@ -26,7 +26,8 @@ class StammdatenRepository(private val context: Context) {
         return explicit?.let(::loadBitmap) ?: loadBitmap(iconPathFor(name))
     }
 
-    private fun loadBitmap(path: String): Bitmap? = try {
+    /** Lädt ein beliebiges Bild aus den Assets (z. B. `assets/images/mm_logo.png`), oder null. */
+    fun loadBitmap(path: String): Bitmap? = try {
         context.assets.open(path).use { BitmapFactory.decodeStream(it) }
     } catch (_: java.io.IOException) {
         null

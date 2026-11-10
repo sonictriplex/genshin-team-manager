@@ -30,6 +30,12 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -49,6 +55,8 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
     val data = vm.userData
     var deleting by remember { mutableStateOf<String?>(null) }
     var menuOpen by remember { mutableStateOf(false) }
+    var deletingAccount by remember { mutableStateOf(false) }
+    var showAbout by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             AppTopBar(
@@ -66,6 +74,15 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                                 text = { Text("Abmelden") },
                                 onClick = { menuOpen = false; vm.logout() },
                                 enabled = !vm.busy,
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Über") },
+                                onClick = { menuOpen = false; showAbout = true },
+                            )
+                            DropdownMenuItem(
+                                text = { Text("Konto löschen", color = MaterialTheme.colorScheme.error) },
+                                onClick = { menuOpen = false; vm.dismissAccountError(); deletingAccount = true },
+                                enabled = !vm.busy && !vm.offline,
                             )
                         }
                     }
@@ -145,6 +162,12 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
         }
     }
 
+    if (showAbout) AboutDialog(vm.stammdaten, onDismiss = { showAbout = false })
+
+    if (deletingAccount) {
+        DeleteAccountDialog(vm, onDismiss = { deletingAccount = false })
+    }
+
     deleting?.let { name ->
         AlertDialog(
             onDismissRequest = { deleting = null },
@@ -154,4 +177,37 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
             dismissButton = { TextButton(onClick = { deleting = null }) { Text("Abbrechen") } },
         )
     }
+}
+
+/** Fragt vor dem endgültigen Löschen des Kontos das Passwort ab. Nach Erfolg meldet die App von selbst ab. */
+@Composable
+private fun DeleteAccountDialog(vm: AppViewModel, onDismiss: () -> Unit) {
+    var password by rememberSaveable { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = { if (!vm.saving) onDismiss() },
+        title = { Text("Konto löschen?") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(
+                    "Dein Konto „${vm.session.username}“ wird samt allen Teams und Builds endgültig gelöscht, " +
+                        "auch in der Web-Version. Das lässt sich nicht rückgängig machen.",
+                )
+                OutlinedTextField(
+                    password, { password = it }, label = { Text("Passwort zur Bestätigung") }, singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    isError = vm.accountError != null,
+                    supportingText = vm.accountError?.let { { Text(it) } },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { vm.deleteAccount(password) }, enabled = password.isNotEmpty() && !vm.saving) {
+                if (vm.saving) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp)
+                else Text("Endgültig löschen", color = MaterialTheme.colorScheme.error)
+            }
+        },
+        dismissButton = { TextButton(onClick = onDismiss, enabled = !vm.saving) { Text("Abbrechen") } },
+    )
 }

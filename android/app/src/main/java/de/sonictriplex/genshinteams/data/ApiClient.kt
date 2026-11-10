@@ -26,6 +26,9 @@ class UnauthorizedException(message: String) : ApiException(message)
 private data class TokenRequest(val username: String, val password: String, val device: String)
 
 @Serializable
+private data class PasswordRequest(val password: String)
+
+@Serializable
 private data class RegisterRequest(val username: String, val password: String)
 
 @Serializable
@@ -95,6 +98,17 @@ class ApiClient(
                 .post("".toRequestBody(JSON_TYPE)).build()
             execute(request)
         } catch (_: ApiException) { }
+    }
+
+    /**
+     * Löscht das Konto samt allen Teams und Builds endgültig. Der Server verlangt das Passwort erneut und
+     * antwortet bei einem falschen mit 403 (nicht 401), das erscheint hier als [ApiException] mit der Meldung.
+     */
+    suspend fun deleteAccount(password: String) {
+        val body = AppJson.encodeToString(PasswordRequest.serializer(), PasswordRequest(password))
+        val request = authorized(endpoint("auth.php", mapOf("action" to "delete_account")))
+            .post(body.toRequestBody(JSON_TYPE)).build()
+        execute(request)
     }
 
     /** Builds und Teams des angemeldeten Nutzers im gemeinsamen Austauschformat. */

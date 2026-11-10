@@ -2,7 +2,7 @@
 
 Online-Client für die Web-Version. Die App greift **nicht** direkt auf MySQL zu, sondern über die PHP-API in `../web/api/` (Anmeldung per Token, siehe `../web/README.md`).
 
-**Stand:** Anmelden und Registrieren, Teamliste, Build-Ansicht sowie Bearbeiten und Speichern von Builds und Teams (anlegen, ändern, umbenennen, löschen) funktionieren. Teams und Builds lassen sich auch offline ansehen.
+**Stand:** Anmelden, Registrieren und Konto löschen, Teamliste, Build-Ansicht sowie Bearbeiten und Speichern von Builds und Teams (anlegen, ändern, umbenennen, löschen) funktionieren. Teams und Builds lassen sich auch offline ansehen.
 
 ## Technik
 
@@ -28,6 +28,10 @@ Die zuletzt geladenen Teams und Builds liegen im app-privaten Speicher (`files/u
 - Eigene Änderungen (Speichern, Löschen) aktualisieren den Cache.
 - Beim **Abmelden** und bei abgelaufener Sitzung wird der Cache gelöscht. Er ist nicht verschlüsselt (anders als der Token), enthält aber nur Teams und Builds, keine Zugangsdaten.
 - Nur ohne Cache und ohne Verbindung (erster Start) erscheint die Fehlermeldung statt der Liste.
+
+## Konto löschen
+
+Im Menü (⋮) auf der Teamliste: „Konto löschen“ (nur mit Verbindung). Der Dialog verlangt das Passwort; die App sendet `POST auth.php?action=delete_account`. Ein falsches Passwort erscheint im Dialog (der Server antwortet mit 403, nicht 401, sonst würde die App „Sitzung abgelaufen“ annehmen). Nach Erfolg wird lokal abgemeldet, der Cache gelöscht und der Benutzername im Anmeldefeld geleert. Das Konto ist auch in der Web-Version weg.
 
 ## Token-Header
 
@@ -91,4 +95,4 @@ Der Release-Build ist mit R8 verkleinert (ca. 15 MB statt 28 MB), nicht debuggba
 ## Nächste Schritte
 
 - Änderungen offline vormerken und später abgleichen (braucht eine Konfliktlösung, siehe Offline-Cache)
-- Passwort ändern und Konto löschen (dafür fehlen API-Endpunkte)
+- Passwort ändern (dafür fehlt ein API-Endpunkt)
