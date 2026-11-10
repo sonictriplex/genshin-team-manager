@@ -26,7 +26,7 @@ tests/              Tests des Frontends (Node, jsdom), nicht für den Server
 api/
   db.php            Datenbankverbindung
   auth_check.php    Session-Setup, Bearer-Token, require_login()
-  auth.php          ?action=status|register|login|token|logout
+  auth.php          ?action=status|register|login|token|logout|delete_account
   rate_limit.php    Begrenzung von Anmelde- und Registrierungsversuchen
   characters.php    Charakterliste (GET)
   weapons.php       Waffenliste (GET)
@@ -93,6 +93,8 @@ Tests: `web/tests/rate_limit_test.php` (Logik direkt gegen die Datenbank, nur lo
 ## Token-Login für Apps
 
 Clients ohne Cookies (z. B. die Android-App) melden sich über `POST api/auth.php?action=token` mit `{username, password, device?}` an und erhalten `{token, expires_at, username}`. Danach senden sie bei jeder Anfrage den Token mit, entweder als `Authorization: Bearer <token>` oder als `X-Auth-Token: <token>`; alle Endpunkte mit `require_login()` akzeptieren das wie eine Session. Ein Token gilt 90 Tage, pro Nutzer bleiben höchstens 10 gültig, in der Datenbank steht nur der SHA-256-Hash. `POST api/auth.php?action=logout` mit Token widerruft ihn. **Nur über HTTPS betreiben.**
+
+**Konto löschen:** `POST api/auth.php?action=delete_account` mit `{password}` (Session oder Token) löscht den Nutzer samt Teams, Teammitgliedern, Builds und allen Token in einer Transaktion und beendet die Session. Das Passwort muss erneut stimmen; ein falsches ergibt 403 (bewusst nicht 401, das die Apps als „Sitzung abgelaufen“ deuten) und zählt für die Begrenzung wie ein fehlgeschlagener Login. Es ist keine Migration nötig. Test: `web/tests/api_delete_account.sh <Adresse>` (nur lokal, gegen die Datenbank aus „Lokal gegen echtes MariaDB testen“; der Container muss `gtm-mariadb` heißen).
 
 **Warum zwei Header?** Viele Hoster reichen den `Authorization`-Header nicht an PHP durch (nginx mit PHP-FPM, Apache mit CGI), eigene Header kommen dagegen immer an. Die Android-App sendet deshalb beide, und `auth_check.php` nimmt den Bearer-Token, wenn er ankommt, sonst `X-Auth-Token`. Eine Serverkonfiguration ist dafür nicht nötig. Ob der Header bei dir ankommt, lässt sich mit einem kleinen PHP-Skript prüfen, das `isset($_SERVER['HTTP_AUTHORIZATION'])` und `isset($_SERVER['HTTP_X_AUTH_TOKEN'])` ausgibt.
 

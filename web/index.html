@@ -63,7 +63,7 @@
     <!-- DARK OVERLAY & BLUR FÜR BESSERE LESBARKEIT -->
     <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] pointer-events-none -z-10"></div>
 
-    <!-- KOPFZEILE: Titel links, Benutzermenü rechts (Export, Import, Logout) -->
+    <!-- KOPFZEILE: Titel links, Benutzermenü rechts (Export, Import, Logout, Konto löschen) -->
     <header class="w-full max-w-7xl mx-auto mt-4 mb-5 flex items-center justify-between gap-3 px-1">
         <h1 class="genshin-title text-xl sm:text-3xl font-bold text-accent tracking-wide min-w-0 truncate" title="GENSHIN IMPACT Team & Build Manager">
             <span class="sm:hidden">GENSHIN Teams</span><span class="hidden sm:inline">GENSHIN IMPACT Team & Build Manager</span>
@@ -88,6 +88,10 @@
                     class="block w-full text-left px-4 py-2 text-gray-100 hover:bg-[#2d293e] hover:text-accent transition-colors">Importieren</button>
                 <button type="button" role="menuitem" id="logoutBtn" onclick="closeUserMenu(); handleLogout()"
                     class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#2d293e] hover:text-danger border-t border-white/10 transition-colors">Logout</button>
+                <button type="button" role="menuitem" id="deleteAccountBtn" onclick="closeUserMenu(); openDeleteAccount()" title="Löscht dein Konto mit allen Teams und Builds endgültig"
+                    class="block w-full text-left px-4 py-2 text-danger/80 hover:bg-[#2d293e] hover:text-danger transition-colors">Konto löschen</button>
+                <button type="button" role="menuitem" id="aboutBtn" onclick="closeUserMenu(); openAbout()"
+                    class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-[#2d293e] hover:text-accent border-t border-white/10 transition-colors">Über</button>
             </div>
             <input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importData(this)">
         </div>
@@ -174,6 +178,41 @@
                     Jetzt registrieren
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ÜBER -->
+    <div id="aboutModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50" onclick="if (event.target === this) closeAbout()">
+        <div role="dialog" aria-modal="true" aria-labelledby="aboutTitle" class="bg-cardBg border border-[#332d47] rounded-xl max-w-sm w-full p-6 shadow-2xl text-white backdrop-blur-md text-center">
+            <img src="/assets/images/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
+            <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
+            <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.6.0</div>
+            <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
+            <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
+            <img src="/assets/images/mm_logo.png" alt="the media-matrix" width="109" height="41" class="mx-auto mb-4 opacity-90">
+            <button type="button" onclick="closeAbout()" class="px-6 py-2 bg-inputBg hover:bg-[#2d293e] border border-[#332d47] text-gray-100 font-bold text-sm rounded transition-colors">Schließen</button>
+        </div>
+    </div>
+
+    <!-- MODAL: KONTO LÖSCHEN -->
+    <div id="deleteAccountModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div role="dialog" aria-modal="true" aria-labelledby="deleteAccountTitle" class="bg-cardBg border border-[#332d47] rounded-xl max-w-md w-full p-6 shadow-2xl text-white backdrop-blur-md">
+            <h2 id="deleteAccountTitle" class="text-xl font-bold text-danger mb-3 text-center">Konto löschen?</h2>
+            <p class="text-sm text-gray-300 mb-4">Dein Konto <strong id="deleteAccountName" class="text-accent"></strong> wird mit allen Teams und Builds endgültig gelöscht, auch in der Android-App. Das lässt sich nicht rückgängig machen.</p>
+
+            <div id="deleteAccountError" class="hidden mb-4 p-3 bg-danger/20 border border-danger/60 rounded text-red-200 text-xs font-semibold"></div>
+
+            <form id="deleteAccountForm" onsubmit="handleDeleteAccount(event)" class="space-y-4">
+                <div>
+                    <label for="deleteAccountPassword" class="block text-xs font-bold text-gray-300 mb-1">Passwort zur Bestätigung</label>
+                    <input type="password" id="deleteAccountPassword" required autocomplete="current-password" class="w-full bg-inputBg border border-[#332d47] focus:border-accent text-white px-3 py-2 rounded text-sm outline-none">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeDeleteAccount()" class="flex-1 py-2 bg-inputBg hover:bg-[#2d293e] border border-[#332d47] text-gray-100 font-bold text-sm rounded transition-colors">Abbrechen</button>
+                    <button type="submit" id="deleteAccountSubmit" class="flex-1 py-2 bg-danger hover:opacity-90 text-white font-bold text-sm rounded shadow-md transition-opacity disabled:opacity-50">Endgültig löschen</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -390,7 +429,7 @@
             }
         }
 
-        // --- Benutzermenü (Export, Import, Logout) ---
+        // --- Benutzermenü (Export, Import, Logout, Konto löschen) ---
         function setUserMenuOpen(open) {
             document.getElementById('userMenuList').classList.toggle('hidden', !open);
             document.getElementById('userMenuButton').setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -408,7 +447,7 @@
             const menu = document.getElementById('userMenu');
             if (menu && !menu.contains(event.target)) closeUserMenu();
         });
-        document.addEventListener('keydown', event => { if (event.key === 'Escape') closeUserMenu(); });
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeUserMenu(); closeDeleteAccount(); closeAbout(); } });
 
         async function handleLogout() {
             try {
@@ -416,6 +455,50 @@
                 location.reload();
             } catch (e) {
                 console.error("Logout Fehler:", e);
+            }
+        }
+
+        function openAbout() { document.getElementById('aboutModal').classList.remove('hidden'); }
+        function closeAbout() { document.getElementById('aboutModal').classList.add('hidden'); }
+
+        // --- Konto löschen (Passwort wird erneut abgefragt; der Server prüft es) ---
+        function openDeleteAccount() {
+            document.getElementById('deleteAccountName').textContent = `„${currentUsername}“`;
+            document.getElementById('deleteAccountPassword').value = '';
+            document.getElementById('deleteAccountError').classList.add('hidden');
+            document.getElementById('deleteAccountModal').classList.remove('hidden');
+            document.getElementById('deleteAccountPassword').focus();
+        }
+
+        function closeDeleteAccount() {
+            document.getElementById('deleteAccountModal').classList.add('hidden');
+            document.getElementById('deleteAccountPassword').value = '';
+        }
+
+        async function handleDeleteAccount(event) {
+            event.preventDefault();
+            const errorBox = document.getElementById('deleteAccountError');
+            const submit = document.getElementById('deleteAccountSubmit');
+            errorBox.classList.add('hidden');
+            submit.disabled = true;
+            try {
+                const res = await fetch(`${API_BASE}/auth.php?action=delete_account`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: document.getElementById('deleteAccountPassword').value })
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) {
+                    errorBox.textContent = data.error || 'Das Konto konnte nicht gelöscht werden.';
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+                location.reload();
+            } catch (e) {
+                errorBox.textContent = 'Server nicht erreichbar. Bitte später erneut versuchen.';
+                errorBox.classList.remove('hidden');
+            } finally {
+                submit.disabled = false;
             }
         }
 

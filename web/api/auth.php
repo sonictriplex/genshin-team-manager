@@ -7,6 +7,24 @@ require_once __DIR__ . '/rate_limit.php';
 
 $action = $_GET['action'] ?? '';
 
+/** Leert die Session-Daten, löscht das Cookie und zerstört die Session (nur wenn eine läuft). */
+function destroy_session(): void {
+    if (session_status() !== PHP_SESSION_ACTIVE) return;
+    $_SESSION = [];
+    if (ini_get('session.use_cookies')) {
+        $p = session_get_cookie_params();
+        setcookie(session_name(), '', [
+            'expires'  => time() - 42000,
+            'path'     => $p['path'],
+            'domain'   => $p['domain'],
+            'secure'   => $p['secure'],
+            'httponly' => $p['httponly'],
+            'samesite' => $p['samesite'] ?: 'Lax'
+        ]);
+    }
+    session_destroy();
+}
+
 // 1. Status prüfen (Wer bin ich?)
 if ($action === 'status') {
     $current = current_user();
@@ -171,21 +189,63 @@ if ($action === 'logout') {
         exit();
     }
 
-    // Session-Daten leeren, Cookie löschen, Session zerstören
-    $_SESSION = [];
-    if (ini_get('session.use_cookies')) {
-        $p = session_get_cookie_params();
-        setcookie(session_name(), '', [
-            'expires'  => time() - 42000,
-                  'path'     => $p['path'],
-                  'domain'   => $p['domain'],
-                  'secure'   => $p['secure'],
-                  'httponly' => $p['httponly'],
-                  'samesite' => $p['samesite'] ?: 'Lax'
-        ]);
-    }
-    session_destroy();
+    destroy_session();
 
+    echo json_encode(["success" => true], JSON_UNESCAPED_UNICODE);
+    exit();
+}
+
+// 6. Konto löschen (POST {password}): entfernt den Nutzer samt Teams, Builds und allen Token.
+//    Das Passwort muss erneut stimmen; falsche Eingaben zählen wie beim Login für die Begrenzung.
+//    Bewusst 403 statt 401 bei falschem Passwort: 401 bedeutet für die Apps "Sitzung abgelaufen".
+if ($action === 'delete_account') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        header('Allow: POST');
+        echo json_encode(["error" => "Konto löschen nur per POST erlaubt."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    $current = current_user();
+    if ($current === null) {
+        http_response_code(401);
+        echo json_encode(["error" => "Nicht eingeloggt"], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    $password = (string)($data['password'] ?? '');
+    rl_login_gate($pdo, $current['username']);
+
+    $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
+    $stmt->execute([$current['id']]);
+    $hash = $stmt->fetchColumn();
+
+    if ($hash === false || !password_verify($password, $hash)) {
+        rl_login_failed($pdo, $current['username']);
+        http_response_code(403);
+        echo json_encode(["error" => "Passwort falsch."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+    rl_login_succeeded($pdo, $current['username']);
+
+    try {
+        $pdo->beginTransaction();
+        // Mitglieder explizit löschen, ohne sich auf ON DELETE CASCADE der Produktivdatenbank zu verlassen
+        $pdo->prepare("DELETE FROM team_members WHERE team_id IN (SELECT id FROM teams WHERE user_id = ?)")->execute([$current['id']]);
+        $pdo->prepare("DELETE FROM teams WHERE user_id = ?")->execute([$current['id']]);
+        $pdo->prepare("DELETE FROM user_characters WHERE user_id = ?")->execute([$current['id']]);
+        $pdo->prepare("DELETE FROM api_tokens WHERE user_id = ?")->execute([$current['id']]);
+        $pdo->prepare("DELETE FROM users WHERE id = ?")->execute([$current['id']]);
+        $pdo->commit();
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        http_response_code(500);
+        error_log("auth.php delete_account: " . $e->getMessage());
+        echo json_encode(["error" => "Konto konnte nicht gelöscht werden."], JSON_UNESCAPED_UNICODE);
+        exit();
+    }
+
+    destroy_session();
     echo json_encode(["success" => true], JSON_UNESCAPED_UNICODE);
     exit();
 }

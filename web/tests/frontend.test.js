@@ -345,3 +345,75 @@ test('Ohne Namensänderung wird nicht gefragt und nichts gelöscht', async () =>
     assert.equal(p.posted.at(-1).body.name, 'Test');
     assert.deepEqual(p.deleted, []);
 });
+
+// --- Konto löschen ---
+
+test('Konto löschen: Menüpunkt öffnet den Dialog mit dem Namen, Abbrechen und Escape schließen ihn', async () => {
+    const p = await loadPage();
+    const modal = p.d.getElementById('deleteAccountModal');
+    assert.equal(modal.classList.contains('hidden'), true);
+
+    click(p.w, p.d.getElementById('userMenuButton'));
+    click(p.w, p.d.getElementById('deleteAccountBtn'));
+    assert.equal(modal.classList.contains('hidden'), false, 'Dialog offen');
+    assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, 'Menü schließt');
+    assert.match(p.d.getElementById('deleteAccountName').textContent, /tester/);
+
+    p.d.getElementById('deleteAccountPassword').value = 'geheim';
+    p.d.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    assert.equal(modal.classList.contains('hidden'), true, 'Escape schließt');
+    assert.equal(p.d.getElementById('deleteAccountPassword').value, '', 'Passwort wird verworfen');
+    assert.equal(p.posted.length, 0, 'ohne Bestätigung wird nichts gesendet');
+});
+
+test('Konto löschen: falsches Passwort zeigt die Meldung des Servers und lässt den Dialog offen', async () => {
+    const p = await loadPage();
+    const requests = [];
+    p.w.fetch = async (url, options = {}) => {
+        requests.push({ url: String(url), options });
+        return { ok: false, status: 403, json: async () => ({ error: 'Passwort falsch.' }) };
+    };
+    p.w.openDeleteAccount();
+    p.d.getElementById('deleteAccountPassword').value = 'falsch';
+    await p.w.handleDeleteAccount({ preventDefault() {} });
+
+    assert.equal(requests.length, 1);
+    assert.ok(requests[0].url.endsWith('auth.php?action=delete_account'));
+    assert.equal(requests[0].options.method, 'POST');
+    assert.deepEqual(JSON.parse(requests[0].options.body), { password: 'falsch' });
+    const error = p.d.getElementById('deleteAccountError');
+    assert.equal(error.classList.contains('hidden'), false);
+    assert.equal(error.textContent, 'Passwort falsch.');
+    assert.equal(p.d.getElementById('deleteAccountModal').classList.contains('hidden'), false, 'Dialog bleibt offen');
+    assert.equal(p.d.getElementById('deleteAccountSubmit').disabled, false, 'erneuter Versuch möglich');
+});
+
+test('Konto löschen: nicht erreichbarer Server wird verständlich gemeldet', async () => {
+    const p = await loadPage();
+    p.w.fetch = async () => { throw new Error('offline'); };
+    p.w.openDeleteAccount();
+    p.d.getElementById('deleteAccountPassword').value = 'egal';
+    await p.w.handleDeleteAccount({ preventDefault() {} });
+    assert.match(p.d.getElementById('deleteAccountError').textContent, /nicht erreichbar/);
+});
+
+test('Über-Dialog: Menüpunkt öffnet ihn mit Logo, Escape und Schließen schließen ihn', async () => {
+    const p = await loadPage();
+    const modal = p.d.getElementById('aboutModal');
+    assert.equal(modal.classList.contains('hidden'), true);
+    click(p.w, p.d.getElementById('userMenuButton'));
+    click(p.w, p.d.getElementById('aboutBtn'));
+    assert.equal(modal.classList.contains('hidden'), false, 'Dialog offen');
+    assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, 'Menü schließt');
+    assert.ok(modal.querySelector('img[src$="mm_logo.png"]'), 'media-matrix-Logo');
+    assert.match(modal.textContent, /HoYoverse/);
+    p.d.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    assert.equal(modal.classList.contains('hidden'), true, 'Escape schließt');
+});
+
+test('Die Web-Version im Über-Dialog stimmt mit dem obersten Web-Eintrag im Changelog überein', async () => {
+    const changelog = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+    const expected = changelog.match(/^## Web (\d+\.\d+\.\d+)/m)[1];
+    const p = await loadPage();
+    assert.equal(p.d.getElementById('webVersion').textContent.trim(), `Web-Version ${expected}`);
+});
