@@ -16,7 +16,7 @@ Auf der Anmeldeseite wechselt „Noch kein Konto? Registrieren“ in den Modus �
 
 ## Server-Adresse
 
-Die App spricht mit einem festen Server: `BuildConfig.DEFAULT_SERVER_URL` in `app/build.gradle.kts` (aktuell `https://genshin-manager.media-matrix.de`). Im **Release-Build** gibt es dafür kein Eingabefeld, die Anmeldeseite zeigt nur den Host. Eine früher gespeicherte Adresse wird ignoriert. **Debug** und **Staging** zeigen das Feld weiter (mit der festen Adresse vorbelegt), damit sich lokale Testserver eintragen lassen. Bei einem Umzug der Web-Version die Adresse in `build.gradle.kts` ändern und neu bauen.
+Die Anmeldeseite hat in **allen** Varianten ein Feld „Server“, vorbelegt mit der zuletzt benutzten Adresse, sonst mit `BuildConfig.DEFAULT_SERVER_URL` aus `app/build.gradle.kts` (aktuell `https://genshin-manager.media-matrix.de`), angezeigt mit abschließendem „/“. Eingaben werden getrimmt und ohne „/“ am Ende gespeichert. Release-Builds erlauben nur HTTPS (Netzwerkkonfiguration), Debug und Staging zusätzlich HTTP zu `10.0.2.2` und `localhost` für lokale Testserver. Bei einem Umzug der Web-Version die Voreinstellung in `build.gradle.kts` ändern und neu bauen.
 
 ## Offline-Cache
 

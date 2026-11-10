@@ -69,11 +69,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Der Server: im Release immer die fest eingestellte Adresse (eine früher gespeicherte wird ignoriert),
-     * in Debug und Staging die zuletzt eingegebene.
+     * Der Server: die zuletzt bei der Anmeldung eingegebene Adresse, sonst die voreingestellte
+     * ([BuildConfig.DEFAULT_SERVER_URL]).
      */
     val serverUrl: String
-        get() = if (BuildConfig.SERVER_EDITABLE) session.serverUrl.ifEmpty { BuildConfig.DEFAULT_SERVER_URL } else BuildConfig.DEFAULT_SERVER_URL
+        get() = session.serverUrl.ifEmpty { BuildConfig.DEFAULT_SERVER_URL }
 
     private fun api(baseUrl: String = serverUrl) = ApiClient(baseUrl, { session.token })
 

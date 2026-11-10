@@ -19,13 +19,11 @@ android {
         applicationId = "de.sonictriplex.genshinteams"
         minSdk = 26
         targetSdk = 36
-        versionCode = 14
-        versionName = "1.6.1"
+        versionCode = 15
+        versionName = "1.6.2"
 
-        // Der Server, mit dem die App spricht (die Web-Version, siehe ../web). Bei einem Umzug hier ändern.
+        // Der Server, mit dem die App spricht (die Web-Version, siehe ../web); auf der Anmeldeseite damit vorbelegt, aber änderbar.
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://genshin-manager.media-matrix.de\"")
-        // Release: Adresse fest, kein Eingabefeld. Debug und Staging lassen sie änderbar (lokale Testserver).
-        buildConfigField("boolean", "SERVER_EDITABLE", "false")
     }
 
     signingConfigs {
@@ -41,7 +39,6 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "SERVER_EDITABLE", "true")
         }
         release {
             isMinifyEnabled = true
@@ -58,7 +55,6 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
             matchingFallbacks += "release"
-            buildConfigField("boolean", "SERVER_EDITABLE", "true")
         }
     }
 

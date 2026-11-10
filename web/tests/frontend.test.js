@@ -417,3 +417,12 @@ test('Die Web-Version im Über-Dialog stimmt mit dem obersten Web-Eintrag im Cha
     const p = await loadPage();
     assert.equal(p.d.getElementById('webVersion').textContent.trim(), `Web-Version ${expected}`);
 });
+
+test('Anmeldeseite hat die Überschrift in der Genshin-Schrift', async () => {
+    const p = await loadPage({ loggedIn: false });
+    const heading = p.d.querySelector('#authModal h1');
+    assert.ok(heading, 'Überschrift vorhanden');
+    assert.equal(heading.textContent.trim(), 'GENSHIN IMPACT Team & Build Manager');
+    assert.ok(heading.classList.contains('genshin-title'), 'Genshin-Schrift');
+    assert.equal(p.d.getElementById('authModal').classList.contains('hidden'), false, 'Anmeldedialog sichtbar');
+});

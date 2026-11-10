@@ -2,6 +2,16 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.6.2 (11.11.2026)
+- Anmeldeseite: Überschrift „GENSHIN IMPACT Team & Build Manager“ in der Genshin-Schrift (wie in der Kopfzeile)
+
+## Android 1.6.2 (11.11.2026)
+- Anmeldeseite: gleicher Titel wie in der Web-Version („GENSHIN IMPACT Team & Build Manager“) statt „Genshin Teams“
+- Das Feld „Server“ ist in allen Varianten wieder da (bisher nur in Debug und Staging), vorbelegt mit der zuletzt benutzten Adresse bzw. `https://genshin-manager.media-matrix.de/`; Release-Builds erlauben weiterhin nur HTTPS
+
+## Desktop 1.6.2 (11.11.2026)
+- Nur die Versionsnummer: Web, Android und Desktop tragen wieder gemeinsam dieselbe Version (1.6.2). Funktional ändert sich am Desktop nichts
+
 ## Desktop 1.6.1 (11.11.2026)
 - Neuer „Über“-Dialog (Menü Hilfe → Über…): Paimon-Bild, Name, Version, Kurzbeschreibung, Hinweis „Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden“ und das media-matrix-Logo
 - Die Versionsnummer steht jetzt im Code (`APP_VERSION` in `desktop/models.py`); ein Test gleicht sie mit diesem Changelog ab

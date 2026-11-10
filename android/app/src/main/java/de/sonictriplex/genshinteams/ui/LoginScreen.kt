@@ -21,16 +21,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import de.sonictriplex.genshinteams.BuildConfig
 import de.sonictriplex.genshinteams.data.MIN_PASSWORD_LENGTH
 import de.sonictriplex.genshinteams.data.MIN_USERNAME_LENGTH
 
 @Composable
 fun LoginScreen(vm: AppViewModel) {
-    // Nur in Debug und Staging bearbeitbar; im Release ist der Server fest (BuildConfig.DEFAULT_SERVER_URL)
-    var server by rememberSaveable { mutableStateOf(vm.serverUrl) }
+    // Vorbelegt mit der zuletzt benutzten bzw. voreingestellten Adresse, immer mit abschließendem "/"
+    var server by rememberSaveable { mutableStateOf(vm.serverUrl.trimEnd('/') + "/") }
     var username by rememberSaveable { mutableStateOf(vm.session.username) }
     var password by rememberSaveable { mutableStateOf("") }
     var repeat by rememberSaveable { mutableStateOf("") }
@@ -42,23 +42,18 @@ fun LoginScreen(vm: AppViewModel) {
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Genshin Teams", style = MaterialTheme.typography.headlineMedium)
-        if (!BuildConfig.SERVER_EDITABLE) {
-            // Zeigt, wohin die Anmeldung geht (nur der Host, ohne https://)
-            Text(
-                BuildConfig.DEFAULT_SERVER_URL.removePrefix("https://").removePrefix("http://"),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        // Gleicher Titel wie auf der Anmeldeseite der Web-Version
+        Text(
+            "GENSHIN IMPACT Team & Build Manager",
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center,
+        )
         Column(Modifier.widthIn(max = 420.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (BuildConfig.SERVER_EDITABLE) {
-                OutlinedTextField(
-                    server, { server = it }, label = { Text("Server") }, singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            OutlinedTextField(
+                server, { server = it }, label = { Text("Server") }, singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+                modifier = Modifier.fillMaxWidth(),
+            )
             OutlinedTextField(
                 username, { username = it }, label = { Text("Benutzername") }, singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
