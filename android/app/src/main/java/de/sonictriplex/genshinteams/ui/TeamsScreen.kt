@@ -94,7 +94,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     itemsIndexed(data.teams, key = { _, team -> team.name }) { index, team ->
-                        AppCard {
+                        AppCard(alpha = 0.4f) {
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 // Der Name bekommt den ganzen Platz; die Aktionen sind kompakte Symbole
                                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -122,7 +122,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     team.members.forEach { member ->
                                         Column(Modifier.width(64.dp).clickable { onOpenCharacter(member) }, horizontalAlignment = Alignment.CenterHorizontally) {
-                                            NameIcon(member, vm.stammdaten, 64.dp)
+                                            NameIcon(member, vm.stammdaten, 64.dp, level = data.builds.firstOrNull { it.name == member }?.level ?: 90, flatBackground = true)
                                             Text(member, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                                         }
                                     }

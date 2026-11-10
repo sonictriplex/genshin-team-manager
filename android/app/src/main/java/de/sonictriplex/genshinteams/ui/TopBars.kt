@@ -11,6 +11,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
@@ -34,8 +38,18 @@ fun AppTopBar(
     navigationEnabled: Boolean = true,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
+    // Zu lange Titel (z. B. Charakternamen) werden verkleinert, bis sie ganz lesbar sind (mindestens 12 sp)
+    var titleSize by remember(title) { mutableStateOf(20f) }
     TopAppBar(
-        title = { Text(title, style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp), maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        title = {
+            Text(
+                title,
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = titleSize.sp),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                onTextLayout = { if (it.hasVisualOverflow && titleSize > 12f) titleSize = (titleSize - 1f).coerceAtLeast(12f) },
+            )
+        },
         navigationIcon = {
             if (navigation != null) {
                 IconButton(onClick = onNavigate, enabled = navigationEnabled) {

@@ -40,13 +40,13 @@ import kotlinx.coroutines.withContext
  * der erste Buchstabe.
  */
 @Composable
-fun NameIcon(name: String, repo: StammdatenRepository, size: Dp, modifier: Modifier = Modifier) {
+fun NameIcon(name: String, repo: StammdatenRepository, size: Dp, modifier: Modifier = Modifier, level: Int? = null, flatBackground: Boolean = false) {
     val image by produceState<ImageBitmap?>(null, name) {
         value = withContext(Dispatchers.IO) { repo.iconFor(name)?.asImageBitmap() }
     }
     val character = repo.character(name)
     val rarity = character?.rarity ?: repo.weapon(name)?.rarity
-    val background: Brush = character?.let { elementGradient(elementColor(it.element), 0.55f) }
+    val background: Brush = character?.let { if (flatBackground) SolidColor(elementColor(it.element).copy(alpha = 0.35f)) else elementGradient(elementColor(it.element), 0.55f) }
         ?: SolidColor(MaterialTheme.colorScheme.surfaceVariant)
     val shape = RoundedCornerShape(8.dp)
 
@@ -62,6 +62,17 @@ fun NameIcon(name: String, repo: StammdatenRepository, size: Dp, modifier: Modif
         } else {
             Text(name.take(1), fontSize = (size.value / 2).sp)
         }
+        // Charakterlevel klein oben links im Bild
+        if (level != null) {
+            Text(
+                level.toString(),
+                color = Color.White,
+                fontSize = 10.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                style = androidx.compose.ui.text.TextStyle(shadow = androidx.compose.ui.graphics.Shadow(Color.Black, blurRadius = 4f)),
+                modifier = Modifier.align(Alignment.TopStart).padding(start = 4.dp, top = 2.dp),
+            )
+        }
     }
 }
 
@@ -71,11 +82,11 @@ fun elementGradient(color: Color, topAlpha: Float): Brush =
 
 /** Halbtransparente Karte im Stil der Desktop- und Web-Version. */
 @Composable
-fun AppCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+fun AppCard(modifier: Modifier = Modifier, alpha: Float = 0.85f, content: @Composable ColumnScope.() -> Unit) {
     Card(
         modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(Palette.BgPanel.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(Palette.BgPanel.copy(alpha = alpha)),
         border = BorderStroke(1.dp, Palette.Border),
     ) {
         Column(Modifier.padding(12.dp), content = content)

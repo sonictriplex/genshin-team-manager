@@ -7,12 +7,12 @@ from PySide6.QtWidgets import (
     QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy
 )
 from PySide6.QtCore import Qt, Signal, QMimeData, QPoint
-from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor
+from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont
 
 from models import Character, ArtifactSet, DEFAULT_TALENTS
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
-from styles import element_badge_style, set_selected, tint_style, ACCENT
+from styles import element_badge_style, set_selected, tint_style, genshin_family, ELEMENT_COLORS, ACCENT
 
 
 # --- Hilfsfunktionen ---
@@ -145,7 +145,7 @@ class TeamSummaryCard(QFrame):
     move_requested = Signal(str, int)      # Teamname, Richtung (-1 = nach vorn, +1 = nach hinten)
     team_dropped = Signal(str, str)        # gezogenes Team, Team, auf dem es abgelegt wurde
 
-    def __init__(self, name: str, members: list[Character], parent=None, can_move_back=False, can_move_forward=False):
+    def __init__(self, name: str, members: list[Character], parent=None, can_move_back=False, can_move_forward=False, levels: Optional[dict] = None):
         super().__init__(parent)
         self.team_name = name
         self._press_pos: Optional[QPoint] = None
@@ -180,7 +180,15 @@ class TeamSummaryCard(QFrame):
             icon = QLabel()
             icon.setAlignment(Qt.AlignCenter)
             border = "#d89f53" if char.rarity == 5 else "#a561c9"
-            icon.setStyleSheet(f"border: 2px solid {border}; border-radius: 8px; background-color: #12101b;")
+            # Transparenter Hintergrund in der Farbe des Elements
+            color = QColor(ELEMENT_COLORS.get(char.element, "#5bc0be"))
+            background = f"rgba({color.red()}, {color.green()}, {color.blue()}, 90)"
+            icon.setStyleSheet(f"border: 2px solid {border}; border-radius: 8px; background-color: {background};")
+            # Charakterlevel klein oben links im Bild
+            level_label = QLabel(str((levels or {}).get(char.name, 90)), icon)
+            level_label.setStyleSheet("color: #ffffff; font-size: 10px; font-weight: bold; background: transparent; border: none;")
+            level_label.adjustSize()
+            level_label.move(6, 3)
             pixmap = QPixmap(char.icon_path) if char.icon_path and os.path.exists(char.icon_path) else None
             self._icons.append((icon, pixmap))
             row.addWidget(icon, 0, i, Qt.AlignHCenter)
@@ -490,10 +498,15 @@ class CharacterCardWidget(QFrame):
 
     def _build_info(self, layout: QVBoxLayout):
         name_elem_box = QHBoxLayout()
-        name_label = QLabel(f"<b>{self.character.name}</b>")
+        name_label = QLabel(self.character.name)
         name_label.setObjectName("cardName")
+        name_label.setMinimumWidth(0)
+        name_label.setToolTip(self.character.name)
+        self.name_label = name_label
+        self.elem_badge = None
         elem_badge = QLabel(f" {self.character.element} ")
         elem_badge.setStyleSheet(element_badge_style(self.character.element))
+        self.elem_badge = elem_badge
         name_elem_box.addWidget(name_label)
         name_elem_box.addStretch()
         name_elem_box.addWidget(elem_badge)
@@ -513,6 +526,32 @@ class CharacterCardWidget(QFrame):
             selected=self.saved_data.get("constellation", 0)
         )
         layout.addLayout(self.constellation_row)
+
+    def _fit_name(self):
+        """Genshin-Schrift für den Namen; zu lange Namen werden verkleinert, bis sie ganz lesbar sind."""
+        label = getattr(self, "name_label", None)
+        if label is None or self.elem_badge is None:
+            return
+        family = genshin_family()
+        available = self.width() - self.elem_badge.sizeHint().width() - 30
+        size = 15
+        while size > 8:
+            font = QFont(family) if family else QFont()
+            font.setBold(True)
+            font.setPixelSize(size)
+            if QFontMetrics(font).horizontalAdvance(self.character.name) <= available or available <= 0:
+                break
+            size -= 1
+        quoted = f'font-family: "{family}"; ' if family else ""
+        label.setStyleSheet(f"{quoted}font-size: {size}px; font-weight: bold;")
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._fit_name()
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self._fit_name()
 
     def _build_weapon(self, layout: QVBoxLayout):
         wpn_header_layout = QHBoxLayout()

@@ -76,7 +76,7 @@ QPushButton#secondaryButton:hover {{ background-color: {BG_HOVER}; }}
 /* ---------- Übersicht aller Teams ---------- */
 QScrollArea#allTeamsScroll, QWidget#allTeamsContent {{ background-color: {BG_WINDOW}; }}
 QFrame#teamCard {{
-    background-color: {BG_PANEL}; border: 1px solid {BORDER}; border-radius: 10px;
+    background-color: rgba(26, 24, 37, 100); border: 1px solid {BORDER}; border-radius: 10px;
 }}
 QFrame#teamCard:hover, QFrame#teamCard[selected="true"] {{ border-color: {ACCENT}; }}
 QLabel#teamCardTitle {{ color: {GOLD}; font-size: 15px; font-weight: bold; background: transparent; }}
@@ -236,3 +236,19 @@ def set_selected(widget, selected: bool):
     widget.setProperty("selected", selected)
     widget.style().unpolish(widget)
     widget.style().polish(widget)
+
+
+_genshin_family = None
+
+
+def genshin_family() -> str:
+    """Name der Genshin-Schrift (shared/assets/zh-cn.ttf); wird beim ersten Aufruf geladen (QApplication nötig)."""
+    global _genshin_family
+    if _genshin_family is None:
+        from PySide6.QtGui import QFontDatabase
+        from models import SHARED_DIR
+        import os
+        font_id = QFontDatabase.addApplicationFont(os.path.join(SHARED_DIR, "assets", "zh-cn.ttf"))
+        families = QFontDatabase.applicationFontFamilies(font_id) if font_id >= 0 else []
+        _genshin_family = families[0] if families else ""
+    return _genshin_family

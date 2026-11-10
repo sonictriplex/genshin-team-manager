@@ -476,12 +476,13 @@ class MainWindow(QMainWindow):
         if not names:
             self.all_teams_grid.addWidget(QLabel("Noch keine Teams. Lege über „Datei → Neues Team“ das erste an."), 0, 0)
         columns = 2
+        levels = {n: b.get("level", 90) for n, b in self.load_builds().items()}
         for i, name in enumerate(names):
             members = []
             for entry in self.manager.saved_teams[name]:
                 char_name = entry.get("name", "") if isinstance(entry, dict) else entry
                 members.append(self.manager.get_character_by_name(char_name))
-            card = TeamSummaryCard(name, members, can_move_back=i > 0, can_move_forward=i < len(names) - 1)
+            card = TeamSummaryCard(name, members, can_move_back=i > 0, can_move_forward=i < len(names) - 1, levels=levels)
             card.clicked.connect(self.open_team_from_overview)
             card.move_requested.connect(self.on_team_move_requested)
             card.team_dropped.connect(self.on_team_dropped)
