@@ -581,6 +581,7 @@
 
             currentTeamMembers.forEach((item, index) => {
                 grid.appendChild(createCharacterCard(item, index, false));
+                requestAnimationFrame(fitCardNames);
             });
 
             if (currentTeamMembers.length < 4) {
@@ -726,6 +727,19 @@
             }
         }
 
+        // Verkleinert zu lange Charakternamen auf den Karten, bis sie komplett lesbar sind
+        function fitCardNames() {
+            document.querySelectorAll('[data-fit-name]').forEach(el => {
+                el.style.fontSize = '';
+                let size = parseFloat(getComputedStyle(el).fontSize);
+                while (el.scrollWidth > el.clientWidth && size > 8) {
+                    size -= 0.5;
+                    el.style.fontSize = size + 'px';
+                }
+            });
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCardNames);
+
         function createCharacterCard(item, index, isDetailMode) {
             const char = item.character || {};
             const saved = item.saved || {};
@@ -762,7 +776,7 @@
                     <!-- NAME & LEVEL -->
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <span class="font-genshin font-bold text-white text-base truncate max-w-[170px]" title="${escapeHtml(char.name || 'Unbekannt')}">${escapeHtml(char.name || 'Unbekannt')}</span>
+                            <span data-fit-name class="font-genshin font-bold text-white text-base truncate max-w-[170px]" title="${escapeHtml(char.name || 'Unbekannt')}">${escapeHtml(char.name || 'Unbekannt')}</span>
                             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border flex-shrink-0" style="color:${elemColor}; border-color:${elemColor}; background-color: rgba(0,0,0,0.3)">${escapeHtml(char.element || 'Anemo')}</span>
                         </div>
                         <div class="flex justify-between items-center text-gray-300 text-xs">
@@ -962,6 +976,7 @@
             const cardContainer = document.getElementById('detailCardContainer');
             cardContainer.innerHTML = '';
             cardContainer.appendChild(createCharacterCard(item, index, true));
+            requestAnimationFrame(fitCardNames);
 
             renderArtifactPanel(item);
         }
