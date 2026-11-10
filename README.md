@@ -10,6 +10,8 @@ Teams aus bis zu vier Charakteren zusammenstellen und für jeden Charakter einen
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/desktop.jpg" alt="Desktop-Version" width="440"> | <img src="docs/screenshots/android-teams.jpg" alt="Android: Teamliste" width="150"> | <img src="docs/screenshots/android-build.jpg" alt="Android: Build eines Charakters" width="150"> |
 
+Du spielst nur mit und willst die App benutzen? Dann geht es hier zur [Anleitung für Mitspieler](ANLEITUNG.md).
+
 ## Funktionen
 
 - **Teams** mit bis zu 4 Charakteren anlegen, speichern, umbenennen und löschen; die Reihenfolge der Teams in der Übersicht lässt sich verschieben (Pfeile, auf Web und Desktop auch per Drag & Drop) und wird gespeichert; die Reihenfolge ändert man per Drag & Drop oder mit Pfeilen (Desktop, Web) bzw. mit Pfeilen (Android)
@@ -17,7 +19,7 @@ Teams aus bis zu vier Charakteren zusammenstellen und für jeden Charakter einen
 - **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)
 - **Austausch** von Builds und Teams zwischen den Clients als JSON-Datei
-- **Konto anlegen** (Android): Registrierung direkt in der App
+- **Konto anlegen und löschen** (Android, Web): Registrierung und endgültiges Löschen des Kontos samt Daten direkt in der App
 - **Offline ansehen** (Android): Teams und Builds bleiben auch ohne Verbindung sichtbar
 
 Ein Build gehört zum **Charakter, nicht zum Team**: Kommt ein Charakter in mehreren Teams vor, hat er überall denselben Build.
