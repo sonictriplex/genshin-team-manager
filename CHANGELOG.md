@@ -2,6 +2,9 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
+## Desktop 1.1.4 (10.11.2026)
+- Rahmen der Teamkarten (auch beim Darüberfahren mit der Maus) wird wieder angezeigt
+
 ## Desktop 1.1.3 (10.11.2026)
 - Hintergrundbild leicht verwaschen, hinter den Teamkarten als Milchglas (wie in der Web-Version)
 

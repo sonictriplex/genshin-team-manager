@@ -4,7 +4,7 @@ from typing import Optional
 
 from PySide6.QtWidgets import (
     QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
-    QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy
+    QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QStyle, QStyleOption
 )
 from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
 from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath
@@ -115,6 +115,7 @@ class FrostedMixin:
     FROST_RADIUS = 10
 
     def paintEvent(self, event):
+        painter = QPainter(self)
         background = self.parentWidget()
         while background is not None and not hasattr(background, "frost_pixmap"):
             background = background.parentWidget()
@@ -122,13 +123,15 @@ class FrostedMixin:
             frost = background.frost_pixmap()
             if not frost.isNull():
                 origin = self.mapTo(background, QPoint(0, 0))
-                painter = QPainter(self)
                 path = QPainterPath()
                 path.addRoundedRect(QRectF(self.rect()), self.FROST_RADIUS, self.FROST_RADIUS)
                 painter.setClipPath(path)
                 painter.drawPixmap(0, 0, frost, origin.x(), origin.y(), self.width(), self.height())
-                painter.end()
-        super().paintEvent(event)
+                painter.setClipping(False)
+        # Hintergrund und Rahmen aus dem Stylesheet (inkl. :hover) darüber zeichnen
+        option = QStyleOption()
+        option.initFrom(self)
+        self.style().drawPrimitive(QStyle.PE_Widget, option, painter, self)
 
 
 class AddCharacterSlotWidget(FrostedMixin, QFrame):
