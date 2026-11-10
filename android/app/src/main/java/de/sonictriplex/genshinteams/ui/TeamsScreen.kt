@@ -14,7 +14,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.foundation.layout.PaddingValues
@@ -73,11 +73,9 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
         // Neue Teams lassen sich nur mit Verbindung anlegen
         floatingActionButton = {
             if (!vm.offline) {
-                ExtendedFloatingActionButton(
-                    onClick = onNewTeam,
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    text = { Text("Neues Team") },
-                )
+                FloatingActionButton(onClick = onNewTeam) {
+                    Icon(Icons.Filled.Add, contentDescription = "Neues Team")
+                }
             }
         },
     ) { padding ->

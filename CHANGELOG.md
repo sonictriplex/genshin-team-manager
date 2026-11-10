@@ -2,6 +2,9 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
+## Android 1.4.2 (10.11.2026)
+- Knopf „Neues Team“ unten rechts zeigt nur noch ein „+“
+
 ## Desktop 1.1.4 (10.11.2026)
 - Rahmen der Teamkarten (auch beim Darüberfahren mit der Maus) wird wieder angezeigt
 
