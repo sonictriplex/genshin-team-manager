@@ -43,8 +43,8 @@ class MainWindow(QMainWindow):
     def __init__(self, manager: Optional[GenshinManager] = None):
         super().__init__()
         self.setWindowTitle("Genshin Team-Slots Manager")
-        self.setMinimumSize(1080, 700)
-        self.resize(1080, 700)
+        self.setMinimumSize(1080, 670)
+        self.resize(1080, 670)
 
         self.manager = manager or GenshinManager()
         self.current_team_cards: list[CharacterCardWidget] = []

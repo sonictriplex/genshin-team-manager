@@ -3,7 +3,7 @@
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
 ## Desktop 1.1.2 (10.11.2026)
-- Fenster startet mit 1080×700 und lässt sich nicht kleiner ziehen
+- Fenster startet mit 1080×670 und lässt sich nicht kleiner ziehen
 
 ## Desktop 1.1.1 (10.11.2026)
 - Verschieben-Pfeile auf den Teamkarten sind wieder sichtbar (neue runde Knöpfe)
