@@ -2,6 +2,10 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
+## Android 1.5.0 (11.11.2026)
+- Tablet-Layout: Teams in zwei (Hochformat) bzw. drei Spalten (Querformat), Build-Ansicht und -Bearbeitung zweispaltig; Inhalt ist zentriert und in der Breite begrenzt
+- Handys bleiben im Hochformat gesperrt; Tablets lassen sich frei drehen, ohne dass ungespeicherte Änderungen beim Drehen verloren gehen
+
 ## Android 1.4.2 (10.11.2026)
 - Knopf „Neues Team“ unten rechts zeigt nur noch ein „+“
 

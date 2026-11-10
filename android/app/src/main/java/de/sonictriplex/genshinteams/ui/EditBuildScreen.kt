@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -60,13 +58,12 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
             )
         },
     ) { padding ->
-        Column(
-            Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
+        ScrollingContent(Modifier.padding(padding), twoColumns = true) {
             vm.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
             if (confirmDiscard) DiscardDialog(onConfirm = { confirmDiscard = false; onDone() }, onDismiss = { confirmDiscard = false })
 
+            TwoColumns(
+                left = {
             Card("Charakter") {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     IntField("Level", build.level, 1..BuildOptions.LEVEL_MAX, { build = build.copy(level = it) }, Modifier.weight(1f))
@@ -116,6 +113,8 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
                 SetPicker("Set 2 (optional, bei 2er-Sets)", build.artifact2, vm) { build = build.copy(artifact2 = it) }
             }
 
+                },
+                right = {
             ARTIFACT_SLOTS.forEach { slotName ->
                 val slot = build.artifactStats.getValue(slotName)
                 Card(slotName) {
@@ -152,6 +151,8 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
                     }
                 }
             }
+                },
+            )
         }
     }
 }

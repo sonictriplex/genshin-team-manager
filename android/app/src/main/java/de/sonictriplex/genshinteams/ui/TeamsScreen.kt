@@ -24,8 +24,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -87,9 +89,18 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                 data == null && vm.busy -> CircularProgressIndicator(Modifier.padding(24.dp).align(Alignment.CenterHorizontally))
                 data == null -> Unit
                 data.teams.isEmpty() -> Text("Noch keine Teams. Tippe auf „Neues Team“, um das erste anzulegen.", Modifier.padding(16.dp))
-                else -> LazyColumn(
+                else -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+                    val columns = when (rememberWidthClass()) {
+                        WidthClass.Compact -> 1
+                        WidthClass.Medium -> 2
+                        WidthClass.Expanded -> 3
+                    }
+                    LazyVerticalGrid(
+                    GridCells.Fixed(columns),
+                    Modifier.widthIn(max = if (columns > 1) TwoColumnMaxWidth else SingleColumnMaxWidth).fillMaxWidth(),
                     contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     itemsIndexed(data.teams, key = { _, team -> team.name }) { index, team ->
                         AppCard(alpha = 0.4f) {
@@ -128,6 +139,7 @@ fun TeamsScreen(vm: AppViewModel, onOpenCharacter: (String) -> Unit, onNewTeam: 
                             }
                         }
                     }
+                }
                 }
             }
         }

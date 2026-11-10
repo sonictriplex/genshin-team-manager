@@ -1,5 +1,6 @@
 package de.sonictriplex.genshinteams
 
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,6 +30,10 @@ import de.sonictriplex.genshinteams.ui.TeamsScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Handys bleiben im Hochformat; Tablets (kleinste Breite ab 600 dp) dürfen sich drehen
+        if (resources.configuration.smallestScreenWidthDp < 600) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
         // Die App ist immer dunkel: helle Symbole in den Systemleisten, unabhängig vom Systemmodus
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
