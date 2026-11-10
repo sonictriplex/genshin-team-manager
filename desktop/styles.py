@@ -74,7 +74,7 @@ QPushButton#secondaryButton {{
 QPushButton#secondaryButton:hover {{ background-color: {BG_HOVER}; }}
 
 /* ---------- Übersicht aller Teams ---------- */
-QScrollArea#allTeamsScroll, QWidget#allTeamsContent {{ background-color: {BG_WINDOW}; }}
+QScrollArea#allTeamsScroll, QScrollArea#allTeamsScroll > QWidget > QWidget, QWidget#allTeamsContent {{ background: transparent; }}
 QFrame#teamCard {{
     background-color: rgba(26, 24, 37, 100); border: 1px solid {BORDER}; border-radius: 10px;
 }}

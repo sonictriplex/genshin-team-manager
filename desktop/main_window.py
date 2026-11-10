@@ -2,14 +2,14 @@ import os
 from typing import Optional
 
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPainter, QPixmap, QColor
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
     QComboBox, QPushButton, QStackedWidget, QMessageBox, QDialog, QFileDialog, QSizePolicy, QScrollArea, QGridLayout
 )
 
 from manager import GenshinManager, DatabaseError
-from models import BASE_DIR
+from models import BASE_DIR, IMAGES_DIR
 from dialogs import CharacterSearchDialog
 from widgets import CharacterCardWidget, CardDropArea, AddCharacterSlotWidget, TeamSummaryCard, ArtifactPanel, normalize_build, show_db_error
 
@@ -18,6 +18,25 @@ CARD_MIN_WIDTH = 230
 CARD_MAX_WIDTH = 280
 CARD_DETAIL_WIDTH = 250
 NEW_TEAM_NAME = "Neues Team"
+
+
+class BackgroundWidget(QWidget):
+    """Zentrales Widget mit Hintergrundbild wie in der Web-Version (zugeschnitten wie `background-size: cover`)
+    und dunkler Abdeckung für die Lesbarkeit. Fehlt das Bild, bleibt es bei der einfarbigen Fensterfarbe."""
+
+    OVERLAY = QColor(13, 11, 20, 115)  # Fensterfarbe, ca. 45 % deckend (wie Android)
+
+    def __init__(self):
+        super().__init__()
+        self._image = QPixmap(os.path.join(IMAGES_DIR, "genshin-impact.jpg"))
+
+    def paintEvent(self, event):
+        if self._image.isNull():
+            return
+        painter = QPainter(self)
+        scaled = self._image.scaled(self.size(), Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
+        painter.drawPixmap((self.width() - scaled.width()) // 2, (self.height() - scaled.height()) // 2, scaled)
+        painter.fillRect(self.rect(), self.OVERLAY)
 
 
 class MainWindow(QMainWindow):
@@ -34,7 +53,7 @@ class MainWindow(QMainWindow):
 
         self._build_menu()
 
-        central_widget = QWidget()
+        central_widget = BackgroundWidget()
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
         main_layout.addLayout(self._build_header())
