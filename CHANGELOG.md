@@ -1,18 +1,26 @@
 # Änderungsverlauf
 
-Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer; frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
+Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
+
+## Desktop 1.6.1 (11.11.2026)
+- Neuer „Über“-Dialog (Menü Hilfe → Über…): Paimon-Bild, Name, Version, Kurzbeschreibung, Hinweis „Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden“ und das media-matrix-Logo
+- Die Versionsnummer steht jetzt im Code (`APP_VERSION` in `desktop/models.py`); ein Test gleicht sie mit diesem Changelog ab
+
+## Web 1.6.1 (11.11.2026)
+- Neuer „Über“-Dialog (Benutzermenü → Über): Paimon-Bild, Name, Version, Kurzbeschreibung, Fanprojekt-Hinweis und das media-matrix-Logo; schließt per Schließen-Knopf, Escape oder Klick daneben
+- Ein Test gleicht die angezeigte Version mit diesem Changelog ab
+
+## Android 1.6.1 (11.11.2026)
+- Neuer „Über“-Dialog (Menü ⋮ → Über): Paimon-Bild, Name, Version, Kurzbeschreibung, Fanprojekt-Hinweis und das media-matrix-Logo; die Version kommt automatisch aus der App
 
 ## Desktop 1.6.0 (11.11.2026)
-- „Über“-Dialog (Menü Hilfe → Über…) mit Version, Kurzbeschreibung, Fanprojekt-Hinweis und dem media-matrix-Logo; die Versionsnummer steht jetzt im Code (`APP_VERSION` in `desktop/models.py`)
 - Web, Android und Desktop tragen jetzt gemeinsam die Version 1.6.0. Ein Konto zum Löschen gibt es am Desktop nicht (lokale Daten)
 
 ## Web 1.6.0 (11.11.2026)
 - Konto löschen: Benutzermenü → „Konto löschen“, nach Passwortabfrage werden Konto, Teams und Builds endgültig gelöscht (auch in der Android-App). Neuer Endpunkt `auth.php?action=delete_account`, keine Migration nötig, Test `web/tests/api_delete_account.sh`
-- „Über“-Dialog im Benutzermenü mit Version, Kurzbeschreibung, Fanprojekt-Hinweis und dem media-matrix-Logo
 
 ## Android 1.6.0 (11.11.2026)
 - Konto löschen: Menü ⋮ → „Konto löschen“, nach Passwortabfrage werden Konto, Teams und Builds endgültig gelöscht (auch in der Web-Version)
-- „Über“-Dialog im Menü ⋮ mit Version, Kurzbeschreibung, Fanprojekt-Hinweis und dem media-matrix-Logo
 
 ## Android 1.5.0 (11.11.2026)
 - Tablet-Layout: Teams in zwei (Hochformat) bzw. drei Spalten (Querformat), Build-Ansicht und -Bearbeitung zweispaltig; Inhalt ist zentriert und in der Breite begrenzt
