@@ -634,8 +634,13 @@
                     const c = m.character || {};
                     const border = c.rarity == 5 ? '#d89f53' : '#a561c9';
                     const cname = c.name || '';
+                    const lvl = (m.saved && m.saved.level) || 90;
+                    const ec = ELEMENT_COLORS[c.element] || '#5bc0be';
                     return `<div class="min-w-0 text-center">
-                        <img src="${escapeHtml(getIconUrl(cname))}" alt="" loading="lazy" class="w-full aspect-square rounded-lg object-cover bg-inputBg" style="border: 2px solid ${border}">
+                        <div class="relative">
+                            <img src="${escapeHtml(getIconUrl(cname))}" alt="" loading="lazy" class="w-full aspect-square rounded-lg object-cover" style="border: 2px solid ${border}; background-color: ${ec}59">
+                            <span class="absolute top-0.5 left-1 text-[10px] leading-none font-bold text-white" style="text-shadow: 0 1px 3px rgba(0,0,0,0.9)">${escapeHtml(String(lvl))}</span>
+                        </div>
                         <div class="text-xs text-gray-200 truncate mt-1" title="${escapeHtml(cname)}">${escapeHtml(cname)}</div>
                     </div>`;
                 }).join('');
@@ -757,7 +762,7 @@
                     <!-- NAME & LEVEL -->
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-white text-base truncate max-w-[170px]" title="${escapeHtml(char.name || 'Unbekannt')}">${escapeHtml(char.name || 'Unbekannt')}</span>
+                            <span class="font-genshin font-bold text-white text-base truncate max-w-[170px]" title="${escapeHtml(char.name || 'Unbekannt')}">${escapeHtml(char.name || 'Unbekannt')}</span>
                             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border flex-shrink-0" style="color:${elemColor}; border-color:${elemColor}; background-color: rgba(0,0,0,0.3)">${escapeHtml(char.element || 'Anemo')}</span>
                         </div>
                         <div class="flex justify-between items-center text-gray-300 text-xs">
