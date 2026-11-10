@@ -2,6 +2,10 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen.
 
+## Android 1.4.1 (10.11.2026)
+- Teamliste: Charakterlevel klein oben links im Bild, Bilder mit transparentem Hintergrund in der Elementfarbe, durchsichtigere Teamkarten
+- Zu lange Titel (z. B. Charakternamen) werden verkleinert, bis sie ganz lesbar sind
+
 ## Android 1.4.0 (09.11.2026)
 - Teams in der Liste per Pfeil nach oben/unten verschieben; die Reihenfolge wird auf dem Server gespeichert
 
@@ -31,6 +35,8 @@ Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst g
 - Erste Version: Anmeldung per Token, Teams und Builds ansehen, bearbeiten und speichern, Charaktere umsortieren, Genshin-Design
 
 ## Server / Web
+- **Web, Desktop und Android:** In der Übersicht aller Teams steht das Charakterlevel klein oben links im Bild, die Bilder haben einen transparenten Hintergrund in der Elementfarbe und die Teamkarten sind durchsichtiger
+- **Web und Desktop:** Der Charaktername auf den Charakterkarten nutzt die Genshin-Schrift (der Desktop lädt sie dafür aus `shared/assets/zh-cn.ttf`); zu lange Namen werden verkleinert, bis sie ganz lesbar sind
 - **Web, Desktop und Android:** Teams lassen sich in der Übersicht verschieben (Pfeile, Web und Desktop auch per Drag & Drop); die Reihenfolge wird gespeichert (neue Spalte `teams.position`, Migration `003_team_position.sql`, `teams.php` nimmt `{order: [...]}` an)
 - **Web:** Ein Charakter, der schon in einem anderen Team ist, behält beim Hinzufügen zu einem neuen Team seinen Build (vorher startete er mit Standardwerten und überschrieb den gespeicherten Build)
 - **Begrenzung von Anmelde- und Registrierungsversuchen** (HTTP 429, `Retry-After`), Migration `002_auth_attempts.sql`
