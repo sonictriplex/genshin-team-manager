@@ -5,8 +5,8 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QComboBox,
     QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QAbstractItemView
 )
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtCore import Qt, QSize, QUrl, Signal
+from PySide6.QtGui import QDesktopServices, QIcon, QPixmap
 
 from models import APP_VERSION, IMAGES_DIR, Character, Weapon
 
@@ -198,6 +198,23 @@ class CharacterSearchDialog(SearchDialog):
         return c.icon_path, [c.name, c.element, c.weapon_type, c.region, f"{c.rarity} ★"]
 
 
+MEDIA_MATRIX_URL = "https://www.media-matrix.de"
+
+
+class ClickableLabel(QLabel):
+    """Label, das auf einen Linksklick reagiert (Zeigerhand beim Darüberfahren)."""
+    clicked = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setCursor(Qt.PointingHandCursor)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton and self.rect().contains(event.position().toPoint()):
+            self.clicked.emit()
+        super().mouseReleaseEvent(event)
+
+
 class AboutDialog(QDialog):
     """Kleiner „Über“-Dialog: Name, Version, Kurzbeschreibung und der Hinweis zum Fanprojekt."""
 
@@ -243,11 +260,12 @@ class AboutDialog(QDialog):
 
         logo_path = os.path.join(IMAGES_DIR, "mm_logo.png")
         if os.path.exists(logo_path):
-            logo = QLabel()
+            logo = ClickableLabel()
             logo.setObjectName("aboutLogo")
+            logo.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(MEDIA_MATRIX_URL)))
             logo.setPixmap(QPixmap(logo_path).scaledToHeight(41, Qt.SmoothTransformation))
             logo.setAlignment(Qt.AlignCenter)
-            logo.setToolTip("the media-matrix")
+            logo.setToolTip("the media-matrix – www.media-matrix.de")
             layout.addWidget(logo)
 
         close = QPushButton("Schließen")

@@ -406,6 +406,11 @@ test('Über-Dialog: Menüpunkt öffnet ihn mit Logo, Escape und Schließen schli
     assert.equal(modal.classList.contains('hidden'), false, 'Dialog offen');
     assert.equal(p.d.getElementById('userMenuList').classList.contains('hidden'), true, 'Menü schließt');
     assert.ok(modal.querySelector('img[src$="mm_logo.png"]'), 'media-matrix-Logo');
+    const link = modal.querySelector('#aboutLogoLink');
+    assert.equal(link.getAttribute('href'), 'https://www.media-matrix.de', 'Logo verlinkt auf die Webseite');
+    assert.equal(link.getAttribute('target'), '_blank', 'öffnet in neuem Tab');
+    assert.match(link.getAttribute('rel'), /noopener/, 'ohne Zugriff auf das Ursprungsfenster');
+    assert.ok(link.contains(modal.querySelector('img[src$="mm_logo.png"]')), 'das Logo steckt im Link');
     assert.match(modal.textContent, /HoYoverse/);
     p.d.dispatchEvent(new p.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     assert.equal(modal.classList.contains('hidden'), true, 'Escape schließt');

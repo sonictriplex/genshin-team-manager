@@ -200,3 +200,17 @@ class AboutTest(HeaderTest):
         self.assertIn("HoYoverse", texts)
         self.assertTrue(any(l.objectName() == "aboutLogo" and l.pixmap() and not l.pixmap().isNull() for l in opened[0].findChildren(QLabel)),
                         "das media-matrix-Logo wird angezeigt")
+
+    def test_about_logo_click_opens_media_matrix_website(self):
+        from PySide6.QtCore import QPoint, Qt
+        from PySide6.QtTest import QTest
+        import dialogs
+        dialog = dialogs.AboutDialog(self.window)
+        dialog.show()
+        app.processEvents()
+        logo = dialog.findChild(QLabel, "aboutLogo")
+        with mock.patch.object(dialogs.QDesktopServices, "openUrl", return_value=True) as open_url:
+            QTest.mouseClick(logo, Qt.LeftButton, Qt.NoModifier, QPoint(logo.width() // 2, logo.height() // 2))
+        self.assertEqual(open_url.call_count, 1)
+        self.assertEqual(open_url.call_args[0][0].toString(), "https://www.media-matrix.de")
+        dialog.close()

@@ -1,6 +1,7 @@
 package de.sonictriplex.genshinteams.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.BuildConfig
@@ -24,9 +26,12 @@ import de.sonictriplex.genshinteams.data.StammdatenRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+private const val MEDIA_MATRIX_URL = "https://www.media-matrix.de"
+
 /** Kleiner „Über“-Dialog: Name, Version, Kurzbeschreibung, Fanprojekt-Hinweis und das media-matrix-Logo. */
 @Composable
 fun AboutDialog(repo: StammdatenRepository, onDismiss: () -> Unit) {
+    val uriHandler = LocalUriHandler.current
     val paimon by produceState<ImageBitmap?>(null) { value = withContext(Dispatchers.IO) { repo.loadBitmap("assets/images/paimon.png")?.asImageBitmap() } }
     val logo by produceState<ImageBitmap?>(null) { value = withContext(Dispatchers.IO) { repo.loadBitmap("assets/images/mm_logo.png")?.asImageBitmap() } }
     AlertDialog(
@@ -50,7 +55,14 @@ fun AboutDialog(repo: StammdatenRepository, onDismiss: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                 )
-                logo?.let { Image(it, contentDescription = "the media-matrix", Modifier.height(41.dp), contentScale = ContentScale.Fit) }
+                logo?.let {
+                    // Das Logo öffnet die Webseite von the media-matrix im Browser
+                    Image(
+                        it, contentDescription = "the media-matrix, öffnet www.media-matrix.de",
+                        Modifier.height(41.dp).clickable(onClickLabel = "Webseite öffnen") { uriHandler.openUri(MEDIA_MATRIX_URL) },
+                        contentScale = ContentScale.Fit,
+                    )
+                }
             }
         },
     )

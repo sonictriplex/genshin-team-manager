@@ -126,7 +126,7 @@ Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/
 
 ## Versionen
 
-Web, Android und Desktop tragen seit 1.6.0 dieselbe Versionsnummer (aktuell **1.6.3**). Sie steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
+Web, Android und Desktop tragen seit 1.6.0 dieselbe Versionsnummer (aktuell **1.6.4**). Sie steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
 
 | Client | Stelle |
 |---|---|
