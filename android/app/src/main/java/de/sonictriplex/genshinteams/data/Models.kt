@@ -44,6 +44,8 @@ data class ArtifactSet(
     @SerialName("bonus_1pc") val bonus1pc: String = "",
     @SerialName("bonus_2pc") val bonus2pc: String = "",
     @SerialName("bonus_4pc") val bonus4pc: String = "",
+    /** Namen der Teile je Slot (Blume, Feder, ...); 1er-Sets haben nur die Krone. */
+    val pieces: Map<String, String> = emptyMap(),
 )
 
 // --- Austauschformat (shared/exchange-format.md) ---
@@ -79,6 +81,8 @@ data class Talents(val attack: Int = 1, val skill: Int = 1, val burst: Int = 1)
 
 @Serializable
 data class ArtifactSlot(
+    /** Name des Artefaktteils (z. B. "Zuflucht des Gladiators"); leer = nicht gewählt. */
+    val piece: String = "",
     val rarity: String = "",
     val level: Int = 0,
     @SerialName("main_stat") val mainStat: String = "",

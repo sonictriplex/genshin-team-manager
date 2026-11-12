@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from PySide6.QtWidgets import (
-    QApplication, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
+    QApplication, QCompleter, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
     QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QStyle, QStyleOption
 )
 from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
@@ -55,9 +55,10 @@ def normalize_build(build: dict, element: Optional[str] = None) -> dict:
     und "Detailansicht geöffnet, nichts eingetragen" als gleich erkannt werden.
     """
     defaults = ArtifactPanel.default_stats(element)
+    # Ältere Builds kennen das Feld "piece" (Teilname) noch nicht: fehlt es, gilt es als leer
     stats = {
         slot: values for slot, values in (build.get("artifact_stats") or {}).items()
-        if values != defaults.get(slot)
+        if not isinstance(values, dict) or {"piece": "", **values} != defaults.get(slot)
     }
     return {**build, "artifact_stats": stats}
 
@@ -739,6 +740,7 @@ class CharacterCardWidget(QFrame):
 
 @dataclass
 class ArtifactSlotWidgets:
+    piece: QComboBox
     rarity: QComboBox
     level: QSpinBox
     main: QComboBox
@@ -783,7 +785,7 @@ class ArtifactPanel(QFrame):
         """Die Werte, die ein unbearbeitetes Panel liefert (siehe set_stats({}) / get_stats())."""
         return {
             slot_name: {
-                "rarity": cls.RARITIES[0], "level": 20,
+                "piece": "", "rarity": cls.RARITIES[0], "level": 20,
                 "main_stat": cls.default_main_stat(slot_name, main_stats, element), "main_value": "",
                 "substats": [{"stat": "", "val": ""} for _ in range(4)],
             }
@@ -836,6 +838,9 @@ class ArtifactPanel(QFrame):
         layout.addLayout(grid, stretch=1)
 
         self.set_stats(card.saved_data.get("artifact_stats", {}))
+        # Wechselt ein Set, rücken dessen Teile in den Dropdowns nach oben (die Auswahl bleibt erhalten)
+        for combo in (card.art_combo, card.art_combo_2):
+            combo.currentIndexChanged.connect(self._on_sets_changed)
 
     def _build_slot(self, slot_name: str, main_stats: list[str]) -> QFrame:
         box = QFrame()
@@ -861,6 +866,19 @@ class ArtifactPanel(QFrame):
         head.addWidget(level)
         head.addWidget(rarity)
         box_layout.addLayout(head)
+
+        piece = QComboBox()
+        piece.setEditable(True)
+        piece.setInsertPolicy(QComboBox.NoInsert)
+        piece.lineEdit().setPlaceholderText("Teil wählen oder tippen …")
+        piece.setToolTip("Name des Artefaktteils. Die Teile der gewählten Sets stehen oben (fett), "
+                         "alle anderen darunter, so lässt sich auch ein Off-Piece auswählen.")
+        completer = piece.completer()
+        completer.setFilterMode(Qt.MatchContains)
+        completer.setCaseSensitivity(Qt.CaseInsensitive)
+        completer.setCompletionMode(QCompleter.PopupCompletion)
+        piece.view().setMinimumWidth(260)
+        box_layout.addWidget(piece)
 
         # Zusätzliche Höhe wird gleichmäßig auf die Abschnitte des Slots verteilt
         box_layout.addItem(QSpacerItem(0, 4, QSizePolicy.Minimum, QSizePolicy.Expanding))
@@ -892,7 +910,7 @@ class ArtifactPanel(QFrame):
             subs.append((cb, val))
         box_layout.addLayout(sub_grid)
 
-        self.slots[slot_name] = ArtifactSlotWidgets(rarity, level, main, main_val, subs)
+        self.slots[slot_name] = ArtifactSlotWidgets(piece, rarity, level, main, main_val, subs)
         return box
 
     @staticmethod
@@ -902,10 +920,54 @@ class ArtifactPanel(QFrame):
         edit.setFixedWidth(50)
         return edit
 
+    # --- Teilnamen ---
+
+    def _on_sets_changed(self, _index: int = 0):
+        self.refresh_pieces()
+
+    def _build_set_names(self) -> list[str]:
+        return [combo_value(self.card.art_combo), combo_value(self.card.art_combo_2)]
+
+    def refresh_pieces(self, selected: Optional[dict] = None):
+        """Füllt die Teil-Dropdowns neu (Teile der Build-Sets zuerst). `selected`: Slotname -> Teilname, sonst bleibt die Auswahl."""
+        set_names = self._build_set_names()
+        bold = QFont()
+        bold.setBold(True)
+        for slot_name, w in self.slots.items():
+            current = (selected or {}).get(slot_name) if selected is not None else self.piece_value(w)
+            combo = w.piece
+            combo.blockSignals(True)
+            combo.clear()
+            combo.addItem("")
+            options = self.manager.piece_options(slot_name, set_names)
+            for name, in_set in options:
+                combo.addItem(name)
+                if in_set:
+                    combo.setItemData(combo.count() - 1, bold, Qt.FontRole)
+            if any(in_set for _, in_set in options) and not all(in_set for _, in_set in options):
+                combo.insertSeparator(1 + sum(1 for _, in_set in options if in_set))
+            if current and combo.findText(current, Qt.MatchFixedString) < 0:
+                combo.addItem(current)  # Teil, das nicht (mehr) in den Stammdaten steht, bleibt erhalten
+            idx = combo.findText(current or "", Qt.MatchFixedString)
+            combo.setCurrentIndex(max(idx, 0))
+            combo.blockSignals(False)
+
+    @staticmethod
+    def piece_value(w: ArtifactSlotWidgets) -> str:
+        """Gewählter Teilname; Text, der zu keinem Eintrag passt, zählt als leer."""
+        text = w.piece.currentText().strip()
+        idx = w.piece.findText(text, Qt.MatchFixedString)
+        return w.piece.itemText(idx) if idx >= 0 else ""
+
     # --- Werte lesen / setzen ---
 
     def set_stats(self, stats: dict):
         """Überträgt gespeicherte Werte in die Felder; fehlende Werte werden auf Standard gesetzt."""
+        pieces = {}
+        for slot_name in self.slots:
+            saved = stats.get(slot_name)
+            pieces[slot_name] = saved.get("piece", "") if isinstance(saved, dict) else ""
+        self.refresh_pieces({k: v if isinstance(v, str) else "" for k, v in pieces.items()})
         for slot_name, w in self.slots.items():
             saved = stats.get(slot_name)
             if not isinstance(saved, dict):
@@ -926,6 +988,7 @@ class ArtifactPanel(QFrame):
     def get_stats(self) -> dict:
         return {
             slot_name: {
+                "piece": self.piece_value(w),
                 "rarity": w.rarity.currentText(),
                 "level": w.level.value(),
                 "main_stat": w.main.currentText(),

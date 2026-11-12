@@ -4,7 +4,7 @@ from typing import Optional
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.6.4"
+APP_VERSION = "1.7.0"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -84,9 +84,11 @@ class ArtifactSet:
         name: str,
         bonus_1pc: str = "",
         bonus_2pc: str = "",
-        bonus_4pc: str = ""
+        bonus_4pc: str = "",
+        pieces: Optional[dict] = None
     ):
         self.name = name
+        self.pieces = pieces or {}  # Slotname (Blume, Feder, ...) -> Name des Teils
         self.bonus_1pc = bonus_1pc
         self.bonus_2pc = bonus_2pc
         self.bonus_4pc = bonus_4pc

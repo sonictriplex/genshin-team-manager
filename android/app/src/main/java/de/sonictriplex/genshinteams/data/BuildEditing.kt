@@ -49,6 +49,21 @@ fun Build.normalized(): Build = copy(
     },
 )
 
+/** Ein Eintrag der Teil-Auswahl: [inBuildSet] = das Teil gehört zu einem der beiden Sets des Builds. */
+data class PieceOption(val name: String, val setName: String, val inBuildSet: Boolean)
+
+/**
+ * Auswahl für das Teil eines Slots: zuerst die Teile der Sets des Builds, danach die aller übrigen Sets
+ * alphabetisch. So lässt sich auch ein Off-Piece (ein Teil aus einem anderen Set) wählen.
+ */
+fun pieceOptions(artifacts: List<ArtifactSet>, slotName: String, buildSets: List<String>): List<PieceOption> {
+    val wanted = buildSets.filter { it.isNotBlank() }.toSet()
+    val all = artifacts.mapNotNull { set ->
+        set.pieces[slotName]?.takeIf { it.isNotBlank() }?.let { PieceOption(it, set.name, set.name in wanted) }
+    }.distinctBy { it.name }
+    return all.filter { it.inBuildSet } + all.filterNot { it.inBuildSet }.sortedBy { it.name.lowercase() }
+}
+
 fun Build.withSlot(slotName: String, change: (ArtifactSlot) -> ArtifactSlot): Build {
     val slot = artifactStats[slotName] ?: return this
     return copy(artifactStats = artifactStats + (slotName to change(slot)))

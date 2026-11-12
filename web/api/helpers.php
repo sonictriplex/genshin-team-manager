@@ -18,6 +18,7 @@ function clean_set($value): string {
  * Bringt artifact_stats in ein sauberes, immer gleiches Format:
  * - Rückgabe ist ein assoziatives Array (Slot => Daten) oder leer
  * - jeder Slot hat genau 4 Substats der Form {stat, val}
+ * - piece (Name des Artefaktteils) ist, falls vorhanden, ein String mit höchstens 255 Zeichen
  */
 function normalize_artifact_stats($stats): array {
     if (!is_array($stats)) return [];
@@ -48,6 +49,9 @@ function normalize_artifact_stats($stats): array {
         }
 
         $slot['substats'] = $subs;
+        if (array_key_exists('piece', $slot)) {
+            $slot['piece'] = is_string($slot['piece']) ? mb_substr(trim($slot['piece']), 0, 255) : '';
+        }
         $clean[$slotName] = $slot;
     }
     return $clean;

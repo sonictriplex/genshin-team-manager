@@ -192,7 +192,7 @@
             <img src="/assets/images/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.6.4</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.7.0</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
@@ -645,6 +645,7 @@
                 const raritySelect = document.getElementById(`art_rarity_${slotName}`);
                 const mainSelect = document.getElementById(`art_main_${slotName}`);
                 const mainValInput = document.getElementById(`art_mainval_${slotName}`);
+                const pieceSelect = document.getElementById(`art_piece_${slotName}`);
 
                 // ensureSlot erhält die bereits eingetragenen Substats
                 const slot = ensureSlot(activeDetailIndex, slotName);
@@ -652,6 +653,7 @@
                 slot.rarity = raritySelect ? raritySelect.value : "5★";
                 slot.main_stat = mainSelect ? mainSelect.value : "";
                 slot.main_value = mainValInput ? mainValInput.value : "";
+                if (pieceSelect) slot.piece = pieceSelect.value;
             });
         }
 
@@ -953,6 +955,12 @@
         function updateSavedProp(index, prop, val) {
             if (!currentTeamMembers[index].saved) currentTeamMembers[index].saved = {};
             currentTeamMembers[index].saved[prop] = val;
+            // Wechselt das Set eines geöffneten Charakters, rücken dessen Teile in den Teil-Dropdowns nach oben
+            if ((prop === 'artifact' || prop === 'artifact_2') && index === activeDetailIndex
+                && document.getElementById('artifactSlotsGrid')?.children.length) {
+                syncActiveDetailStats();
+                renderArtifactPanel(currentTeamMembers[index]);
+            }
         }
 
         function updateTalent(index, talentProp, val) {
@@ -1088,6 +1096,33 @@
             return { stat: str, val: "" };
         }
 
+        // Auswahl für das Teil-Dropdown eines Slots: Teile der Build-Sets zuerst, danach alle übrigen (Off-Pieces sind erlaubt)
+        function artifactPieceOptions(slotName, item, current) {
+            const wanted = [item.saved?.artifact, item.saved?.artifact_2].filter(Boolean);
+            const mine = [], others = [];
+            availableArtifacts.forEach(a => {
+                const piece = a.pieces && a.pieces[slotName];
+                if (piece) (wanted.includes(a.name) ? mine : others).push(piece);
+            });
+            others.sort((x, y) => x.localeCompare(y, 'de'));
+            // Ein gespeichertes Teil, das nicht (mehr) in den Stammdaten steht, bleibt auswählbar
+            const extra = (current && !mine.includes(current) && !others.includes(current)) ? [current] : [];
+            return { mine, others, extra };
+        }
+
+        function artifactPieceSelectHTML(slotName, item, current) {
+            const { mine, others, extra } = artifactPieceOptions(slotName, item, current);
+            const opt = name => `<option value="${escapeHtml(name)}" ${name === current ? 'selected' : ''}>${escapeHtml(name)}</option>`;
+            const group = (label, list) => list.length ? `<optgroup label="${label}">${list.map(opt).join('')}</optgroup>` : '';
+            return `
+                <select id="art_piece_${slotName}" onchange="updateArtProp('${slotName}', 'piece', this.value)" title="Name des Artefaktteils. Teile der gewählten Sets stehen oben, darunter alle anderen (Off-Piece)." class="w-full bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 mb-2 truncate outline-none focus:border-accent">
+                    <option value="">— Teil wählen —</option>
+                    ${group('Teile der gewählten Sets', mine)}
+                    ${group('Gespeichert', extra)}
+                    ${group(mine.length ? 'Weitere Teile (Off-Piece)' : 'Alle Teile', others)}
+                </select>`;
+        }
+
         function renderArtifactPanel(item) {
             const grid = document.getElementById('artifactSlotsGrid');
             grid.innerHTML = '';
@@ -1140,6 +1175,8 @@
                             </select>
                         </div>
                     </div>
+
+                    ${artifactPieceSelectHTML(slot.name, item, typeof sData.piece === 'string' ? sData.piece : '')}
 
                     <div class="flex gap-2 mb-2">
                         <select id="art_main_${slot.name}" onchange="updateArtProp('${slot.name}', 'main_stat', this.value)" class="flex-1 bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5">

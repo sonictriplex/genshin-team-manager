@@ -49,7 +49,7 @@ Teams und Builds lassen sich bearbeiten; die Reihenfolge der Teammitglieder änd
 
 `app/build.gradle.kts` bindet `../shared` als Asset-Ordner ein. Bilder (`assets/images/…`) und `stammdaten.json` liegen in der APK unter denselben Pfaden wie im Repo. Spezifikationen und Testdaten sind ausgeschlossen. Die Daten werden also nicht kopiert; neue Bilder oder Stammdaten wirken nach einem neuen Build.
 
-Teams und Builds kommen über `api/transfer.php` im [Austauschformat](../shared/exchange-format.md). Beim Speichern sendet die App genau einen Build oder ein Team per `POST` im Modus `merge` an dieselbe Adresse; alles andere bleibt unberührt, und der Server begrenzt die Werte wie bei den anderen Clients. Teams löscht sie mit `DELETE api/teams.php?name=…`; Umbenennen ist Speichern unter dem neuen Namen plus Löschen des alten. Die Auswahllisten (Haupt- und Substats) stehen in `data/BuildEditing.kt` und müssen mit `web/index.html` und `desktop/widgets.py` übereinstimmen.
+Teams und Builds kommen über `api/transfer.php` im [Austauschformat](../shared/exchange-format.md). Beim Speichern sendet die App genau einen Build oder ein Team per `POST` im Modus `merge` an dieselbe Adresse; alles andere bleibt unberührt, und der Server begrenzt die Werte wie bei den anderen Clients. Teams löscht sie mit `DELETE api/teams.php?name=…`; Umbenennen ist Speichern unter dem neuen Namen plus Löschen des alten. Die Teilnamen der Artefakte stammen aus `stammdaten.json` (`pieces` je Set). Die Auswahllisten (Haupt- und Substats) stehen in `data/BuildEditing.kt` und müssen mit `web/index.html` und `desktop/widgets.py` übereinstimmen.
 
 ## Bauen und Testen
 

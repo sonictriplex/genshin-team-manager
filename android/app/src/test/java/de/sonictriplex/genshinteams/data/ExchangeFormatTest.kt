@@ -92,6 +92,38 @@ class BuildEditingTest {
         assertTrue(body.contains("\"artifact_2\":"))
         assertTrue(body.contains("\"talents\":{\"attack\":1,\"skill\":9,\"burst\":9}"))
     }
+
+    private val artifacts = AppJson.decodeFromString<Stammdaten>(File(shared, "stammdaten.json").readText()).artifacts
+
+    @Test
+    fun teileDerBuildSetsStehenZuerstUndOffPiecesFolgen() {
+        val options = pieceOptions(artifacts, "Feder", listOf("Abenteurer", "Berserker", ""))
+        assertEquals(listOf(true, true), options.take(2).map { it.inBuildSet })
+        assertEquals(setOf("Abenteurerschwanzfeder", "Berserkerfeder"), options.take(2).map { it.name }.toSet())
+        assertTrue(options.drop(2).none { it.inBuildSet })
+        assertTrue(options.any { it.name == "Zuflucht des Gladiators" && it.setName == "Verbeugung des Gladiators" })
+        val others = options.drop(2).map { it.name.lowercase() }
+        assertEquals(others.sorted(), others)
+    }
+
+    @Test
+    fun einzelteilSetsGibtEsNurBeiDerKrone() {
+        assertTrue(pieceOptions(artifacts, "Krone", emptyList()).any { it.name == "Wasseropferdiadem" })
+        assertTrue(pieceOptions(artifacts, "Blume", emptyList()).none { it.name == "Wasseropferdiadem" })
+    }
+
+    @Test
+    fun teilnameBleibtBeimNormalisierenUndSpeichernErhalten() {
+        val build = Build(name = "Barbara").normalized().withSlot("Feder") { it.copy(piece = "Zuflucht des Gladiators") }
+        assertEquals("Zuflucht des Gladiators", build.normalized().artifactStats.getValue("Feder").piece)
+        val body = importPayload(builds = listOf(build))
+        assertTrue(body.contains("\"piece\":\"Zuflucht des Gladiators\""))
+        val back = parseExchange(AppJson.parseToJsonElement(body).jsonObject.getValue("data").toString())
+        assertEquals("Zuflucht des Gladiators", back.builds.single().artifactStats.getValue("Feder").piece)
+        // Alte Dateien ohne "piece" bleiben lesbar
+        val old = AppJson.decodeFromString<ArtifactSlot>("""{"rarity":"5★","level":20}""")
+        assertEquals("", old.piece)
+    }
 }
 
 class TeamEditingTest {

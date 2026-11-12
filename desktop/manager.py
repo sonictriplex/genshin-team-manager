@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 from typing import Optional
 from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
-from seed import SEED_PATH, import_seed, is_seeded
+from seed import SEED_PATH, fill_artifact_pieces, import_seed, is_seeded
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
 
@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS artifacts (
     name TEXT UNIQUE NOT NULL,
     bonus_1pc TEXT DEFAULT '',
     bonus_2pc TEXT DEFAULT '',
-    bonus_4pc TEXT DEFAULT ''
+    bonus_4pc TEXT DEFAULT '',
+    pieces_json TEXT DEFAULT '{}'
 );
 CREATE TABLE IF NOT EXISTS user_characters (
     char_name TEXT PRIMARY KEY,
@@ -106,7 +107,8 @@ class GenshinManager:
                 conn.executescript(SCHEMA)
                 self._migrate_weapon_icons(conn)
                 self._migrate_team_position(conn)
-        except sqlite3.Error as e:
+                self._migrate_artifact_pieces(conn)
+        except (sqlite3.Error, OSError, json.JSONDecodeError) as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
 
     @staticmethod
@@ -130,6 +132,15 @@ class GenshinManager:
             return
         conn.execute("ALTER TABLE teams ADD COLUMN position INTEGER NOT NULL DEFAULT 0")
         conn.execute("UPDATE teams SET position = id")
+
+    def _migrate_artifact_pieces(self, conn: sqlite3.Connection):
+        """Ältere Datenbanken: Spalte artifacts.pieces_json (Namen der Artefaktteile) ergänzen und aus der Seed-Datei füllen."""
+        columns = [r[1] for r in conn.execute("PRAGMA table_info(artifacts)")]
+        if "pieces_json" in columns:
+            return
+        conn.execute("ALTER TABLE artifacts ADD COLUMN pieces_json TEXT DEFAULT '{}'")
+        if self.seed_path and os.path.exists(self.seed_path):
+            fill_artifact_pieces(conn, self.seed_path)
 
     def seed_if_empty(self):
         """Spielt die Stammdaten aus der JSON-Datei ein, wenn die Datenbank noch keine hat."""
@@ -191,13 +202,34 @@ class GenshinManager:
             self.available_weapons = []
             raise DatabaseError(f"Fehler beim Laden der Waffen: {e}") from e
 
+    @staticmethod
+    def _parse_pieces(text: Optional[str]) -> dict:
+        try:
+            pieces = json.loads(text or "{}")
+        except json.JSONDecodeError:
+            return {}
+        return pieces if isinstance(pieces, dict) else {}
+
+    def piece_options(self, slot_name: str, set_names: list[str]) -> list[tuple[str, bool]]:
+        """Auswahl für das Teil-Dropdown eines Slots: (Name, gehört zu einem der Build-Sets).
+
+        Teile der Build-Sets stehen zuerst, danach die übrigen Sets alphabetisch (Off-Pieces sind erlaubt).
+        """
+        wanted = {n.lower() for n in set_names if n}
+        in_set, other = [], []
+        for art in self.available_artifacts:
+            piece = art.pieces.get(slot_name)
+            if piece:
+                (in_set if art.name.lower() in wanted else other).append(piece)
+        return [(p, True) for p in in_set] + [(p, False) for p in sorted(other, key=str.casefold)]
+
     def load_artifacts(self):
         """Lädt Artefaktsets aus der SQLite-Datenbank."""
         try:
             with self.get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT name, bonus_1pc, bonus_2pc, bonus_4pc 
+                    SELECT name, bonus_1pc, bonus_2pc, bonus_4pc, pieces_json
                     FROM artifacts ORDER BY name ASC
                 """)
                 rows = cursor.fetchall()
@@ -206,7 +238,8 @@ class GenshinManager:
                         name=row[0],
                         bonus_1pc=row[1] or "",
                         bonus_2pc=row[2] or "",
-                        bonus_4pc=row[3] or ""
+                        bonus_4pc=row[3] or "",
+                        pieces=self._parse_pieces(row[4])
                     ) for row in rows
                 ]
         except sqlite3.Error as e:

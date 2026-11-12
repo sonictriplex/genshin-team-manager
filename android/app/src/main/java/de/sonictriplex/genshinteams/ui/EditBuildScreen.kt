@@ -28,6 +28,7 @@ import de.sonictriplex.genshinteams.data.Build
 import de.sonictriplex.genshinteams.data.BuildOptions
 import de.sonictriplex.genshinteams.data.Talents
 import de.sonictriplex.genshinteams.data.normalized
+import de.sonictriplex.genshinteams.data.pieceOptions
 import de.sonictriplex.genshinteams.data.withSlot
 import de.sonictriplex.genshinteams.data.withSubstat
 
@@ -118,6 +119,7 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
             ARTIFACT_SLOTS.forEach { slotName ->
                 val slot = build.artifactStats.getValue(slotName)
                 Card(slotName) {
+                    PiecePicker(slotName, slot.piece, build, vm) { v -> build = build.withSlot(slotName) { it.copy(piece = v) } }
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                         IntField("Level", slot.level, 0..20, { v -> build = build.withSlot(slotName) { it.copy(level = v) } }, Modifier.weight(1f))
                         Dropdown(slot.rarity, BuildOptions.RARITIES, { v -> build = build.withSlot(slotName) { it.copy(rarity = v) } }, Modifier.weight(1f))
@@ -166,6 +168,22 @@ private fun SetPicker(label: String, value: String, vm: AppViewModel, onPick: (S
         val sets = vm.stammdaten.stammdaten.artifacts.map { PickerItem(it.name) }
         SearchPickerDialog(
             "Artefaktset wählen", sets, null, "Kein Set",
+            onPick = { onPick(it); picking = false },
+            onDismiss = { picking = false },
+        )
+    }
+}
+
+/** Auswahl des Artefaktteils: Teile der gewählten Sets stehen oben, alle anderen darunter (Off-Piece). */
+@Composable
+private fun PiecePicker(slotName: String, value: String, build: Build, vm: AppViewModel, onPick: (String) -> Unit) {
+    var picking by remember { mutableStateOf(false) }
+    OutlinedButton(onClick = { picking = true }, Modifier.fillMaxWidth()) { Text(value.ifBlank { "Teil wählen" }, maxLines = 1) }
+    if (picking) {
+        val options = pieceOptions(vm.stammdaten.stammdaten.artifacts, slotName, listOf(build.artifact, build.artifact2))
+        val items = options.map { PickerItem(it.name, if (it.inBuildSet) "${it.setName} (Set des Builds)" else it.setName) }
+        SearchPickerDialog(
+            "$slotName wählen", items, null, "Kein Teil",
             onPick = { onPick(it); picking = false },
             onDismiss = { picking = false },
         )

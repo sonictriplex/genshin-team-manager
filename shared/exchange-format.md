@@ -38,7 +38,7 @@ Gemeinsames JSON-Format aller Clients: Desktop (Menü „Datei“), Web (`api/tr
 | `talents` | `{attack, skill, burst}` | je 1–13, Standard 1 |
 | `artifact_stats` | Objekt | Slotname → Slot; `{}` wenn leer |
 
-**Slot** (Schlüssel: `Blume`, `Feder`, `Sanduhr`, `Kelch`, `Krone`): `rarity` (z. B. `"5★"`), `level`, `main_stat`, `main_value` und `substats`, immer genau 4 Einträge `{stat, val}`. Werte sind Strings mit Dezimalkomma (`"15,7"`). Das Altformat `"KT% + 3.9"` für einen Substat wird beim Import in `{stat, val}` umgewandelt.
+**Slot** (Schlüssel: `Blume`, `Feder`, `Sanduhr`, `Kelch`, `Krone`): `piece` (optional, Name des Artefaktteils, z. B. `"Zuflucht des Gladiators"`, leer = nicht gewählt; kann auch aus einem anderen als dem Build-Set stammen), `rarity` (z. B. `"5★"`), `level`, `main_stat`, `main_value` und `substats`, immer genau 4 Einträge `{stat, val}`. Werte sind Strings mit Dezimalkomma (`"15,7"`). Das Altformat `"KT% + 3.9"` für einen Substat wird beim Import in `{stat, val}` umgewandelt.
 
 ### Team
 

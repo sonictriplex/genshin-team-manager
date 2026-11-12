@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS artifacts (
     name      VARCHAR(255) NOT NULL UNIQUE,
     bonus_1pc TEXT,
     bonus_2pc TEXT,
-    bonus_4pc TEXT
+    bonus_4pc TEXT,
+    pieces_json TEXT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Nutzerdaten

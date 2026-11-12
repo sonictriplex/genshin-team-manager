@@ -26,14 +26,14 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  * Lädt die Seite mit einem Team "Test" aus Furina, Nilou und Barbara (in dieser Reihenfolge).
  * Die Seite startet mit der Übersicht aller Teams; `openTeam` öffnet das Team danach wie ein Klick auf seine Karte.
  */
-async function loadPage({ loggedIn = true, openTeam = true, teams = null } = {}) {
+async function loadPage({ loggedIn = true, openTeam = true, teams = null, artifacts = [] } = {}) {
     const posted = [];
     const deleted = [];
     const routes = {
         'auth.php?action=status': loggedIn ? { logged_in: true, username: 'tester', user_id: 1 } : { logged_in: false },
         'characters.php': CHARACTERS,
         'weapons.php': [],
-        'artifacts.php': [],
+        'artifacts.php': artifacts,
         'teams.php': teams || { Test: CHARACTERS.slice(0, 3).map(c => ({ character: c, saved: { level: 90 } })) },
     };
     const dom = new JSDOM(INDEX, {
@@ -441,4 +441,31 @@ test('Anmeldeseite: Überschrift steht über der Box, der Dialog bringt sein eig
     assert.equal(heading.nextElementSibling, card, 'Box folgt direkt auf die Überschrift');
     assert.ok(heading.classList.contains('text-center'), 'zentriert');
     assert.match(modal.getAttribute('style'), /genshin-impact\.jpg/, 'Hintergrundbild');
+});
+
+test('Artefaktteile: Dropdown pro Slot, Teile der gewählten Sets zuerst, Off-Piece wählbar, Auswahl wird gespeichert', async () => {
+    const artifacts = STAMMDATEN.artifacts.map((a, i) => ({ id: i + 1, name: a.name, bonus_2pc: a.bonus_2pc, bonus_4pc: a.bonus_4pc, pieces: a.pieces }));
+    const teams = { Test: [{ character: CHARACTERS[0], saved: { level: 90, artifact: 'Abenteurer', artifact_2: 'Berserker' } }] };
+    const { w, d, posted } = await loadPage({ artifacts, teams });
+    w.toggleDetailView(0);
+
+    const feder = d.getElementById('art_piece_Feder');
+    const groups = [...feder.querySelectorAll('optgroup')];
+    assert.equal(groups[0].label, 'Teile der gewählten Sets');
+    assert.ok([...groups[0].children].some(o => o.value === 'Abenteurerschwanzfeder'));
+    assert.equal(groups[0].children.length, 2);
+    assert.ok([...groups[1].children].some(o => o.value === 'Zuflucht des Gladiators'), 'Off-Piece aus fremdem Set ist wählbar');
+    assert.equal(d.getElementById('art_piece_Krone').querySelectorAll('option').length > 60, true);
+
+    feder.value = 'Zuflucht des Gladiators';
+    feder.dispatchEvent(new w.Event('change', { bubbles: true }));
+    // Setwechsel baut die Dropdowns neu auf und behält die Auswahl
+    w.updateSavedProp(0, 'artifact', 'Verbeugung des Gladiators');
+    const neu = d.getElementById('art_piece_Feder');
+    assert.equal(neu.value, 'Zuflucht des Gladiators');
+    assert.ok([...neu.querySelector('optgroup').children].some(o => o.value === 'Zuflucht des Gladiators'), 'Teil steht jetzt bei den Teilen der gewählten Sets');
+
+    await w.saveCurrentTeam();
+    const sent = posted.find(p => p.url.includes('teams.php'));
+    assert.equal(sent.body.members[0].artifact_stats.Feder.piece, 'Zuflucht des Gladiators');
 });

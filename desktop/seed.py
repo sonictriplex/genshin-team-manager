@@ -23,8 +23,27 @@ SEED_PATH = os.path.join(SHARED_DIR, "stammdaten.json")
 TABLES = {
     "characters": ["name", "element", "weapon_type", "region", "rarity", "icon_path"],
     "weapons": ["name", "weapon_type", "rarity", "icon_path"],
-    "artifacts": ["name", "bonus_1pc", "bonus_2pc", "bonus_4pc"],
+    "artifacts": ["name", "bonus_1pc", "bonus_2pc", "bonus_4pc", "pieces_json"],
 }
+
+
+def _row_from_json(table: str, row: dict) -> dict:
+    """JSON-Eintrag -> Datenbankzeile (Artefakt-Teilnamen `pieces` werden als Text in `pieces_json` abgelegt)."""
+    if table == "artifacts":
+        row = dict(row)
+        row["pieces_json"] = json.dumps(row.get("pieces") or {}, ensure_ascii=False)
+    return row
+
+
+def _row_to_json(table: str, row: dict) -> dict:
+    """Datenbankzeile -> JSON-Eintrag (`pieces_json` wird wieder zum Objekt `pieces`)."""
+    if table == "artifacts":
+        row = dict(row)
+        try:
+            row["pieces"] = json.loads(row.pop("pieces_json", None) or "{}")
+        except json.JSONDecodeError:
+            row["pieces"] = {}
+    return row
 
 
 def export_seed(conn: sqlite3.Connection, path: str = SEED_PATH) -> dict[str, int]:
@@ -32,7 +51,7 @@ def export_seed(conn: sqlite3.Connection, path: str = SEED_PATH) -> dict[str, in
     data = {}
     for table, columns in TABLES.items():
         rows = conn.execute(f"SELECT {', '.join(columns)} FROM {table} ORDER BY id").fetchall()
-        data[table] = [dict(zip(columns, row)) for row in rows]
+        data[table] = [_row_to_json(table, dict(zip(columns, row))) for row in rows]
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -54,10 +73,29 @@ def import_seed(conn: sqlite3.Connection, path: str = SEED_PATH) -> dict[str, in
         placeholders = ", ".join("?" for _ in columns)
         sql = f"INSERT OR IGNORE INTO {table} ({', '.join(columns)}) VALUES ({placeholders})"
         before = conn.total_changes
-        conn.executemany(sql, [tuple(row.get(c) for c in columns) for row in data.get(table, [])])
+        rows = [_row_from_json(table, row) for row in data.get(table, [])]
+        conn.executemany(sql, [tuple(row.get(c) for c in columns) for row in rows])
         inserted[table] = conn.total_changes - before
     conn.commit()
     return inserted
+
+
+def fill_artifact_pieces(conn: sqlite3.Connection, path: str = SEED_PATH) -> int:
+    """Trägt die Teilnamen der Artefaktsets aus der JSON-Datei nach (für Datenbanken ohne `pieces_json`).
+
+    Rückgabe: Anzahl aktualisierter Sets. Sets ohne Teilnamen in der Datei bleiben unverändert.
+    """
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    changed = 0
+    for row in data.get("artifacts", []):
+        pieces = row.get("pieces")
+        if not pieces:
+            continue
+        cur = conn.execute("UPDATE artifacts SET pieces_json = ? WHERE name = ?",
+                           (json.dumps(pieces, ensure_ascii=False), row["name"]))
+        changed += cur.rowcount
+    return changed
 
 
 def is_seeded(conn: sqlite3.Connection) -> bool:

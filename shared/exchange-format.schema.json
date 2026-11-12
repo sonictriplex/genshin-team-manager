@@ -41,6 +41,7 @@
     "slot": {
       "type": "object",
       "properties": {
+        "piece": { "type": "string", "maxLength": 255 },
         "rarity": { "type": "string" },
         "level": { "type": "integer" },
         "main_stat": { "type": "string" },

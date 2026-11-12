@@ -22,7 +22,7 @@ Du spielst nur mit und willst die App benutzen? Dann geht es hier zur [Anleitung
 
 - **Teams** mit bis zu 4 Charakteren anlegen, speichern, umbenennen und löschen; die Reihenfolge der Teams in der Übersicht lässt sich verschieben (Pfeile in allen Clients, in Web und Desktop auch per Drag & Drop) und wird gespeichert
 - **Builds pro Charakter:** Level, Sternbild (C0–C6), Talente (A/E/Q), Waffe mit Level und Veredelung, zwei Artefaktsets
-- **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) Seltenheit, Level, Hauptwert und bis zu 4 Substats
+- **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) der Name des Teils (Auswahl aus allen Sets, die Teile der gewählten Sets stehen oben, ein Off-Piece ist möglich), Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)
 - **Austausch** von Builds und Teams zwischen den Clients als JSON-Datei
 - **Konto anlegen und löschen** (Android, Web): Registrierung und endgültiges Löschen des Kontos samt Teams und Builds, jeweils direkt in der App bzw. Seite (Löschen nur nach erneuter Passworteingabe)
@@ -121,7 +121,7 @@ Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/
 ## Bereitstellung
 
 - **Web-Version hochladen:** `deploy/deploy.sh --dry-run` zeigt, was sich ändern würde, `deploy/deploy.sh` lädt es per FTPS hoch (Zugangsdaten in `deploy/deploy.local.env`, Vorlage: `deploy/deploy.example.env`; Anleitung in [deploy/README.md](deploy/README.md)). Das Skript lädt nur Geändertes hoch, sichert vorher die überschriebenen Dateien und fasst `api/db.php` sowie `api/config.local.php` nie an.
-- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen); jede Migration einmal ausführen.
+- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen, `004_artifact_pieces.sql` für die Namen der Artefaktteile); jede Migration einmal ausführen.
 - **Android-Release:** Signieren und Bauen beschreibt [android/README.md](android/README.md). Eine fertige APK wird nicht veröffentlicht.
 
 ## Versionen
