@@ -841,10 +841,10 @@ class ArtifactPanel(QFrame):
         for row in range(3):
             grid.setRowStretch(row, 1)
 
-        # Die Buttons stehen in der freien Zelle neben der Krone, unten bündig mit den Slot-Karten.
-        # So füllen die Karten die ganze Höhe, und unten bleibt derselbe Abstand wie seitlich.
+        # Alle sechs Boxen (fünf Slots und die Gesamtwerte) sind gleich hoch, die Buttons stehen darunter, rechtsbündig
         buttons = QHBoxLayout()
         buttons.setSpacing(8)
+        buttons.addStretch()
         for text, tooltip, handler, primary in (
             ("Zurücksetzen", "Leert alle eingegebenen Artefakt-Einzelwerte dieser Karte", self.reset, False),
             ("Neu laden", "Lädt die gespeicherten Artefaktwerte aus der SQLite-Datenbank neu", self.reload, False),
@@ -856,12 +856,9 @@ class ArtifactPanel(QFrame):
                 btn.setObjectName("primaryButton")
             btn.clicked.connect(handler)
             buttons.addWidget(btn)
-        last_cell = QVBoxLayout()
-        last_cell.setSpacing(8)
-        last_cell.addWidget(self.totals_box, stretch=1)
-        last_cell.addLayout(buttons)
-        grid.addLayout(last_cell, 2, 1)
+        grid.addWidget(self.totals_box, 2, 1)
         layout.addLayout(grid, stretch=1)
+        layout.addLayout(buttons)
 
         self.set_stats(card.saved_data.get("artifact_stats", {}))
         self.update_totals()
