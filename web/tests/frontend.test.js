@@ -565,3 +565,25 @@ test('Stats: DEF heißt jetzt VTD, alt gespeicherte Builds werden angezeigt und 
     assert.equal(sandUhr.main_stat, 'VTD%');
     assert.deepEqual(sandUhr.substats.map(x => x.stat).slice(0, 2), ['VTD (Fix)', 'VTD%']);
 });
+
+test('Gesamtwerte: Haupt- und Substats werden je Stat summiert und beim Ändern aktualisiert', async () => {
+    const stats = {
+        Blume: { level: 20, rarity: '5★', main_stat: 'LP (Fix)', main_value: '4.780', substats: [{ stat: 'LP (Fix)', val: '209' }, { stat: 'KT%', val: '3,9' }, {}, {}] },
+        Krone: { level: 20, rarity: '5★', main_stat: 'KT%', main_value: '31,1', substats: [{ stat: 'KT%', val: '3.9%' }, { stat: 'ANG%', val: 'abc' }, {}, {}] },
+    };
+    const teams = { Test: [{ character: CHARACTERS[0], saved: { level: 90, artifact_stats: stats } }] };
+    const { w, d } = await loadPage({ teams });
+    w.toggleDetailView(0);
+
+    const shown = () => [...d.querySelectorAll('#artifactTotals > span')].map(s => s.textContent);
+    assert.deepEqual(shown(), ['LP (Fix)', '4989', 'KT%', '38,9%']);
+
+    const mainVal = d.getElementById('art_mainval_Feder');
+    mainVal.value = '311';
+    mainVal.dispatchEvent(new w.Event('input', { bubbles: true }));
+    assert.deepEqual(shown(), ['LP (Fix)', '4989', 'ANG (Fix)', '311', 'KT%', '38,9%']);
+
+    assert.equal(w.parseStatValue('46,6'), 46.6);
+    assert.equal(w.parseStatValue('4,780'), 4780);
+    assert.equal(w.parseStatValue(''), null);
+});
