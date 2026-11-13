@@ -1,11 +1,12 @@
 import html
 import os
+import re
 from typing import Optional
 
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.7.2"
+APP_VERSION = "1.7.3"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -87,6 +88,42 @@ def rename_legacy_stats(stats):
                 ]
         result[slot_name] = slot
     return result
+
+
+STAT_TOTAL_ORDER = ["LP%", "LP (Fix)", "ANG%", "ANG (Fix)", "VTD%", "VTD (Fix)",
+                    "Elementarkunde", "Aufladerate", "KT%", "KSCH%", "Heilungsbonus%"]
+
+
+def parse_stat_value(text) -> Optional[float]:
+    """Zahl aus einem Freitext-Wert ("46,6", "3.9%", "4.780"); None, wenn keine Zahl erkennbar ist."""
+    t = re.sub(r"\s", "", str(text if text is not None else "")).replace("%", "")
+    if not t:
+        return None
+    if re.fullmatch(r"\d{1,3}([.,]\d{3})+", t):   # "4,780" ist ein Tausenderpunkt, "46,6" ein Komma
+        t = re.sub(r"[.,]", "", t)
+    try:
+        return float(t.replace(",", "."))
+    except ValueError:
+        return None
+
+
+def sum_artifact_stats(entries) -> list[tuple[str, float]]:
+    """Summiert [(stat, wert)] je Stat; Einträge ohne Stat oder Zahl entfallen. Feste Reihenfolge, Rest alphabetisch."""
+    sums: dict[str, float] = {}
+    for stat, value in entries:
+        stat = current_stat_name(stat or "")
+        number = parse_stat_value(value)
+        if not stat or number is None:
+            continue
+        sums[stat] = sums.get(stat, 0.0) + number
+    rank = lambda stat: STAT_TOTAL_ORDER.index(stat) if stat in STAT_TOTAL_ORDER else len(STAT_TOTAL_ORDER)
+    return sorted(sums.items(), key=lambda kv: (rank(kv[0]), kv[0]))
+
+
+def format_stat_total(stat: str, total: float) -> str:
+    rounded = round(total, 1)
+    text = str(int(rounded)) if rounded == int(rounded) else f"{rounded:.1f}".replace(".", ",")
+    return text + "%" if stat.endswith("%") else text
 
 
 def tooltip_html(title: str, paragraphs: list[str]) -> str:

@@ -1,3 +1,4 @@
+import html
 import os
 from dataclasses import dataclass
 from typing import Optional
@@ -9,7 +10,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
 from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath
 
-from models import Character, ArtifactSet, DEFAULT_TALENTS, rename_legacy_stats
+from models import (Character, ArtifactSet, DEFAULT_TALENTS, rename_legacy_stats,
+                    sum_artifact_stats, format_stat_total)
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
 from styles import element_badge_style, set_selected, tint_style, genshin_family, ELEMENT_COLORS, ACCENT
@@ -819,6 +821,19 @@ class ArtifactPanel(QFrame):
         title.setObjectName("panelTitle")
         layout.addWidget(title)
 
+        # Gesamtwerte der Artefakte, steht in der freien Zelle neben der Krone (über den Buttons)
+        self.totals_box = QFrame()
+        self.totals_box.setObjectName("artifactSlot")
+        totals_layout = QVBoxLayout(self.totals_box)
+        totals_layout.setContentsMargins(8, 6, 8, 6)
+        totals_title = QLabel("Gesamtwerte (Artefakte)")
+        totals_title.setObjectName("slotTitle")
+        totals_layout.addWidget(totals_title)
+        self.totals_label = QLabel()
+        self.totals_label.setTextFormat(Qt.RichText)
+        self.totals_label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        totals_layout.addWidget(self.totals_label, stretch=1)
+
         grid = QGridLayout()
         grid.setSpacing(8)
         for idx, (slot_name, main_stats) in enumerate(self.SLOTS):
@@ -841,10 +856,15 @@ class ArtifactPanel(QFrame):
                 btn.setObjectName("primaryButton")
             btn.clicked.connect(handler)
             buttons.addWidget(btn)
-        grid.addLayout(buttons, 2, 1, Qt.AlignBottom | Qt.AlignRight)
+        last_cell = QVBoxLayout()
+        last_cell.setSpacing(8)
+        last_cell.addWidget(self.totals_box, stretch=1)
+        last_cell.addLayout(buttons)
+        grid.addLayout(last_cell, 2, 1)
         layout.addLayout(grid, stretch=1)
 
         self.set_stats(card.saved_data.get("artifact_stats", {}))
+        self.update_totals()
         # Wechselt ein Set, rücken dessen Teile in den Dropdowns nach oben (die Auswahl bleibt erhalten)
         for combo in (card.art_combo, card.art_combo_2):
             combo.currentIndexChanged.connect(self._on_sets_changed)
@@ -918,7 +938,28 @@ class ArtifactPanel(QFrame):
         box_layout.addLayout(sub_grid)
 
         self.slots[slot_name] = ArtifactSlotWidgets(piece, rarity, level, main, main_val, subs)
+        main.currentIndexChanged.connect(self.update_totals)
+        main_val.textChanged.connect(self.update_totals)
+        for cb, val in subs:
+            cb.currentIndexChanged.connect(self.update_totals)
+            val.textChanged.connect(self.update_totals)
         return box
+
+    def update_totals(self, *_args):
+        """Zeigt die Summe je Stat über Haupt- und Substats aller Slots."""
+        entries = []
+        for w in self.slots.values():
+            entries.append((w.main.currentText(), w.main_val.text()))
+            entries.extend((combo_value(cb), val.text()) for cb, val in w.subs)
+        totals = sum_artifact_stats(entries)
+        if not totals:
+            self.totals_label.setText("<span style='color:#7a788e;'>Noch keine Werte eingetragen</span>")
+            return
+        rows = "".join(
+            f"<tr><td style='padding-right:14px;'>{html.escape(stat)}</td>"
+            f"<td align='right'><b style='color:{ACCENT};'>{html.escape(format_stat_total(stat, total))}</b></td></tr>"
+            for stat, total in totals)
+        self.totals_label.setText(f"<table>{rows}</table>")
 
     @staticmethod
     def _value_input() -> QLineEdit:
