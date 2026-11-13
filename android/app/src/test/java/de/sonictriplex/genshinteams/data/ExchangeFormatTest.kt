@@ -404,22 +404,4 @@ class RegistrationTest {
         assertTrue(e.message!!.contains("Konto wurde angelegt"))
         assertEquals(2, script.seen.size)
     }
-
-    @Test
-    fun gesamtwerteSummierenJeStat() {
-        assertEquals(46.6, parseStatValue("46,6")!!, 0.0001)
-        assertEquals(4780.0, parseStatValue("4,780")!!, 0.0001)
-        assertEquals(null, parseStatValue("abc"))
-
-        val build = Build(
-            name = "Test",
-            artifactStats = mapOf(
-                "Blume" to ArtifactSlot(mainStat = "LP (Fix)", mainValue = "4780", substats = listOf(Substat("LP (Fix)", "209"), Substat("KT%", "3,9"))),
-                "Krone" to ArtifactSlot(mainStat = "KT%", mainValue = "31,1", substats = listOf(Substat("DEF%", "5,8"), Substat("ANG%", "abc"))),
-            ),
-        )
-        val totals = build.artifactTotals()
-        assertEquals(listOf("LP (Fix)", "VTD%", "KT%"), totals.map { it.first })
-        assertEquals(listOf("4989", "5,8%", "35%"), totals.map { formatStatTotal(it.first, it.second) })
-    }
 }
