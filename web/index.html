@@ -192,7 +192,7 @@
             <img src="/assets/images/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.7.1</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.7.2</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
@@ -337,7 +337,7 @@
 
         const SUBSTAT_OPTIONS = [
             "— Keiner —", "KT%", "KSCH%", "ANG%", "ANG (Fix)",
-            "LP%", "LP (Fix)", "DEF%", "DEF (Fix)",
+            "LP%", "LP (Fix)", "VTD%", "VTD (Fix)",
             "Elementarkunde", "Aufladerate"
         ];
 
@@ -454,7 +454,8 @@
             const menu = document.getElementById('userMenu');
             if (menu && !menu.contains(event.target)) closeUserMenu();
         });
-        document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeUserMenu(); closeDeleteAccount(); closeAbout(); } });
+        document.addEventListener('click', event => { if (!event.target.closest('[data-piece-combo]')) closeAllPieceCombos(); });
+        document.addEventListener('keydown', event => { if (event.key === 'Escape') { closeAllPieceCombos(); closeUserMenu(); closeDeleteAccount(); closeAbout(); } });
 
         async function handleLogout() {
             try {
@@ -560,8 +561,6 @@
             return `${IMAGE_BASE}/${clean}`;
         }
 
-        // Schützt vor XSS: wandelt HTML-Sonderzeichen in Entities um.
-        // Für JEDEN Wert aus DB/Nutzereingabe verwenden, der per innerHTML eingefügt wird.
         // Tooltip (title-Attribut) mit der Beschreibung des Waffen-Passivs bei der gegebenen Veredelung; leer ohne Passiv
         function weaponPassiveTip(weaponName, refinement) {
             const w = availableWeapons.find(x => x.name === weaponName);
@@ -580,6 +579,8 @@
             return parts.length ? `${a.name}\n\n${parts.join('\n\n')}` : '';
         }
 
+        // Schützt vor XSS: wandelt HTML-Sonderzeichen in Entities um.
+        // Für JEDEN Wert aus DB/Nutzereingabe verwenden, der per innerHTML eingefügt wird.
         function escapeHtml(value) {
             return String(value ?? '').replace(/[&<>"']/g, ch => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -627,6 +628,7 @@
                 slot = { level: 20, rarity: "5★" };
                 stats[slotName] = slot;
             }
+            if (slot.main_stat) slot.main_stat = currentStatName(slot.main_stat);
             if (!Array.isArray(slot.substats)) slot.substats = [];
             while (slot.substats.length < 4) slot.substats.push({});
             for (let i = 0; i < 4; i++) {
@@ -663,7 +665,7 @@
                 const raritySelect = document.getElementById(`art_rarity_${slotName}`);
                 const mainSelect = document.getElementById(`art_main_${slotName}`);
                 const mainValInput = document.getElementById(`art_mainval_${slotName}`);
-                const pieceSelect = document.getElementById(`art_piece_${slotName}`);
+                const pieceButton = document.getElementById(`art_piece_${slotName}`);
 
                 // ensureSlot erhält die bereits eingetragenen Substats
                 const slot = ensureSlot(activeDetailIndex, slotName);
@@ -671,7 +673,7 @@
                 slot.rarity = raritySelect ? raritySelect.value : "5★";
                 slot.main_stat = mainSelect ? mainSelect.value : "";
                 slot.main_value = mainValInput ? mainValInput.value : "";
-                if (pieceSelect) slot.piece = pieceSelect.value;
+                if (pieceButton) slot.piece = pieceButton.dataset.value || '';
             });
         }
 
@@ -1097,11 +1099,16 @@
             renderArtifactPanel(item);
         }
 
+        // Vor der Umbenennung gespeicherte Stats: DEF heißt jetzt VTD (Verteidigung)
+        function currentStatName(stat) {
+            return ({ "DEF%": "VTD%", "DEF (Fix)": "VTD (Fix)" })[stat] || stat;
+        }
+
         function parseSubstatEntry(entry) {
             // Leer, null oder (fälschlich) ein Array -> leerer Eintrag
             if (!entry || Array.isArray(entry)) return { stat: "", val: "" };
             if (typeof entry === 'object') {
-                return { stat: entry.stat || "", val: entry.val || "" };
+                return { stat: currentStatName(entry.stat || ""), val: entry.val || "" };
             }
             // Altformat: "KT% + 3.9"
             const str = String(entry).trim();
@@ -1109,36 +1116,124 @@
 
             const parts = str.split('+');
             if (parts.length === 2) {
-                return { stat: parts[0].trim(), val: parts[1].trim() };
+                return { stat: currentStatName(parts[0].trim()), val: parts[1].trim() };
             }
-            return { stat: str, val: "" };
+            return { stat: currentStatName(str), val: "" };
         }
 
         // Auswahl für das Teil-Dropdown eines Slots: Teile der Build-Sets zuerst, danach alle übrigen (Off-Pieces sind erlaubt)
         function artifactPieceOptions(slotName, item, current) {
-            const wanted = [item.saved?.artifact, item.saved?.artifact_2].filter(Boolean);
+            const wanted = [item?.saved?.artifact, item?.saved?.artifact_2].filter(Boolean);
             const mine = [], others = [];
             availableArtifacts.forEach(a => {
                 const piece = a.pieces && a.pieces[slotName];
-                if (piece) (wanted.includes(a.name) ? mine : others).push(piece);
+                if (piece) (wanted.includes(a.name) ? mine : others).push({ name: piece, setName: a.name });
             });
-            others.sort((x, y) => x.localeCompare(y, 'de'));
+            others.sort((x, y) => x.name.localeCompare(y.name, 'de'));
             // Ein gespeichertes Teil, das nicht (mehr) in den Stammdaten steht, bleibt auswählbar
-            const extra = (current && !mine.includes(current) && !others.includes(current)) ? [current] : [];
+            const known = mine.concat(others).some(o => o.name === current);
+            const extra = (current && !known) ? [{ name: current, setName: 'gespeichert' }] : [];
             return { mine, others, extra };
         }
 
-        function artifactPieceSelectHTML(slotName, item, current) {
-            const { mine, others, extra } = artifactPieceOptions(slotName, item, current);
-            const opt = name => `<option value="${escapeHtml(name)}" ${name === current ? 'selected' : ''}>${escapeHtml(name)}</option>`;
-            const group = (label, list) => list.length ? `<optgroup label="${label}">${list.map(opt).join('')}</optgroup>` : '';
+        // Dropdown mit Suchfeld für den Teilnamen eines Slots (eigenes Element, damit es in jedem Browser gleich aussieht)
+        function artifactPieceSelectHTML(slotName, current) {
             return `
-                <select id="art_piece_${slotName}" onchange="updateArtProp('${slotName}', 'piece', this.value)" title="Name des Artefaktteils. Teile der gewählten Sets stehen oben, darunter alle anderen (Off-Piece)." class="w-full bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 mb-2 truncate outline-none focus:border-accent">
-                    <option value="">— Teil wählen —</option>
-                    ${group('Teile der gewählten Sets', mine)}
-                    ${group('Gespeichert', extra)}
-                    ${group(mine.length ? 'Weitere Teile (Off-Piece)' : 'Alle Teile', others)}
-                </select>`;
+                <div class="relative mb-2" data-piece-combo="${slotName}">
+                    <button type="button" id="art_piece_${slotName}" data-value="${escapeHtml(current)}" onclick="togglePieceCombo('${slotName}')" aria-haspopup="listbox" aria-expanded="false" title="Name des Artefaktteils. Teile der gewählten Sets stehen oben, darunter alle anderen (Off-Piece)." class="w-full flex items-center justify-between gap-1 bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 text-left outline-none hover:border-accent focus:border-accent">
+                        <span id="art_piece_label_${slotName}" class="truncate ${current ? '' : 'text-gray-400'}">${escapeHtml(current || '— Teil wählen —')}</span>
+                        <span class="text-gray-400 flex-shrink-0">▾</span>
+                    </button>
+                    <div id="art_piece_panel_${slotName}" class="hidden absolute left-0 right-0 top-full mt-1 z-50 bg-[#14111f] border border-[#332d47] rounded-lg shadow-2xl p-1.5">
+                        <input type="text" id="art_piece_search_${slotName}" placeholder="Suchen …" autocomplete="off" oninput="renderPieceList('${slotName}')" onkeydown="pieceComboKey(event, '${slotName}')" class="w-full bg-[#0e0c16] text-white border border-[#332d47] rounded px-2 py-1 mb-1 outline-none focus:border-accent">
+                        <ul id="art_piece_list_${slotName}" role="listbox" class="max-h-56 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: #332d47 #14111f;"></ul>
+                    </div>
+                </div>`;
+        }
+
+        function closeAllPieceCombos() {
+            document.querySelectorAll('[data-piece-combo]').forEach(box => {
+                box.querySelector('[id^="art_piece_panel_"]').classList.add('hidden');
+                box.querySelector('button').setAttribute('aria-expanded', 'false');
+                const slotBox = box.closest('[data-slot-box]');
+                if (slotBox) slotBox.style.zIndex = '';
+            });
+        }
+
+        function togglePieceCombo(slotName) {
+            const panel = document.getElementById(`art_piece_panel_${slotName}`);
+            const wasOpen = !panel.classList.contains('hidden');
+            closeAllPieceCombos();
+            if (wasOpen) return;
+            panel.classList.remove('hidden');
+            const box = panel.closest('[data-piece-combo]');
+            box.querySelector('button').setAttribute('aria-expanded', 'true');
+            // Jede Slot-Karte bildet einen eigenen Stapel (backdrop-blur): die offene Karte muss über den folgenden liegen
+            const slotBox = box.closest('[data-slot-box]');
+            if (slotBox) { slotBox.style.position = 'relative'; slotBox.style.zIndex = '40'; }
+            const search = document.getElementById(`art_piece_search_${slotName}`);
+            search.value = '';
+            renderPieceList(slotName);
+            search.focus();
+        }
+
+        // Baut die Liste neu auf: Gruppen "Teile der gewählten Sets" und "Weitere Teile", gefiltert nach Teil- oder Setname
+        function renderPieceList(slotName) {
+            const list = document.getElementById(`art_piece_list_${slotName}`);
+            const query = document.getElementById(`art_piece_search_${slotName}`).value.trim().toLowerCase();
+            const current = document.getElementById(`art_piece_${slotName}`).dataset.value || '';
+            const { mine, others, extra } = artifactPieceOptions(slotName, currentTeamMembers[activeDetailIndex], current);
+            const match = o => !query || o.name.toLowerCase().includes(query) || o.setName.toLowerCase().includes(query);
+            const item = o => `<li role="option" data-piece="${escapeHtml(o.name)}" onclick="pickPiece('${slotName}', this.dataset.piece)" class="px-2 py-1 rounded cursor-pointer hover:bg-[#262338] ${o.name === current ? 'bg-[#2d293e] text-accent' : 'text-gray-200'}"><div class="truncate">${escapeHtml(o.name)}</div><div class="text-[10px] text-gray-400 truncate">${escapeHtml(o.setName)}</div></li>`;
+            const group = (label, entries) => {
+                const shown = entries.filter(match);
+                return shown.length ? `<li class="px-2 pt-1.5 pb-0.5 text-[10px] uppercase tracking-wide text-gold font-bold">${label}</li>${shown.map(item).join('')}` : '';
+            };
+            const clear = `<li role="option" data-piece="" onclick="pickPiece('${slotName}', '')" class="px-2 py-1 rounded cursor-pointer hover:bg-[#262338] text-gray-400">— Kein Teil —</li>`;
+            const html = group('Gespeichert', extra) + group(mine.length ? 'Teile der gewählten Sets' : 'Alle Teile', mine)
+                + group(mine.length ? 'Weitere Teile (Off-Piece)' : 'Alle Teile', others);
+            list.innerHTML = clear + (html || '<li class="px-2 py-2 text-gray-400">Kein Teil gefunden</li>');
+            setActivePiece(slotName, query ? list.querySelector('li[data-piece]:not([data-piece=""])') : null);
+        }
+
+        function setActivePiece(slotName, li) {
+            const list = document.getElementById(`art_piece_list_${slotName}`);
+            list.querySelectorAll('[data-active]').forEach(x => { x.removeAttribute('data-active'); x.classList.remove('ring-1', 'ring-accent'); });
+            if (!li) return;
+            li.setAttribute('data-active', '');
+            li.classList.add('ring-1', 'ring-accent');
+            li.scrollIntoView?.({ block: 'nearest' });
+        }
+
+        // Tastatur im Suchfeld: Pfeile wählen aus, Enter übernimmt, Escape schließt
+        function pieceComboKey(event, slotName) {
+            const list = document.getElementById(`art_piece_list_${slotName}`);
+            const items = [...list.querySelectorAll('li[data-piece]')];
+            const active = list.querySelector('[data-active]');
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                event.preventDefault();
+                const step = event.key === 'ArrowDown' ? 1 : -1;
+                const next = items[Math.max(0, Math.min(items.length - 1, items.indexOf(active) + step))];
+                setActivePiece(slotName, next);
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                if (active) pickPiece(slotName, active.dataset.piece);
+            } else if (event.key === 'Escape') {
+                event.stopPropagation();
+                closeAllPieceCombos();
+                document.getElementById(`art_piece_${slotName}`).focus();
+            }
+        }
+
+        function pickPiece(slotName, name) {
+            const button = document.getElementById(`art_piece_${slotName}`);
+            button.dataset.value = name;
+            const label = document.getElementById(`art_piece_label_${slotName}`);
+            label.textContent = name || '— Teil wählen —';
+            label.classList.toggle('text-gray-400', !name);
+            updateArtProp(slotName, 'piece', name);
+            closeAllPieceCombos();
+            button.focus();
         }
 
         function renderArtifactPanel(item) {
@@ -1148,9 +1243,9 @@
             const slotsConfig = [
                 { name: "Blume", mains: ["LP (Fix)"] },
                 { name: "Feder", mains: ["ANG (Fix)"] },
-                { name: "Sanduhr", mains: ["ANG%", "LP%", "DEF%", "Elementarkunde", "Aufladerate"] },
-                { name: "Kelch", mains: ["Pyro-SCH-Bonus%", "Hydro-SCH-Bonus%", "Kryo-SCH-Bonus%", "Elektro-SCH-Bonus%", "Anemo-SCH-Bonus%", "Geo-SCH-Bonus%", "Dendro-SCH-Bonus%", "Physischer SCH-Bonus%", "ANG%", "LP%", "DEF%", "Elementarkunde"] },
-                { name: "Krone", mains: ["KT%", "KSCH%", "ANG%", "LP%", "DEF%", "Heilungsbonus%", "Elementarkunde"] }
+                { name: "Sanduhr", mains: ["ANG%", "LP%", "VTD%", "Elementarkunde", "Aufladerate"] },
+                { name: "Kelch", mains: ["Pyro-SCH-Bonus%", "Hydro-SCH-Bonus%", "Kryo-SCH-Bonus%", "Elektro-SCH-Bonus%", "Anemo-SCH-Bonus%", "Geo-SCH-Bonus%", "Dendro-SCH-Bonus%", "Physischer SCH-Bonus%", "ANG%", "LP%", "VTD%", "Elementarkunde"] },
+                { name: "Krone", mains: ["KT%", "KSCH%", "ANG%", "LP%", "VTD%", "Heilungsbonus%", "Elementarkunde"] }
             ];
 
             const rawStats = item.saved?.artifact_stats;
@@ -1180,6 +1275,7 @@
 
                 const slotBox = document.createElement('div');
                 slotBox.className = "bg-black/35 border border-white/10 rounded-lg p-3 text-xs backdrop-blur-sm";
+                slotBox.setAttribute('data-slot-box', '');
 
                 slotBox.innerHTML = `
                     <div class="flex justify-between items-center mb-2">
@@ -1194,11 +1290,11 @@
                         </div>
                     </div>
 
-                    ${artifactPieceSelectHTML(slot.name, item, typeof sData.piece === 'string' ? sData.piece : '')}
+                    ${artifactPieceSelectHTML(slot.name, typeof sData.piece === 'string' ? sData.piece : '')}
 
                     <div class="flex gap-2 mb-2">
                         <select id="art_main_${slot.name}" onchange="updateArtProp('${slot.name}', 'main_stat', this.value)" class="flex-1 bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5">
-                            ${slot.mains.map(m => `<option ${sData.main_stat === m ? 'selected':''}>${m}</option>`).join('')}
+                            ${slot.mains.map(m => `<option ${currentStatName(sData.main_stat) === m ? 'selected':''}>${m}</option>`).join('')}
                         </select>
                         <input type="text" placeholder="Wert" id="art_mainval_${slot.name}" value="${escapeHtml(sData.main_value || '')}" onchange="updateArtProp('${slot.name}', 'main_value', this.value)" class="w-16 bg-inputBg text-white border border-[#332d47] rounded px-1 text-center">
                     </div>

@@ -3,7 +3,7 @@ import os
 import sqlite3
 from datetime import datetime
 from typing import Optional
-from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
+from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for, rename_legacy_stats
 from seed import SEED_PATH, fill_artifact_pieces, fill_weapon_passives, import_seed, is_seeded
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
@@ -110,6 +110,7 @@ class GenshinManager:
                 self._migrate_team_position(conn)
                 self._migrate_artifact_pieces(conn)
                 self._migrate_weapon_passives(conn)
+                self._migrate_stat_vtd(conn)
         except (sqlite3.Error, OSError, json.JSONDecodeError) as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
 
@@ -143,6 +144,15 @@ class GenshinManager:
         conn.execute("ALTER TABLE artifacts ADD COLUMN pieces_json TEXT DEFAULT '{}'")
         if self.seed_path and os.path.exists(self.seed_path):
             fill_artifact_pieces(conn, self.seed_path)
+
+    @staticmethod
+    def _migrate_stat_vtd(conn: sqlite3.Connection):
+        """Gespeicherte Builds: die Stats DEF% / DEF (Fix) heißen jetzt VTD% / VTD (Fix) (Verteidigung). Läuft bei jedem Start, ist aber ohne Treffer ein No-op."""
+        conn.execute("""
+            UPDATE user_characters
+            SET artifact_stats_json = REPLACE(REPLACE(artifact_stats_json, '"DEF%"', '"VTD%"'), '"DEF (Fix)"', '"VTD (Fix)"')
+            WHERE artifact_stats_json LIKE '%DEF%'
+        """)
 
     def _migrate_weapon_passives(self, conn: sqlite3.Connection):
         """Ältere Datenbanken: Spalte weapons.passive_json (Passiv-Beschreibungen) ergänzen und aus der Seed-Datei füllen."""
@@ -494,7 +504,7 @@ class GenshinManager:
                         result["skipped"].append(str(name))
                         continue
                     talents = b.get("talents") or {}
-                    stats = b.get("artifact_stats") or {}
+                    stats = rename_legacy_stats(b.get("artifact_stats") or {})
                     conn.execute("""
                         INSERT OR REPLACE INTO user_characters (
                             char_name, level, constellation, weapon, weapon_level, refinement,

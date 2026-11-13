@@ -5,7 +5,7 @@ from typing import Optional
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.7.1"
+APP_VERSION = "1.7.2"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -59,6 +59,34 @@ class Character:
             if os.path.exists(explicit):
                 return explicit
         return icon_path_for(self.name)
+
+
+# Vor der Umbenennung gespeicherte Stats: DEF heißt jetzt VTD (Verteidigung)
+LEGACY_STAT_NAMES = {"DEF%": "VTD%", "DEF (Fix)": "VTD (Fix)"}
+
+
+def current_stat_name(stat):
+    """Aktueller Name eines Stats (alte Namen werden umgewandelt, alles andere bleibt unverändert)."""
+    return LEGACY_STAT_NAMES.get(stat, stat) if isinstance(stat, str) else stat
+
+
+def rename_legacy_stats(stats):
+    """Kopie von artifact_stats, in der Haupt- und Substats die aktuellen Namen tragen."""
+    if not isinstance(stats, dict):
+        return stats
+    result = {}
+    for slot_name, slot in stats.items():
+        if isinstance(slot, dict):
+            slot = dict(slot)
+            if "main_stat" in slot:
+                slot["main_stat"] = current_stat_name(slot["main_stat"])
+            if isinstance(slot.get("substats"), list):
+                slot["substats"] = [
+                    {**sub, "stat": current_stat_name(sub.get("stat"))} if isinstance(sub, dict) and "stat" in sub else sub
+                    for sub in slot["substats"]
+                ]
+        result[slot_name] = slot
+    return result
 
 
 def tooltip_html(title: str, paragraphs: list[str]) -> str:

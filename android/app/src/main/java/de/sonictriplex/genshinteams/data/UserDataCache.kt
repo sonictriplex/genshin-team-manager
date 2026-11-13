@@ -37,7 +37,7 @@ class UserDataCache(private val dir: File) {
         } else {
             val envelope = AppJson.decodeFromString(CacheEnvelope.serializer(), file.readText(Charsets.UTF_8))
             if (envelope.version == 1 && envelope.server == normalized(server) && envelope.username == username) {
-                CachedUserData(envelope.data, envelope.savedAt)
+                CachedUserData(envelope.data.let { it.copy(builds = it.builds.map(Build::withCurrentStatNames)) }, envelope.savedAt)
             } else {
                 null
             }

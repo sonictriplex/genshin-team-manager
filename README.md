@@ -121,7 +121,7 @@ Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/
 ## Bereitstellung
 
 - **Web-Version hochladen:** `deploy/deploy.sh --dry-run` zeigt, was sich ändern würde, `deploy/deploy.sh` lädt es per FTPS hoch (Zugangsdaten in `deploy/deploy.local.env`, Vorlage: `deploy/deploy.example.env`; Anleitung in [deploy/README.md](deploy/README.md)). Das Skript lädt nur Geändertes hoch, sichert vorher die überschriebenen Dateien und fasst `api/db.php` sowie `api/config.local.php` nie an.
-- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen, `004_artifact_pieces.sql` für die Namen der Artefaktteile, `005_weapon_passives.sql` für die Passiv-Beschreibungen der Waffen); jede Migration einmal ausführen.
+- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen, `004_artifact_pieces.sql` für die Namen der Artefaktteile, `005_weapon_passives.sql` für die Passiv-Beschreibungen der Waffen, `006_stat_vtd.sql` für die Umbenennung DEF → VTD in gespeicherten Builds); jede Migration einmal ausführen.
 - **Android-Release:** Signieren und Bauen beschreibt [android/README.md](android/README.md). Eine fertige APK wird nicht veröffentlicht.
 
 ## Versionen

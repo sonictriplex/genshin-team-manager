@@ -14,6 +14,27 @@ function clean_set($value): string {
     return $v;
 }
 
+/** Ältere Namen der Stats (DEF heißt jetzt VTD, Verteidigung) -> aktueller Name; alles andere bleibt unverändert. */
+function current_stat_name($stat) {
+    static $renamed = ['DEF%' => 'VTD%', 'DEF (Fix)' => 'VTD (Fix)'];
+    return is_string($stat) ? ($renamed[$stat] ?? $stat) : $stat;
+}
+
+/** Wendet current_stat_name auf Haupt- und Substats aller Slots an (Daten, die vor der Umbenennung gespeichert wurden). */
+function rename_legacy_stats($stats) {
+    if (!is_array($stats)) return $stats;
+    foreach ($stats as $slotName => $slot) {
+        if (!is_array($slot)) continue;
+        if (isset($slot['main_stat'])) $stats[$slotName]['main_stat'] = current_stat_name($slot['main_stat']);
+        if (isset($slot['substats']) && is_array($slot['substats'])) {
+            foreach ($slot['substats'] as $i => $sub) {
+                if (is_array($sub) && isset($sub['stat'])) $stats[$slotName]['substats'][$i]['stat'] = current_stat_name($sub['stat']);
+            }
+        }
+    }
+    return $stats;
+}
+
 /**
  * Bringt artifact_stats in ein sauberes, immer gleiches Format:
  * - Rückgabe ist ein assoziatives Array (Slot => Daten) oder leer
@@ -49,6 +70,8 @@ function normalize_artifact_stats($stats): array {
         }
 
         $slot['substats'] = $subs;
+        if (isset($slot['main_stat'])) $slot['main_stat'] = current_stat_name($slot['main_stat']);
+        foreach ($slot['substats'] as $i => $sub) $slot['substats'][$i]['stat'] = current_stat_name($sub['stat']);
         if (array_key_exists('piece', $slot)) {
             $slot['piece'] = is_string($slot['piece']) ? mb_substr(trim($slot['piece']), 0, 255) : '';
         }

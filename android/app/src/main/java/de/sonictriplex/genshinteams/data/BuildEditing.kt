@@ -11,17 +11,17 @@ object BuildOptions {
     const val NONE = "— Keiner —"
     val RARITIES = listOf("5★", "4★")
     val SUBSTATS = listOf(
-        "KT%", "KSCH%", "ANG%", "ANG (Fix)", "LP%", "LP (Fix)", "DEF%", "DEF (Fix)", "Elementarkunde", "Aufladerate",
+        "KT%", "KSCH%", "ANG%", "ANG (Fix)", "LP%", "LP (Fix)", "VTD%", "VTD (Fix)", "Elementarkunde", "Aufladerate",
     )
     val MAIN_STATS: Map<String, List<String>> = mapOf(
         "Blume" to listOf("LP (Fix)"),
         "Feder" to listOf("ANG (Fix)"),
-        "Sanduhr" to listOf("ANG%", "LP%", "DEF%", "Elementarkunde", "Aufladerate"),
+        "Sanduhr" to listOf("ANG%", "LP%", "VTD%", "Elementarkunde", "Aufladerate"),
         "Kelch" to listOf(
             "Pyro-SCH-Bonus%", "Hydro-SCH-Bonus%", "Kryo-SCH-Bonus%", "Elektro-SCH-Bonus%", "Anemo-SCH-Bonus%",
-            "Geo-SCH-Bonus%", "Dendro-SCH-Bonus%", "Physischer SCH-Bonus%", "ANG%", "LP%", "DEF%", "Elementarkunde",
+            "Geo-SCH-Bonus%", "Dendro-SCH-Bonus%", "Physischer SCH-Bonus%", "ANG%", "LP%", "VTD%", "Elementarkunde",
         ),
-        "Krone" to listOf("KT%", "KSCH%", "ANG%", "LP%", "DEF%", "Heilungsbonus%", "Elementarkunde"),
+        "Krone" to listOf("KT%", "KSCH%", "ANG%", "LP%", "VTD%", "Heilungsbonus%", "Elementarkunde"),
     )
 
     const val LEVEL_MAX = 90
@@ -43,7 +43,7 @@ fun Build.normalized(): Build = copy(
         val slot = artifactStats[slotName] ?: ArtifactSlot(rarity = "5★", level = 20)
         slot.copy(
             rarity = slot.rarity.ifBlank { "5★" },
-            mainStat = slot.mainStat.takeIf { it in mains } ?: mains.first(),
+            mainStat = currentStatName(slot.mainStat).takeIf { it in mains } ?: mains.first(),
             substats = (slot.substats + List(4) { Substat() }).take(4),
         )
     },

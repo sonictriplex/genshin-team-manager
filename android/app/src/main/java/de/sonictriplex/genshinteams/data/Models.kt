@@ -109,10 +109,25 @@ data class Team(val name: String, val members: List<String> = emptyList())
 /** Reihenfolge der Artefakt-Slots in der Oberfläche. */
 val ARTIFACT_SLOTS = listOf("Blume", "Feder", "Sanduhr", "Kelch", "Krone")
 
+/** Vor der Umbenennung gespeicherte Stats: DEF heißt jetzt VTD (Verteidigung). */
+private val LEGACY_STAT_NAMES = mapOf("DEF%" to "VTD%", "DEF (Fix)" to "VTD (Fix)")
+
+fun currentStatName(stat: String): String = LEGACY_STAT_NAMES[stat] ?: stat
+
+/** Wandelt alte Stat-Namen in Haupt- und Substats aller Slots um. */
+fun Build.withCurrentStatNames(): Build = copy(
+    artifactStats = artifactStats.mapValues { (_, slot) ->
+        slot.copy(
+            mainStat = currentStatName(slot.mainStat),
+            substats = slot.substats.map { it.copy(stat = currentStatName(it.stat)) },
+        )
+    },
+)
+
 /** Liest eine Export-Datei und prüft Format und Version wie die anderen Clients. */
 fun parseExchange(text: String): ExchangeFile {
     val file = AppJson.decodeFromString<ExchangeFile>(text)
     require(file.format == EXCHANGE_FORMAT) { "Die Datei ist keine Export-Datei des Genshin Team-Managers." }
     require(file.version <= EXCHANGE_VERSION) { "Die Datei stammt aus einer neueren Version und kann nicht gelesen werden." }
-    return file
+    return file.copy(builds = file.builds.map { it.withCurrentStatNames() })
 }

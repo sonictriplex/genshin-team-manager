@@ -119,6 +119,24 @@ class BuildEditingTest {
     }
 
     @Test
+    fun alteDefNamenWerdenZuVtd() {
+        assertTrue(BuildOptions.SUBSTATS.containsAll(listOf("VTD%", "VTD (Fix)")))
+        assertTrue(BuildOptions.SUBSTATS.none { it.startsWith("DEF") })
+        assertTrue(BuildOptions.MAIN_STATS.values.flatten().none { it.startsWith("DEF") })
+
+        // Datei und Server vor der Umbenennung: DEF% als Hauptwert, DEF (Fix) als Substat
+        val legacy = File(shared, "testdata/export-beispiel.json").readText().replace("VTD", "DEF")
+        assertTrue(legacy.contains("\"DEF%\"") && legacy.contains("\"DEF (Fix)\""))
+        val build = parseExchange(legacy).builds.first()
+        val stats = build.artifactStats.values.flatMap { listOf(it.mainStat) + it.substats.map { s -> s.stat } }
+        assertTrue(stats.none { it.startsWith("DEF") })
+        assertTrue("VTD (Fix)" in stats && "VTD%" in stats)
+        // Ein alter Hauptwert fällt beim Bearbeiten nicht auf den ersten Eintrag zurück
+        val sanduhr = Build(name = "X", artifactStats = mapOf("Sanduhr" to ArtifactSlot(mainStat = "DEF%")))
+        assertEquals("VTD%", sanduhr.normalized().artifactStats.getValue("Sanduhr").mainStat)
+    }
+
+    @Test
     fun einzelteilSetsGibtEsNurBeiDerKrone() {
         assertTrue(pieceOptions(artifacts, "Krone", emptyList()).any { it.name == "Wasseropferdiadem" })
         assertTrue(pieceOptions(artifacts, "Blume", emptyList()).none { it.name == "Wasseropferdiadem" })

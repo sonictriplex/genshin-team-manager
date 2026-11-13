@@ -45,6 +45,8 @@ if ($method === 'GET') {
                 $stats = !empty($m['artifact_stats_json']) ? json_decode($m['artifact_stats_json'], true) : null;
                 if (!is_array($stats) || count($stats) === 0) {
                     $stats = new stdClass();
+                } else {
+                    $stats = rename_legacy_stats($stats);   // vor der Umbenennung DEF -> VTD gespeicherte Builds
                 }
 
                 $teamMembers[] = [

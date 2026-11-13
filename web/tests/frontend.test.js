@@ -443,31 +443,75 @@ test('Anmeldeseite: Überschrift steht über der Box, der Dialog bringt sein eig
     assert.match(modal.getAttribute('style'), /genshin-impact\.jpg/, 'Hintergrundbild');
 });
 
-test('Artefaktteile: Dropdown pro Slot, Teile der gewählten Sets zuerst, Off-Piece wählbar, Auswahl wird gespeichert', async () => {
+test('Artefaktteile: Dropdown mit Suche pro Slot, Teile der gewählten Sets zuerst, Off-Piece wählbar, Auswahl wird gespeichert', async () => {
     const artifacts = STAMMDATEN.artifacts.map((a, i) => ({ id: i + 1, name: a.name, bonus_2pc: a.bonus_2pc, bonus_4pc: a.bonus_4pc, pieces: a.pieces }));
     const teams = { Test: [{ character: CHARACTERS[0], saved: { level: 90, artifact: 'Abenteurer', artifact_2: 'Berserker' } }] };
     const { w, d, posted } = await loadPage({ artifacts, teams });
     w.toggleDetailView(0);
 
-    const feder = d.getElementById('art_piece_Feder');
-    const groups = [...feder.querySelectorAll('optgroup')];
-    assert.equal(groups[0].label, 'Teile der gewählten Sets');
-    assert.ok([...groups[0].children].some(o => o.value === 'Abenteurerschwanzfeder'));
-    assert.equal(groups[0].children.length, 2);
-    assert.ok([...groups[1].children].some(o => o.value === 'Zuflucht des Gladiators'), 'Off-Piece aus fremdem Set ist wählbar');
-    assert.equal(d.getElementById('art_piece_Krone').querySelectorAll('option').length > 60, true);
+    const button = slot => d.getElementById(`art_piece_${slot}`);
+    const panel = slot => d.getElementById(`art_piece_panel_${slot}`);
+    const items = slot => [...d.querySelectorAll(`#art_piece_list_${slot} li[data-piece]:not([data-piece=""])`)].map(li => li.dataset.piece);
+    const search = (slot, text) => {
+        const input = d.getElementById(`art_piece_search_${slot}`);
+        input.value = text;
+        input.dispatchEvent(new w.Event('input', { bubbles: true }));
+    };
 
-    feder.value = 'Zuflucht des Gladiators';
-    feder.dispatchEvent(new w.Event('change', { bubbles: true }));
-    // Setwechsel baut die Dropdowns neu auf und behält die Auswahl
+    // Zu: kein Panel, Platzhalter im Button
+    assert.ok(panel('Feder').classList.contains('hidden'));
+    assert.equal(d.getElementById('art_piece_label_Feder').textContent, '— Teil wählen —');
+
+    // Auf: Gruppen, Teile der Build-Sets zuerst, Off-Piece aus fremdem Set vorhanden
+    button('Feder').click();
+    assert.ok(!panel('Feder').classList.contains('hidden'));
+    const headings = [...d.querySelectorAll('#art_piece_list_Feder li:not([data-piece])')].map(li => li.textContent);
+    assert.deepEqual(headings, ['Teile der gewählten Sets', 'Weitere Teile (Off-Piece)']);
+    const all = items('Feder');
+    assert.deepEqual(all.slice(0, 2).sort(), ['Abenteurerschwanzfeder', 'Berserkerfeder']);
+    assert.ok(all.includes('Zuflucht des Gladiators'));
+    assert.equal(button('Feder').getAttribute('aria-expanded'), 'true');
+
+    // Nur ein Panel ist offen; ein Klick daneben schließt es
+    button('Kelch').click();
+    assert.ok(panel('Feder').classList.contains('hidden') && !panel('Kelch').classList.contains('hidden'));
+    d.body.click();
+    assert.ok(panel('Kelch').classList.contains('hidden'));
+
+    // Suche: enthält-Treffer im Teil- oder Setnamen, ohne Treffer eine Meldung
+    button('Feder').click();
+    search('Feder', 'gladiator');
+    assert.deepEqual(items('Feder'), ['Zuflucht des Gladiators']);
+    search('Feder', 'xyzxyz');
+    assert.equal(items('Feder').length, 0);
+    assert.match(d.getElementById('art_piece_list_Feder').textContent, /Kein Teil gefunden/);
+
+    // Tastatur: Pfeil runter und Enter übernehmen den Treffer
+    search('Feder', 'gladiator');
+    const input = d.getElementById('art_piece_search_Feder');
+    input.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    assert.equal(button('Feder').dataset.value, 'Zuflucht des Gladiators');
+    assert.equal(d.getElementById('art_piece_label_Feder').textContent, 'Zuflucht des Gladiators');
+    assert.ok(panel('Feder').classList.contains('hidden'));
+
+    // Setwechsel baut die Dropdowns neu auf und behält die Auswahl; das Teil steht jetzt bei den Teilen der gewählten Sets
     w.updateSavedProp(0, 'artifact', 'Verbeugung des Gladiators');
-    const neu = d.getElementById('art_piece_Feder');
-    assert.equal(neu.value, 'Zuflucht des Gladiators');
-    assert.ok([...neu.querySelector('optgroup').children].some(o => o.value === 'Zuflucht des Gladiators'), 'Teil steht jetzt bei den Teilen der gewählten Sets');
+    assert.equal(button('Feder').dataset.value, 'Zuflucht des Gladiators');
+    button('Feder').click();
+    assert.ok(items('Feder').slice(0, 2).includes('Zuflucht des Gladiators'));
+    // Escape schließt, "Kein Teil" leert
+    d.getElementById('art_piece_search_Feder').dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    assert.ok(panel('Feder').classList.contains('hidden'));
+    button('Feder').click();
+    d.querySelector('#art_piece_list_Feder li[data-piece=""]').click();
+    assert.equal(button('Feder').dataset.value, '');
+    button('Feder').click();
+    d.querySelector('#art_piece_list_Feder li[data-piece="Zuflucht des Gladiators"]').click();
 
     await w.saveCurrentTeam();
     const sent = posted.find(p => p.url.includes('teams.php'));
     assert.equal(sent.body.members[0].artifact_stats.Feder.piece, 'Zuflucht des Gladiators');
+    assert.equal(sent.body.members[0].artifact_stats.Blume.piece, '');
 });
 
 test('Tooltips: Set-Boni an den Set-Auswahlen, Waffen-Passiv an der Waffe (folgt der Veredelung) und in der Waffensuche', async () => {
@@ -497,4 +541,27 @@ test('Tooltips: Set-Boni an den Set-Auswahlen, Waffen-Passiv an der Waffe (folgt
     assert.ok(row.title.includes('Veredelung 1'));
     // Waffen ohne Passiv bekommen keinen Tooltip
     assert.equal(w.weaponPassiveTip('Gibt es nicht', 1), '');
+});
+
+test('Stats: DEF heißt jetzt VTD, alt gespeicherte Builds werden angezeigt und gespeichert wie die neuen', async () => {
+    const legacy = { Sanduhr: { level: 20, rarity: '5★', main_stat: 'DEF%', main_value: '58,3',
+        substats: [{ stat: 'DEF (Fix)', val: '21' }, 'DEF% + 5,8', {}, {}] } };
+    const teams = { Test: [{ character: CHARACTERS[0], saved: { level: 90, artifact_stats: legacy } }] };
+    const { w, d, posted } = await loadPage({ teams });
+    w.toggleDetailView(0);
+
+    const main = d.getElementById('art_main_Sanduhr');
+    assert.equal(main.value, 'VTD%');
+    assert.ok([...main.options].some(o => o.value === 'VTD%'));
+    assert.ok(![...main.options].some(o => o.value.startsWith('DEF')));
+    const sanduhr = [...d.querySelectorAll('#artifactSlotsGrid [data-slot-box]')][2];
+    const subs = [...sanduhr.querySelectorAll('select')].filter(sel => [...sel.options].some(o => o.value === 'VTD (Fix)'));
+    assert.equal(subs.length, 4);
+    assert.ok(subs.every(sel => ![...sel.options].some(o => o.value.startsWith('DEF'))));
+    assert.deepEqual(subs.map(sel => sel.value).slice(0, 2), ['VTD (Fix)', 'VTD%']);
+
+    await w.saveCurrentTeam();
+    const sandUhr = posted.find(p => p.url.includes('teams.php')).body.members[0].artifact_stats.Sanduhr;
+    assert.equal(sandUhr.main_stat, 'VTD%');
+    assert.deepEqual(sandUhr.substats.map(x => x.stat).slice(0, 2), ['VTD (Fix)', 'VTD%']);
 });

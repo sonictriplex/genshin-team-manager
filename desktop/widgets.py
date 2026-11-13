@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
 from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath
 
-from models import Character, ArtifactSet, DEFAULT_TALENTS
+from models import Character, ArtifactSet, DEFAULT_TALENTS, rename_legacy_stats
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
 from styles import element_badge_style, set_selected, tint_style, genshin_family, ELEMENT_COLORS, ACCENT
@@ -761,16 +761,16 @@ class ArtifactPanel(QFrame):
     SLOTS = [
         ("Blume", ["LP (Fix)"]),
         ("Feder", ["ANG (Fix)"]),
-        ("Sanduhr", ["ANG%", "LP%", "DEF%", "Elementarkunde", "Aufladerate"]),
+        ("Sanduhr", ["ANG%", "LP%", "VTD%", "Elementarkunde", "Aufladerate"]),
         ("Kelch", [
             "Pyro-SCH-Bonus%", "Hydro-SCH-Bonus%", "Kryo-SCH-Bonus%", "Elektro-SCH-Bonus%",
             "Anemo-SCH-Bonus%", "Geo-SCH-Bonus%", "Dendro-SCH-Bonus%", "Physischer SCH-Bonus%",
-            "ANG%", "LP%", "DEF%", "Elementarkunde",
+            "ANG%", "LP%", "VTD%", "Elementarkunde",
         ]),
-        ("Krone", ["KT%", "KSCH%", "ANG%", "LP%", "DEF%", "Heilungsbonus%", "Elementarkunde"]),
+        ("Krone", ["KT%", "KSCH%", "ANG%", "LP%", "VTD%", "Heilungsbonus%", "Elementarkunde"]),
     ]
     SUBSTATS = ["KT%", "KSCH%", "ANG%", "ANG (Fix)", "LP%", "LP (Fix)",
-                "DEF%", "DEF (Fix)", "Elementarkunde", "Aufladerate"]
+                "VTD%", "VTD (Fix)", "Elementarkunde", "Aufladerate"]
     RARITIES = ["5★", "4★", "3★"]
 
     # Standard-Hauptwert des Kelchs je Element des Charakters
@@ -970,6 +970,7 @@ class ArtifactPanel(QFrame):
 
     def set_stats(self, stats: dict):
         """Überträgt gespeicherte Werte in die Felder; fehlende Werte werden auf Standard gesetzt."""
+        stats = rename_legacy_stats(stats)
         pieces = {}
         for slot_name in self.slots:
             saved = stats.get(slot_name)

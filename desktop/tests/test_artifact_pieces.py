@@ -181,5 +181,46 @@ class BonusTooltipTest(unittest.TestCase):
             self.assertEqual(json.load(f)["weapons"], json.load(g)["weapons"])
 
 
+class StatNamesTest(unittest.TestCase):
+    setUp = ArtifactPiecesTest.setUp
+    """DEF% / DEF (Fix) heißen jetzt VTD% / VTD (Fix); ältere Builds werden umgewandelt."""
+
+    LEGACY = {"Sanduhr": {"main_stat": "DEF%", "main_value": "58,3",
+                          "substats": [{"stat": "DEF (Fix)", "val": "21"}, {"stat": "KT%", "val": "3,9"}] + [{}] * 2}}
+
+    def test_auswahllisten_kennen_vtd_und_kein_def(self):
+        self.assertIn("VTD%", dict(widgets.ArtifactPanel.SLOTS)["Sanduhr"])
+        self.assertIn("VTD (Fix)", widgets.ArtifactPanel.SUBSTATS)
+        self.assertFalse([s for s in widgets.ArtifactPanel.SUBSTATS if s.startswith("DEF")])
+        self.assertFalse([m for _, mains in widgets.ArtifactPanel.SLOTS for m in mains if m.startswith("DEF")])
+
+    def test_panel_wandelt_alte_namen_um(self):
+        card = widgets.CharacterCardWidget(self.manager.get_character_by_name("Furina"), self.manager,
+                                           {"artifact_stats": self.LEGACY})
+        self.addCleanup(card.deleteLater)
+        stats = widgets.ArtifactPanel(card, self.manager).get_stats()["Sanduhr"]
+        self.assertEqual(stats["main_stat"], "VTD%")
+        self.assertEqual([s["stat"] for s in stats["substats"]], ["VTD (Fix)", "KT%", "", ""])
+
+    def test_start_migriert_gespeicherte_builds(self):
+        self.manager.save_user_character("Furina", {"artifact_stats": self.LEGACY})
+        with sqlite3.connect(self.db) as conn:
+            conn.execute("UPDATE user_characters SET artifact_stats_json = REPLACE(artifact_stats_json, 'VTD', 'DEF')")   # Altbestand nachstellen
+            self.assertIn('"DEF%"', conn.execute("SELECT artifact_stats_json FROM user_characters").fetchone()[0])
+        manager = GenshinManager(self.db)
+        sanduhr = manager.load_user_characters()["Furina"]["artifact_stats"]["Sanduhr"]
+        self.assertEqual(sanduhr["main_stat"], "VTD%")
+        self.assertEqual(sanduhr["substats"][0]["stat"], "VTD (Fix)")
+
+    def test_import_alter_datei_wandelt_um(self):
+        path = os.path.join(self.tmp.name, "alt.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"format": "genshin-team-manager", "version": 1,
+                       "builds": [{"name": "Furina", "artifact_stats": self.LEGACY}], "teams": []}, f)
+        self.manager.import_user_data(path)
+        sanduhr = self.manager.load_user_characters()["Furina"]["artifact_stats"]["Sanduhr"]
+        self.assertEqual(sanduhr["main_stat"], "VTD%")
+
+
 if __name__ == "__main__":
     unittest.main()
