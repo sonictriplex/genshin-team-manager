@@ -131,3 +131,40 @@ fun parseExchange(text: String): ExchangeFile {
     require(file.version <= EXCHANGE_VERSION) { "Die Datei stammt aus einer neueren Version und kann nicht gelesen werden." }
     return file.copy(builds = file.builds.map { it.withCurrentStatNames() })
 }
+
+private val STAT_TOTAL_ORDER = listOf(
+    "LP%", "LP (Fix)", "ANG%", "ANG (Fix)", "VTD%", "VTD (Fix)",
+    "Elementarkunde", "Aufladerate", "KT%", "KSCH%", "Heilungsbonus%",
+)
+private val THOUSANDS = Regex("""\d{1,3}([.,]\d{3})+""")
+
+/** Zahl aus einem Freitext-Wert ("46,6", "3.9%", "4.780"); null, wenn keine Zahl erkennbar ist. */
+fun parseStatValue(text: String): Double? {
+    var t = text.replace("%", "").filterNot { it.isWhitespace() }
+    if (t.isEmpty()) return null
+    if (THOUSANDS.matches(t)) t = t.replace(".", "").replace(",", "")   // "4,780" ist ein Tausenderpunkt
+    return t.replace(',', '.').toDoubleOrNull()?.takeIf { it.isFinite() }
+}
+
+/** Summe je Stat über Haupt- und Substats aller Slots, in fester Reihenfolge (Rest alphabetisch). */
+fun Build.artifactTotals(): List<Pair<String, Double>> {
+    val sums = LinkedHashMap<String, Double>()
+    fun add(stat: String, value: String) {
+        val name = currentStatName(stat)
+        val number = parseStatValue(value)
+        if (name.isBlank() || number == null) return
+        sums[name] = (sums[name] ?: 0.0) + number
+    }
+    artifactStats.values.forEach { slot ->
+        add(slot.mainStat, slot.mainValue)
+        slot.substats.forEach { add(it.stat, it.value) }
+    }
+    fun rank(stat: String) = STAT_TOTAL_ORDER.indexOf(stat).let { if (it < 0) STAT_TOTAL_ORDER.size else it }
+    return sums.toList().sortedWith(compareBy({ rank(it.first) }, { it.first }))
+}
+
+fun formatStatTotal(stat: String, total: Double): String {
+    val rounded = Math.round(total * 10) / 10.0
+    val text = if (rounded == Math.floor(rounded)) rounded.toLong().toString() else "%.1f".format(java.util.Locale.GERMAN, rounded)
+    return if (stat.endsWith("%")) "$text%" else text
+}

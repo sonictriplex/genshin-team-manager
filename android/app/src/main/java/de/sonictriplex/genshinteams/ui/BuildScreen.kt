@@ -20,7 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.data.ARTIFACT_SLOTS
+import de.sonictriplex.genshinteams.data.artifactTotals
 import de.sonictriplex.genshinteams.data.bonusText
+import de.sonictriplex.genshinteams.data.formatStatTotal
 import de.sonictriplex.genshinteams.data.passiveText
 import de.sonictriplex.genshinteams.data.Build
 
@@ -71,6 +73,15 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -
                                 Text(if (sets.isEmpty()) "Kein Set" else sets.joinToString(" + "))
                                 sets.forEach { name ->
                                     InfoToggle(vm.stammdaten.stammdaten.artifacts.firstOrNull { it.name == name }?.bonusText()?.let { "$name\n\n$it" })
+                                }
+                            }
+                            val totals = build.artifactTotals()
+                            if (totals.isNotEmpty()) Section("Gesamtwerte (Artefakte)") {
+                                totals.forEach { (stat, total) ->
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text(stat)
+                                        Text(formatStatTotal(stat, total), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleSmall)
+                                    }
                                 }
                             }
                         },
