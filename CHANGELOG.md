@@ -2,6 +2,15 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.7.3 (13.11.2026)
+- Detailkarte: Neben der Krone stehen jetzt die „Gesamtwerte (Artefakte)“, also die Summe je Stat über Haupt- und Substats aller fünf Slots (z. B. LP (Fix), ANG%, KT%). Sie aktualisieren sich beim Tippen und Auswählen; Prozent- und Fix-Werte werden getrennt geführt, Einträge ohne Zahl zählen nicht mit
+
+## Android 1.7.3 (13.11.2026)
+- Build-Ansicht: In der linken Spalte unter „Artefakte“ zeigt der Block „Gesamtwerte (Artefakte)“ die Summe je Stat über alle Slots
+
+## Desktop 1.7.3 (13.11.2026)
+- Artefakt-Detailpanel: Neben der Krone, über den Buttons, stehen die „Gesamtwerte (Artefakte)“ mit der Summe je Stat; sie folgen den Eingaben sofort
+
 ## Web 1.7.2 (13.11.2026)
 - Teil-Auswahl der Artefakt-Slots: eigenes Dropdown mit Suchfeld statt der einfachen Browser-Liste. Die Suche findet Teil- und Setnamen (z. B. „gladiator“), die Gruppen „Teile der gewählten Sets“ und „Weitere Teile (Off-Piece)“ bleiben, jeder Eintrag zeigt sein Set. Bedienung auch per Tastatur (Pfeile, Enter, Escape), Klick daneben schließt
 - Die Stats „DEF%“ und „DEF (Fix)“ heißen jetzt „VTD%“ und „VTD (Fix)“ (Verteidigung), bei den Hauptwerten von Sanduhr und Krone und bei den Substats. Bereits gespeicherte Builds werden automatisch umgewandelt: `teams.php` und `transfer.php` wandeln beim Lesen und Speichern um, die neue Migration `006_stat_vtd.sql` stellt zusätzlich die gespeicherten Daten um (einmal ausführen)
