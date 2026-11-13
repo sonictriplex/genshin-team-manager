@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.sonictriplex.genshinteams.data.ARTIFACT_SLOTS
+import de.sonictriplex.genshinteams.data.bonusText
+import de.sonictriplex.genshinteams.data.passiveText
 import de.sonictriplex.genshinteams.data.Build
 
 /** Ansicht des Builds eines Charakters; Bearbeiten über die Leiste oben. */
@@ -61,11 +63,15 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -
                                             Text("Level ${build.weaponLevel} · Veredelung ${build.refinement}")
                                         }
                                     }
+                                    InfoToggle(vm.stammdaten.stammdaten.weapons.firstOrNull { it.name == build.weapon }?.passiveText(build.refinement))
                                 }
                             }
                             Section("Artefakte") {
                                 val sets = listOf(build.artifact, build.artifact2).filter { it.isNotBlank() && !it.startsWith("—") }
                                 Text(if (sets.isEmpty()) "Kein Set" else sets.joinToString(" + "))
+                                sets.forEach { name ->
+                                    InfoToggle(vm.stammdaten.stammdaten.artifacts.firstOrNull { it.name == name }?.bonusText()?.let { "$name\n\n$it" })
+                                }
                             }
                         },
                         right = {

@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS weapons (
     name        VARCHAR(255) NOT NULL UNIQUE,
     weapon_type VARCHAR(50)  NOT NULL,
     rarity      INT NOT NULL,
-    icon_path   VARCHAR(255) NULL
+    icon_path   VARCHAR(255) NULL,
+    passive_json MEDIUMTEXT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS artifacts (

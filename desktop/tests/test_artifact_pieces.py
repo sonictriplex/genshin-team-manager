@@ -121,5 +121,65 @@ class ArtifactPiecesTest(unittest.TestCase):
             self.assertEqual(json.load(f)["artifacts"], json.load(g)["artifacts"])
 
 
+class BonusTooltipTest(unittest.TestCase):
+    setUp = ArtifactPiecesTest.setUp
+    """Tooltips mit den Beschreibungen der Set-Boni und Waffen-Passive."""
+
+    def card(self, saved=None, name="Furina"):
+        card = widgets.CharacterCardWidget(self.manager.get_character_by_name(name), self.manager, saved or {})
+        self.addCleanup(card.deleteLater)
+        return card
+
+    def test_artefaktset_tooltip_in_combo_und_auswahlliste(self):
+        card = self.card({"artifact": "Verbeugung des Gladiators"})
+        self.assertIn("2er-Bonus", card.art_combo.toolTip())
+        self.assertIn("4er-Bonus", card.art_combo.toolTip())
+        idx = card.art_combo.findData("Abenteurer")
+        self.assertIn("max. LP", card.art_combo.itemData(idx, widgets.Qt.ToolTipRole))
+        self.assertEqual(card.art_combo_2.itemData(0, widgets.Qt.ToolTipRole), None)   # Platzhalter ohne Tooltip
+
+    def test_waffen_tooltip_folgt_der_veredelung(self):
+        weapon = next(w for w in self.manager.available_weapons if w.passive and len(w.passive["text"]) == 5)
+        card = self.card({"weapon": weapon.name, "refinement": 1}, name=next(
+            c.name for c in self.manager.available_characters if c.weapon_type == weapon.weapon_type))
+        self.assertIn("Veredelung 1", card.wpn_input.toolTip())
+        self.assertIn(weapon.passive["text"][0].split(".")[0][:30], card.wpn_input.toolTip())
+        card.refine_row.buttons[5].click()
+        self.assertIn("Veredelung 5", card.wpn_input.toolTip())
+
+    def test_waffe_ohne_passiv_zeigt_den_namen(self):
+        weapon = next(w for w in self.manager.available_weapons if not w.passive)
+        card = self.card({"weapon": weapon.name}, name=next(
+            c.name for c in self.manager.available_characters if c.weapon_type == weapon.weapon_type))
+        self.assertEqual(card.wpn_input.toolTip(), weapon.name)
+
+    def test_suchdialog_zeilen_haben_den_passiv_tooltip(self):
+        from dialogs import WeaponSearchDialog
+        dialog = WeaponSearchDialog(self.manager.available_weapons)
+        self.addCleanup(dialog.deleteLater)
+        row = next(i for i, w in enumerate(dialog.filtered) if w.passive)
+        self.assertIn("Veredelung 1", dialog.table.item(row, 1).toolTip())
+
+    def test_texte_im_tooltip_werden_maskiert(self):
+        from models import tooltip_html
+        self.assertIn("&lt;b&gt;", tooltip_html("Name", ["<b>x</b>"]))
+
+    def test_migration_aelterer_datenbank_fuellt_passive(self):
+        old = os.path.join(self.tmp.name, "alt2.db")
+        with sqlite3.connect(old) as conn:
+            conn.execute("CREATE TABLE weapons (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE NOT NULL, "
+                         "weapon_type TEXT NOT NULL, rarity INTEGER NOT NULL, icon_path TEXT)")
+            conn.execute("INSERT INTO weapons (name, weapon_type, rarity) VALUES ('Silberlampe', 'Einhandschwert', 5)")
+        manager = GenshinManager(old)
+        self.assertEqual(manager.get_weapon_by_name("Silberlampe").passive["name"], "Sonnenspiegelung im Wasser")
+
+    def test_export_roundtrip_behaelt_waffen_passive(self):
+        out = os.path.join(self.tmp.name, "seed2.json")
+        with sqlite3.connect(self.db) as conn:
+            export_seed(conn, out)
+        with open(out, encoding="utf-8") as f, open(SEED_PATH, encoding="utf-8") as g:
+            self.assertEqual(json.load(f)["weapons"], json.load(g)["weapons"])
+
+
 if __name__ == "__main__":
     unittest.main()

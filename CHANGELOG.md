@@ -2,6 +2,16 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.7.1 (13.11.2026)
+- Tooltips mit den Beschreibungen: an den beiden Set-Auswahlen und ihren Einträgen die Set-Boni (1er/2er/4er), an der Waffe das Passiv passend zur gewählten Veredelung und in der Waffensuche das Passiv bei Veredelung 1
+- Die Passiv-Texte der Waffen liegen in der Datenbank (Spalte `weapons.passive_json`, neue Migration `005_weapon_passives.sql`, ca. 390 KB); ohne die Migration fehlen nur die Waffen-Tooltips
+
+## Android 1.7.1 (13.11.2026)
+- Set-Boni und Waffen-Passiv lassen sich über „ⓘ Beschreibung anzeigen“ aufklappen (Build-Ansicht und Bearbeiten, das Passiv folgt der gewählten Veredelung); in den Auswahllisten für Waffen und Artefaktsets stehen die ersten Zeilen der Beschreibung unter dem Namen
+
+## Desktop 1.7.1 (13.11.2026)
+- Tooltips mit fester Breite: Set-Boni an den Set-Auswahlen und in deren Auswahlliste, Waffen-Passiv an der Waffe (folgt der Veredelung) und in der Waffensuche. Ältere Datenbanken bekommen die Passiv-Texte beim Start automatisch aus `shared/stammdaten.json`
+
 ## Web 1.7.0 (13.11.2026)
 - Detailkarte: Je Artefakt-Slot (Blume, Feder, Sanduhr, Kelch, Krone) lässt sich jetzt der Name des Teils auswählen (z. B. „Zuflucht des Gladiators“). Die Teile der gewählten Sets stehen oben, darunter alle anderen, damit auch ein Off-Piece (bei 4er-Sets oder 2+2) möglich ist
 - Die Teilnamen liegen in der Datenbank (Spalte `artifacts.pieces_json`, neue Migration `004_artifact_pieces.sql`) und werden im Build gespeichert und exportiert (Feld `piece` je Slot)

@@ -9,7 +9,7 @@ Desktop-App zum Zusammenstellen von Genshin-Impact-Teams und zum Verwalten der C
 - **Artefakt-Detailwerte**: für Blume, Feder, Sanduhr, Kelch und Krone jeweils der Name des Teils (Suchfeld mit Vorschlägen: Teile der gewählten Sets fett oben, dazu alle anderen für ein Off-Piece), Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Werkzeugleiste**: Name, Speichern und Neues Team links, Teamauswahl und Löschen (Symbolknopf mit Rückfrage) rechts; Exportieren und Importieren im Menü „Datei“
 - **Suche**: Charaktere nach Region, Element und Seltenheit filtern, Waffen nach Typ und Seltenheit
-- **Tooltips** mit den 2er- und 4er-Boni der Artefaktsets
+- **Tooltips** mit den Boni der Artefaktsets (an der Auswahl und in der Liste) und dem Passiv der Waffe (passend zur Veredelung, auch in der Waffensuche)
 
 Ein Build gilt für den Charakter, nicht für das Team: Wird ein Charakter in mehreren Teams verwendet, hat er überall denselben Build.
 

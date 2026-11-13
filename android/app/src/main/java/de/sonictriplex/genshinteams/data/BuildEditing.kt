@@ -49,6 +49,20 @@ fun Build.normalized(): Build = copy(
     },
 )
 
+/** Beschreibung des Passivs bei der gegebenen Veredelung (1–5), oder null, wenn die Waffe keins hat. */
+fun Weapon.passiveText(refinement: Int): String? {
+    val texts = passive?.text?.takeIf { it.isNotEmpty() } ?: return null
+    val step = refinement.coerceIn(1, texts.size)
+    return "${passive.name} (Veredelung $step)\n\n${texts[step - 1]}"
+}
+
+/** Set-Boni (1er, 2er, 4er) als Text, oder null, wenn das Set keine Beschreibung hat. */
+fun ArtifactSet.bonusText(): String? {
+    val parts = listOf("1er" to bonus1pc, "2er" to bonus2pc, "4er" to bonus4pc)
+        .filter { it.second.isNotBlank() }.map { "${it.first}-Bonus: ${it.second}" }
+    return parts.takeIf { it.isNotEmpty() }?.joinToString("\n\n")
+}
+
 /** Ein Eintrag der Teil-Auswahl: [inBuildSet] = das Teil gehört zu einem der beiden Sets des Builds. */
 data class PieceOption(val name: String, val setName: String, val inBuildSet: Boolean)
 

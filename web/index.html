@@ -192,7 +192,7 @@
             <img src="/assets/images/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.7.0</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.7.1</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
@@ -562,6 +562,24 @@
 
         // Schützt vor XSS: wandelt HTML-Sonderzeichen in Entities um.
         // Für JEDEN Wert aus DB/Nutzereingabe verwenden, der per innerHTML eingefügt wird.
+        // Tooltip (title-Attribut) mit der Beschreibung des Waffen-Passivs bei der gegebenen Veredelung; leer ohne Passiv
+        function weaponPassiveTip(weaponName, refinement) {
+            const w = availableWeapons.find(x => x.name === weaponName);
+            const texts = w?.passive?.text;
+            if (!Array.isArray(texts) || !texts.length) return '';
+            const step = Math.max(1, Math.min(parseInt(refinement) || 1, texts.length));
+            return `${w.name}\n${w.passive.name || ''} (Veredelung ${step})\n\n${texts[step - 1]}`;
+        }
+
+        // Tooltip mit den Set-Boni (1er, 2er, 4er) eines Artefaktsets; leer ohne Beschreibung
+        function artifactBonusTip(setName) {
+            const a = availableArtifacts.find(x => x.name === setName);
+            if (!a) return '';
+            const parts = [['1er', a.bonus_1pc], ['2er', a.bonus_2pc], ['4er', a.bonus_4pc]]
+                .filter(([, text]) => text).map(([label, text]) => `${label}-Bonus: ${text}`);
+            return parts.length ? `${a.name}\n\n${parts.join('\n\n')}` : '';
+        }
+
         function escapeHtml(value) {
             return String(value ?? '').replace(/[&<>"']/g, ch => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -897,7 +915,7 @@
                             <button onclick="openWeaponModal(${index})" class="w-5 h-5 rounded bg-inputBg text-accent font-bold flex items-center justify-center border border-[#332d47] hover:border-accent text-xs" title="Waffe suchen">🔍</button>
                         </div>
                         <div class="flex gap-1.5 mb-1.5">
-                            <input type="text" readonly value="${escapeHtml(saved.weapon || char.weapon_type || '')}" onclick="openWeaponModal(${index})" class="flex-1 bg-inputBg text-gray-100 border border-[#332d47] rounded px-2 py-1 text-xs truncate cursor-pointer hover:border-accent outline-none">
+                            <input type="text" readonly value="${escapeHtml(saved.weapon || char.weapon_type || '')}" title="${escapeHtml(weaponPassiveTip(saved.weapon, saved.refinement))}" onclick="openWeaponModal(${index})" class="flex-1 bg-inputBg text-gray-100 border border-[#332d47] rounded px-2 py-1 text-xs truncate cursor-pointer hover:border-accent outline-none">
                             <input type="number" min="1" max="90" value="${saved.weapon_level || 90}" onchange="updateSavedProp(${index}, 'weapon_level', this.value)" class="w-13 h-7 bg-inputBg text-accent border border-[#332d47] rounded px-1 text-center font-bold text-xs flex-shrink-0 outline-none focus:border-accent">
                         </div>
                         <div class="flex items-center justify-between">
@@ -916,13 +934,13 @@
                             <span class="text-gold font-bold text-xs">Artefaktset</span>
                             <button onclick="toggleDetailView(${index})" class="w-5 h-5 rounded-full bg-[#2d293e] text-accent font-bold flex items-center justify-center border border-[#332d47] hover:bg-accent hover:text-darkBg transition-colors" title="Einzelwerte & Substats bearbeiten">${isDetailMode ? '-' : '+'}</button>
                         </div>
-                        <select onchange="updateSavedProp(${index}, 'artifact', this.value)" class="w-full bg-inputBg text-gray-200 border border-[#332d47] rounded px-2 py-1 mb-1 text-xs outline-none focus:border-accent">
+                        <select onchange="updateSavedProp(${index}, 'artifact', this.value); this.title = artifactBonusTip(this.value)" title="${escapeHtml(artifactBonusTip(saved.artifact))}" class="w-full bg-inputBg text-gray-200 border border-[#332d47] rounded px-2 py-1 mb-1 text-xs outline-none focus:border-accent">
                             <option value="">Kein Set</option>
-                            ${availableArtifacts.map(a => `<option value="${escapeHtml(a.name)}" ${saved.artifact === a.name ? 'selected':''}>${escapeHtml(a.name)}</option>`).join('')}
+                            ${availableArtifacts.map(a => `<option value="${escapeHtml(a.name)}" title="${escapeHtml(artifactBonusTip(a.name))}" ${saved.artifact === a.name ? 'selected':''}>${escapeHtml(a.name)}</option>`).join('')}
                         </select>
-                        <select onchange="updateSavedProp(${index}, 'artifact_2', this.value)" class="w-full bg-inputBg text-gray-200 border border-[#332d47] rounded px-2 py-1 text-xs outline-none focus:border-accent">
+                        <select onchange="updateSavedProp(${index}, 'artifact_2', this.value); this.title = artifactBonusTip(this.value)" title="${escapeHtml(artifactBonusTip(saved.artifact_2))}" class="w-full bg-inputBg text-gray-200 border border-[#332d47] rounded px-2 py-1 text-xs outline-none focus:border-accent">
                             <option value="">— Zweites 2er-Set —</option>
-                            ${availableArtifacts.map(a => `<option value="${escapeHtml(a.name)}" ${saved.artifact_2 === a.name ? 'selected':''}>${escapeHtml(a.name)}</option>`).join('')}
+                            ${availableArtifacts.map(a => `<option value="${escapeHtml(a.name)}" title="${escapeHtml(artifactBonusTip(a.name))}" ${saved.artifact_2 === a.name ? 'selected':''}>${escapeHtml(a.name)}</option>`).join('')}
                         </select>
                     </div>
 
@@ -1488,7 +1506,7 @@
                 const iconUrl = getIconUrl(wName);
 
                 return `
-                    <tr data-name="${escapeHtml(wName)}" class="hover:bg-[#262338]/60 cursor-pointer transition-colors">
+                    <tr data-name="${escapeHtml(wName)}" title="${escapeHtml(weaponPassiveTip(wName, 1))}" class="hover:bg-[#262338]/60 cursor-pointer transition-colors">
                         <td class="p-2"><img src="${escapeHtml(iconUrl)}" onerror="this.src=''" class="w-8 h-8 object-contain"></td>
                         <td class="p-2 font-bold text-white">${escapeHtml(wName)}</td>
                         <td class="p-2">${escapeHtml(wType)}</td>

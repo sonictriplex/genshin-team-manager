@@ -22,7 +22,7 @@ SEED_PATH = os.path.join(SHARED_DIR, "stammdaten.json")
 # Tabelle -> Spalten, die exportiert/importiert werden (die id wird von SQLite vergeben)
 TABLES = {
     "characters": ["name", "element", "weapon_type", "region", "rarity", "icon_path"],
-    "weapons": ["name", "weapon_type", "rarity", "icon_path"],
+    "weapons": ["name", "weapon_type", "rarity", "icon_path", "passive_json"],
     "artifacts": ["name", "bonus_1pc", "bonus_2pc", "bonus_4pc", "pieces_json"],
 }
 
@@ -32,6 +32,9 @@ def _row_from_json(table: str, row: dict) -> dict:
     if table == "artifacts":
         row = dict(row)
         row["pieces_json"] = json.dumps(row.get("pieces") or {}, ensure_ascii=False)
+    elif table == "weapons":
+        row = dict(row)
+        row["passive_json"] = json.dumps(row["passive"], ensure_ascii=False) if row.get("passive") else None
     return row
 
 
@@ -43,6 +46,12 @@ def _row_to_json(table: str, row: dict) -> dict:
             row["pieces"] = json.loads(row.pop("pieces_json", None) or "{}")
         except json.JSONDecodeError:
             row["pieces"] = {}
+    elif table == "weapons":
+        row = dict(row)
+        try:
+            row["passive"] = json.loads(row.pop("passive_json", None) or "null")
+        except json.JSONDecodeError:
+            row["passive"] = None
     return row
 
 
@@ -94,6 +103,20 @@ def fill_artifact_pieces(conn: sqlite3.Connection, path: str = SEED_PATH) -> int
             continue
         cur = conn.execute("UPDATE artifacts SET pieces_json = ? WHERE name = ?",
                            (json.dumps(pieces, ensure_ascii=False), row["name"]))
+        changed += cur.rowcount
+    return changed
+
+
+def fill_weapon_passives(conn: sqlite3.Connection, path: str = SEED_PATH) -> int:
+    """Trägt die Passiv-Beschreibungen der Waffen aus der JSON-Datei nach (für Datenbanken ohne `passive_json`)."""
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    changed = 0
+    for row in data.get("weapons", []):
+        if not row.get("passive"):
+            continue
+        cur = conn.execute("UPDATE weapons SET passive_json = ? WHERE name = ?",
+                           (json.dumps(row["passive"], ensure_ascii=False), row["name"]))
         changed += cur.rowcount
     return changed
 

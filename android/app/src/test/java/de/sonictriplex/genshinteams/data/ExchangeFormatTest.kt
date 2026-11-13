@@ -107,6 +107,18 @@ class BuildEditingTest {
     }
 
     @Test
+    fun bonusUndPassivTexteKommenAusDenStammdaten() {
+        val set = artifacts.first { it.name == "Abenteurer" }
+        assertTrue(set.bonusText()!!.contains("2er-Bonus: Erhöht die max. LP um 1000."))
+        val weapons = AppJson.decodeFromString<Stammdaten>(File(shared, "stammdaten.json").readText()).weapons
+        val lamp = weapons.first { it.name == "Silberlampe" }
+        assertTrue(lamp.passiveText(1)!!.startsWith("Sonnenspiegelung im Wasser (Veredelung 1)"))
+        assertTrue(lamp.passiveText(5)!!.contains("Veredelung 5"))
+        assertTrue(lamp.passiveText(9)!!.contains("Veredelung 5"))   // außerhalb des Bereichs: begrenzt
+        assertEquals(null, weapons.first { it.passive == null }.passiveText(1))
+    }
+
+    @Test
     fun einzelteilSetsGibtEsNurBeiDerKrone() {
         assertTrue(pieceOptions(artifacts, "Krone", emptyList()).any { it.name == "Wasseropferdiadem" })
         assertTrue(pieceOptions(artifacts, "Blume", emptyList()).none { it.name == "Wasseropferdiadem" })

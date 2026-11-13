@@ -36,7 +36,13 @@ data class Weapon(
     @SerialName("weapon_type") val weaponType: String = "",
     val rarity: Int = 4,
     @SerialName("icon_path") val iconPath: String? = null,
+    /** Passiv der Waffe; null bei Waffen ohne (z. B. Anfängerwaffen). */
+    val passive: WeaponPassive? = null,
 )
+
+/** Beschreibung des Waffen-Passivs: [text] hat je einen Eintrag für Veredelung 1 bis 5. */
+@Serializable
+data class WeaponPassive(val name: String = "", val text: List<String> = emptyList())
 
 @Serializable
 data class ArtifactSet(

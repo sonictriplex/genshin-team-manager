@@ -621,6 +621,8 @@ class CharacterCardWidget(QFrame):
 
         self.refine_row = ChoiceButtonRow("V", range(1, 6), selected=self.saved_data.get("refinement", 1))
         layout.addLayout(self.refine_row)
+        for btn in self.refine_row.buttons.values():
+            btn.clicked.connect(self.update_weapon_tooltip)   # nach ChoiceButtonRow.select, der Wert ist schon gesetzt
 
     def _build_artifacts(self, layout: QVBoxLayout):
         art_header_layout = QHBoxLayout()
@@ -643,8 +645,9 @@ class CharacterCardWidget(QFrame):
         self.art_combo_2.addItem("— Zweites 2er-Set (optional) —", "")
         if self.manager.available_artifacts:
             for art in self.manager.available_artifacts:
-                self.art_combo.addItem(art.name, art.name)
-                self.art_combo_2.addItem(art.name, art.name)
+                for combo in (self.art_combo, self.art_combo_2):
+                    combo.addItem(art.name, art.name)
+                    combo.setItemData(combo.count() - 1, art.bonus_tooltip(), Qt.ToolTipRole)   # Tooltip in der Auswahlliste
         else:
             self.art_combo.addItem("Keine Artefakte geladen", "")
 
@@ -688,8 +691,16 @@ class CharacterCardWidget(QFrame):
 
     def set_weapon(self, name: str):
         self.wpn_input.setText(name)
-        self.wpn_input.setToolTip(name)
         self.wpn_input.setCursorPosition(0)
+        self.update_weapon_tooltip()
+
+    def update_weapon_tooltip(self):
+        """Tooltip der Waffe: Beschreibung des Passivs bei der aktuellen Veredelung (sonst nur der Name)."""
+        name = self.wpn_input.text()
+        weapon = self.manager.get_weapon_by_name(name)
+        refine_row = getattr(self, "refine_row", None)
+        refinement = refine_row.value if refine_row else self.saved_data.get("refinement", 1)
+        self.wpn_input.setToolTip((weapon.passive_tooltip(refinement) if weapon else "") or name)
 
     def open_weapon_search_dialog(self):
         dialog = WeaponSearchDialog(self.manager.available_weapons, self.character.weapon_type, parent=self)
@@ -702,11 +713,7 @@ class CharacterCardWidget(QFrame):
 
     @staticmethod
     def format_artifact_tooltip(art: ArtifactSet) -> str:
-        parts = [f"<b>{art.name}</b>"]
-        for label, bonus in (("1er", art.bonus_1pc), ("2er", art.bonus_2pc), ("4er", art.bonus_4pc)):
-            if bonus:
-                parts.append(f"<b>{label}-Bonus:</b> {bonus}")
-        return "<br><br>".join(parts)
+        return art.bonus_tooltip()
 
     def toggle_detail_view(self):
         self.is_detail_open = not self.is_detail_open

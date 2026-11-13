@@ -26,13 +26,13 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  * Lädt die Seite mit einem Team "Test" aus Furina, Nilou und Barbara (in dieser Reihenfolge).
  * Die Seite startet mit der Übersicht aller Teams; `openTeam` öffnet das Team danach wie ein Klick auf seine Karte.
  */
-async function loadPage({ loggedIn = true, openTeam = true, teams = null, artifacts = [] } = {}) {
+async function loadPage({ loggedIn = true, openTeam = true, teams = null, artifacts = [], weapons = [] } = {}) {
     const posted = [];
     const deleted = [];
     const routes = {
         'auth.php?action=status': loggedIn ? { logged_in: true, username: 'tester', user_id: 1 } : { logged_in: false },
         'characters.php': CHARACTERS,
-        'weapons.php': [],
+        'weapons.php': weapons,
         'artifacts.php': artifacts,
         'teams.php': teams || { Test: CHARACTERS.slice(0, 3).map(c => ({ character: c, saved: { level: 90 } })) },
     };
@@ -468,4 +468,33 @@ test('Artefaktteile: Dropdown pro Slot, Teile der gewählten Sets zuerst, Off-Pi
     await w.saveCurrentTeam();
     const sent = posted.find(p => p.url.includes('teams.php'));
     assert.equal(sent.body.members[0].artifact_stats.Feder.piece, 'Zuflucht des Gladiators');
+});
+
+test('Tooltips: Set-Boni an den Set-Auswahlen, Waffen-Passiv an der Waffe (folgt der Veredelung) und in der Waffensuche', async () => {
+    const artifacts = STAMMDATEN.artifacts.map((a, i) => ({ id: i + 1, name: a.name, bonus_1pc: a.bonus_1pc, bonus_2pc: a.bonus_2pc, bonus_4pc: a.bonus_4pc, pieces: a.pieces }));
+    const weapon = STAMMDATEN.weapons.find(w => w.weapon_type === CHARACTERS[0].weapon_type && w.passive && w.passive.text.length === 5);
+    const weapons = STAMMDATEN.weapons.map((w, i) => ({ id: i + 1, name: w.name, weapon_type: w.weapon_type, rarity: w.rarity, passive: w.passive }));
+    const teams = { Test: [{ character: CHARACTERS[0], saved: { level: 90, weapon: weapon.name, refinement: 1, artifact: 'Abenteurer' } }] };
+    const { w, d } = await loadPage({ artifacts, weapons, teams });
+
+    const selects = [...d.querySelectorAll('#overviewView select')];
+    const setSelect = selects.find(sel => sel.value === 'Abenteurer');
+    assert.match(setSelect.title, /2er-Bonus: Erhöht die max\. LP um 1000\./);
+    assert.match(setSelect.querySelector('option[value="Berserker"]').title, /4er-Bonus/);
+    setSelect.value = 'Berserker';
+    setSelect.dispatchEvent(new w.Event('change', { bubbles: true }));
+    assert.match(setSelect.title, /^Berserker/);
+
+    const weaponInput = () => d.querySelector('#overviewView input[readonly]');
+    assert.ok(weaponInput().title.includes('Veredelung 1'));
+    assert.ok(weaponInput().title.includes(weapon.passive.text[0].slice(0, 40)));
+    w.updateSavedProp(0, 'refinement', 5);
+    w.renderCurrentView();
+    assert.ok(weaponInput().title.includes('Veredelung 5'));
+
+    w.openWeaponModal(0);
+    const row = d.querySelector(`#weaponTableBody tr[data-name="${weapon.name.replace(/"/g, '\\"')}"]`);
+    assert.ok(row.title.includes('Veredelung 1'));
+    // Waffen ohne Passiv bekommen keinen Tooltip
+    assert.equal(w.weaponPassiveTip('Gibt es nicht', 1), '');
 });

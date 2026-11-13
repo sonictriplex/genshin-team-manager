@@ -28,6 +28,8 @@ import de.sonictriplex.genshinteams.data.Build
 import de.sonictriplex.genshinteams.data.BuildOptions
 import de.sonictriplex.genshinteams.data.Talents
 import de.sonictriplex.genshinteams.data.normalized
+import de.sonictriplex.genshinteams.data.bonusText
+import de.sonictriplex.genshinteams.data.passiveText
 import de.sonictriplex.genshinteams.data.pieceOptions
 import de.sonictriplex.genshinteams.data.withSlot
 import de.sonictriplex.genshinteams.data.withSubstat
@@ -95,12 +97,13 @@ fun EditBuildScreen(vm: AppViewModel, name: String, onDone: () -> Unit) {
                         Dropdown("R${build.refinement}", (1..5).map { "R$it" }, { build = build.copy(refinement = it.drop(1).toInt()) })
                     }
                 }
+                InfoToggle(vm.stammdaten.stammdaten.weapons.firstOrNull { it.name == build.weapon }?.passiveText(build.refinement))
                 if (picking) {
                     // Nur Waffen des passenden Typs, seltene zuerst
                     val weapons = vm.stammdaten.stammdaten.weapons
                         .filter { character == null || it.weaponType == character.weaponType }
                         .sortedWith(compareByDescending<de.sonictriplex.genshinteams.data.Weapon> { it.rarity }.thenBy { it.name })
-                        .map { PickerItem(it.name, "${it.rarity} ★ · ${it.weaponType}") }
+                        .map { PickerItem(it.name, "${it.rarity} ★ · ${it.weaponType}", it.passiveText(1).orEmpty()) }
                     SearchPickerDialog(
                         "Waffe wählen", weapons, vm.stammdaten, "Keine Waffe",
                         onPick = { build = build.copy(weapon = it); picking = false },
@@ -164,8 +167,9 @@ private fun SetPicker(label: String, value: String, vm: AppViewModel, onPick: (S
     var picking by remember { mutableStateOf(false) }
     Label(label)
     OutlinedButton(onClick = { picking = true }, Modifier.fillMaxWidth()) { Text(value.ifBlank { "Kein Set" }) }
+    InfoToggle(vm.stammdaten.stammdaten.artifacts.firstOrNull { it.name == value }?.bonusText())
     if (picking) {
-        val sets = vm.stammdaten.stammdaten.artifacts.map { PickerItem(it.name) }
+        val sets = vm.stammdaten.stammdaten.artifacts.map { PickerItem(it.name, detail = it.bonusText().orEmpty()) }
         SearchPickerDialog(
             "Artefaktset wählen", sets, null, "Kein Set",
             onPick = { onPick(it); picking = false },

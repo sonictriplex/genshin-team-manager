@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 from typing import Optional
 from models import Character, Weapon, ArtifactSet, BASE_DIR, DEFAULT_TALENTS, icon_path_for
-from seed import SEED_PATH, fill_artifact_pieces, import_seed, is_seeded
+from seed import SEED_PATH, fill_artifact_pieces, fill_weapon_passives, import_seed, is_seeded
 
 DB_PATH = os.path.join(BASE_DIR, "genshin_manager.db")
 
@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS weapons (
     name TEXT UNIQUE NOT NULL,
     weapon_type TEXT NOT NULL,
     rarity INTEGER NOT NULL,
-    icon_path TEXT
+    icon_path TEXT,
+    passive_json TEXT
 );
 CREATE TABLE IF NOT EXISTS artifacts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -108,6 +109,7 @@ class GenshinManager:
                 self._migrate_weapon_icons(conn)
                 self._migrate_team_position(conn)
                 self._migrate_artifact_pieces(conn)
+                self._migrate_weapon_passives(conn)
         except (sqlite3.Error, OSError, json.JSONDecodeError) as e:
             raise DatabaseError(f"Datenbank konnte nicht initialisiert werden ({self.db_path}): {e}") from e
 
@@ -141,6 +143,15 @@ class GenshinManager:
         conn.execute("ALTER TABLE artifacts ADD COLUMN pieces_json TEXT DEFAULT '{}'")
         if self.seed_path and os.path.exists(self.seed_path):
             fill_artifact_pieces(conn, self.seed_path)
+
+    def _migrate_weapon_passives(self, conn: sqlite3.Connection):
+        """Ältere Datenbanken: Spalte weapons.passive_json (Passiv-Beschreibungen) ergänzen und aus der Seed-Datei füllen."""
+        columns = [r[1] for r in conn.execute("PRAGMA table_info(weapons)")]
+        if "passive_json" in columns:
+            return
+        conn.execute("ALTER TABLE weapons ADD COLUMN passive_json TEXT")
+        if self.seed_path and os.path.exists(self.seed_path):
+            fill_weapon_passives(conn, self.seed_path)
 
     def seed_if_empty(self):
         """Spielt die Stammdaten aus der JSON-Datei ein, wenn die Datenbank noch keine hat."""
@@ -190,17 +201,25 @@ class GenshinManager:
             with self.get_connection() as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    SELECT name, weapon_type, rarity, icon_path
+                    SELECT name, weapon_type, rarity, icon_path, passive_json
                     FROM weapons ORDER BY name ASC
                 """)
                 rows = cursor.fetchall()
                 self.available_weapons = [
-                    Weapon(name=row[0], weapon_type=row[1], rarity=row[2], icon_path=row[3])
+                    Weapon(name=row[0], weapon_type=row[1], rarity=row[2], icon_path=row[3],
+                           passive=self._parse_json(row[4]))
                     for row in rows
                 ]
         except sqlite3.Error as e:
             self.available_weapons = []
             raise DatabaseError(f"Fehler beim Laden der Waffen: {e}") from e
+
+    @staticmethod
+    def _parse_json(text: Optional[str]):
+        try:
+            return json.loads(text) if text else None
+        except json.JSONDecodeError:
+            return None
 
     @staticmethod
     def _parse_pieces(text: Optional[str]) -> dict:
@@ -551,6 +570,13 @@ class GenshinManager:
     def get_weapons_by_type(self, weapon_type: str) -> list[Weapon]:
         """Gibt alle Waffen eines bestimmten Typs zurück."""
         return [w for w in self.available_weapons if w.weapon_type.lower() == weapon_type.lower()]
+
+    def get_weapon_by_name(self, name: str) -> Optional[Weapon]:
+        """Sucht eine Waffe nach Namen."""
+        for w in self.available_weapons:
+            if w.name.lower() == name.lower():
+                return w
+        return None
 
     def get_artifact_by_name(self, name: str) -> Optional[ArtifactSet]:
         """Sucht ein Artefaktset nach Namen."""

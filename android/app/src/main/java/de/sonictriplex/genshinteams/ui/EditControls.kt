@@ -83,7 +83,18 @@ fun DiscardDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
 }
 
 /** Eintrag einer Suchliste; [withIcon] zeigt das Bild aus den Assets an. */
-data class PickerItem(val name: String, val subtitle: String = "")
+data class PickerItem(val name: String, val subtitle: String = "", val detail: String = "")
+
+/** Aufklappbare Beschreibung (Set-Boni, Waffen-Passiv): auf dem Handy gibt es keinen Hover-Tooltip. Ohne Text wird nichts angezeigt. */
+@Composable
+fun InfoToggle(text: String?) {
+    if (text == null) return
+    var open by remember { mutableStateOf(false) }
+    Column {
+        TextButton(onClick = { open = !open }) { Text(if (open) "ⓘ Beschreibung ausblenden" else "ⓘ Beschreibung anzeigen") }
+        if (open) Text(text, style = MaterialTheme.typography.bodySmall)
+    }
+}
 
 /** Vollbild-ähnlicher Dialog mit Suchfeld für lange Listen (Waffen, Artefaktsets). */
 @Composable
@@ -126,6 +137,13 @@ fun SearchPickerDialog(
                                 Text(item.name)
                                 if (item.subtitle.isNotEmpty()) {
                                     Text(item.subtitle, style = MaterialTheme.typography.bodySmall)
+                                }
+                                if (item.detail.isNotEmpty()) {
+                                    Text(
+                                        item.detail, style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 3, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                    )
                                 }
                             }
                         }

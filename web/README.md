@@ -6,7 +6,7 @@ Web-App zum Zusammenstellen von Genshin-Impact-Teams und Verwalten der Charakter
 
 - Registrierung und Login (Session-basiert)
 - Teams mit bis zu 4 Charakteren anlegen, speichern und löschen; die Karten lassen sich per Drag & Drop am Kopfbereich oder mit den Pfeilen ‹ › umsortieren
-- Pro Charakter: Level, Konstellation, Talente, Waffe (Level, Raffinierung), Artefaktsets (4er oder 2×2er) und die Substats aller 5 Artefakte (Blume, Feder, Sanduhr, Kelch, Krone), je mit dem Namen des Teils (Dropdown: Teile der gewählten Sets zuerst, danach alle übrigen für ein Off-Piece)
+- Pro Charakter: Level, Konstellation, Talente, Waffe (Level, Raffinierung), Artefaktsets (4er oder 2×2er, mit Tooltip der Set-Boni) und Waffe (Tooltip mit dem Passiv zur gewählten Veredelung) und die Substats aller 5 Artefakte (Blume, Feder, Sanduhr, Kelch, Krone), je mit dem Namen des Teils (Dropdown: Teile der gewählten Sets zuerst, danach alle übrigen für ein Off-Piece)
 - Suchbare Auswahllisten für Charaktere und Waffen
 - Kopfzeile mit Benutzermenü (Exportieren, Importieren, Logout); die Team-Steuerung darunter bricht auf schmalen Displays gruppenweise um und lässt sich am Handy bedienen
 
@@ -39,7 +39,7 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
 
 1. **Webserver mit PHP** (z. B. Apache oder nginx + PHP-FPM) mit der PDO-MySQL-Erweiterung. Der Inhalt von `web/` muss im **Web-Root** liegen (beim Hochladen den Symlink `assets` auflösen und `tests/` weglassen, z. B. `rsync -rL --exclude tests web/ …`), weil das Frontend absolute Pfade (`/api`, `/assets/images`) verwendet.
 
-2. **Datenbank** anlegen. `schema.sql` enthält das Schema, ist aber aus den Abfragen in `api/*.php` abgeleitet und nicht aus der Produktivdatenbank exportiert (vorher mit `SHOW CREATE TABLE` abgleichen). Eine bestehende Datenbank braucht nur die Dateien aus `migrations/` (aktuell `001_api_tokens.sql` bis `004_artifact_pieces.sql`). Wichtig sind die eindeutigen Schlüssel `teams (user_id, name)` und `user_characters (user_id, char_name)`.
+2. **Datenbank** anlegen. `schema.sql` enthält das Schema, ist aber aus den Abfragen in `api/*.php` abgeleitet und nicht aus der Produktivdatenbank exportiert (vorher mit `SHOW CREATE TABLE` abgleichen). Eine bestehende Datenbank braucht nur die Dateien aus `migrations/` (aktuell `001_api_tokens.sql` bis `005_weapon_passives.sql`). Wichtig sind die eindeutigen Schlüssel `teams (user_id, name)` und `user_characters (user_id, char_name)`.
 
 3. **Zugangsdaten** konfigurieren – entweder per Datei:
 

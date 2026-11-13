@@ -1,10 +1,11 @@
+import html
 import os
 from typing import Optional
 
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.7.0"
+APP_VERSION = "1.7.1"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -60,13 +61,31 @@ class Character:
         return icon_path_for(self.name)
 
 
+def tooltip_html(title: str, paragraphs: list[str]) -> str:
+    """Tooltip mit fester Breite (Qt bricht Rich-Text-Tooltips sonst nicht um). Texte werden maskiert."""
+    body = "".join(f"<p style='margin-top:6px; margin-bottom:0'>{html.escape(p).replace(chr(10), '<br>')}</p>"
+                   for p in paragraphs if p)
+    return f"<table width='340'><tr><td><b>{html.escape(title)}</b>{body}</td></tr></table>"
+
+
 class Weapon:
     """Modelliert eine Genshin Impact Waffe."""
-    def __init__(self, name: str, weapon_type: str, rarity: int, icon_path: Optional[str] = None):
+    def __init__(self, name: str, weapon_type: str, rarity: int, icon_path: Optional[str] = None,
+                 passive: Optional[dict] = None):
         self.name = name
         self.weapon_type = weapon_type
         self.rarity = rarity
         self._icon_path = icon_path
+        # {"name": Name des Passivs, "text": [Beschreibung je Veredelung 1..5]} oder None (z. B. Anfängerwaffen)
+        self.passive = passive if isinstance(passive, dict) else None
+
+    def passive_tooltip(self, refinement: int = 1) -> str:
+        """Beschreibung des Waffen-Passivs bei der gegebenen Veredelung (1–5), sonst leer."""
+        texts = (self.passive or {}).get("text") or []
+        if not texts:
+            return ""
+        step = max(1, min(refinement, len(texts)))
+        return tooltip_html(self.name, [f"{self.passive.get('name', '')} (Veredelung {step})", texts[step - 1]])
 
     @property
     def icon_path(self) -> str:
@@ -92,3 +111,9 @@ class ArtifactSet:
         self.bonus_1pc = bonus_1pc
         self.bonus_2pc = bonus_2pc
         self.bonus_4pc = bonus_4pc
+
+    def bonus_tooltip(self) -> str:
+        """Set-Boni (1er, 2er, 4er) als Tooltip, leer wenn das Set keine Beschreibung hat."""
+        parts = [f"{label}-Bonus: {bonus}" for label, bonus in
+                 (("1er", self.bonus_1pc), ("2er", self.bonus_2pc), ("4er", self.bonus_4pc)) if bonus]
+        return tooltip_html(self.name, parts) if parts else ""

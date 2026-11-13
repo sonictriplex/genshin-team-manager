@@ -89,6 +89,10 @@ class SearchDialog(QDialog):
         """Liefert (Icon-Pfad, Spaltentexte ab Spalte 1)."""
         raise NotImplementedError
 
+    def row_tooltip(self, item) -> str:
+        """Tooltip für die ganze Zeile (leer = keiner)."""
+        return ""
+
     # --- Hilfsmethoden ---
 
     def add_filter_combo(self, all_label: str, values: list, fmt=str) -> QComboBox:
@@ -121,13 +125,16 @@ class SearchDialog(QDialog):
         last_col = len(self.HEADERS) - 1
         for row, item in enumerate(self.filtered):
             icon_path, texts = self.row_values(item)
+            tooltip = self.row_tooltip(item)
             icon_item = QTableWidgetItem()
             if os.path.exists(icon_path):
                 icon_item.setIcon(QIcon(icon_path))
+            icon_item.setToolTip(tooltip)
             self.table.setItem(row, 0, icon_item)
 
             for col, text in enumerate(texts, start=1):
                 cell = QTableWidgetItem(text)
+                cell.setToolTip(tooltip)
                 if col == last_col:
                     cell.setTextAlignment(Qt.AlignCenter)
                 self.table.setItem(row, col, cell)
@@ -170,6 +177,9 @@ class WeaponSearchDialog(SearchDialog):
 
     def row_values(self, w: Weapon):
         return w.icon_path, [w.name, w.weapon_type, f"{w.rarity} ★"]
+
+    def row_tooltip(self, w: Weapon) -> str:
+        return w.passive_tooltip(1)
 
 
 class CharacterSearchDialog(SearchDialog):

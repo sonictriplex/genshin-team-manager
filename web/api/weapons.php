@@ -14,7 +14,9 @@ try {
             'id'          => $w['id'] ?? null,
             'name'        => $w['name'] ?? '',
             'weapon_type' => $w['weapon_type'] ?? $w['type'] ?? '',
-            'rarity'      => isset($w['rarity']) ? (int)$w['rarity'] : 4
+            'rarity'      => isset($w['rarity']) ? (int)$w['rarity'] : 4,
+            // Passiv-Beschreibung {name, text[Veredelung 1..5]} oder null (Spalte passive_json, Migration 005)
+            'passive'     => json_decode((string)($w['passive_json'] ?? ''), true) ?: null
         ];
     }, $weaponsRaw);
 

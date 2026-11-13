@@ -5,11 +5,11 @@ require_once __DIR__ . '/db.php';
 
 try {
     try {
-        $stmt = $pdo->query("SELECT id, name, bonus_2pc, bonus_4pc, pieces_json FROM artifacts ORDER BY name ASC");
+        $stmt = $pdo->query("SELECT id, name, bonus_1pc, bonus_2pc, bonus_4pc, pieces_json FROM artifacts ORDER BY name ASC");
     } catch (PDOException $e) {
         // Migration 004 (Spalte pieces_json) fehlt noch: die Sets ohne Teilnamen ausliefern
         error_log("artifacts.php: pieces_json fehlt, bitte migrations/004_artifact_pieces.sql ausführen: " . $e->getMessage());
-        $stmt = $pdo->query("SELECT id, name, bonus_2pc, bonus_4pc FROM artifacts ORDER BY name ASC");
+        $stmt = $pdo->query("SELECT id, name, bonus_1pc, bonus_2pc, bonus_4pc FROM artifacts ORDER BY name ASC");
     }
     $artifacts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // Teilnamen (Blume, Feder, ...) als Objekt ausgeben; leer = new stdClass(), damit es kein JSON-Array wird
