@@ -147,7 +147,7 @@ Du bestätigst mit deinem Passwort. Stimmt es nicht, bleibt alles unverändert u
 
 ## Über-Dialog und Version
 
-Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über“) und am Desktop (Hilfe → „Über…“) zeigt ein kleiner Dialog die **Version**, einen Hinweis zum Fanprojekt und das Logo von the media-matrix. Ein Klick bzw. Tipp auf das Logo öffnet www.media-matrix.de. Nenne mir die Version, wenn du einen Fehler meldest: Die drei Varianten haben **eigene Versionsnummern** (aktuell Web 1.8.0, Android und Desktop 1.7.2), denn der Browser bekommt Neuerungen früher als App und Desktop. Der Verlauf steht im [CHANGELOG](CHANGELOG.md).
+Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über“) und am Desktop (Hilfe → „Über…“) zeigt ein kleiner Dialog die **Version**, einen Hinweis zum Fanprojekt und das Logo von the media-matrix. Ein Klick bzw. Tipp auf das Logo öffnet www.media-matrix.de. Nenne mir die Version, wenn du einen Fehler meldest: Alle drei Varianten tragen **dieselbe Versionsnummer** (aktuell 1.9.1). Der Verlauf steht im [CHANGELOG](CHANGELOG.md).
 
 <table>
   <tr>

@@ -22,7 +22,7 @@ Du spielst nur mit und willst die App benutzen? Dann geht es hier zur [Anleitung
 
 - **Teams** mit bis zu 4 Charakteren anlegen, speichern, umbenennen und löschen; die Reihenfolge der Teams in der Übersicht lässt sich verschieben (Pfeile in allen Clients, in Web und Desktop auch per Drag & Drop) und wird gespeichert
 - **Builds pro Charakter:** Level, Sternbild (C0–C6), Talente (A/E/Q), Waffe mit Level und Veredelung, zwei Artefaktsets
-- **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) der Name des Teils (Auswahl aus allen Sets, die Teile der gewählten Sets stehen oben, ein Off-Piece ist möglich), Seltenheit, Level, Hauptwert und bis zu 4 Substats
+- **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) der Name des Teils mit Icon (Auswahl aus allen Sets, die Teile der gewählten Sets stehen oben, ein Off-Piece ist möglich), Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)
 - **Austausch** von Builds und Teams zwischen den Clients als JSON-Datei
 - **Konto anlegen, Passwort ändern und löschen:** Registrierung und endgültiges Löschen des Kontos samt Teams und Builds in Web und Android (Löschen nur nach erneuter Passworteingabe); **Passwort ändern** im Web (im Benutzermenü)
@@ -151,7 +151,7 @@ Die **Region** kommt aus [genshin-db](https://github.com/theBowja/genshin-db); f
 
 ## Versionen
 
-Web, Android und Desktop trugen seit 1.6.0 dieselbe Versionsnummer. Aktuell sind **Web 1.8.0** (neu: Passwort ändern, Administrator-Menü), **Android 1.7.2** und **Desktop 1.7.2**. Die Version steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
+Web, Android und Desktop tragen dieselbe Versionsnummer (zwischenzeitlich liefen sie getrennt). Aktuell ist überall **1.9.1** (neu: Icons bei der Teil-Auswahl der Artefakte). Die Version steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
 
 | Client | Stelle |
 |---|---|
