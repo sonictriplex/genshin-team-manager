@@ -35,10 +35,12 @@ import json
 import re
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
 RAW = "https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/"
+GDB = "https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/German/weapons/"   # nur erschienene Waffen, mit Passiv-Texten
 UI = "https://enka.network"
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -80,6 +82,22 @@ def download(url, target):
     return "geladen"
 
 
+def fetch_passive(name_en):
+    """Passiv-Beschreibung (Name und 5 Texte je Veredelung) aus genshin-db.
+    Rückgabe: (gefunden, passive). gefunden=False: die Waffe steht dort nicht, ist also vermutlich noch nicht erschienen."""
+    slug = re.sub(r"[^a-z0-9]", "", name_en.lower())
+    try:
+        with urllib.request.urlopen(GDB + slug + ".json", timeout=60) as r:
+            w = json.load(r)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return False, None
+        raise
+    if not w.get("effectName") or not w.get("r1"):
+        return True, None      # Waffe ohne Passiv (z. B. Einsteigerwaffen): kein Tooltip nötig
+    return True, {"name": w["effectName"], "text": [w[f"r{i}"]["description"] for i in range(1, 6)]}
+
+
 def find_new(data):
     avatars, weapons, locs = fetch_json("avatars.json"), fetch_json("weapons.json"), fetch_json("locs.json")
     en, de = locs["en"], locs["de"]
@@ -102,15 +120,22 @@ def find_new(data):
                       "icon": a["SideIconName"].replace("Side_", "")})
 
     new_weapons = []
+    unverified = []
     for wid, w in weapons.items():
         name_de = de.get(str(w.get("NameTextMapHash")), "")
         if not name_de or w.get("WeaponType") not in WEAPON_TYPES or not (1 <= w.get("Rarity", 0) <= 5):
             continue
         if norm(name_de) in have_weapons or "(" in name_de:
             continue
-        new_weapons.append({"id": wid, "name": clean_game_name(name_de), "weapon_type": WEAPON_TYPES[w["WeaponType"]],
-                            "rarity": w["Rarity"], "icon": w["Icon"]})
-    return sorted(chars, key=lambda c: c["name"].lower()), sorted(new_weapons, key=lambda w: w["name"].lower())
+        name = clean_game_name(name_de)
+        found, passive = fetch_passive(en.get(str(w.get("NameTextMapHash")), ""))
+        if not found:
+            unverified.append(name)
+            continue
+        new_weapons.append({"id": wid, "name": name, "weapon_type": WEAPON_TYPES[w["WeaponType"]],
+                            "rarity": w["Rarity"], "icon": w["Icon"], "passive": passive})
+    return (sorted(chars, key=lambda c: c["name"].lower()), sorted(new_weapons, key=lambda w: w["name"].lower()),
+            sorted(unverified))
 
 
 def insert_sorted(items, entry):
@@ -149,7 +174,7 @@ def main():
         regions[n.strip()] = r.strip()
 
     print("Lade Daten von Enka.Network …")
-    chars, weapons = find_new(data)
+    chars, weapons, unverified = find_new(data)
     print(f"Stand: {len(data['characters'])} Charaktere, {len(data['weapons'])} Waffen in den Stammdaten.\n")
 
     ready = [c for c in chars if regions.get(c["name"])]
@@ -167,11 +192,15 @@ def main():
         print(f"  ? {c['name']:<20} {c['rarity']}★ {c['element']:<8} {c['weapon_type']}")
     if no_region:
         print("  -> Regionen in shared/regionen.json ({\"Name\": \"Region\"}) eintragen oder --region \"Name=Region\" angeben.")
+    if unverified:
+        print(f"Nicht in genshin-db, vermutlich noch nicht erschienen (werden NICHT eingetragen): {len(unverified)}")
+        for n in unverified:
+            print(f"  ! {n}")
     print(f"Neue Waffen: {len(weapons)}")
     for w in weapons:
         print(f"  + {w['name']:<45} {w['rarity']}★ {w['weapon_type']}")
 
-    if not (ready or weapons or no_region):
+    if not (ready or weapons or no_region or unverified):
         print("\nAlles aktuell.")
         return 0
     if not args.apply:
@@ -204,18 +233,19 @@ def main():
         except Exception as e:
             print(f"  Bild {file}: FEHLER ({e})")
         insert_sorted(data["weapons"], {"name": w["name"], "weapon_type": w["weapon_type"], "rarity": w["rarity"],
-                                        "icon_path": f"assets/images/{file}", "passive": None})
+                                        "icon_path": f"assets/images/{file}", "passive": w["passive"]})
 
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     lines = ["-- Erzeugt von tools/update_stammdaten.py. Einmal in phpMyAdmin ausführen (INSERT IGNORE, wiederholbar).",
-             "-- Passiv-Beschreibungen der neuen Waffen liefert die Quelle nicht (passive_json bleibt NULL)."]
+             "-- Passiv-Texte der Waffen stammen aus genshin-db (deutsch)."]
     if ready:
         rows = ",\n".join(f"  ({sql(c['name'])}, {sql(c['element'])}, {sql(c['weapon_type'])}, {sql(c['region'])}, {c['rarity']}, "
                           f"{sql('assets/images/' + icon_file(c['name']))})" for c in ready)
         lines.append("INSERT IGNORE INTO characters (name, element, weapon_type, region, rarity, icon_path) VALUES\n" + rows + ";")
     if weapons:
-        rows = ",\n".join(f"  ({sql(w['name'])}, {sql(w['weapon_type'])}, {w['rarity']}, NULL)" for w in weapons)
+        rows = ",\n".join(f"  ({sql(w['name'])}, {sql(w['weapon_type'])}, {w['rarity']}, "
+                          f"{sql(json.dumps(w['passive'], ensure_ascii=False)) if w['passive'] else 'NULL'})" for w in weapons)
         lines.append("INSERT IGNORE INTO weapons (name, weapon_type, rarity, passive_json) VALUES\n" + rows + ";")
     migration = next_migration(datetime.date.today().strftime("%Y%m%d"))
     migration.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -225,7 +255,7 @@ def main():
     if not args.auto:
         print("Nächste Schritte: Migration in phpMyAdmin ausführen, dann deploy/deploy.sh.")
         return 1 if no_region else 0
-    return publish(ready, weapons, migration, args, bool(no_region))
+    return publish(ready, weapons, migration, args, bool(no_region or unverified))
 
 
 def run(cmd):

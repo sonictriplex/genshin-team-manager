@@ -17,6 +17,7 @@ set_time_limit(120);
 
 const SRC = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/';
 const UI = 'https://enka.network';
+const GDB = 'https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/German/weapons/';   // nur erschienene Waffen, mit Passiv-Texten
 const MAX_APPLY = 50;
 const REGIONS = ['Mondstadt', 'Liyue', 'Inazuma', 'Sumeru', 'Fontaine', 'Natlan', 'Nod-Krai', 'Snezhnaya', 'Andere Welt'];
 const ELEMENTS = ['Fire' => 'Pyro', 'Water' => 'Hydro', 'Wind' => 'Anemo', 'Electric' => 'Electro', 'Grass' => 'Dendro', 'Ice' => 'Cryo', 'Rock' => 'Geo'];
@@ -31,7 +32,26 @@ function icon_file(string $name): string {
     return preg_replace('/[\'’„“\-]/u', '', str_replace(' ', '_', $n)) . '.png';
 }
 
-/** Ermittelt, was in der Datenbank fehlt: [neue Charaktere, neue Waffen]. */
+/**
+ * Passiv-Beschreibung einer Waffe aus genshin-db. Rückgabe: [gefunden, passive].
+ * gefunden=false: die Waffe steht dort nicht, ist also vermutlich noch nicht erschienen (wird nicht eingetragen).
+ */
+function fetch_passive(string $nameEn): array {
+    $slug = preg_replace('/[^a-z0-9]/', '', strtolower($nameEn));
+    if ($slug === '') return [false, null];
+    try {
+        $w = fetch_json(GDB . $slug . '.json');
+    } catch (RuntimeException $e) {
+        if ($e->getCode() === 404) return [false, null];
+        throw $e;
+    }
+    if (empty($w['effectName']) || empty($w['r1'])) return [true, null];   // z. B. Einsteigerwaffen ohne Passiv
+    $text = [];
+    for ($i = 1; $i <= 5; $i++) $text[] = (string)($w["r$i"]['description'] ?? '');
+    return [true, json_encode(['name' => $w['effectName'], 'text' => $text], JSON_UNESCAPED_UNICODE)];
+}
+
+/** Ermittelt, was in der Datenbank fehlt: [neue Charaktere, neue Waffen, vermutlich nicht erschienene Waffen]. */
 function find_new(PDO $pdo): array {
     $avatars = fetch_json(SRC . 'avatars.json');
     $weapons = fetch_json(SRC . 'weapons.json');
@@ -58,26 +78,31 @@ function find_new(PDO $pdo): array {
     }
 
     $newWeapons = [];
+    $unverified = [];
     foreach ($weapons as $id => $w) {
         $nameDe = $de[(string)($w['NameTextMapHash'] ?? '')] ?? '';
         $type = WEAPON_TYPES[$w['WeaponType'] ?? 0] ?? null;
         $rarity = (int)($w['Rarity'] ?? 0);
         if ($nameDe === '' || !$type || $rarity < 1 || $rarity > 5 || str_contains($nameDe, '(') || isset($haveWeapons[norm_name($nameDe)])) continue;
         $name = trim(preg_replace('/^[„“"]|[“”"]$/u', '', $nameDe));
-        $newWeapons[] = ['name' => $name, 'weapon_type' => $type, 'rarity' => $rarity, 'src' => UI . $w['Icon'], 'file' => icon_file($name)];
+        [$found, $passive] = fetch_passive($en[(string)($w['NameTextMapHash'] ?? '')] ?? '');
+        if (!$found) { $unverified[] = $name; continue; }
+        $newWeapons[] = ['name' => $name, 'weapon_type' => $type, 'rarity' => $rarity, 'src' => UI . $w['Icon'],
+            'file' => icon_file($name), 'passive' => $passive];
     }
     usort($chars, fn($a, $b) => strcasecmp($a['name'], $b['name']));
     usort($newWeapons, fn($a, $b) => strcasecmp($a['name'], $b['name']));
-    return [$chars, $newWeapons];
+    sort($unverified);
+    return [$chars, $newWeapons, $unverified];
 }
 
 try {
-    [$chars, $weapons] = find_new($pdo);
+    [$chars, $weapons, $unverified] = find_new($pdo);
 
     if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
-        $strip = fn($e) => array_diff_key($e, ['src' => 1, 'icon_path' => 1, 'file' => 1]);
+        $strip = fn($e) => array_diff_key($e, ['src' => 1, 'icon_path' => 1, 'file' => 1, 'passive' => 1]);
         echo json_encode(["new" => ["characters" => array_map($strip, $chars), "weapons" => array_map($strip, $weapons)],
-            "skipped" => []], JSON_UNESCAPED_UNICODE);
+            "skipped" => array_map(fn($n) => "Waffe $n: nicht in genshin-db, vermutlich noch nicht erschienen", $unverified)], JSON_UNESCAPED_UNICODE);
         exit();
     }
 
@@ -98,7 +123,7 @@ try {
     $added = 0;
     $images = ['geladen' => 0, 'vorhanden' => 0, 'fehler' => 0];
     $insChar = $pdo->prepare("INSERT IGNORE INTO characters (name, element, weapon_type, region, rarity, icon_path) VALUES (?, ?, ?, ?, ?, ?)");
-    $insWeapon = $pdo->prepare("INSERT IGNORE INTO weapons (name, weapon_type, rarity, passive_json) VALUES (?, ?, ?, NULL)");
+    $insWeapon = $pdo->prepare("INSERT IGNORE INTO weapons (name, weapon_type, rarity, passive_json) VALUES (?, ?, ?, ?)");
     $count = function (string $state) use (&$images) { $images[str_starts_with($state, 'FEHLER') ? 'fehler' : $state]++; };
 
     $pdo->beginTransaction();
@@ -111,7 +136,7 @@ try {
     }
     foreach ($weapons as $w) {
         if (!isset($selWeapons[norm_name($w['name'])])) continue;
-        $insWeapon->execute([$w['name'], $w['weapon_type'], $w['rarity']]);
+        $insWeapon->execute([$w['name'], $w['weapon_type'], $w['rarity'], $w['passive']]);
         $added += $insWeapon->rowCount();
         $count(save_image($w['src'], $w['file']));
     }

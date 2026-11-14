@@ -1923,7 +1923,16 @@
       "weapon_type": "Großschwert",
       "rarity": 4,
       "icon_path": "assets/images/megamagisches_schwert_des_ultimativen_oberherrn.png",
-      "passive": null
+      "passive": {
+        "name": "Melusinen-Unterstützung",
+        "text": [
+          "Erhöht den ANG um 12 %. Das ist noch nicht alles! Die Unterstützung durch alle Melusinen, denen du im Dorf Mérusea geholfen hast, erfüllt dich mit Kraft! Erhöht den ANG basierend auf der Anzahl der Melusinen, denen du geholfen hast, zusätzlich um bis zu 12 %.",
+          "Erhöht den ANG um 15 %. Das ist noch nicht alles! Die Unterstützung durch alle Melusinen, denen du im Dorf Mérusea geholfen hast, erfüllt dich mit Kraft! Erhöht den ANG basierend auf der Anzahl der Melusinen, denen du geholfen hast, zusätzlich um bis zu 15 %.",
+          "Erhöht den ANG um 18 %. Das ist noch nicht alles! Die Unterstützung durch alle Melusinen, denen du im Dorf Mérusea geholfen hast, erfüllt dich mit Kraft! Erhöht den ANG basierend auf der Anzahl der Melusinen, denen du geholfen hast, zusätzlich um bis zu 18 %.",
+          "Erhöht den ANG um 21 %. Das ist noch nicht alles! Die Unterstützung durch alle Melusinen, denen du im Dorf Mérusea geholfen hast, erfüllt dich mit Kraft! Erhöht den ANG basierend auf der Anzahl der Melusinen, denen du geholfen hast, zusätzlich um bis zu 21 %.",
+          "Erhöht den ANG um 24 %. Das ist noch nicht alles! Die Unterstützung durch alle Melusinen, denen du im Dorf Mérusea geholfen hast, erfüllt dich mit Kraft! Erhöht den ANG basierend auf der Anzahl der Melusinen, denen du geholfen hast, zusätzlich um bis zu 24 %."
+        ]
+      }
     },
     {
       "name": "Urteilsspruch",
