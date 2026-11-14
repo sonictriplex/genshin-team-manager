@@ -2,6 +2,9 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.9.1 (14.11.2026)
+- Das gewählte Artefaktteil zeigt sein Icon jetzt auch im Feld der Detailansicht, nicht nur in der geöffneten Liste
+
 ## Web 1.9.0 (14.11.2026)
 - Die Teil-Auswahl der Artefakt-Slots zeigt zu jedem Teil sein Icon (Blume, Feder, Sanduhr, Kelch, Krone). Die Bilder liegen unter `shared/assets/images/artifacts/` (96 × 96 px, Quelle: Enka-UI-Bilder) und heißen wie der Teilname nach der üblichen Namensregel (z. B. `blume_eines_abenteurers.png`). Fehlt ein Bild, bleibt der Platz leer
 

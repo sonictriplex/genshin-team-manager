@@ -196,7 +196,7 @@
             <img src="/assets/images/ui/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.9.0</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.9.1</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
@@ -1249,7 +1249,10 @@
             return `
                 <div class="relative mb-2" data-piece-combo="${slotName}">
                     <button type="button" id="art_piece_${slotName}" data-value="${escapeHtml(current)}" onclick="togglePieceCombo('${slotName}')" aria-haspopup="listbox" aria-expanded="false" title="Name des Artefaktteils. Teile der gewählten Sets stehen oben, darunter alle anderen (Off-Piece)." class="w-full flex items-center justify-between gap-1 bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 text-left outline-none hover:border-accent focus:border-accent">
-                        <span id="art_piece_label_${slotName}" class="truncate ${current ? '' : 'text-gray-400'}">${escapeHtml(current || '— Teil wählen —')}</span>
+                        <span class="flex items-center gap-1.5 min-w-0">
+                            <span id="art_piece_icon_${slotName}" class="flex-shrink-0 flex">${pieceIconHTML(current, 'w-6 h-6')}</span>
+                            <span id="art_piece_label_${slotName}" class="truncate ${current ? '' : 'text-gray-400'}">${escapeHtml(current || '— Teil wählen —')}</span>
+                        </span>
                         <span class="text-gray-400 flex-shrink-0">▾</span>
                     </button>
                     <div id="art_piece_panel_${slotName}" class="hidden absolute left-0 right-0 top-full mt-1 z-50 bg-[#14111f] border border-[#332d47] rounded-lg shadow-2xl p-1.5">
@@ -1339,6 +1342,7 @@
             const label = document.getElementById(`art_piece_label_${slotName}`);
             label.textContent = name || '— Teil wählen —';
             label.classList.toggle('text-gray-400', !name);
+            document.getElementById(`art_piece_icon_${slotName}`).innerHTML = pieceIconHTML(name, 'w-6 h-6');
             updateArtProp(slotName, 'piece', name);
             closeAllPieceCombos();
             button.focus();
