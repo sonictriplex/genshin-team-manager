@@ -3,15 +3,15 @@
 Teams aus bis zu vier Charakteren zusammenstellen und für jeden Charakter einen Build verwalten: Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte aller fünf Artefakte. Es gibt drei Clients für dieselben Daten: eine **Desktop-App**, eine **Web-App** und eine **Android-App**.
 
 <p align="center">
-  <img src="docs/screenshots/web-overview.jpg" alt="Web-Version: Übersicht aller Teams" width="760">
+  <img src="docs/screenshots/web/overview.jpg" alt="Web-Version: Übersicht aller Teams" width="760">
 </p>
 
 | Desktop | Android (Handy): Teams | Android (Handy): Build |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/desktop-overview.jpg" alt="Desktop-Version" width="440"> | <img src="docs/screenshots/android-phone-teams.jpg" alt="Android: Teamliste auf dem Handy" width="170"> | <img src="docs/screenshots/android-phone-build.jpg" alt="Android: Build eines Charakters" width="170"> |
+| <img src="docs/screenshots/desktop/overview.jpg" alt="Desktop-Version" width="440"> | <img src="docs/screenshots/android/phone-teams.jpg" alt="Android: Teamliste auf dem Handy" width="170"> | <img src="docs/screenshots/android/phone-build.jpg" alt="Android: Build eines Charakters" width="170"> |
 
 <p align="center">
-  <img src="docs/screenshots/android-tablet-teams.jpg" alt="Android auf dem Tablet: Teams in drei Spalten" width="760">
+  <img src="docs/screenshots/android/tablet-teams.jpg" alt="Android auf dem Tablet: Teams in drei Spalten" width="760">
 </p>
 
 <sub>Alle Screenshots zeigen Beispieldaten eines Demo-Kontos. Weitere Ansichten (Anmeldung, Build bearbeiten, Konto löschen, „Über“-Dialog) stehen in der [Anleitung für Mitspieler](ANLEITUNG.md).</sub>

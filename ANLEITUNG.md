@@ -3,7 +3,7 @@
 Mit dem **Team & Build Manager** hältst du deine Genshin-Impact-Teams und die Builds deiner Charaktere an einem Ort fest: Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte aller fünf Artefakte (samt Teilname, Hauptwert und Nebenwerten). Du kannst ihn im **Browser** oder als **Android-App** (Handy und Tablet) nutzen; beides greift auf dasselbe Konto zu.
 
 <p align="center">
-  <img src="docs/screenshots/web-overview.jpg" alt="Übersicht aller Teams im Browser" width="720">
+  <img src="docs/screenshots/web/overview.jpg" alt="Übersicht aller Teams im Browser" width="720">
 </p>
 
 <sub>Die Bilder in dieser Anleitung zeigen Beispieldaten eines Demo-Kontos.</sub>
@@ -21,8 +21,8 @@ Eine Technik-Beschreibung für Entwickler steht in der [README](README.md).
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/web-login.jpg" alt="Anmeldung im Browser" width="420"><br><sub>Anmeldung im Browser</sub></td>
-    <td align="center"><img src="docs/screenshots/android-tablet-login.jpg" alt="Anmeldung in der Android-App" width="420"><br><sub>Anmeldung in der App</sub></td>
+    <td align="center"><img src="docs/screenshots/web/login.jpg" alt="Anmeldung im Browser" width="420"><br><sub>Anmeldung im Browser</sub></td>
+    <td align="center"><img src="docs/screenshots/android/tablet-login.jpg" alt="Anmeldung in der Android-App" width="420"><br><sub>Anmeldung in der App</sub></td>
   </tr>
 </table>
 
@@ -39,28 +39,28 @@ In der App ist das Feld **„Server“** schon mit `https://genshin-manager.medi
 **Im Browser** findest du Alle Teams, Neues Team, Exportieren, Importieren, Logout, Passwort ändern, Konto löschen und Über im Benutzermenü oben rechts (für Administratoren zusätzlich „Stammdaten aktualisieren“ nach „Importieren“):
 
 <p align="center">
-  <img src="docs/screenshots/web-menu.jpg" alt="Benutzermenü im Browser" width="560">
+  <img src="docs/screenshots/web/menu.jpg" alt="Benutzermenü im Browser" width="560">
 </p>
 
 Ein einzelnes Team zeigt die Charaktere mit Level und Sternbild; ein Klick auf einen Charakter öffnet seinen Build:
 
 <p align="center">
-  <img src="docs/screenshots/web-team.jpg" alt="Ein Team im Browser" width="720">
+  <img src="docs/screenshots/web/team.jpg" alt="Ein Team im Browser" width="720">
 </p>
 
 Dort trägst du Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte der fünf Artefakt-Slots ein. Je Slot wählst du den **Namen des Teils** (z. B. „Zuflucht des Gladiators“) aus einer Liste mit Suchfeld: Die Teile deiner gewählten Sets stehen oben, darunter alle anderen, damit auch ein Off-Piece (bei 4er-Sets oder Mischungen) möglich ist.
 
 <p align="center">
-  <img src="docs/screenshots/web-build.jpg" alt="Build eines Charakters im Browser" width="720">
+  <img src="docs/screenshots/web/build.jpg" alt="Build eines Charakters im Browser" width="720">
 </p>
 
 **In der App** tippst du auf einen Charakter, um seinen Build zu sehen, und oben rechts auf „Bearbeiten“, um ihn zu ändern:
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/android-phone-teams.jpg" alt="Teamliste auf dem Handy" width="200"><br><sub>Teams</sub></td>
-    <td align="center"><img src="docs/screenshots/android-phone-build.jpg" alt="Build auf dem Handy" width="200"><br><sub>Build ansehen</sub></td>
-    <td align="center"><img src="docs/screenshots/android-phone-edit.jpg" alt="Build bearbeiten auf dem Handy" width="200"><br><sub>Build bearbeiten</sub></td>
+    <td align="center"><img src="docs/screenshots/android/phone-teams.jpg" alt="Teamliste auf dem Handy" width="200"><br><sub>Teams</sub></td>
+    <td align="center"><img src="docs/screenshots/android/phone-build.jpg" alt="Build auf dem Handy" width="200"><br><sub>Build ansehen</sub></td>
+    <td align="center"><img src="docs/screenshots/android/phone-edit.jpg" alt="Build bearbeiten auf dem Handy" width="200"><br><sub>Build bearbeiten</sub></td>
   </tr>
 </table>
 
@@ -74,13 +74,13 @@ Beim Verlassen mit ungespeicherten Änderungen fragt die App nach, bevor sie etw
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/web-character-search.jpg" alt="Charaktersuche im Browser" width="420"><br><sub>Charaktere filtern</sub></td>
-    <td align="center"><img src="docs/screenshots/web-weapon-search.jpg" alt="Waffensuche im Browser" width="420"><br><sub>Waffen filtern, mit Passiv</sub></td>
+    <td align="center"><img src="docs/screenshots/web/character-search.jpg" alt="Charaktersuche im Browser" width="420"><br><sub>Charaktere filtern</sub></td>
+    <td align="center"><img src="docs/screenshots/web/weapon-search.jpg" alt="Waffensuche im Browser" width="420"><br><sub>Waffen filtern, mit Passiv</sub></td>
   </tr>
 </table>
 
 <p align="center">
-  <img src="docs/screenshots/android-phone-info.jpg" alt="Aufgeklappte Waffenbeschreibung in der App" width="240">
+  <img src="docs/screenshots/android/phone-info.jpg" alt="Aufgeklappte Waffenbeschreibung in der App" width="240">
 </p>
 
 ## Android-App
@@ -100,21 +100,21 @@ Beim Verlassen mit ungespeicherten Änderungen fragt die App nach, bevor sie etw
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/android-tablet-teams.jpg" alt="Tablet: Teams in drei Spalten" width="420"><br><sub>Teams in drei Spalten</sub></td>
-    <td align="center"><img src="docs/screenshots/android-tablet-build.jpg" alt="Tablet: Build zweispaltig" width="420"><br><sub>Build zweispaltig</sub></td>
+    <td align="center"><img src="docs/screenshots/android/tablet-teams.jpg" alt="Tablet: Teams in drei Spalten" width="420"><br><sub>Teams in drei Spalten</sub></td>
+    <td align="center"><img src="docs/screenshots/android/tablet-build.jpg" alt="Tablet: Build zweispaltig" width="420"><br><sub>Build zweispaltig</sub></td>
   </tr>
 </table>
 
 Beim Bearbeiten stehen die Eingabefelder auf dem Tablet ebenfalls in zwei Spalten, links Charakter, Waffe und Sets, rechts die fünf Artefakt-Slots:
 
 <p align="center">
-  <img src="docs/screenshots/android-tablet-edit.jpg" alt="Tablet: Build bearbeiten" width="640">
+  <img src="docs/screenshots/android/tablet-edit.jpg" alt="Tablet: Build bearbeiten" width="640">
 </p>
 
 **Menü (⋮ oben rechts):** Abmelden, Über (Version) und Konto löschen (ein „Passwort ändern“ gibt es in der App nicht, das geht im Browser). „Neu laden“ (Pfeil daneben) holt den aktuellen Stand vom Server.
 
 <p align="center">
-  <img src="docs/screenshots/android-phone-menu.jpg" alt="Menü der App" width="240">
+  <img src="docs/screenshots/android/phone-menu.jpg" alt="Menü der App" width="240">
 </p>
 
 **Ohne Internet:** Die zuletzt geladenen Teams und Builds lassen sich auch offline ansehen. Bearbeiten geht nur mit Verbindung; die App zeigt dann „Offline – Stand vom …“ an. Über „Neu laden“ wird es erneut versucht.
@@ -124,7 +124,7 @@ Beim Bearbeiten stehen die Eingabefelder auf dem Tablet ebenfalls in zwei Spalte
 Im **Browser** kannst du dein Passwort selbst ändern: Benutzermenü oben rechts → „Passwort ändern“. Du gibst dein **aktuelles Passwort** und zweimal das **neue** ein (6 bis 72 Zeichen, es muss sich vom alten unterscheiden). Stimmt das aktuelle nicht, bleibt alles unverändert und du bekommst die Meldung „Das aktuelle Passwort ist falsch.“. Nach erfolgreicher Änderung musst du dich auf **anderen Geräten**, auch in der Android-App, neu anmelden; im Browser, in dem du es geändert hast, bleibst du angemeldet. In der App gibt es diese Funktion nicht; ändere das Passwort im Browser und melde dich danach in der App neu an.
 
 <p align="center">
-  <img src="docs/screenshots/web-password.jpg" alt="Passwort ändern im Browser" width="560">
+  <img src="docs/screenshots/web/password.jpg" alt="Passwort ändern im Browser" width="560">
 </p>
 
 Wähle ein Passwort, das du nirgendwo sonst benutzt. Ein Passwort **zurücksetzen** (wenn du es vergessen hast) geht nicht von selbst; wende dich in dem Fall an den Betreiber.
@@ -140,8 +140,8 @@ Du bestätigst mit deinem Passwort. Stimmt es nicht, bleibt alles unverändert u
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/web-delete-account.jpg" alt="Konto löschen im Browser" width="420"><br><sub>Im Browser</sub></td>
-    <td align="center"><img src="docs/screenshots/android-tablet-delete.jpg" alt="Konto löschen in der App" width="420"><br><sub>In der App</sub></td>
+    <td align="center"><img src="docs/screenshots/web/delete-account.jpg" alt="Konto löschen im Browser" width="420"><br><sub>Im Browser</sub></td>
+    <td align="center"><img src="docs/screenshots/android/tablet-delete.jpg" alt="Konto löschen in der App" width="420"><br><sub>In der App</sub></td>
   </tr>
 </table>
 
@@ -151,9 +151,9 @@ Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über�
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/web-about.jpg" alt="Über-Dialog im Browser" width="380"><br><sub>Browser</sub></td>
-    <td align="center"><img src="docs/screenshots/android-about.jpg" alt="Über-Dialog in der App" width="380"><br><sub>App</sub></td>
-    <td align="center"><img src="docs/screenshots/desktop-about.jpg" alt="Über-Dialog am Desktop" width="260"><br><sub>Desktop</sub></td>
+    <td align="center"><img src="docs/screenshots/web/about.jpg" alt="Über-Dialog im Browser" width="380"><br><sub>Browser</sub></td>
+    <td align="center"><img src="docs/screenshots/android/about.jpg" alt="Über-Dialog in der App" width="380"><br><sub>App</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop/about.jpg" alt="Über-Dialog am Desktop" width="260"><br><sub>Desktop</sub></td>
   </tr>
 </table>
 
@@ -171,7 +171,7 @@ Kommt im Spiel etwas Neues dazu, tragen Administratoren es selbst im **Browser**
 4. „Ausgewählte eintragen“ legt die Einträge samt Bildern an (bei Waffen mit dem Passiv-Text für den Tooltip). Danach stehen sie sofort in der Auswahl; die Android-App und der Desktop bekommen neue Charaktere erst mit einem neuen Build.
 
 <p align="center">
-  <img src="docs/screenshots/web-update.jpg" alt="Stammdaten aktualisieren im Browser (Beispieleinträge)" width="620">
+  <img src="docs/screenshots/web/update.jpg" alt="Stammdaten aktualisieren im Browser (Beispieleinträge)" width="620">
 </p>
 
 <sub>Das Bild zeigt Beispieleinträge, keine echten Charaktere.</sub>
@@ -184,12 +184,12 @@ Es gibt auch eine Desktop-App, die ihre Daten lokal in einer Datei speichert und
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/desktop-overview.jpg" alt="Desktop: Teamübersicht" width="420"><br><sub>Teamübersicht</sub></td>
-    <td align="center"><img src="docs/screenshots/desktop-build.jpg" alt="Desktop: Build eines Charakters" width="420"><br><sub>Build eines Charakters</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop/overview.jpg" alt="Desktop: Teamübersicht" width="420"><br><sub>Teamübersicht</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop/build.jpg" alt="Desktop: Build eines Charakters" width="420"><br><sub>Build eines Charakters</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/screenshots/desktop-all-teams.jpg" alt="Desktop: Alle Teams" width="420"><br><sub>Alle Teams</sub></td>
-    <td align="center"><img src="docs/screenshots/desktop-weapon-search.jpg" alt="Desktop: Waffensuche" width="420"><br><sub>Waffensuche</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop/all-teams.jpg" alt="Desktop: Alle Teams" width="420"><br><sub>Alle Teams</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop/weapon-search.jpg" alt="Desktop: Waffensuche" width="420"><br><sub>Waffensuche</sub></td>
   </tr>
 </table>
 
