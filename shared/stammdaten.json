@@ -609,6 +609,14 @@
       "icon_path": "assets/images/neuvillette.png"
     },
     {
+      "name": "Nicole",
+      "element": "Pyro",
+      "weapon_type": "Katalysator",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/nicole.png"
+    },
+    {
       "name": "Nilou",
       "element": "Hydro",
       "weapon_type": "Einhandschwert",
@@ -743,6 +751,14 @@
       "region": "Fontaine",
       "rarity": 5,
       "icon_path": "assets/images/sigewinne.png"
+    },
+    {
+      "name": "Skirk",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/skirk.png"
     },
     {
       "name": "Sucrose",
@@ -999,6 +1015,14 @@
       "region": "Liyue",
       "rarity": 5,
       "icon_path": "assets/images/zhongli.png"
+    },
+    {
+      "name": "Zibai",
+      "element": "Geo",
+      "weapon_type": "Einhandschwert",
+      "region": "Liyue",
+      "rarity": 5,
+      "icon_path": "assets/images/zibai.png"
     }
   ],
   "weapons": [
