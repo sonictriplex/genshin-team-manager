@@ -1,6 +1,6 @@
 # Anleitung für Mitspieler
 
-Mit dem **Team & Build Manager** hältst du deine Genshin-Impact-Teams und die Builds deiner Charaktere an einem Ort fest: Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte aller fünf Artefakte. Du kannst ihn im **Browser** oder als **Android-App** (Handy und Tablet) nutzen; beides greift auf dasselbe Konto zu.
+Mit dem **Team & Build Manager** hältst du deine Genshin-Impact-Teams und die Builds deiner Charaktere an einem Ort fest: Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte aller fünf Artefakte (samt Teilname, Hauptwert und Nebenwerten). Du kannst ihn im **Browser** oder als **Android-App** (Handy und Tablet) nutzen; beides greift auf dasselbe Konto zu.
 
 <p align="center">
   <img src="docs/screenshots/web-overview.jpg" alt="Übersicht aller Teams im Browser" width="720">
@@ -10,13 +10,13 @@ Mit dem **Team & Build Manager** hältst du deine Genshin-Impact-Teams und die B
 
 Eine Technik-Beschreibung für Entwickler steht in der [README](README.md).
 
-**Inhalt:** [Loslegen](#loslegen) · [Teams und Builds](#teams-und-builds) · [Android-App](#android-app) · [Passwort ändern](#passwort-ändern) · [Konto löschen](#konto-löschen) · [Über-Dialog und Version](#über-dialog-und-version) · [Daten mitnehmen](#daten-mitnehmen-oder-übertragen) · [Neue Charaktere eintragen](#neue-charaktere-und-waffen-eintragen-administratoren) · [Desktop-Version](#desktop-version-optional) · [Wenn etwas nicht klappt](#wenn-etwas-nicht-klappt)
+**Inhalt:** [Loslegen](#loslegen) · [Teams und Builds](#teams-und-builds) · [Suchen und Beschreibungen](#suchen-filtern-und-beschreibungen) · [Android-App](#android-app) · [Passwort ändern](#passwort-ändern) · [Konto löschen](#konto-löschen) · [Über-Dialog und Version](#über-dialog-und-version) · [Daten mitnehmen](#daten-mitnehmen-oder-übertragen) · [Neue Charaktere eintragen](#neue-charaktere-und-waffen-eintragen-administratoren) · [Desktop-Version](#desktop-version-optional) · [Wenn etwas nicht klappt](#wenn-etwas-nicht-klappt)
 
 ## Loslegen
 
 1. **Konto anlegen:** Öffne <https://genshin-manager.media-matrix.de> und wähle „Jetzt registrieren“. Der Benutzername braucht mindestens 3 Zeichen, das Passwort mindestens 6.
 2. **Anmelden** mit demselben Konto, im Browser oder in der App.
-3. **Teams anlegen:** Ein Team besteht aus bis zu 4 Charakteren. Name vergeben, Charaktere aus der Liste wählen (mit Suche), speichern.
+3. **Teams anlegen:** Ein Team besteht aus bis zu 4 Charakteren. Name vergeben, Charaktere aus der Liste wählen (mit Suche und Filtern), speichern. Ein bestehendes Team kannst du jederzeit **umbenennen**.
 4. **Builds pflegen:** Öffne in einem Team einen Charakter und lege seinen Build an oder bearbeite ihn.
 
 <table>
@@ -31,7 +31,9 @@ In der App ist das Feld **„Server“** schon mit `https://genshin-manager.medi
 ## Teams und Builds
 
 - **Ein Build gehört zum Charakter, nicht zum Team.** Steht Furina in drei Teams, hat sie überall denselben Build. Änderst du ihn, ändert er sich in allen Teams.
-- **Teams sortieren:** Mit den Pfeilen auf der Teamkarte verschiebst du Teams; im Browser geht das auch per Drag & Drop. Die Reihenfolge wird gespeichert.
+- **Teams sortieren:** Mit den Pfeilen auf der Teamkarte verschiebst du Teams; im Browser geht das auch per Drag & Drop. Auch die Reihenfolge der Charaktere im Team lässt sich ändern. Alles wird gespeichert.
+- **Startseite:** Nach der Anmeldung siehst du alle deine Teams auf einen Blick; ein Klick auf ein Team öffnet es.
+- **Stat-Namen:** Verteidigung heißt überall „VTD“ (also „VTD%“ und „VTD (Fix)“). Ältere Builds mit „DEF“ werden automatisch umgestellt.
 - **Deine Daten sind nur deine:** Jedes Konto sieht nur die eigenen Teams und Builds.
 
 **Im Browser** findest du Alle Teams, Neues Team, Exportieren, Importieren, Logout, Passwort ändern, Konto löschen und Über im Benutzermenü oben rechts (für Administratoren zusätzlich „Stammdaten aktualisieren“ nach „Importieren“):
@@ -40,7 +42,13 @@ In der App ist das Feld **„Server“** schon mit `https://genshin-manager.medi
   <img src="docs/screenshots/web-menu.jpg" alt="Benutzermenü im Browser" width="560">
 </p>
 
-Einen Charakter öffnest du per Klick und trägst Level, Sternbild, Waffe, Artefaktsets und die Werte der fünf Artefakt-Slots ein:
+Ein einzelnes Team zeigt die Charaktere mit Level und Sternbild; ein Klick auf einen Charakter öffnet seinen Build:
+
+<p align="center">
+  <img src="docs/screenshots/web-team.jpg" alt="Ein Team im Browser" width="720">
+</p>
+
+Dort trägst du Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte der fünf Artefakt-Slots ein. Je Slot wählst du den **Namen des Teils** (z. B. „Zuflucht des Gladiators“) aus einer Liste mit Suchfeld: Die Teile deiner gewählten Sets stehen oben, darunter alle anderen, damit auch ein Off-Piece (bei 4er-Sets oder Mischungen) möglich ist.
 
 <p align="center">
   <img src="docs/screenshots/web-build.jpg" alt="Build eines Charakters im Browser" width="720">
@@ -58,6 +66,23 @@ Einen Charakter öffnest du per Klick und trägst Level, Sternbild, Waffe, Artef
 
 Beim Verlassen mit ungespeicherten Änderungen fragt die App nach, bevor sie etwas verwirft.
 
+## Suchen, Filtern und Beschreibungen
+
+- **Charaktere suchen:** Die Auswahl hat ein Suchfeld und Filter nach **Region**, **Element** und **Seltenheit**. Die Regionen entstehen aus den vorhandenen Charakteren; neue Regionen erscheinen von selbst.
+- **Waffen suchen:** Filter nach **Waffentyp** und **Seltenheit** plus Suchfeld.
+- **Beschreibungen:** Fährst du im Browser mit der Maus über ein Artefaktset, bekommst du die **Set-Boni** (1er/2er/4er); an der Waffe steht das **Passiv**, passend zur gewählten Veredelung. Am Desktop funktioniert das genauso. In der **Android-App** tippst du auf „ⓘ Beschreibung anzeigen“, um den Text aufzuklappen.
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/web-character-search.jpg" alt="Charaktersuche im Browser" width="420"><br><sub>Charaktere filtern</sub></td>
+    <td align="center"><img src="docs/screenshots/web-weapon-search.jpg" alt="Waffensuche im Browser" width="420"><br><sub>Waffen filtern, mit Passiv</sub></td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="docs/screenshots/android-phone-info.jpg" alt="Aufgeklappte Waffenbeschreibung in der App" width="240">
+</p>
+
 ## Android-App
 
 **Voraussetzung:** Android 8.0 oder neuer. Die App gibt es nicht im Play Store; du bekommst die Datei `app-release.apk` direkt von mir.
@@ -70,7 +95,7 @@ Beim Verlassen mit ungespeicherten Änderungen fragt die App nach, bevor sie etw
 **Aktualisieren:** Neue APK einfach über die alte installieren. Deine Anmeldung und Daten bleiben erhalten.
 
 **Handy und Tablet**
-- Das **Handy** bleibt im Hochformat, mit einer Spalte.
+- Das **Handy** zeigt eine Spalte.
 - Auf dem **Tablet** darf der Bildschirm gedreht werden. Teams stehen dort in zwei (Hochformat) oder drei Spalten (Querformat), Builds zweispaltig, sodass nichts verschenkt wird:
 
 <table>
@@ -89,7 +114,7 @@ Beim Bearbeiten stehen die Eingabefelder auf dem Tablet ebenfalls in zwei Spalte
 **Menü (⋮ oben rechts):** Abmelden, Über (Version) und Konto löschen (ein „Passwort ändern“ gibt es in der App nicht, das geht im Browser). „Neu laden“ (Pfeil daneben) holt den aktuellen Stand vom Server.
 
 <p align="center">
-  <img src="docs/screenshots/android-tablet-menu.jpg" alt="Menü der App" width="520">
+  <img src="docs/screenshots/android-phone-menu.jpg" alt="Menü der App" width="240">
 </p>
 
 **Ohne Internet:** Die zuletzt geladenen Teams und Builds lassen sich auch offline ansehen. Bearbeiten geht nur mit Verbindung; die App zeigt dann „Offline – Stand vom …“ an. Über „Neu laden“ wird es erneut versucht.
@@ -122,7 +147,7 @@ Du bestätigst mit deinem Passwort. Stimmt es nicht, bleibt alles unverändert u
 
 ## Über-Dialog und Version
 
-Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über“) und am Desktop (Hilfe → „Über…“) zeigt ein kleiner Dialog die **Version**, einen Hinweis zum Fanprojekt und das Logo von the media-matrix. Ein Klick bzw. Tipp auf das Logo öffnet www.media-matrix.de. Nenne mir die Version, wenn du einen Fehler meldest: Web, Android und Desktop haben dieselbe Nummer.
+Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über“) und am Desktop (Hilfe → „Über…“) zeigt ein kleiner Dialog die **Version**, einen Hinweis zum Fanprojekt und das Logo von the media-matrix. Ein Klick bzw. Tipp auf das Logo öffnet www.media-matrix.de. Nenne mir die Version, wenn du einen Fehler meldest: Die drei Varianten haben **eigene Versionsnummern** (aktuell Web 1.8.0, Android und Desktop 1.7.2), denn der Browser bekommt Neuerungen früher als App und Desktop. Der Verlauf steht im [CHANGELOG](CHANGELOG.md).
 
 <table>
   <tr>
@@ -155,12 +180,16 @@ Wer kein Administrator ist, sieht den Punkt nicht; fehlt dir ein Charakter oder 
 
 ## Desktop-Version (optional)
 
-Es gibt auch eine Desktop-App, die ihre Daten lokal in einer Datei speichert und **kein Konto** braucht. Sie läuft direkt aus dem Quellcode (Python und PySide6, siehe [desktop/README.md](desktop/README.md)); Builds und Teams lassen sich per JSON-Export mit der Web-Version austauschen.
+Es gibt auch eine Desktop-App, die ihre Daten lokal in einer Datei speichert und **kein Konto** braucht. Sie läuft direkt aus dem Quellcode (Python und PySide6, siehe [desktop/README.md](desktop/README.md)); Builds und Teams lassen sich per JSON-Export mit der Web-Version austauschen. Sie kennt Teams, Builds, Teilnamen, Tooltips mit Set-Boni und Waffen-Passiv, Such- und Filterfunktionen sowie die Ansicht „Alle Teams“; „Passwort ändern“ und die Stammdaten-Aktualisierung gibt es nur im Browser.
 
 <table>
   <tr>
     <td align="center"><img src="docs/screenshots/desktop-overview.jpg" alt="Desktop: Teamübersicht" width="420"><br><sub>Teamübersicht</sub></td>
     <td align="center"><img src="docs/screenshots/desktop-build.jpg" alt="Desktop: Build eines Charakters" width="420"><br><sub>Build eines Charakters</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/desktop-all-teams.jpg" alt="Desktop: Alle Teams" width="420"><br><sub>Alle Teams</sub></td>
+    <td align="center"><img src="docs/screenshots/desktop-weapon-search.jpg" alt="Desktop: Waffensuche" width="420"><br><sub>Waffensuche</sub></td>
   </tr>
 </table>
 
@@ -174,6 +203,7 @@ Es gibt auch eine Desktop-App, die ihre Daten lokal in einer Datei speichert und
 | App zeigt „Offline“ | Internetverbindung prüfen, dann „Neu laden“. |
 | Anmeldung in der App schlägt fehl | Prüfe, ob im Feld „Server“ `https://genshin-manager.media-matrix.de/` steht. |
 | Installation der APK wird abgelehnt | Installation aus dieser Quelle in den Android-Einstellungen erlauben. |
+| Ein Tooltip oder die Beschreibung fehlt | Im Browser über das Element fahren; in der App „ⓘ Beschreibung anzeigen“ antippen. Fehlt sie dort, ist sie noch nicht in den Daten; melde es dem Betreiber. |
 | Ein Charakter oder eine Waffe fehlt | Ein Administrator trägt ihn im Browser über „Stammdaten aktualisieren“ ein; sonst beim Betreiber melden. |
 | „Benutzername oder Passwort falsch.“ | Auf Groß- und Kleinschreibung achten. Passwort-Manager füllen manchmal ein **altes** Passwort ein: im privaten Fenster und von Hand eintippen. |
 | „Das aktuelle Passwort ist falsch.“ beim Ändern | Aktuelles Passwort prüfen; das neue muss 6 bis 72 Zeichen lang sein und sich vom alten unterscheiden. |
