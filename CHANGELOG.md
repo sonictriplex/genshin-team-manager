@@ -2,6 +2,15 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.9.0 (14.11.2026)
+- Die Teil-Auswahl der Artefakt-Slots zeigt zu jedem Teil sein Icon (Blume, Feder, Sanduhr, Kelch, Krone). Die Bilder liegen unter `shared/assets/images/artifacts/` (96 × 96 px, Quelle: Enka-UI-Bilder) und heißen wie der Teilname nach der üblichen Namensregel (z. B. `blume_eines_abenteurers.png`). Fehlt ein Bild, bleibt der Platz leer
+
+## Desktop 1.8.0 (14.11.2026)
+- Das Teil-Dropdown der Artefakt-Slots zeigt zu jedem Teil sein Icon
+
+## Android 1.8.0 (14.11.2026)
+- Die Teil-Suche der Artefakt-Slots zeigt zu jedem Teil sein Icon
+
 ## Web 1.8.1 (14.11.2026)
 - Die Bilder liegen nach Typ getrennt in Unterordnern von `shared/assets/images/` (`characters`, `weapons`, `ui`). Die Pfade in `stammdaten.json` (jetzt für alle Waffen angegeben), im Web-Frontend, im Admin-Menü, im Update-Werkzeug und im Deploy-Skript sind angepasst. Auf dem Server müssen die Bilder in den neuen Ordnern liegen (`deploy.sh` lädt sie hoch).
 

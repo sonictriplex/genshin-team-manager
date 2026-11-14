@@ -95,7 +95,7 @@ web/         Web-App
 android/     Android-App (Gradle-Projekt)
 shared/      Gemeinsame Daten aller Clients
   stammdaten.json          Charaktere, Waffen, Artefaktsets
-  assets/images/           Bilder nach Typ: characters/, weapons/, ui/ (Hintergrund, Logo, Paimon)
+  assets/images/           Bilder nach Typ: characters/, weapons/, artifacts/, ui/ (Hintergrund, Logo, Paimon)
   assets/zh-cn.ttf         Genshin-Schriftart
   exchange-format.md       Spezifikation des JSON-Austauschs (mit Schema und Beispiel)
 tools/       update_stammdaten.py (Stammdaten prüfen und ergänzen), remote_sql.py (SQL auf dem Server)
@@ -108,7 +108,7 @@ docs/        Screenshots
 ## Gemeinsame Daten
 
 - **Stammdaten** (`shared/stammdaten.json`): eine Quelle für alle Clients. Der Desktop spielt sie beim Start in SQLite ein, die Android-App liest sie direkt aus den Assets, die Web-Version hat sie in der Datenbank.
-- **Bilder** werden über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. „Hu Tao“ → `characters/hu_tao.png`, „Traveler (Dendro)“ → `characters/traveler.png`, Waffen liegen in `weapons/`. Neue Bilder müssen dieser Regel folgen.
+- **Bilder** werden über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. „Hu Tao“ → `characters/hu_tao.png`, „Traveler (Dendro)“ → `characters/traveler.png`, Waffen liegen in `weapons/`, Artefaktteile (nach dem Teilnamen, z. B. `artifacts/blume_eines_abenteurers.png`) in `artifacts/`. Neue Bilder müssen dieser Regel folgen.
 - **Austauschformat** (`shared/exchange-format.md`, dazu `exchange-format.schema.json` und `testdata/export-beispiel.json`): `{"format": "genshin-team-manager", "version": 1, "builds": [...], "teams": [...]}`. Änderungen am Format müssen in allen Clients nachgezogen werden.
 
 Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/stammdaten.json`, ein Bild in `shared/assets/images/` und – auf dem Server – einen Datensatz in der Datenbank. Das alles erledigt `tools/update_stammdaten.py` (siehe unten) bzw. für Administratoren der Menüpunkt „Stammdaten aktualisieren“.

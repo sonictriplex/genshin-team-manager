@@ -187,7 +187,7 @@ private fun PiecePicker(slotName: String, value: String, build: Build, vm: AppVi
         val options = pieceOptions(vm.stammdaten.stammdaten.artifacts, slotName, listOf(build.artifact, build.artifact2))
         val items = options.map { PickerItem(it.name, if (it.inBuildSet) "${it.setName} (Set des Builds)" else it.setName) }
         SearchPickerDialog(
-            "$slotName wählen", items, null, "Kein Teil",
+            "$slotName wählen", items, vm.stammdaten, "Kein Teil",
             onPick = { onPick(it); picking = false },
             onDismiss = { picking = false },
         )

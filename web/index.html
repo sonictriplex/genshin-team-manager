@@ -196,7 +196,7 @@
             <img src="/assets/images/ui/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.8.1</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.9.0</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
@@ -1237,6 +1237,13 @@
             return { mine, others, extra };
         }
 
+        // Icon eines Artefaktteils: Datei nach dem Teilnamen (Regel wie getIconUrl), Ordner assets/images/artifacts; fehlt es, bleibt der Platz leer
+        function pieceIconHTML(pieceName, size) {
+            if (!pieceName) return '';
+            const url = getIconUrl(pieceName, 'artifacts');
+            return `<img src="${escapeHtml(encodeURI(url))}" alt="" loading="lazy" onerror="this.style.visibility='hidden'" class="${size} flex-shrink-0 object-contain">`;
+        }
+
         // Dropdown mit Suchfeld für den Teilnamen eines Slots (eigenes Element, damit es in jedem Browser gleich aussieht)
         function artifactPieceSelectHTML(slotName, current) {
             return `
@@ -1285,7 +1292,7 @@
             const current = document.getElementById(`art_piece_${slotName}`).dataset.value || '';
             const { mine, others, extra } = artifactPieceOptions(slotName, currentTeamMembers[activeDetailIndex], current);
             const match = o => !query || o.name.toLowerCase().includes(query) || o.setName.toLowerCase().includes(query);
-            const item = o => `<li role="option" data-piece="${escapeHtml(o.name)}" onclick="pickPiece('${slotName}', this.dataset.piece)" class="px-2 py-1 rounded cursor-pointer hover:bg-[#262338] ${o.name === current ? 'bg-[#2d293e] text-accent' : 'text-gray-200'}"><div class="truncate">${escapeHtml(o.name)}</div><div class="text-[10px] text-gray-400 truncate">${escapeHtml(o.setName)}</div></li>`;
+            const item = o => `<li role="option" data-piece="${escapeHtml(o.name)}" onclick="pickPiece('${slotName}', this.dataset.piece)" class="px-2 py-1 rounded cursor-pointer hover:bg-[#262338] flex items-center gap-2 ${o.name === current ? 'bg-[#2d293e] text-accent' : 'text-gray-200'}">${pieceIconHTML(o.name, 'w-8 h-8')}<div class="min-w-0"><div class="truncate">${escapeHtml(o.name)}</div><div class="text-[10px] text-gray-400 truncate">${escapeHtml(o.setName)}</div></div></li>`;
             const group = (label, entries) => {
                 const shown = entries.filter(match);
                 return shown.length ? `<li class="px-2 pt-1.5 pb-0.5 text-[10px] uppercase tracking-wide text-gold font-bold">${label}</li>${shown.map(item).join('')}` : '';

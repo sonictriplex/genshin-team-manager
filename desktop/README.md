@@ -80,7 +80,7 @@ manager.py         GenshinManager: Datenbankzugriff, Schema, Einspielen der Stam
 seed.py            Import/Export der Stammdaten (python seed.py import|export)
 tests/             Tests (unittest)
 models.py          Datenklassen (Character, Weapon, ArtifactSet) und Pfad-Hilfsfunktionen
-../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Bilder in den Unterordnern characters, weapons, ui)
+../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Bilder in den Unterordnern characters, weapons, artifacts, ui)
 ```
 
 ## Icons

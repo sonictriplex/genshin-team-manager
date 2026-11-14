@@ -45,7 +45,7 @@ local_files() {
 
 echo "Server: $FTP_HOST/${FTP_DIR:-}  ($([ $DRY = 1 ] && echo Probelauf || echo Upload))"
 declare -A REMOTE_SIZE
-for dir in "" api assets assets/images assets/images/{characters,weapons,ui}; do
+for dir in "" api assets assets/images assets/images/{characters,weapons,artifacts,ui}; do
     while IFS=$'\t' read -r size path; do REMOTE_SIZE["$path"]=$size; done < <(remote_list "$dir")
 done
 

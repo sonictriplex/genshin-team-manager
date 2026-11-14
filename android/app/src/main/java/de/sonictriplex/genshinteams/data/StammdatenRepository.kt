@@ -19,13 +19,14 @@ class StammdatenRepository(private val context: Context) {
     fun character(name: String): Character? = charactersByName[name]
     fun weapon(name: String): Weapon? = weaponsByName[name]
 
-    /** Lädt das Icon eines Charakters oder einer Waffe, oder null, wenn es keins gibt. */
+    /** Lädt das Icon eines Charakters, einer Waffe oder eines Artefaktteils, oder null, wenn es keins gibt. */
     fun iconFor(name: String): Bitmap? {
         val explicit = character(name)?.iconPath ?: weapon(name)?.iconPath
         // Fehlt die angegebene Datei, gilt wie im Desktop die Namensregel als Rückfall
         return explicit?.let(::loadBitmap)
             ?: loadBitmap(iconPathFor(name, "characters")) ?: loadBitmap(iconPathFor(name, "weapons"))
             ?: loadBitmap(iconPathFor(name, "weapons", keepHyphen = false))
+            ?: loadBitmap(iconPathFor(name, "artifacts")) ?: loadBitmap(iconPathFor(name, "artifacts", keepHyphen = false))
     }
 
     /** Lädt ein beliebiges Bild aus den Assets (z. B. `assets/images/ui/mm_logo.png`), oder null. */

@@ -35,7 +35,7 @@ api/
   transfer.php      Export und Import der Builds und Teams
   stammdaten.php    Stammdaten abgleichen und ergänzen (nur Administratoren)
   stammdaten_lib.php  Helfer dafür (Abruf der Quelle, Bilder speichern)
-assets/             Symlink auf ../shared/assets (Bilder in `images/characters`, `images/weapons`, `images/ui`, Schriftart zh-cn.ttf)
+assets/             Symlink auf ../shared/assets (Bilder in `images/characters`, `images/weapons`, `images/artifacts`, `images/ui`, Schriftart zh-cn.ttf)
 ```
 
 ## Einrichtung
@@ -129,7 +129,7 @@ Der Emulator erreicht den Rechner unter `http://10.0.2.2:8000`. Aufräumen: `pod
 
 ## Bilder
 
-Bilder werden anhand des Namens gefunden: Kleinbuchstaben, Leerzeichen werden zu `_`, Apostrophe und Bindestriche fallen weg, alles ab `(` wird ignoriert. Beispiel: „Hu Tao“ → `assets/images/characters/hu_tao.png`; Waffen liegen unter `assets/images/weapons/`, Hintergrund, Logo und Paimon unter `assets/images/ui/`.
+Bilder werden anhand des Namens gefunden: Kleinbuchstaben, Leerzeichen werden zu `_`, Apostrophe und Bindestriche fallen weg, alles ab `(` wird ignoriert. Beispiel: „Hu Tao“ → `assets/images/characters/hu_tao.png`; Waffen liegen unter `assets/images/weapons/`, Artefaktteile unter `assets/images/artifacts/` (Dateiname = Teilname nach derselben Regel), Hintergrund, Logo und Paimon unter `assets/images/ui/`.
 
 ## Hinweis
 

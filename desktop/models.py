@@ -5,7 +5,7 @@ from typing import Optional
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.7.3"
+APP_VERSION = "1.8.0"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -37,6 +37,12 @@ def icon_path_for(name: str, kind: str = "characters") -> str:
         if os.path.exists(alt):
             return alt
     return path
+
+
+def piece_icon_path(piece_name: str) -> str:
+    """Icon eines Artefaktteils (assets/images/artifacts/<Teilname>.png, Namensregel wie bei Charakteren), oder "" ohne Datei."""
+    path = icon_path_for(piece_name, "artifacts")
+    return path if os.path.exists(path) else ""
 
 
 class Character:

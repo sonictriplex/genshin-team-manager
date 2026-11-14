@@ -6,10 +6,10 @@ from PySide6.QtWidgets import (
     QApplication, QCompleter, QWidget, QFrame, QVBoxLayout, QHBoxLayout, QGridLayout, QLabel,
     QComboBox, QPushButton, QSpinBox, QLineEdit, QMessageBox, QDialog, QSpacerItem, QSizePolicy, QStyle, QStyleOption
 )
-from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF
-from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath
+from PySide6.QtCore import Qt, Signal, QMimeData, QPoint, QRectF, QSize
+from PySide6.QtGui import QPixmap, QDrag, QPainter, QColor, QFontMetrics, QFont, QPainterPath, QIcon
 
-from models import Character, ArtifactSet, DEFAULT_TALENTS, rename_legacy_stats
+from models import Character, ArtifactSet, DEFAULT_TALENTS, rename_legacy_stats, piece_icon_path
 from manager import GenshinManager, DatabaseError
 from dialogs import WeaponSearchDialog
 from styles import element_badge_style, set_selected, tint_style, genshin_family, ELEMENT_COLORS, ACCENT
@@ -876,6 +876,7 @@ class ArtifactPanel(QFrame):
 
         piece = QComboBox()
         piece.setEditable(True)
+        piece.setIconSize(QSize(28, 28))
         piece.setInsertPolicy(QComboBox.NoInsert)
         piece.lineEdit().setPlaceholderText("Teil wählen oder tippen …")
         piece.setToolTip("Name des Artefaktteils. Die Teile der gewählten Sets stehen oben (fett), "
@@ -948,7 +949,11 @@ class ArtifactPanel(QFrame):
             combo.addItem("")
             options = self.manager.piece_options(slot_name, set_names)
             for name, in_set in options:
-                combo.addItem(name)
+                icon_file = piece_icon_path(name)
+                if icon_file:
+                    combo.addItem(QIcon(icon_file), name)
+                else:
+                    combo.addItem(name)
                 if in_set:
                     combo.setItemData(combo.count() - 1, bold, Qt.FontRole)
             if any(in_set for _, in_set in options) and not all(in_set for _, in_set in options):

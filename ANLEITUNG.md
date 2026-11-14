@@ -48,7 +48,7 @@ Ein einzelnes Team zeigt die Charaktere mit Level und Sternbild; ein Klick auf e
   <img src="docs/screenshots/web/team.jpg" alt="Ein Team im Browser" width="720">
 </p>
 
-Dort trägst du Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte der fünf Artefakt-Slots ein. Je Slot wählst du den **Namen des Teils** (z. B. „Zuflucht des Gladiators“) aus einer Liste mit Suchfeld: Die Teile deiner gewählten Sets stehen oben, darunter alle anderen, damit auch ein Off-Piece (bei 4er-Sets oder Mischungen) möglich ist.
+Dort trägst du Level, Sternbild, Talente, Waffe, Artefaktsets und die Werte der fünf Artefakt-Slots ein. Je Slot wählst du den **Namen des Teils** (z. B. „Zuflucht des Gladiators“) aus einer Liste mit Suchfeld und **Icon je Teil** (Browser, Desktop und App): Die Teile deiner gewählten Sets stehen oben, darunter alle anderen, damit auch ein Off-Piece (bei 4er-Sets oder Mischungen) möglich ist.
 
 <p align="center">
   <img src="docs/screenshots/web/build.jpg" alt="Build eines Charakters im Browser" width="720">
