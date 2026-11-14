@@ -1,0 +1,25 @@
+-- Erzeugt von tools/update_stammdaten.py. Einmal in phpMyAdmin ausführen (INSERT IGNORE, wiederholbar).
+-- Passiv-Texte der Waffen stammen aus genshin-db (deutsch).
+INSERT IGNORE INTO characters (name, element, weapon_type, region, rarity, icon_path) VALUES
+  ('Aino', 'Hydro', 'Großschwert', 'Nod-Krai', 4, 'assets/images/aino.png'),
+  ('Alyosha', 'Electro', 'Stangenwaffe', 'Snezhnaya', 4, 'assets/images/alyosha.png'),
+  ('Columbina', 'Hydro', 'Katalysator', 'Nod-Krai', 5, 'assets/images/columbina.png'),
+  ('Dahlia', 'Hydro', 'Einhandschwert', 'Mondstadt', 4, 'assets/images/dahlia.png'),
+  ('Durin', 'Pyro', 'Einhandschwert', 'Mondstadt', 5, 'assets/images/durin.png'),
+  ('Flins', 'Electro', 'Stangenwaffe', 'Nod-Krai', 5, 'assets/images/flins.png'),
+  ('Ifa', 'Anemo', 'Katalysator', 'Natlan', 4, 'assets/images/ifa.png'),
+  ('Illuga', 'Geo', 'Stangenwaffe', 'Nod-Krai', 4, 'assets/images/illuga.png'),
+  ('Ineffa', 'Electro', 'Stangenwaffe', 'Nod-Krai', 5, 'assets/images/ineffa.png'),
+  ('Jahoda', 'Anemo', 'Bogen', 'Nod-Krai', 4, 'assets/images/jahoda.png'),
+  ('Lauma', 'Dendro', 'Katalysator', 'Nod-Krai', 5, 'assets/images/lauma.png'),
+  ('Linnea', 'Geo', 'Bogen', 'Nod-Krai', 5, 'assets/images/linnea.png'),
+  ('Lohen', 'Cryo', 'Stangenwaffe', 'Mondstadt', 5, 'assets/images/lohen.png'),
+  ('Mitya', 'Electro', 'Katalysator', 'Snezhnaya', 5, 'assets/images/mitya.png'),
+  ('Nefer', 'Dendro', 'Katalysator', 'Nod-Krai', 5, 'assets/images/nefer.png'),
+  ('Odette', 'Cryo', 'Einhandschwert', 'Snezhnaya', 5, 'assets/images/odette.png'),
+  ('Prune', 'Anemo', 'Katalysator', 'Mondstadt', 4, 'assets/images/prune.png'),
+  ('Sandrone', 'Cryo', 'Großschwert', 'Snezhnaya', 5, 'assets/images/sandrone.png'),
+  ('Valeriy', 'Electro', 'Einhandschwert', 'Snezhnaya', 4, 'assets/images/valeriy.png'),
+  ('Varka', 'Anemo', 'Großschwert', 'Mondstadt', 5, 'assets/images/varka.png'),
+  ('Vesna', 'Anemo', 'Einhandschwert', 'Snezhnaya', 5, 'assets/images/vesna.png'),
+  ('Vodyanitsa', 'Hydro', 'Katalysator', 'Snezhnaya', 5, 'assets/images/vodyanitsa.png');

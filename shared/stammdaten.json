@@ -1,6 +1,14 @@
 {
   "characters": [
     {
+      "name": "Aino",
+      "element": "Hydro",
+      "weapon_type": "Großschwert",
+      "region": "Nod-Krai",
+      "rarity": 4,
+      "icon_path": "assets/images/aino.png"
+    },
+    {
       "name": "Albedo",
       "element": "Geo",
       "weapon_type": "Einhandschwert",
@@ -23,6 +31,14 @@
       "region": "Andere Welt",
       "rarity": 5,
       "icon_path": "assets/images/aloy.png"
+    },
+    {
+      "name": "Alyosha",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Snezhnaya",
+      "rarity": 4,
+      "icon_path": "assets/images/alyosha.png"
     },
     {
       "name": "Amber",
@@ -153,12 +169,28 @@
       "icon_path": "assets/images/collei.png"
     },
     {
+      "name": "Columbina",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/columbina.png"
+    },
+    {
       "name": "Cyno",
       "element": "Electro",
       "weapon_type": "Stangenwaffe",
       "region": "Sumeru",
       "rarity": 5,
       "icon_path": "assets/images/cyno.png"
+    },
+    {
+      "name": "Dahlia",
+      "element": "Hydro",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/dahlia.png"
     },
     {
       "name": "Dehya",
@@ -191,6 +223,14 @@
       "region": "Sumeru",
       "rarity": 4,
       "icon_path": "assets/images/dori.png"
+    },
+    {
+      "name": "Durin",
+      "element": "Pyro",
+      "weapon_type": "Einhandschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/durin.png"
     },
     {
       "name": "Emilie",
@@ -231,6 +271,14 @@
       "region": "Mondstadt",
       "rarity": 4,
       "icon_path": "assets/images/fischl.png"
+    },
+    {
+      "name": "Flins",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/flins.png"
     },
     {
       "name": "Freminet",
@@ -287,6 +335,38 @@
       "region": "Natlan",
       "rarity": 4,
       "icon_path": "assets/images/iansan.png"
+    },
+    {
+      "name": "Ifa",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Natlan",
+      "rarity": 4,
+      "icon_path": "assets/images/ifa.png"
+    },
+    {
+      "name": "Illuga",
+      "element": "Geo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Nod-Krai",
+      "rarity": 4,
+      "icon_path": "assets/images/illuga.png"
+    },
+    {
+      "name": "Ineffa",
+      "element": "Electro",
+      "weapon_type": "Stangenwaffe",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/ineffa.png"
+    },
+    {
+      "name": "Jahoda",
+      "element": "Anemo",
+      "weapon_type": "Bogen",
+      "region": "Nod-Krai",
+      "rarity": 4,
+      "icon_path": "assets/images/jahoda.png"
     },
     {
       "name": "Jean",
@@ -401,6 +481,14 @@
       "icon_path": "assets/images/lan_yan.png"
     },
     {
+      "name": "Lauma",
+      "element": "Dendro",
+      "weapon_type": "Katalysator",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/lauma.png"
+    },
+    {
       "name": "Layla",
       "element": "Cryo",
       "weapon_type": "Einhandschwert",
@@ -409,12 +497,28 @@
       "icon_path": "assets/images/layla.png"
     },
     {
+      "name": "Linnea",
+      "element": "Geo",
+      "weapon_type": "Bogen",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/linnea.png"
+    },
+    {
       "name": "Lisa",
       "element": "Electro",
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 4,
       "icon_path": "assets/images/lisa.png"
+    },
+    {
+      "name": "Lohen",
+      "element": "Cryo",
+      "weapon_type": "Stangenwaffe",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/lohen.png"
     },
     {
       "name": "Lynette",
@@ -449,6 +553,14 @@
       "icon_path": "assets/images/mika.png"
     },
     {
+      "name": "Mitya",
+      "element": "Electro",
+      "weapon_type": "Katalysator",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/mitya.png"
+    },
+    {
       "name": "Mona",
       "element": "Hydro",
       "weapon_type": "Katalysator",
@@ -479,6 +591,14 @@
       "region": "Fontaine",
       "rarity": 5,
       "icon_path": "assets/images/navia.png"
+    },
+    {
+      "name": "Nefer",
+      "element": "Dendro",
+      "weapon_type": "Katalysator",
+      "region": "Nod-Krai",
+      "rarity": 5,
+      "icon_path": "assets/images/nefer.png"
     },
     {
       "name": "Neuvillette",
@@ -513,12 +633,28 @@
       "icon_path": "assets/images/noelle.png"
     },
     {
+      "name": "Odette",
+      "element": "Cryo",
+      "weapon_type": "Einhandschwert",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/odette.png"
+    },
+    {
       "name": "Ororon",
       "element": "Electro",
       "weapon_type": "Bogen",
       "region": "Natlan",
       "rarity": 4,
       "icon_path": "assets/images/ororon.png"
+    },
+    {
+      "name": "Prune",
+      "element": "Anemo",
+      "weapon_type": "Katalysator",
+      "region": "Mondstadt",
+      "rarity": 4,
+      "icon_path": "assets/images/prune.png"
     },
     {
       "name": "Qiqi",
@@ -551,6 +687,14 @@
       "region": "Mondstadt",
       "rarity": 4,
       "icon_path": "assets/images/rosaria.png"
+    },
+    {
+      "name": "Sandrone",
+      "element": "Cryo",
+      "weapon_type": "Großschwert",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/sandrone.png"
     },
     {
       "name": "Sangonomiya Kokomi",
@@ -681,6 +825,14 @@
       "icon_path": "assets/images/traveler.png"
     },
     {
+      "name": "Valeriy",
+      "element": "Electro",
+      "weapon_type": "Einhandschwert",
+      "region": "Snezhnaya",
+      "rarity": 4,
+      "icon_path": "assets/images/valeriy.png"
+    },
+    {
       "name": "Varesa",
       "element": "Electro",
       "weapon_type": "Katalysator",
@@ -689,12 +841,36 @@
       "icon_path": "assets/images/varesa.png"
     },
     {
+      "name": "Varka",
+      "element": "Anemo",
+      "weapon_type": "Großschwert",
+      "region": "Mondstadt",
+      "rarity": 5,
+      "icon_path": "assets/images/varka.png"
+    },
+    {
       "name": "Venti",
       "element": "Anemo",
       "weapon_type": "Bogen",
       "region": "Mondstadt",
       "rarity": 5,
       "icon_path": "assets/images/venti.png"
+    },
+    {
+      "name": "Vesna",
+      "element": "Anemo",
+      "weapon_type": "Einhandschwert",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/vesna.png"
+    },
+    {
+      "name": "Vodyanitsa",
+      "element": "Hydro",
+      "weapon_type": "Katalysator",
+      "region": "Snezhnaya",
+      "rarity": 5,
+      "icon_path": "assets/images/vodyanitsa.png"
     },
     {
       "name": "Wanderer",
