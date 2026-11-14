@@ -5,9 +5,10 @@ INSERT IGNORE INTO characters (name, element, weapon_type, region, rarity, icon_
   ('Varesa',    'Electro', 'Katalysator',  'Natlan',   5, 'assets/images/varesa.png'),
   ('Sigewinne', 'Hydro',   'Bogen',        'Fontaine', 5, 'assets/images/sigewinne.png'),
   ('Escoffier', 'Cryo',    'Stangenwaffe', 'Fontaine', 5, 'assets/images/escoffier.png');
-INSERT IGNORE INTO weapons (name, weapon_type, rarity, icon_path, passive_json) VALUES
-  ('Urzeitliches Jadeschwert',  'Großschwert', 5, 'assets/images/urzeitliches_jadeschwert.png', NULL),
-  ('Kunwus Drachenschlächter',  'Bogen',       5, 'assets/images/kunwus_drachenschlächter.png', NULL);
+-- Die Produktivtabelle weapons hat keine Spalte icon_path (das Bild wird über den Namen gefunden).
+INSERT IGNORE INTO weapons (name, weapon_type, rarity, passive_json) VALUES
+  ('Urzeitliches Jadeschwert', 'Großschwert', 5, NULL),
+  ('Kunwus Drachenschlächter', 'Bogen',       5, NULL);
 -- Kontrolle: 3 bzw. 2 Zeilen
 SELECT name FROM characters WHERE name IN ('Varesa','Sigewinne','Escoffier');
 SELECT name FROM weapons WHERE name IN ('Urzeitliches Jadeschwert','Kunwus Drachenschlächter');
