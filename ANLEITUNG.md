@@ -10,7 +10,7 @@ Mit dem **Team & Build Manager** hältst du deine Genshin-Impact-Teams und die B
 
 Eine Technik-Beschreibung für Entwickler steht in der [README](README.md).
 
-**Inhalt:** [Loslegen](#loslegen) · [Teams und Builds](#teams-und-builds) · [Android-App](#android-app) · [Konto löschen](#konto-löschen) · [Über-Dialog und Version](#über-dialog-und-version) · [Daten mitnehmen](#daten-mitnehmen-oder-übertragen) · [Desktop-Version](#desktop-version-optional) · [Wenn etwas nicht klappt](#wenn-etwas-nicht-klappt)
+**Inhalt:** [Loslegen](#loslegen) · [Teams und Builds](#teams-und-builds) · [Android-App](#android-app) · [Passwort ändern](#passwort-ändern) · [Konto löschen](#konto-löschen) · [Über-Dialog und Version](#über-dialog-und-version) · [Daten mitnehmen](#daten-mitnehmen-oder-übertragen) · [Neue Charaktere eintragen](#neue-charaktere-und-waffen-eintragen-administratoren) · [Desktop-Version](#desktop-version-optional) · [Wenn etwas nicht klappt](#wenn-etwas-nicht-klappt)
 
 ## Loslegen
 
@@ -34,7 +34,7 @@ In der App ist das Feld **„Server“** schon mit `https://genshin-manager.medi
 - **Teams sortieren:** Mit den Pfeilen auf der Teamkarte verschiebst du Teams; im Browser geht das auch per Drag & Drop. Die Reihenfolge wird gespeichert.
 - **Deine Daten sind nur deine:** Jedes Konto sieht nur die eigenen Teams und Builds.
 
-**Im Browser** findest du Alle Teams, Neues Team, Exportieren, Importieren, Logout, Konto löschen und Über im Benutzermenü oben rechts:
+**Im Browser** findest du Alle Teams, Neues Team, Exportieren, Importieren, Logout, Passwort ändern, Konto löschen und Über im Benutzermenü oben rechts (für Administratoren zusätzlich „Stammdaten aktualisieren“ nach „Importieren“):
 
 <p align="center">
   <img src="docs/screenshots/web-menu.jpg" alt="Benutzermenü im Browser" width="560">
@@ -86,13 +86,23 @@ Beim Bearbeiten stehen die Eingabefelder auf dem Tablet ebenfalls in zwei Spalte
   <img src="docs/screenshots/android-tablet-edit.jpg" alt="Tablet: Build bearbeiten" width="640">
 </p>
 
-**Menü (⋮ oben rechts):** Abmelden, Über (Version) und Konto löschen. „Neu laden“ (Pfeil daneben) holt den aktuellen Stand vom Server.
+**Menü (⋮ oben rechts):** Abmelden, Über (Version) und Konto löschen (ein „Passwort ändern“ gibt es in der App nicht, das geht im Browser). „Neu laden“ (Pfeil daneben) holt den aktuellen Stand vom Server.
 
 <p align="center">
   <img src="docs/screenshots/android-tablet-menu.jpg" alt="Menü der App" width="520">
 </p>
 
 **Ohne Internet:** Die zuletzt geladenen Teams und Builds lassen sich auch offline ansehen. Bearbeiten geht nur mit Verbindung; die App zeigt dann „Offline – Stand vom …“ an. Über „Neu laden“ wird es erneut versucht.
+
+## Passwort ändern
+
+Im **Browser** kannst du dein Passwort selbst ändern: Benutzermenü oben rechts → „Passwort ändern“. Du gibst dein **aktuelles Passwort** und zweimal das **neue** ein (6 bis 72 Zeichen, es muss sich vom alten unterscheiden). Stimmt das aktuelle nicht, bleibt alles unverändert und du bekommst die Meldung „Das aktuelle Passwort ist falsch.“. Nach erfolgreicher Änderung musst du dich auf **anderen Geräten**, auch in der Android-App, neu anmelden; im Browser, in dem du es geändert hast, bleibst du angemeldet. In der App gibt es diese Funktion nicht; ändere das Passwort im Browser und melde dich danach in der App neu an.
+
+<p align="center">
+  <img src="docs/screenshots/web-password.jpg" alt="Passwort ändern im Browser" width="560">
+</p>
+
+Wähle ein Passwort, das du nirgendwo sonst benutzt. Ein Passwort **zurücksetzen** (wenn du es vergessen hast) geht nicht von selbst; wende dich in dem Fall an den Betreiber.
 
 ## Konto löschen
 
@@ -110,8 +120,6 @@ Du bestätigst mit deinem Passwort. Stimmt es nicht, bleibt alles unverändert u
   </tr>
 </table>
 
-**Passwort:** Wähle ein Passwort, das du nirgendwo sonst benutzt. Ein Zurücksetzen oder Ändern des Passworts gibt es derzeit nicht; wer es vergisst, muss ein neues Konto anlegen.
-
 ## Über-Dialog und Version
 
 Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über“) und am Desktop (Hilfe → „Über…“) zeigt ein kleiner Dialog die **Version**, einen Hinweis zum Fanprojekt und das Logo von the media-matrix. Ein Klick bzw. Tipp auf das Logo öffnet www.media-matrix.de. Nenne mir die Version, wenn du einen Fehler meldest: Web, Android und Desktop haben dieselbe Nummer.
@@ -127,6 +135,23 @@ Im Browser (Benutzermenü → „Über“), in der App (Menü ⋮ → „Über�
 ## Daten mitnehmen oder übertragen
 
 Teams und Builds lassen sich als JSON-Datei exportieren und wieder importieren, zum Beispiel zum Sichern oder um Daten aus der Desktop-Version in die Web-Version zu übernehmen. Im Browser findest du beides im Benutzermenü („Exportieren“, „Importieren“), am Desktop im Menü „Datei“.
+
+## Neue Charaktere und Waffen eintragen (Administratoren)
+
+Kommt im Spiel etwas Neues dazu, tragen Administratoren es selbst im **Browser** ein. Du erkennst dich als Administrator daran, dass dein Benutzermenü den Punkt **„Stammdaten aktualisieren“** enthält:
+
+1. Der Dialog gleicht die öffentliche Datenquelle mit der Datenbank ab und listet, was fehlt (Charaktere und Waffen).
+2. **Charaktere** bekommen ihre Region aus der Datenquelle (genshin-db), sie ist vorausgewählt und änderbar; fehlt sie dort, wählst du sie selbst. Setze nur dort einen Haken, wo der Charakter im Spiel schon erschienen ist.
+3. **Waffen** sind vorausgewählt. Einträge, die die Datenquelle nicht kennt (vermutlich noch nicht erschienen), zeigt der Dialog unter „Nicht eintragbar“ an.
+4. „Ausgewählte eintragen“ legt die Einträge samt Bildern an (bei Waffen mit dem Passiv-Text für den Tooltip). Danach stehen sie sofort in der Auswahl; die Android-App und der Desktop bekommen neue Charaktere erst mit einem neuen Build.
+
+<p align="center">
+  <img src="docs/screenshots/web-update.jpg" alt="Stammdaten aktualisieren im Browser (Beispieleinträge)" width="620">
+</p>
+
+<sub>Das Bild zeigt Beispieleinträge, keine echten Charaktere.</sub>
+
+Wer kein Administrator ist, sieht den Punkt nicht; fehlt dir ein Charakter oder eine Waffe, melde das dem Betreiber.
 
 ## Desktop-Version (optional)
 
@@ -149,7 +174,9 @@ Es gibt auch eine Desktop-App, die ihre Daten lokal in einer Datei speichert und
 | App zeigt „Offline“ | Internetverbindung prüfen, dann „Neu laden“. |
 | Anmeldung in der App schlägt fehl | Prüfe, ob im Feld „Server“ `https://genshin-manager.media-matrix.de/` steht. |
 | Installation der APK wird abgelehnt | Installation aus dieser Quelle in den Android-Einstellungen erlauben. |
-| Ein Charakter oder eine Waffe fehlt | Bei mir melden; neue Einträge muss ich ergänzen. |
+| Ein Charakter oder eine Waffe fehlt | Ein Administrator trägt ihn im Browser über „Stammdaten aktualisieren“ ein; sonst beim Betreiber melden. |
+| „Benutzername oder Passwort falsch.“ | Auf Groß- und Kleinschreibung achten. Passwort-Manager füllen manchmal ein **altes** Passwort ein: im privaten Fenster und von Hand eintippen. |
+| „Das aktuelle Passwort ist falsch.“ beim Ändern | Aktuelles Passwort prüfen; das neue muss 6 bis 72 Zeichen lang sein und sich vom alten unterscheiden. |
 
 ## Hinweis
 

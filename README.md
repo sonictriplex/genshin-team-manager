@@ -25,7 +25,8 @@ Du spielst nur mit und willst die App benutzen? Dann geht es hier zur [Anleitung
 - **Artefakt-Details:** je Slot (Blume, Feder, Sanduhr, Kelch, Krone) der Name des Teils (Auswahl aus allen Sets, die Teile der gewählten Sets stehen oben, ein Off-Piece ist möglich), Seltenheit, Level, Hauptwert und bis zu 4 Substats
 - **Suche** und Filter für Charaktere (Region, Element, Seltenheit) und Waffen (Typ, Seltenheit)
 - **Austausch** von Builds und Teams zwischen den Clients als JSON-Datei
-- **Konto anlegen und löschen** (Android, Web): Registrierung und endgültiges Löschen des Kontos samt Teams und Builds, jeweils direkt in der App bzw. Seite (Löschen nur nach erneuter Passworteingabe)
+- **Konto anlegen, Passwort ändern und löschen:** Registrierung und endgültiges Löschen des Kontos samt Teams und Builds in Web und Android (Löschen nur nach erneuter Passworteingabe); **Passwort ändern** im Web (im Benutzermenü)
+- **Stammdaten aktualisieren** für Administratoren (Web): neue Charaktere und Waffen samt Bildern aus dem Benutzermenü eintragen
 - **Handy und Tablet** (Android): Das Handy bleibt im Hochformat (eine Spalte); auf dem Tablet drehbar, mit zwei bis drei Spalten bei den Teams und zweispaltigen Builds
 - **„Über“-Dialog** in allen Clients mit Version, Hinweis zum Fanprojekt und dem Logo von the media-matrix
 - **Offline ansehen** (Android): Teams und Builds bleiben auch ohne Verbindung sichtbar
@@ -38,7 +39,7 @@ Ein Build gehört zum **Charakter, nicht zum Team**: Kommt ein Charakter in mehr
 |---|---|---|---|
 | **Technik** | Python, PySide6 (Qt) | HTML/JavaScript (Tailwind), PHP | Kotlin, Jetpack Compose |
 | **Daten** | lokale SQLite-Datei | MySQL/MariaDB auf dem Server | über die Web-API (Online-Client) |
-| **Konten** | ein Nutzer, lokal | Registrierung, Login und Konto löschen, Daten je Nutzer | Anmeldung, Registrierung und Konto löschen am Web-Konto per Token |
+| **Konten** | ein Nutzer, lokal | Registrierung, Login, Passwort ändern und Konto löschen, Daten je Nutzer | Anmeldung, Registrierung und Konto löschen am Web-Konto per Token |
 | **Voraussetzung** | Python 3.10+, PySide6 | Webserver mit PHP und MySQL | Android 8.0 oder neuer (Handy und Tablet) |
 | **Doku** | [desktop/README.md](desktop/README.md) | [web/README.md](web/README.md) | [android/README.md](android/README.md) |
 
@@ -88,8 +89,8 @@ Eine fertige APK wird nicht verteilt, die App baut man selbst: den Ordner `andro
 desktop/     Desktop-App (main.py, Qt-Widgets, SQLite-Zugriff)
 web/         Web-App
   index.html   komplettes Frontend
-  api/         PHP-Endpunkte (JSON-API)
-  migrations/  SQL-Änderungen für bestehende Datenbanken
+  api/         PHP-Endpunkte (JSON-API, u. a. auth.php, teams.php, transfer.php, stammdaten.php für Administratoren)
+  migrations/  SQL-Änderungen für bestehende Datenbanken (001 bis 011)
   schema.sql   Schema (aus den Abfragen abgeleitet)
 android/     Android-App (Gradle-Projekt)
 shared/      Gemeinsame Daten aller Clients
@@ -97,6 +98,7 @@ shared/      Gemeinsame Daten aller Clients
   assets/images/           Icons und Hintergrund
   assets/zh-cn.ttf         Genshin-Schriftart
   exchange-format.md       Spezifikation des JSON-Austauschs (mit Schema und Beispiel)
+tools/       update_stammdaten.py (Stammdaten prüfen und ergänzen), remote_sql.py (SQL auf dem Server)
 deploy/      Upload-Skript für die Web-Version
 docs/        Screenshots
 ```
@@ -109,7 +111,7 @@ docs/        Screenshots
 - **Bilder** werden über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. „Hu Tao“ → `hu_tao.png`, „Traveler (Dendro)“ → `traveler.png`. Neue Bilder müssen dieser Regel folgen.
 - **Austauschformat** (`shared/exchange-format.md`, dazu `exchange-format.schema.json` und `testdata/export-beispiel.json`): `{"format": "genshin-team-manager", "version": 1, "builds": [...], "teams": [...]}`. Änderungen am Format müssen in allen Clients nachgezogen werden.
 
-Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/stammdaten.json`, ein Bild in `shared/assets/images/` und – auf dem Server – einen Datensatz in der Datenbank.
+Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/stammdaten.json`, ein Bild in `shared/assets/images/` und – auf dem Server – einen Datensatz in der Datenbank. Das alles erledigt `tools/update_stammdaten.py` (siehe unten) bzw. für Administratoren der Menüpunkt „Stammdaten aktualisieren“.
 
 ### Stammdaten auf Aktualität prüfen und ergänzen
 
@@ -130,6 +132,8 @@ python3 tools/remote_sql.py web/migrations/<datei>.sql   # eine SQL-Datei (INSER
 
 Die **Region** kommt aus [genshin-db](https://github.com/theBowja/genshin-db); fehlt sie dort, wird der Charakter nur gemeldet (dann in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region` ergänzen), nie geraten. Charaktere und Waffen, die genshin-db nicht kennt, werden nicht eingetragen (vermutlich noch nicht erschienen); neue Waffen bekommen ihren Passiv-Text von dort. `--auto` bricht bei mehr als 15 neuen Einträgen ab (`--max-new`). Neue Regionen (z. B. Nod-Krai) erscheinen im Region-Filter automatisch.
 
+**Im Web** geht dasselbe für Administratoren über den Menüpunkt „Stammdaten aktualisieren“ im Benutzermenü: Der Dialog listet, was fehlt (bei Charakteren mit der Region aus genshin-db vorausgewählt); ausgewählt wird per Haken. Das ändert nur die Datenbank und die Bilder auf dem Server, nicht `shared/stammdaten.json` im Repository; ein späterer Lauf des Skripts holt das lokal nach. Administratoren stehen in `web/api/admins.local.php` (`<?php return ['benutzername'];`, nicht im Git, wird vom Deploy nie hochgeladen). Die Android-App und der Desktop kennen diese Funktion nicht.
+
 **Wie die Datenbank ohne phpMyAdmin erreicht wird:** Sie ist nur vom Server aus erreichbar. `tools/remote_sql.py` lädt eine einmalige PHP-Datei (`api/_sql_<zufall>.php`) per FTPS hoch und ruft sie per HTTPS auf. Die Datei enthält nur den SHA-256-Hash eines Zufalls-Tokens, nutzt die `api/db.php` des Servers, führt alles in einer Transaktion aus (nur INSERT/UPDATE/DELETE/REPLACE), löscht sich selbst und wird vom Skript per FTP-Liste kontrolliert.
 
 ## Entwicklung
@@ -142,12 +146,12 @@ Die **Region** kommt aus [genshin-db](https://github.com/theBowja/genshin-db); f
 ## Bereitstellung
 
 - **Web-Version hochladen:** `deploy/deploy.sh --dry-run` zeigt, was sich ändern würde, `deploy/deploy.sh` lädt es per FTPS hoch (Zugangsdaten in `deploy/deploy.local.env`, Vorlage: `deploy/deploy.example.env`; Anleitung in [deploy/README.md](deploy/README.md)). Das Skript lädt nur Geändertes hoch, sichert vorher die überschriebenen Dateien und fasst `api/db.php` sowie `api/config.local.php` nie an.
-- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen, `004_artifact_pieces.sql` für die Namen der Artefaktteile, `005_weapon_passives.sql` für die Passiv-Beschreibungen der Waffen, `006_stat_vtd.sql` für die Umbenennung DEF → VTD in gespeicherten Builds); jede Migration einmal ausführen.
+- **Datenbank:** Neue Tabellen kommen über `web/migrations/` (`001_api_tokens.sql` für den Token-Login der App, `002_auth_attempts.sql` für die Begrenzung von Anmeldeversuchen, `003_team_position.sql` für die Reihenfolge der Teams, `004_artifact_pieces.sql` für die Namen der Artefaktteile, `005_weapon_passives.sql` für die Passiv-Beschreibungen der Waffen, `006_stat_vtd.sql` für die Umbenennung DEF → VTD in gespeicherten Builds, `007` bis `011` für neue Charaktere und Waffen bzw. das Entfernen nie erschienener); jede Migration einmal ausführen, am bequemsten mit `python3 tools/remote_sql.py web/migrations/<datei>.sql`.
 - **Android-Release:** Signieren und Bauen beschreibt [android/README.md](android/README.md). Eine fertige APK wird nicht veröffentlicht.
 
 ## Versionen
 
-Web, Android und Desktop tragen seit 1.6.0 dieselbe Versionsnummer (aktuell **1.6.4**). Sie steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
+Web, Android und Desktop trugen seit 1.6.0 dieselbe Versionsnummer. Aktuell sind **Web 1.8.0** (neu: Passwort ändern, Administrator-Menü), **Android 1.7.2** und **Desktop 1.7.2**. Die Version steht jeweils im „Über“-Dialog (Web: Benutzermenü → Über; Android: Menü ⋮ → Über; Desktop: Hilfe → Über…) und an diesen Stellen im Code, die bei jeder Version zusammen mit dem [CHANGELOG.md](CHANGELOG.md) hochgezählt werden:
 
 | Client | Stelle |
 |---|---|
@@ -155,7 +159,7 @@ Web, Android und Desktop tragen seit 1.6.0 dieselbe Versionsnummer (aktuell **1.
 | Android | `android/app/build.gradle.kts` (`versionName`, `versionCode`) |
 | Desktop | `desktop/models.py` (`APP_VERSION`) |
 
-Tests prüfen, dass die Versionen in Web und Desktop mit dem obersten Eintrag des Changelogs übereinstimmen.
+Tests prüfen, dass die Versionen in Web und Desktop mit dem jeweils obersten Eintrag des Changelogs übereinstimmen.
 
 ## Änderungsverlauf
 
@@ -163,7 +167,7 @@ Siehe [CHANGELOG.md](CHANGELOG.md).
 
 ## Persönliche Daten
 
-Diese Dateien enthalten persönliche Daten oder Zugangsdaten und stehen in der `.gitignore`: `desktop/genshin_manager.db` (Teams und Builds), `web/api/config.local.php` (Datenbank), `deploy/deploy.local.env` (FTP), `android/keystore.properties` und `android/release.keystore` (Signierschlüssel). Den Signierschlüssel unbedingt separat sichern.
+Diese Dateien enthalten persönliche Daten oder Zugangsdaten und stehen in der `.gitignore`: `desktop/genshin_manager.db` (Teams und Builds), `web/api/config.local.php` (Datenbank), `web/api/admins.local.php` (Administratoren), `deploy/deploy.local.env` (FTP), `android/keystore.properties` und `android/release.keystore` (Signierschlüssel). Den Signierschlüssel unbedingt separat sichern.
 
 ## Hinweis
 

@@ -4,11 +4,11 @@ Web-App zum Zusammenstellen von Genshin-Impact-Teams und Verwalten der Charakter
 
 ## Funktionen
 
-- Registrierung und Login (Session-basiert)
+- Registrierung, Login (Session-basiert), **Passwort ändern** und Konto löschen
 - Teams mit bis zu 4 Charakteren anlegen, speichern und löschen; die Karten lassen sich per Drag & Drop am Kopfbereich oder mit den Pfeilen ‹ › umsortieren
 - Pro Charakter: Level, Konstellation, Talente, Waffe (Level, Raffinierung), Artefaktsets (4er oder 2×2er, mit Tooltip der Set-Boni) und Waffe (Tooltip mit dem Passiv zur gewählten Veredelung) und die Substats aller 5 Artefakte (Blume, Feder, Sanduhr, Kelch, Krone), je mit dem Namen des Teils (Dropdown mit Suchfeld: Teile der gewählten Sets zuerst, danach alle übrigen für ein Off-Piece)
 - Suchbare Auswahllisten für Charaktere und Waffen
-- Kopfzeile mit Benutzermenü (Exportieren, Importieren, Logout); die Team-Steuerung darunter bricht auf schmalen Displays gruppenweise um und lässt sich am Handy bedienen
+- Kopfzeile mit Benutzermenü (Alle Teams, Neues Team, Exportieren, Importieren, Logout, Passwort ändern, Konto löschen, Über; für **Administratoren** zusätzlich **Stammdaten aktualisieren**); die Team-Steuerung darunter bricht auf schmalen Displays gruppenweise um und lässt sich am Handy bedienen
 
 Builds werden **pro Nutzer und Charakter** gespeichert, nicht pro Team. Ändert man den Build eines Charakters, gilt die Änderung in allen Teams, in denen er vorkommt.
 
@@ -25,13 +25,16 @@ index.html          Komplettes Frontend
 tests/              Tests des Frontends (Node, jsdom), nicht für den Server
 api/
   db.php            Datenbankverbindung
-  auth_check.php    Session-Setup, Bearer-Token, require_login()
-  auth.php          ?action=status|register|login|token|logout|delete_account
+  auth_check.php    Session-Setup, Bearer-Token, require_login(), is_admin(), require_admin()
+  auth.php          ?action=status|register|login|token|logout|change_password|delete_account
   rate_limit.php    Begrenzung von Anmelde- und Registrierungsversuchen
   characters.php    Charakterliste (GET)
   weapons.php       Waffenliste (GET)
   artifacts.php     Artefaktsets (GET)
   teams.php         Teams des Nutzers (GET / POST / DELETE)
+  transfer.php      Export und Import der Builds und Teams
+  stammdaten.php    Stammdaten abgleichen und ergänzen (nur Administratoren)
+  stammdaten_lib.php  Helfer dafür (Abruf der Quelle, Bilder speichern)
 assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart zh-cn.ttf)
 ```
 
@@ -59,6 +62,17 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
    ```
 
    Danach http://localhost:8000 öffnen.
+
+## Administratoren und Stammdaten
+
+`stammdaten.php` gleicht die Datenbank mit der öffentlichen Datenquelle [Enka.Network](https://github.com/EnkaNetwork/API-docs) ab und trägt auf Wunsch Fehlendes samt Bildern ein. Das geht nur für Nutzer aus `api/admins.local.php` (`<?php return ['benutzername'];`, nicht im Git, wird vom Deploy nie hochgeladen; alternativ die Umgebungsvariable `ADMIN_USERS`, kommagetrennt). `auth.php?action=status` liefert dazu `is_admin`; `require_admin()` antwortet sonst mit **403**.
+
+- **`GET ?action=check`** liefert `{new: {characters, weapons}, skipped: […]}`. Die Region der Charaktere (`region`) und das Passiv der Waffen kommen aus [genshin-db](https://github.com/theBowja/genshin-db). Was genshin-db nicht kennt, steht in `skipped` (vermutlich noch nicht erschienen) und wird nicht eingetragen.
+- **`POST`** `{characters: [{name, region}], weapons: [Name]}` nimmt nur die **Namen** der gewählten Einträge (und die Region, gegen die Liste der erlaubten geprüft) an; der Server rechnet die Einträge selbst aus der Quelle aus. Der Header `X-Requested-With: fetch` ist Pflicht, höchstens 50 Einträge je Anfrage, Antwort `{added, images: {geladen, vorhanden, fehler}}`.
+- Bilder lädt der Server nach `assets/images/` (nur gültige PNG-Dateien, vorhandene werden nie überschrieben); der Ordner muss für PHP beschreibbar sein.
+- `shared/stammdaten.json` im Repository ändert der Endpunkt nicht; `tools/update_stammdaten.py` holt das lokal nach.
+
+**Passwort ändern:** `POST api/auth.php?action=change_password` mit `{old_password, new_password}` (Session oder Token). 6 bis 72 Zeichen, anders als das alte; ein falsches aktuelles Passwort ergibt **403** und zählt für die Begrenzung wie ein fehlgeschlagener Login. Bei Erfolg werden alle anderen Tokens des Nutzers ungültig (ein Token der laufenden Anfrage bleibt).
 
 ## Tests
 
