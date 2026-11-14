@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genshin Impact - Team & Build Manager</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/images/paimon.png">
+    <link rel="icon" type="image/png" href="/assets/images/ui/paimon.png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -39,7 +39,7 @@
         }
 
         body {
-            background: url('/assets/images/genshin-impact.jpg') no-repeat center center fixed;
+            background: url('/assets/images/ui/genshin-impact.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
             font-family: system-ui, -apple-system, sans-serif;
@@ -150,13 +150,13 @@
     </main>
 
     <footer class="w-full max-w-7xl mx-auto mt-8 mb-2 flex justify-center">
-        <img src="/assets/images/mm_logo.png" alt="the media-matrix" width="109" height="41" class="opacity-90">
+        <img src="/assets/images/ui/mm_logo.png" alt="the media-matrix" width="109" height="41" class="opacity-90">
     </footer>
 
     <!-- MODAL: LOGIN / REGISTRIERUNG -->
     <!-- Eigenes Hintergrundbild (wie die Hauptseite, leicht abgedunkelt), damit die Seite dahinter nicht durchscheint -->
     <div id="authModal" class="fixed inset-0 overflow-y-auto z-50"
-         style="background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/assets/images/genshin-impact.jpg') no-repeat center center / cover;">
+         style="background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/assets/images/ui/genshin-impact.jpg') no-repeat center center / cover;">
         <div class="min-h-full flex flex-col items-center justify-center gap-6 p-4">
         <h1 class="genshin-title text-3xl sm:text-4xl font-bold text-accent tracking-wide text-center max-w-4xl" style="text-shadow: 0 2px 12px rgba(0,0,0,0.7);">GENSHIN IMPACT Team & Build Manager</h1>
         <div class="bg-cardBg/90 border border-[#332d47] rounded-xl max-w-md w-full p-6 shadow-2xl text-white backdrop-blur-md">
@@ -193,14 +193,14 @@
     <!-- MODAL: ÜBER -->
     <div id="aboutModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 z-50" onclick="if (event.target === this) closeAbout()">
         <div role="dialog" aria-modal="true" aria-labelledby="aboutTitle" class="bg-cardBg border border-[#332d47] rounded-xl max-w-sm w-full p-6 shadow-2xl text-white backdrop-blur-md text-center">
-            <img src="/assets/images/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
+            <img src="/assets/images/ui/paimon.png" alt="" width="72" height="72" class="mx-auto mb-3">
             <h2 id="aboutTitle" class="genshin-title text-lg font-bold text-accent mb-1">Genshin Impact Team & Build Manager</h2>
             <!-- Bei jeder Änderung zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide) -->
-            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.8.0</div>
+            <div id="webVersion" class="text-sm text-gray-200 mb-3">Web-Version 1.8.1</div>
             <p class="text-sm text-gray-300 mb-3">Teams aus bis zu vier Charakteren und die Builds deiner Charaktere verwalten, abgeglichen mit der Android-App.</p>
             <p class="text-[11px] text-gray-400 mb-4">Inoffizielles Fanprojekt, nicht mit HoYoverse verbunden. Genshin Impact sowie zugehörige Namen und Bilder sind Eigentum von HoYoverse.</p>
             <a id="aboutLogoLink" href="https://www.media-matrix.de" target="_blank" rel="noopener noreferrer" title="www.media-matrix.de" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity">
-                <img src="/assets/images/mm_logo.png" alt="the media-matrix (www.media-matrix.de)" width="109" height="41" class="mx-auto">
+                <img src="/assets/images/ui/mm_logo.png" alt="the media-matrix (www.media-matrix.de)" width="109" height="41" class="mx-auto">
             </a>
             <button type="button" onclick="closeAbout()" class="px-6 py-2 bg-inputBg hover:bg-[#2d293e] border border-[#332d47] text-gray-100 font-bold text-sm rounded transition-colors">Schließen</button>
         </div>
@@ -655,11 +655,11 @@
             renderOverview();
         }
 
-        function getIconUrl(name) {
+        function getIconUrl(name, kind = 'characters') {
             if (!name) return '';
             const clean = name.split('(')[0].trim().toLowerCase()
                 .replace(/ /g, "_").replace(/['’„“\-]/g, "") + ".png";
-            return `${IMAGE_BASE}/${clean}`;
+            return `${IMAGE_BASE}/${kind}/${clean}`;
         }
 
         // Tooltip (title-Attribut) mit der Beschreibung des Waffen-Passivs bei der gegebenen Veredelung; leer ohne Passiv
@@ -1712,7 +1712,7 @@
                 const wName = w.name || "";
                 const wType = w.weapon_type || w.type || "";
                 const wRarity = w.rarity || 4;
-                const iconUrl = getIconUrl(wName);
+                const iconUrl = getIconUrl(wName, 'weapons');
 
                 return `
                     <tr data-name="${escapeHtml(wName)}" title="${escapeHtml(weaponPassiveTip(wName, 1))}" class="hover:bg-[#262338]/60 cursor-pointer transition-colors">

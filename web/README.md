@@ -35,7 +35,7 @@ api/
   transfer.php      Export und Import der Builds und Teams
   stammdaten.php    Stammdaten abgleichen und ergänzen (nur Administratoren)
   stammdaten_lib.php  Helfer dafür (Abruf der Quelle, Bilder speichern)
-assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart zh-cn.ttf)
+assets/             Symlink auf ../shared/assets (Bilder in `images/characters`, `images/weapons`, `images/ui`, Schriftart zh-cn.ttf)
 ```
 
 ## Einrichtung
@@ -69,7 +69,7 @@ assets/             Symlink auf ../shared/assets (Bilder <name>.png, Schriftart 
 
 - **`GET ?action=check`** liefert `{new: {characters, weapons}, skipped: […]}`. Die Region der Charaktere (`region`) und das Passiv der Waffen kommen aus [genshin-db](https://github.com/theBowja/genshin-db). Was genshin-db nicht kennt, steht in `skipped` (vermutlich noch nicht erschienen) und wird nicht eingetragen.
 - **`POST`** `{characters: [{name, region}], weapons: [Name]}` nimmt nur die **Namen** der gewählten Einträge (und die Region, gegen die Liste der erlaubten geprüft) an; der Server rechnet die Einträge selbst aus der Quelle aus. Der Header `X-Requested-With: fetch` ist Pflicht, höchstens 50 Einträge je Anfrage, Antwort `{added, images: {geladen, vorhanden, fehler}}`.
-- Bilder lädt der Server nach `assets/images/` (nur gültige PNG-Dateien, vorhandene werden nie überschrieben); der Ordner muss für PHP beschreibbar sein.
+- Bilder lädt der Server nach `assets/images/characters/` bzw. `assets/images/weapons/` (nur gültige PNG-Dateien, vorhandene werden nie überschrieben); der Ordner muss für PHP beschreibbar sein.
 - `shared/stammdaten.json` im Repository ändert der Endpunkt nicht; `tools/update_stammdaten.py` holt das lokal nach.
 
 **Passwort ändern:** `POST api/auth.php?action=change_password` mit `{old_password, new_password}` (Session oder Token). 6 bis 72 Zeichen, anders als das alte; ein falsches aktuelles Passwort ergibt **403** und zählt für die Begrenzung wie ein fehlgeschlagener Login. Bei Erfolg werden alle anderen Tokens des Nutzers ungültig (ein Token der laufenden Anfrage bleibt).
@@ -129,7 +129,7 @@ Der Emulator erreicht den Rechner unter `http://10.0.2.2:8000`. Aufräumen: `pod
 
 ## Bilder
 
-Bilder werden anhand des Namens gefunden: Kleinbuchstaben, Leerzeichen werden zu `_`, Apostrophe und Bindestriche fallen weg, alles ab `(` wird ignoriert. Beispiel: „Hu Tao“ → `assets/images/hu_tao.png`.
+Bilder werden anhand des Namens gefunden: Kleinbuchstaben, Leerzeichen werden zu `_`, Apostrophe und Bindestriche fallen weg, alles ab `(` wird ignoriert. Beispiel: „Hu Tao“ → `assets/images/characters/hu_tao.png`; Waffen liegen unter `assets/images/weapons/`, Hintergrund, Logo und Paimon unter `assets/images/ui/`.
 
 ## Hinweis
 

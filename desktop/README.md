@@ -80,14 +80,14 @@ manager.py         GenshinManager: Datenbankzugriff, Schema, Einspielen der Stam
 seed.py            Import/Export der Stammdaten (python seed.py import|export)
 tests/             Tests (unittest)
 models.py          Datenklassen (Character, Weapon, ArtifactSet) und Pfad-Hilfsfunktionen
-../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Icons)
+../shared/          gemeinsam genutzt: stammdaten.json (Charaktere, Waffen, Artefaktsets) und assets/images/ (Bilder in den Unterordnern characters, weapons, ui)
 ```
 
 ## Icons
 
-Icons werden in `shared/assets/images/` über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. Beispiele:
+Icons werden in `shared/assets/images/characters/` (Charaktere) bzw. `weapons/` (Waffen) über den Namen gefunden: Kleinbuchstaben, Leerzeichen und Bindestriche werden zu `_`, Klammerzusätze fallen weg. Beispiele:
 
-- `Kaedehara Kazuha` → `kaedehara_kazuha.png`
-- `Traveler (Dendro)` → `traveler.png`, sofern in der Datenbank kein eigener Pfad hinterlegt ist
+- `Kaedehara Kazuha` → `characters/kaedehara_kazuha.png`
+- `Traveler (Dendro)` → `characters/traveler.png`, sofern in der Datenbank kein eigener Pfad hinterlegt ist
 
 Fehlt ein Icon, zeigt die Karte stattdessen den Namen an. Für einige Waffen gibt es noch keine Bilder.

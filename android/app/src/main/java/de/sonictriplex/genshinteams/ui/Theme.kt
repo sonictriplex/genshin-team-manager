@@ -94,7 +94,7 @@ fun rarityColor(rarity: Int): Color = when (rarity) {
 }
 
 /**
- * Vollbild-Hintergrund wie in der Web-Version (shared/assets/images/genshin-impact.jpg, zugeschnitten wie
+ * Vollbild-Hintergrund wie in der Web-Version (shared/assets/images/ui/genshin-impact.jpg, zugeschnitten wie
  * `background-size: cover`), mit dunkler Abdeckung für die Lesbarkeit. Vor dem Laden bleibt es einfarbig.
  */
 @Composable
@@ -105,7 +105,7 @@ fun AppBackground(content: @Composable () -> Unit) {
             try {
                 // Das Bild ist 2752×1536 px; auf Handygröße verkleinert laden spart Speicher
                 val opts = BitmapFactory.Options().apply { inSampleSize = 2 }
-                context.assets.open("assets/images/genshin-impact.jpg").use { BitmapFactory.decodeStream(it, null, opts) }?.asImageBitmap()
+                context.assets.open("assets/images/ui/genshin-impact.jpg").use { BitmapFactory.decodeStream(it, null, opts) }?.asImageBitmap()
             } catch (_: java.io.IOException) {
                 null
             }

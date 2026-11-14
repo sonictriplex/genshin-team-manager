@@ -6,7 +6,7 @@
       "weapon_type": "Großschwert",
       "region": "Nod-Krai",
       "rarity": 4,
-      "icon_path": "assets/images/aino.png"
+      "icon_path": "assets/images/characters/aino.png"
     },
     {
       "name": "Albedo",
@@ -14,7 +14,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/albedo.png"
+      "icon_path": "assets/images/characters/albedo.png"
     },
     {
       "name": "Alhaitham",
@@ -22,7 +22,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/alhaitham.png"
+      "icon_path": "assets/images/characters/alhaitham.png"
     },
     {
       "name": "Aloy",
@@ -30,7 +30,7 @@
       "weapon_type": "Bogen",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/aloy.png"
+      "icon_path": "assets/images/characters/aloy.png"
     },
     {
       "name": "Alyosha",
@@ -38,7 +38,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Snezhnaya",
       "rarity": 4,
-      "icon_path": "assets/images/alyosha.png"
+      "icon_path": "assets/images/characters/alyosha.png"
     },
     {
       "name": "Amber",
@@ -46,7 +46,7 @@
       "weapon_type": "Bogen",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/amber.png"
+      "icon_path": "assets/images/characters/amber.png"
     },
     {
       "name": "Arataki Itto",
@@ -54,7 +54,7 @@
       "weapon_type": "Großschwert",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/arataki_itto.png"
+      "icon_path": "assets/images/characters/arataki_itto.png"
     },
     {
       "name": "Arlecchino",
@@ -62,7 +62,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/arlecchino.png"
+      "icon_path": "assets/images/characters/arlecchino.png"
     },
     {
       "name": "Baizhu",
@@ -70,7 +70,7 @@
       "weapon_type": "Katalysator",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/baizhu.png"
+      "icon_path": "assets/images/characters/baizhu.png"
     },
     {
       "name": "Barbara",
@@ -78,7 +78,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/barbara.png"
+      "icon_path": "assets/images/characters/barbara.png"
     },
     {
       "name": "Beidou",
@@ -86,7 +86,7 @@
       "weapon_type": "Großschwert",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/beidou.png"
+      "icon_path": "assets/images/characters/beidou.png"
     },
     {
       "name": "Bennett",
@@ -94,7 +94,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/bennett.png"
+      "icon_path": "assets/images/characters/bennett.png"
     },
     {
       "name": "Candace",
@@ -102,7 +102,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/candace.png"
+      "icon_path": "assets/images/characters/candace.png"
     },
     {
       "name": "Charlotte",
@@ -110,7 +110,7 @@
       "weapon_type": "Katalysator",
       "region": "Fontaine",
       "rarity": 4,
-      "icon_path": "assets/images/charlotte.png"
+      "icon_path": "assets/images/characters/charlotte.png"
     },
     {
       "name": "Chasca",
@@ -118,7 +118,7 @@
       "weapon_type": "Bogen",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/chasca.png"
+      "icon_path": "assets/images/characters/chasca.png"
     },
     {
       "name": "Chevreuse",
@@ -126,7 +126,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Fontaine",
       "rarity": 4,
-      "icon_path": "assets/images/chevreuse.png"
+      "icon_path": "assets/images/characters/chevreuse.png"
     },
     {
       "name": "Chiori",
@@ -134,7 +134,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/chiori.png"
+      "icon_path": "assets/images/characters/chiori.png"
     },
     {
       "name": "Chongyun",
@@ -142,7 +142,7 @@
       "weapon_type": "Großschwert",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/chongyun.png"
+      "icon_path": "assets/images/characters/chongyun.png"
     },
     {
       "name": "Citlali",
@@ -150,7 +150,7 @@
       "weapon_type": "Katalysator",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/citlali.png"
+      "icon_path": "assets/images/characters/citlali.png"
     },
     {
       "name": "Clorinde",
@@ -158,7 +158,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/clorinde.png"
+      "icon_path": "assets/images/characters/clorinde.png"
     },
     {
       "name": "Collei",
@@ -166,7 +166,7 @@
       "weapon_type": "Bogen",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/collei.png"
+      "icon_path": "assets/images/characters/collei.png"
     },
     {
       "name": "Columbina",
@@ -174,7 +174,7 @@
       "weapon_type": "Katalysator",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/columbina.png"
+      "icon_path": "assets/images/characters/columbina.png"
     },
     {
       "name": "Cyno",
@@ -182,7 +182,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/cyno.png"
+      "icon_path": "assets/images/characters/cyno.png"
     },
     {
       "name": "Dahlia",
@@ -190,7 +190,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/dahlia.png"
+      "icon_path": "assets/images/characters/dahlia.png"
     },
     {
       "name": "Dehya",
@@ -198,7 +198,7 @@
       "weapon_type": "Großschwert",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/dehya.png"
+      "icon_path": "assets/images/characters/dehya.png"
     },
     {
       "name": "Diluc",
@@ -206,7 +206,7 @@
       "weapon_type": "Großschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/diluc.png"
+      "icon_path": "assets/images/characters/diluc.png"
     },
     {
       "name": "Diona",
@@ -214,7 +214,7 @@
       "weapon_type": "Bogen",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/diona.png"
+      "icon_path": "assets/images/characters/diona.png"
     },
     {
       "name": "Dori",
@@ -222,7 +222,7 @@
       "weapon_type": "Großschwert",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/dori.png"
+      "icon_path": "assets/images/characters/dori.png"
     },
     {
       "name": "Durin",
@@ -230,7 +230,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/durin.png"
+      "icon_path": "assets/images/characters/durin.png"
     },
     {
       "name": "Emilie",
@@ -238,7 +238,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/emilie.png"
+      "icon_path": "assets/images/characters/emilie.png"
     },
     {
       "name": "Escoffier",
@@ -246,7 +246,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/escoffier.png"
+      "icon_path": "assets/images/characters/escoffier.png"
     },
     {
       "name": "Eula",
@@ -254,7 +254,7 @@
       "weapon_type": "Großschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/eula.png"
+      "icon_path": "assets/images/characters/eula.png"
     },
     {
       "name": "Faruzan",
@@ -262,7 +262,7 @@
       "weapon_type": "Bogen",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/faruzan.png"
+      "icon_path": "assets/images/characters/faruzan.png"
     },
     {
       "name": "Fischl",
@@ -270,7 +270,7 @@
       "weapon_type": "Bogen",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/fischl.png"
+      "icon_path": "assets/images/characters/fischl.png"
     },
     {
       "name": "Flins",
@@ -278,7 +278,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/flins.png"
+      "icon_path": "assets/images/characters/flins.png"
     },
     {
       "name": "Freminet",
@@ -286,7 +286,7 @@
       "weapon_type": "Großschwert",
       "region": "Fontaine",
       "rarity": 4,
-      "icon_path": "assets/images/freminet.png"
+      "icon_path": "assets/images/characters/freminet.png"
     },
     {
       "name": "Furina",
@@ -294,7 +294,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/furina.png"
+      "icon_path": "assets/images/characters/furina.png"
     },
     {
       "name": "Gaming",
@@ -302,7 +302,7 @@
       "weapon_type": "Großschwert",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/gaming.png"
+      "icon_path": "assets/images/characters/gaming.png"
     },
     {
       "name": "Ganyu",
@@ -310,7 +310,7 @@
       "weapon_type": "Bogen",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/ganyu.png"
+      "icon_path": "assets/images/characters/ganyu.png"
     },
     {
       "name": "Gorou",
@@ -318,7 +318,7 @@
       "weapon_type": "Bogen",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/gorou.png"
+      "icon_path": "assets/images/characters/gorou.png"
     },
     {
       "name": "Hu Tao",
@@ -326,7 +326,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/hu_tao.png"
+      "icon_path": "assets/images/characters/hu_tao.png"
     },
     {
       "name": "Iansan",
@@ -334,7 +334,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Natlan",
       "rarity": 4,
-      "icon_path": "assets/images/iansan.png"
+      "icon_path": "assets/images/characters/iansan.png"
     },
     {
       "name": "Ifa",
@@ -342,7 +342,7 @@
       "weapon_type": "Katalysator",
       "region": "Natlan",
       "rarity": 4,
-      "icon_path": "assets/images/ifa.png"
+      "icon_path": "assets/images/characters/ifa.png"
     },
     {
       "name": "Illuga",
@@ -350,7 +350,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Nod-Krai",
       "rarity": 4,
-      "icon_path": "assets/images/illuga.png"
+      "icon_path": "assets/images/characters/illuga.png"
     },
     {
       "name": "Ineffa",
@@ -358,7 +358,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/ineffa.png"
+      "icon_path": "assets/images/characters/ineffa.png"
     },
     {
       "name": "Jahoda",
@@ -366,7 +366,7 @@
       "weapon_type": "Bogen",
       "region": "Nod-Krai",
       "rarity": 4,
-      "icon_path": "assets/images/jahoda.png"
+      "icon_path": "assets/images/characters/jahoda.png"
     },
     {
       "name": "Jean",
@@ -374,7 +374,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/jean.png"
+      "icon_path": "assets/images/characters/jean.png"
     },
     {
       "name": "Kachina",
@@ -382,7 +382,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Natlan",
       "rarity": 4,
-      "icon_path": "assets/images/kachina.png"
+      "icon_path": "assets/images/characters/kachina.png"
     },
     {
       "name": "Kaedehara Kazuha",
@@ -390,7 +390,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/kaedehara_kazuha.png"
+      "icon_path": "assets/images/characters/kaedehara_kazuha.png"
     },
     {
       "name": "Kaeya",
@@ -398,7 +398,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/kaeya.png"
+      "icon_path": "assets/images/characters/kaeya.png"
     },
     {
       "name": "Kamisato Ayaka",
@@ -406,7 +406,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/kamisato_ayaka.png"
+      "icon_path": "assets/images/characters/kamisato_ayaka.png"
     },
     {
       "name": "Kamisato Ayato",
@@ -414,7 +414,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/kamisato_ayato.png"
+      "icon_path": "assets/images/characters/kamisato_ayato.png"
     },
     {
       "name": "Kaveh",
@@ -422,7 +422,7 @@
       "weapon_type": "Großschwert",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/kaveh.png"
+      "icon_path": "assets/images/characters/kaveh.png"
     },
     {
       "name": "Keqing",
@@ -430,7 +430,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/keqing.png"
+      "icon_path": "assets/images/characters/keqing.png"
     },
     {
       "name": "Kinich",
@@ -438,7 +438,7 @@
       "weapon_type": "Großschwert",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/kinich.png"
+      "icon_path": "assets/images/characters/kinich.png"
     },
     {
       "name": "Kirara",
@@ -446,7 +446,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/kirara.png"
+      "icon_path": "assets/images/characters/kirara.png"
     },
     {
       "name": "Klee",
@@ -454,7 +454,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/klee.png"
+      "icon_path": "assets/images/characters/klee.png"
     },
     {
       "name": "Kujou Sara",
@@ -462,7 +462,7 @@
       "weapon_type": "Bogen",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/kujou_sara.png"
+      "icon_path": "assets/images/characters/kujou_sara.png"
     },
     {
       "name": "Kuki Shinobu",
@@ -470,7 +470,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/kuki_shinobu.png"
+      "icon_path": "assets/images/characters/kuki_shinobu.png"
     },
     {
       "name": "Lan Yan",
@@ -478,7 +478,7 @@
       "weapon_type": "Katalysator",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/lan_yan.png"
+      "icon_path": "assets/images/characters/lan_yan.png"
     },
     {
       "name": "Lauma",
@@ -486,7 +486,7 @@
       "weapon_type": "Katalysator",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/lauma.png"
+      "icon_path": "assets/images/characters/lauma.png"
     },
     {
       "name": "Layla",
@@ -494,7 +494,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/layla.png"
+      "icon_path": "assets/images/characters/layla.png"
     },
     {
       "name": "Linnea",
@@ -502,7 +502,7 @@
       "weapon_type": "Bogen",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/linnea.png"
+      "icon_path": "assets/images/characters/linnea.png"
     },
     {
       "name": "Lisa",
@@ -510,7 +510,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/lisa.png"
+      "icon_path": "assets/images/characters/lisa.png"
     },
     {
       "name": "Lohen",
@@ -518,7 +518,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/lohen.png"
+      "icon_path": "assets/images/characters/lohen.png"
     },
     {
       "name": "Lynette",
@@ -526,7 +526,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Fontaine",
       "rarity": 4,
-      "icon_path": "assets/images/lynette.png"
+      "icon_path": "assets/images/characters/lynette.png"
     },
     {
       "name": "Lyney",
@@ -534,7 +534,7 @@
       "weapon_type": "Bogen",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/lyney.png"
+      "icon_path": "assets/images/characters/lyney.png"
     },
     {
       "name": "Mavuika",
@@ -542,7 +542,7 @@
       "weapon_type": "Großschwert",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/mavuika.png"
+      "icon_path": "assets/images/characters/mavuika.png"
     },
     {
       "name": "Mika",
@@ -550,7 +550,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/mika.png"
+      "icon_path": "assets/images/characters/mika.png"
     },
     {
       "name": "Mitya",
@@ -558,7 +558,7 @@
       "weapon_type": "Katalysator",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/mitya.png"
+      "icon_path": "assets/images/characters/mitya.png"
     },
     {
       "name": "Mona",
@@ -566,7 +566,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/mona.png"
+      "icon_path": "assets/images/characters/mona.png"
     },
     {
       "name": "Mualani",
@@ -574,7 +574,7 @@
       "weapon_type": "Katalysator",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/mualani.png"
+      "icon_path": "assets/images/characters/mualani.png"
     },
     {
       "name": "Nahida",
@@ -582,7 +582,7 @@
       "weapon_type": "Katalysator",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/nahida.png"
+      "icon_path": "assets/images/characters/nahida.png"
     },
     {
       "name": "Navia",
@@ -590,7 +590,7 @@
       "weapon_type": "Großschwert",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/navia.png"
+      "icon_path": "assets/images/characters/navia.png"
     },
     {
       "name": "Nefer",
@@ -598,7 +598,7 @@
       "weapon_type": "Katalysator",
       "region": "Nod-Krai",
       "rarity": 5,
-      "icon_path": "assets/images/nefer.png"
+      "icon_path": "assets/images/characters/nefer.png"
     },
     {
       "name": "Neuvillette",
@@ -606,7 +606,7 @@
       "weapon_type": "Katalysator",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/neuvillette.png"
+      "icon_path": "assets/images/characters/neuvillette.png"
     },
     {
       "name": "Nicole",
@@ -614,7 +614,7 @@
       "weapon_type": "Katalysator",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/nicole.png"
+      "icon_path": "assets/images/characters/nicole.png"
     },
     {
       "name": "Nilou",
@@ -622,7 +622,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/nilou.png"
+      "icon_path": "assets/images/characters/nilou.png"
     },
     {
       "name": "Ningguang",
@@ -630,7 +630,7 @@
       "weapon_type": "Katalysator",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/ningguang.png"
+      "icon_path": "assets/images/characters/ningguang.png"
     },
     {
       "name": "Noelle",
@@ -638,7 +638,7 @@
       "weapon_type": "Großschwert",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/noelle.png"
+      "icon_path": "assets/images/characters/noelle.png"
     },
     {
       "name": "Odette",
@@ -646,7 +646,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/odette.png"
+      "icon_path": "assets/images/characters/odette.png"
     },
     {
       "name": "Ororon",
@@ -654,7 +654,7 @@
       "weapon_type": "Bogen",
       "region": "Natlan",
       "rarity": 4,
-      "icon_path": "assets/images/ororon.png"
+      "icon_path": "assets/images/characters/ororon.png"
     },
     {
       "name": "Prune",
@@ -662,7 +662,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/prune.png"
+      "icon_path": "assets/images/characters/prune.png"
     },
     {
       "name": "Qiqi",
@@ -670,7 +670,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/qiqi.png"
+      "icon_path": "assets/images/characters/qiqi.png"
     },
     {
       "name": "Raiden Shogun",
@@ -678,7 +678,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/raiden_shogun.png"
+      "icon_path": "assets/images/characters/raiden_shogun.png"
     },
     {
       "name": "Razor",
@@ -686,7 +686,7 @@
       "weapon_type": "Großschwert",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/razor.png"
+      "icon_path": "assets/images/characters/razor.png"
     },
     {
       "name": "Rosaria",
@@ -694,7 +694,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/rosaria.png"
+      "icon_path": "assets/images/characters/rosaria.png"
     },
     {
       "name": "Sandrone",
@@ -702,7 +702,7 @@
       "weapon_type": "Großschwert",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/sandrone.png"
+      "icon_path": "assets/images/characters/sandrone.png"
     },
     {
       "name": "Sangonomiya Kokomi",
@@ -710,7 +710,7 @@
       "weapon_type": "Katalysator",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/sangonomiya_kokomi.png"
+      "icon_path": "assets/images/characters/sangonomiya_kokomi.png"
     },
     {
       "name": "Sayu",
@@ -718,7 +718,7 @@
       "weapon_type": "Großschwert",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/sayu.png"
+      "icon_path": "assets/images/characters/sayu.png"
     },
     {
       "name": "Sethos",
@@ -726,7 +726,7 @@
       "weapon_type": "Bogen",
       "region": "Sumeru",
       "rarity": 4,
-      "icon_path": "assets/images/sethos.png"
+      "icon_path": "assets/images/characters/sethos.png"
     },
     {
       "name": "Shenhe",
@@ -734,7 +734,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/shenhe.png"
+      "icon_path": "assets/images/characters/shenhe.png"
     },
     {
       "name": "Shikanoin Heizou",
@@ -742,7 +742,7 @@
       "weapon_type": "Katalysator",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/shikanoin_heizou.png"
+      "icon_path": "assets/images/characters/shikanoin_heizou.png"
     },
     {
       "name": "Sigewinne",
@@ -750,7 +750,7 @@
       "weapon_type": "Bogen",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/sigewinne.png"
+      "icon_path": "assets/images/characters/sigewinne.png"
     },
     {
       "name": "Skirk",
@@ -758,7 +758,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/skirk.png"
+      "icon_path": "assets/images/characters/skirk.png"
     },
     {
       "name": "Sucrose",
@@ -766,7 +766,7 @@
       "weapon_type": "Katalysator",
       "region": "Mondstadt",
       "rarity": 4,
-      "icon_path": "assets/images/sucrose.png"
+      "icon_path": "assets/images/characters/sucrose.png"
     },
     {
       "name": "Tartaglia",
@@ -774,7 +774,7 @@
       "weapon_type": "Bogen",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/tartaglia.png"
+      "icon_path": "assets/images/characters/tartaglia.png"
     },
     {
       "name": "Thoma",
@@ -782,7 +782,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Inazuma",
       "rarity": 4,
-      "icon_path": "assets/images/thoma.png"
+      "icon_path": "assets/images/characters/thoma.png"
     },
     {
       "name": "Tighnari",
@@ -790,7 +790,7 @@
       "weapon_type": "Bogen",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/tighnari.png"
+      "icon_path": "assets/images/characters/tighnari.png"
     },
     {
       "name": "Traveler (Anemo)",
@@ -798,7 +798,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler.png"
+      "icon_path": "assets/images/characters/traveler.png"
     },
     {
       "name": "Traveler (Geo)",
@@ -806,7 +806,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler.png"
+      "icon_path": "assets/images/characters/traveler.png"
     },
     {
       "name": "Traveler (Electro)",
@@ -814,7 +814,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler.png"
+      "icon_path": "assets/images/characters/traveler.png"
     },
     {
       "name": "Traveler (Dendro)",
@@ -822,7 +822,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler_dendro.png"
+      "icon_path": "assets/images/characters/traveler_dendro.png"
     },
     {
       "name": "Traveler (Hydro)",
@@ -830,7 +830,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler.png"
+      "icon_path": "assets/images/characters/traveler.png"
     },
     {
       "name": "Traveler (Pyro)",
@@ -838,7 +838,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Andere Welt",
       "rarity": 5,
-      "icon_path": "assets/images/traveler.png"
+      "icon_path": "assets/images/characters/traveler.png"
     },
     {
       "name": "Valeriy",
@@ -846,7 +846,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Snezhnaya",
       "rarity": 4,
-      "icon_path": "assets/images/valeriy.png"
+      "icon_path": "assets/images/characters/valeriy.png"
     },
     {
       "name": "Varesa",
@@ -854,7 +854,7 @@
       "weapon_type": "Katalysator",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/varesa.png"
+      "icon_path": "assets/images/characters/varesa.png"
     },
     {
       "name": "Varka",
@@ -862,7 +862,7 @@
       "weapon_type": "Großschwert",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/varka.png"
+      "icon_path": "assets/images/characters/varka.png"
     },
     {
       "name": "Venti",
@@ -870,7 +870,7 @@
       "weapon_type": "Bogen",
       "region": "Mondstadt",
       "rarity": 5,
-      "icon_path": "assets/images/venti.png"
+      "icon_path": "assets/images/characters/venti.png"
     },
     {
       "name": "Vesna",
@@ -878,7 +878,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/vesna.png"
+      "icon_path": "assets/images/characters/vesna.png"
     },
     {
       "name": "Vodyanitsa",
@@ -886,7 +886,7 @@
       "weapon_type": "Katalysator",
       "region": "Snezhnaya",
       "rarity": 5,
-      "icon_path": "assets/images/vodyanitsa.png"
+      "icon_path": "assets/images/characters/vodyanitsa.png"
     },
     {
       "name": "Wanderer",
@@ -894,7 +894,7 @@
       "weapon_type": "Katalysator",
       "region": "Sumeru",
       "rarity": 5,
-      "icon_path": "assets/images/wanderer.png"
+      "icon_path": "assets/images/characters/wanderer.png"
     },
     {
       "name": "Wriothesley",
@@ -902,7 +902,7 @@
       "weapon_type": "Katalysator",
       "region": "Fontaine",
       "rarity": 5,
-      "icon_path": "assets/images/wriothesley.png"
+      "icon_path": "assets/images/characters/wriothesley.png"
     },
     {
       "name": "Xiangling",
@@ -910,7 +910,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/xiangling.png"
+      "icon_path": "assets/images/characters/xiangling.png"
     },
     {
       "name": "Xianyun",
@@ -918,7 +918,7 @@
       "weapon_type": "Katalysator",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/xianyun.png"
+      "icon_path": "assets/images/characters/xianyun.png"
     },
     {
       "name": "Xiao",
@@ -926,7 +926,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/xiao.png"
+      "icon_path": "assets/images/characters/xiao.png"
     },
     {
       "name": "Xilonen",
@@ -934,7 +934,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Natlan",
       "rarity": 5,
-      "icon_path": "assets/images/xilonen.png"
+      "icon_path": "assets/images/characters/xilonen.png"
     },
     {
       "name": "Xingqiu",
@@ -942,7 +942,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/xingqiu.png"
+      "icon_path": "assets/images/characters/xingqiu.png"
     },
     {
       "name": "Xinyan",
@@ -950,7 +950,7 @@
       "weapon_type": "Großschwert",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/xinyan.png"
+      "icon_path": "assets/images/characters/xinyan.png"
     },
     {
       "name": "Yae Miko",
@@ -958,7 +958,7 @@
       "weapon_type": "Katalysator",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/yae_miko.png"
+      "icon_path": "assets/images/characters/yae_miko.png"
     },
     {
       "name": "Yanfei",
@@ -966,7 +966,7 @@
       "weapon_type": "Katalysator",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/yanfei.png"
+      "icon_path": "assets/images/characters/yanfei.png"
     },
     {
       "name": "Yaoyao",
@@ -974,7 +974,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/yaoyao.png"
+      "icon_path": "assets/images/characters/yaoyao.png"
     },
     {
       "name": "Yelan",
@@ -982,7 +982,7 @@
       "weapon_type": "Bogen",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/yelan.png"
+      "icon_path": "assets/images/characters/yelan.png"
     },
     {
       "name": "Yoimiya",
@@ -990,7 +990,7 @@
       "weapon_type": "Bogen",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/yoimiya.png"
+      "icon_path": "assets/images/characters/yoimiya.png"
     },
     {
       "name": "Yumemizuki Mizuki",
@@ -998,7 +998,7 @@
       "weapon_type": "Katalysator",
       "region": "Inazuma",
       "rarity": 5,
-      "icon_path": "assets/images/yumemizuki_mizuki.png"
+      "icon_path": "assets/images/characters/yumemizuki_mizuki.png"
     },
     {
       "name": "Yun Jin",
@@ -1006,7 +1006,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 4,
-      "icon_path": "assets/images/yun_jin.png"
+      "icon_path": "assets/images/characters/yun_jin.png"
     },
     {
       "name": "Zhongli",
@@ -1014,7 +1014,7 @@
       "weapon_type": "Stangenwaffe",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/zhongli.png"
+      "icon_path": "assets/images/characters/zhongli.png"
     },
     {
       "name": "Zibai",
@@ -1022,7 +1022,7 @@
       "weapon_type": "Einhandschwert",
       "region": "Liyue",
       "rarity": 5,
-      "icon_path": "assets/images/zibai.png"
+      "icon_path": "assets/images/characters/zibai.png"
     }
   ],
   "weapons": [
@@ -1030,7 +1030,7 @@
       "name": "Silberlampe",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/silberlampe.png",
       "passive": {
         "name": "Sonnenspiegelung im Wasser",
         "text": [
@@ -1046,7 +1046,7 @@
       "name": "Neuer Zweig",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/neuer_zweig.png",
       "passive": {
         "name": "Überwucherte Blattadern",
         "text": [
@@ -1062,7 +1062,7 @@
       "name": "Schmetterlingswandel",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schmetterlingswandel.png",
       "passive": {
         "name": "Tanz der Freiheit nach dem Schlüpfen",
         "text": [
@@ -1078,7 +1078,7 @@
       "name": "Klinge des Ketzerjägers",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/klinge_des_ketzerjägers.png",
       "passive": {
         "name": "Gabe des einsamen Lichts",
         "text": [
@@ -1094,7 +1094,7 @@
       "name": "Flammenquelle",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/flammenquelle.png",
       "passive": {
         "name": "Im Schneefeld brennendes Sternfeuer",
         "text": [
@@ -1110,7 +1110,7 @@
       "name": "Exaiphanes-Klinge",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/exaiphanesklinge.png",
       "passive": {
         "name": "Weg der Reisenden",
         "text": [
@@ -1126,7 +1126,7 @@
       "name": "Winterfeder des weißen Sees",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/winterfeder_des_weißen_sees.png",
       "passive": {
         "name": "Letzter Akt des Tanzes des Schneeschwans",
         "text": [
@@ -1142,7 +1142,7 @@
       "name": "Lichtbringende Mondscherbe",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/lichtbringende_mondscherbe.png",
+      "icon_path": "assets/images/weapons/lichtbringende_mondscherbe.png",
       "passive": {
         "name": "Erbe vom Lang-Gan",
         "text": [
@@ -1158,7 +1158,7 @@
       "name": "Athame Artis",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/athame_artis.png",
+      "icon_path": "assets/images/weapons/athame_artis.png",
       "passive": {
         "name": "Sengender Glanz des Tageskönigs",
         "text": [
@@ -1174,7 +1174,7 @@
       "name": "Dämmerlicht des Mondwebers",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/dämmerlicht_des_mondwebers.png",
       "passive": {
         "name": "Blut des geheimen Silbers",
         "text": [
@@ -1190,7 +1190,7 @@
       "name": "Leises Pfeifen der Stille",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/leises_pfeifen_der_stille.png",
       "passive": {
         "name": "Gedämpftes Schweigen",
         "text": [
@@ -1206,7 +1206,7 @@
       "name": "Azurglanz",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/azurglanz.png",
       "passive": {
         "name": "Belohnung des weißen Berges",
         "text": [
@@ -1222,7 +1222,7 @@
       "name": "Unheil von Eshu",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/unheil_von_eshu.png",
+      "icon_path": "assets/images/weapons/unheil_von_eshu.png",
       "passive": {
         "name": "Durchdrungene Grenze",
         "text": [
@@ -1238,7 +1238,7 @@
       "name": "Lied der Gipfelpatrouille",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/lied_der_gipfelpatrouille.png",
+      "icon_path": "assets/images/weapons/lied_der_gipfelpatrouille.png",
       "passive": {
         "name": "Unendliche Blütezeit",
         "text": [
@@ -1254,7 +1254,7 @@
       "name": "Robuster Knochen",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/robuster_knochen.png",
+      "icon_path": "assets/images/weapons/robuster_knochen.png",
       "passive": {
         "name": "Stolz des Stürmers",
         "text": [
@@ -1270,7 +1270,7 @@
       "name": "Ezpitzal-Flöte",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/ezpitzalflöte.png",
       "passive": {
         "name": "Rätsel von Spiegel und Rauch",
         "text": [
@@ -1286,7 +1286,7 @@
       "name": "Absolution",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/absolution.png",
+      "icon_path": "assets/images/weapons/absolution.png",
       "passive": {
         "name": "Eid des Todes",
         "text": [
@@ -1302,7 +1302,7 @@
       "name": "Uraku Misugiri",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/uraku_misugiri.png",
+      "icon_path": "assets/images/weapons/uraku_misugiri.png",
       "passive": {
         "name": "Die Blume im Brokat und das Schwert im Schrein",
         "text": [
@@ -1318,7 +1318,7 @@
       "name": "Schwert des Narzissenkreuzes",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/schwert_des_narzissenkreuzes.png",
+      "icon_path": "assets/images/weapons/schwert_des_narzissenkreuzes.png",
       "passive": {
         "name": "Schwert des Recken",
         "text": [
@@ -1334,7 +1334,7 @@
       "name": "Pracht des stillen Wassers",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/pracht_des_stillen_wassers.png",
+      "icon_path": "assets/images/weapons/pracht_des_stillen_wassers.png",
       "passive": {
         "name": "Morgengrauen und Abenddämmerung am See",
         "text": [
@@ -1350,7 +1350,7 @@
       "name": "Werftklinge",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/werftklinge.png",
+      "icon_path": "assets/images/weapons/werftklinge.png",
       "passive": {
         "name": "Seemannslied",
         "text": [
@@ -1366,7 +1366,7 @@
       "name": "Wolfszahn",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/wolfszahn.png",
+      "icon_path": "assets/images/weapons/wolfszahn.png",
       "passive": {
         "name": "Wolf des Nordwinds",
         "text": [
@@ -1382,7 +1382,7 @@
       "name": "Schiffer des Fleuve Cendré",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/schiffer_des_fleuve_cendré.png",
+      "icon_path": "assets/images/weapons/schiffer_des_fleuve_cendré.png",
       "passive": {
         "name": "Eisenknochen",
         "text": [
@@ -1398,7 +1398,7 @@
       "name": "Finale in der Tiefe",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/finale_in_der_tiefe.png",
+      "icon_path": "assets/images/weapons/finale_in_der_tiefe.png",
       "passive": {
         "name": "Erhabenheit des Endes",
         "text": [
@@ -1414,7 +1414,7 @@
       "name": "Licht der schneidenden Blätter",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/licht_der_schneidenden_blätter.png",
+      "icon_path": "assets/images/weapons/licht_der_schneidenden_blätter.png",
       "passive": {
         "name": "Zweig des weißen Mondes",
         "text": [
@@ -1430,7 +1430,7 @@
       "name": "Toukabou Shigure",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/toukabou_shigure.png",
+      "icon_path": "assets/images/weapons/toukabou_shigure.png",
       "passive": {
         "name": "Kaidan – Regen der Erde",
         "text": [
@@ -1446,7 +1446,7 @@
       "name": "Mondlicht von Xiphos",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/mondlicht_von_xiphos.png",
+      "icon_path": "assets/images/weapons/mondlicht_von_xiphos.png",
       "passive": {
         "name": "Geflüster der Dschinn",
         "text": [
@@ -1462,7 +1462,7 @@
       "name": "Khaj-Nisut-Schlüssel",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/khajnisutschlüssel.png",
       "passive": {
         "name": "Im Sandmeer versunkenes Epos",
         "text": [
@@ -1478,7 +1478,7 @@
       "name": "Stammklinge",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/stammklinge.png",
+      "icon_path": "assets/images/weapons/stammklinge.png",
       "passive": {
         "name": "Segen des Waldes",
         "text": [
@@ -1494,7 +1494,7 @@
       "name": "Kagotsurube Isshin",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/kagotsurube_isshin.png",
+      "icon_path": "assets/images/weapons/kagotsurube_isshin.png",
       "passive": {
         "name": "Klarheit der Isshin-Schule",
         "text": [
@@ -1506,7 +1506,7 @@
       "name": "Schwarzstein-Langschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schwarzsteinlangschwert.png",
       "passive": {
         "name": "Triumphaler Übermut",
         "text": [
@@ -1522,7 +1522,7 @@
       "name": "Schwarzes Schwert",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/schwarzes_schwert.png",
+      "icon_path": "assets/images/weapons/schwarzes_schwert.png",
       "passive": {
         "name": "„Gerechtigkeit“",
         "text": [
@@ -1538,7 +1538,7 @@
       "name": "Schwert der Dämmerung",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": "assets/images/schwert_der_dämmerung.png",
+      "icon_path": "assets/images/weapons/schwert_der_dämmerung.png",
       "passive": {
         "name": "Ansporn",
         "text": [
@@ -1554,7 +1554,7 @@
       "name": "Himmelsflug-Schwert",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/himmelsflugschwert.png",
       "passive": {
         "name": "Zielstrebigkeit",
         "text": [
@@ -1570,7 +1570,7 @@
       "name": "Windfalke",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/windfalke.png",
+      "icon_path": "assets/images/weapons/windfalke.png",
       "passive": {
         "name": "Widerstand des Falken des Westens",
         "text": [
@@ -1586,7 +1586,7 @@
       "name": "Widerschein des Nebelsplitters",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/widerschein_des_nebelsplitters.png",
+      "icon_path": "assets/images/weapons/widerschein_des_nebelsplitters.png",
       "passive": {
         "name": "Nebelspaltertuch",
         "text": [
@@ -1602,7 +1602,7 @@
       "name": "Schwert der Niederkunft",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/schwert_der_niederkunft.png",
+      "icon_path": "assets/images/weapons/schwert_der_niederkunft.png",
       "passive": {
         "name": "Niederkunft",
         "text": [
@@ -1614,14 +1614,14 @@
       "name": "Silberschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 2,
-      "icon_path": "assets/images/silberschwert.png",
+      "icon_path": "assets/images/weapons/silberschwert.png",
       "passive": null
     },
     {
       "name": "Eisenstich",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/eisenstich.png",
+      "icon_path": "assets/images/weapons/eisenstich.png",
       "passive": {
         "name": "Energieschubstachel",
         "text": [
@@ -1637,7 +1637,7 @@
       "name": "Zinnoberspindel",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/zinnoberspindel.png",
+      "icon_path": "assets/images/weapons/zinnoberspindel.png",
       "passive": {
         "name": "Makelloses Herz",
         "text": [
@@ -1653,7 +1653,7 @@
       "name": "Steinschneider-Prototyp",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/steinschneiderprototyp.png",
       "passive": {
         "name": "Trümmer",
         "text": [
@@ -1669,7 +1669,7 @@
       "name": "Favonius-Schwert",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/favoniusschwert.png",
       "passive": {
         "name": "Folge dem Wind",
         "text": [
@@ -1685,7 +1685,7 @@
       "name": "Blasser Schwur der Freiheit",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/blasser_schwur_der_freiheit.png",
+      "icon_path": "assets/images/weapons/blasser_schwur_der_freiheit.png",
       "passive": {
         "name": "Gesang der Revolution",
         "text": [
@@ -1701,7 +1701,7 @@
       "name": "Schwert der Verderbnis",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/schwert_der_verderbnis.png",
+      "icon_path": "assets/images/weapons/schwert_der_verderbnis.png",
       "passive": {
         "name": "Endlose Bewunderung",
         "text": [
@@ -1717,7 +1717,7 @@
       "name": "Flöte",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/flöte.png",
+      "icon_path": "assets/images/weapons/flöte.png",
       "passive": {
         "name": "Akkord",
         "text": [
@@ -1733,7 +1733,7 @@
       "name": "Opferschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/opferschwert.png",
+      "icon_path": "assets/images/weapons/opferschwert.png",
       "passive": {
         "name": "Göttliche Fügung",
         "text": [
@@ -1749,7 +1749,7 @@
       "name": "Moosgrüner Fels",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/moosgrüner_fels.png",
+      "icon_path": "assets/images/weapons/moosgrüner_fels.png",
       "passive": {
         "name": "Reines Beschützerherz",
         "text": [
@@ -1765,7 +1765,7 @@
       "name": "Haran Geppaku Futsu",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/haran_geppaku_futsu.png",
+      "icon_path": "assets/images/weapons/haran_geppaku_futsu.png",
       "passive": {
         "name": "Fließendes Schwert",
         "text": [
@@ -1781,7 +1781,7 @@
       "name": "Dunkles Eisenschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": "assets/images/dunkles_eisenschwert.png",
+      "icon_path": "assets/images/weapons/dunkles_eisenschwert.png",
       "passive": {
         "name": "Hochspannung",
         "text": [
@@ -1797,7 +1797,7 @@
       "name": "Gassenleuchte",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/gassenleuchte.png",
+      "icon_path": "assets/images/weapons/gassenleuchte.png",
       "passive": {
         "name": "Held der Gassen",
         "text": [
@@ -1813,14 +1813,14 @@
       "name": "Stumpfes Schwert",
       "weapon_type": "Einhandschwert",
       "rarity": 1,
-      "icon_path": "assets/images/stumpfes_schwert.png",
+      "icon_path": "assets/images/weapons/stumpfes_schwert.png",
       "passive": null
     },
     {
       "name": "Reiseschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": "assets/images/reiseschwert.png",
+      "icon_path": "assets/images/weapons/reiseschwert.png",
       "passive": {
         "name": "Reise",
         "text": [
@@ -1836,7 +1836,7 @@
       "name": "Gipfelbrecher",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/gipfelbrecher.png",
+      "icon_path": "assets/images/weapons/gipfelbrecher.png",
       "passive": {
         "name": "Majestätische Größe",
         "text": [
@@ -1852,7 +1852,7 @@
       "name": "Königliches Langschwert",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/königliches_langschwert.png",
+      "icon_path": "assets/images/weapons/königliches_langschwert.png",
       "passive": {
         "name": "Konzentration",
         "text": [
@@ -1868,7 +1868,7 @@
       "name": "Himmelsklinge",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
-      "icon_path": "assets/images/himmelsklinge.png",
+      "icon_path": "assets/images/weapons/himmelsklinge.png",
       "passive": {
         "name": "Himmel durchbohrender Reißzahn",
         "text": [
@@ -1884,7 +1884,7 @@
       "name": "Amenoma Kageuchi",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/amenoma_kageuchi.png",
+      "icon_path": "assets/images/weapons/amenoma_kageuchi.png",
       "passive": {
         "name": "Iwakura-Nachkomme",
         "text": [
@@ -1900,7 +1900,7 @@
       "name": "Filetiermesser",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": "assets/images/filetiermesser.png",
+      "icon_path": "assets/images/weapons/filetiermesser.png",
       "passive": {
         "name": "Entschlossenheit",
         "text": [
@@ -1916,7 +1916,7 @@
       "name": "Drachenschrei",
       "weapon_type": "Einhandschwert",
       "rarity": 4,
-      "icon_path": "assets/images/drachenschrei.png",
+      "icon_path": "assets/images/weapons/drachenschrei.png",
       "passive": {
         "name": "Bewährtheit von Feuer und Blitz",
         "text": [
@@ -1932,7 +1932,7 @@
       "name": "Kühle Klinge",
       "weapon_type": "Einhandschwert",
       "rarity": 3,
-      "icon_path": "assets/images/kühle_klinge.png",
+      "icon_path": "assets/images/weapons/kühle_klinge.png",
       "passive": {
         "name": "Bewährtheit von Wasser und Eis",
         "text": [
@@ -1948,7 +1948,7 @@
       "name": "Geschmiedet durch das goldene Gesetz",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/geschmiedet_durch_das_goldene_gesetz.png",
       "passive": {
         "name": "Tag und Nacht im Gegenspiel",
         "text": [
@@ -1964,7 +1964,7 @@
       "name": "Klinge der Erlösung",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/klinge_der_erlösung.png",
       "passive": {
         "name": "Vergebung der Sünden",
         "text": [
@@ -1980,7 +1980,7 @@
       "name": "Schlüssel der Überbietung",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schlüssel_der_überbietung.png",
       "passive": {
         "name": "Verwandlung der weißen Herrscherin",
         "text": [
@@ -1996,7 +1996,7 @@
       "name": "Kampflied des Wolfs",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/kampflied_des_wolfs.png",
       "passive": {
         "name": "Unbeugsames Rittertum",
         "text": [
@@ -2012,7 +2012,7 @@
       "name": "Universalschlüssel",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/universalschlüssel.png",
       "passive": {
         "name": "Lösung mit einem Schlag",
         "text": [
@@ -2028,7 +2028,7 @@
       "name": "Geschmiedete Weisheit",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/geschmiedete_weisheit.png",
       "passive": {
         "name": "Blühende Gedanken",
         "text": [
@@ -2044,7 +2044,7 @@
       "name": "Die tausend flammenden Sonnen",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/die_tausend_flammenden_sonnen.png",
+      "icon_path": "assets/images/weapons/die_tausend_flammenden_sonnen.png",
       "passive": {
         "name": "Morgendämmerung der wieder aufflammenden untergehenden Sonne",
         "text": [
@@ -2060,7 +2060,7 @@
       "name": "Fruchtbarer Haken",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/fruchtbarer_haken.png",
+      "icon_path": "assets/images/weapons/fruchtbarer_haken.png",
       "passive": {
         "name": "Das Gewicht der herabfallenden Äste",
         "text": [
@@ -2076,7 +2076,7 @@
       "name": "Bebenmacher",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/bebenmacher.png",
+      "icon_path": "assets/images/weapons/bebenmacher.png",
       "passive": {
         "name": "Eid von Qhapaq Nan",
         "text": [
@@ -2092,7 +2092,7 @@
       "name": "Zahn des Bergkönigs",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/zahn_des_bergkönigs.png",
+      "icon_path": "assets/images/weapons/zahn_des_bergkönigs.png",
       "passive": {
         "name": "Türkisjagd",
         "text": [
@@ -2108,7 +2108,7 @@
       "name": "Megamagisches Schwert des ultimativen Oberherrn",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/megamagisches_schwert_des_ultimativen_oberherrn.png",
+      "icon_path": "assets/images/weapons/megamagisches_schwert_des_ultimativen_oberherrn.png",
       "passive": {
         "name": "Melusinen-Unterstützung",
         "text": [
@@ -2124,7 +2124,7 @@
       "name": "Urteilsspruch",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/urteilsspruch.png",
+      "icon_path": "assets/images/weapons/urteilsspruch.png",
       "passive": {
         "name": "Zahlreiche Eide der Morgenröte und Abenddämmerung",
         "text": [
@@ -2140,7 +2140,7 @@
       "name": "Tragbare motorisierte Säge",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/tragbare_motorisierte_säge.png",
+      "icon_path": "assets/images/weapons/tragbare_motorisierte_säge.png",
       "passive": {
         "name": "Seemannslied",
         "text": [
@@ -2156,7 +2156,7 @@
       "name": "Lass uns reden",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/lass_uns_reden.png",
+      "icon_path": "assets/images/weapons/lass_uns_reden.png",
       "passive": {
         "name": "„Wortgewandtheit“",
         "text": [
@@ -2172,7 +2172,7 @@
       "name": "Gezeitenschatten",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/gezeitenschatten.png",
+      "icon_path": "assets/images/weapons/gezeitenschatten.png",
       "passive": {
         "name": "Kreuzende weiße Wellen",
         "text": [
@@ -2188,7 +2188,7 @@
       "name": "Schilfmeer-Bake",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schilfmeerbake.png",
       "passive": {
         "name": "Sandmeers Wacht",
         "text": [
@@ -2204,7 +2204,7 @@
       "name": "Eiserne Blume",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/eiserne_blume.png",
+      "icon_path": "assets/images/weapons/eiserne_blume.png",
       "passive": {
         "name": "Flüstern von Wind und Blumen",
         "text": [
@@ -2220,7 +2220,7 @@
       "name": "Makhaira-Aquamarin",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/makhairaaquamarin.png",
       "passive": {
         "name": "Wüstenpavillon",
         "text": [
@@ -2236,7 +2236,7 @@
       "name": "Waldkönigsschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/waldkönigsschwert.png",
+      "icon_path": "assets/images/weapons/waldkönigsschwert.png",
       "passive": {
         "name": "Segen des Waldes",
         "text": [
@@ -2252,7 +2252,7 @@
       "name": "Schwarzstein-Schneide",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schwarzsteinschneide.png",
       "passive": {
         "name": "Triumphaler Übermut",
         "text": [
@@ -2268,7 +2268,7 @@
       "name": "Himmelsflug-Großschwert",
       "weapon_type": "Großschwert",
       "rarity": 3,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/himmelsfluggroßschwert.png",
       "passive": {
         "name": "Mut",
         "text": [
@@ -2284,7 +2284,7 @@
       "name": "Unter Schnee begrabenes Sternsilber",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/unter_schnee_begrabenes_sternsilber.png",
+      "icon_path": "assets/images/weapons/unter_schnee_begrabenes_sternsilber.png",
       "passive": {
         "name": "Frostgrab",
         "text": [
@@ -2300,7 +2300,7 @@
       "name": "Regenschnitter",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/regenschnitter.png",
+      "icon_path": "assets/images/weapons/regenschnitter.png",
       "passive": {
         "name": "Bewährtheit von Wasser und Blitz",
         "text": [
@@ -2316,7 +2316,7 @@
       "name": "Eiserner Schatten",
       "weapon_type": "Großschwert",
       "rarity": 3,
-      "icon_path": "assets/images/eiserner_schatten.png",
+      "icon_path": "assets/images/weapons/eiserner_schatten.png",
       "passive": {
         "name": "Unbeugsamkeit",
         "text": [
@@ -2332,7 +2332,7 @@
       "name": "Glocke",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/glocke.png",
+      "icon_path": "assets/images/weapons/glocke.png",
       "passive": {
         "name": "Beschützer der Rebellen",
         "text": [
@@ -2348,7 +2348,7 @@
       "name": "Rothorn-Steinbrecher",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/rothornsteinbrecher.png",
       "passive": {
         "name": "Gokadaiou Otogibanashi",
         "text": [
@@ -2364,7 +2364,7 @@
       "name": "Guhua-Prototyp",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/guhuaprototyp.png",
       "passive": {
         "name": "Zermalmen",
         "text": [
@@ -2380,14 +2380,14 @@
       "name": "Übungsgroßschwert",
       "weapon_type": "Großschwert",
       "rarity": 1,
-      "icon_path": "assets/images/übungsgroßschwert.png",
+      "icon_path": "assets/images/weapons/übungsgroßschwert.png",
       "passive": null
     },
     {
       "name": "Favonius-Großschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/favoniusgroßschwert.png",
       "passive": {
         "name": "Folge dem Wind",
         "text": [
@@ -2403,7 +2403,7 @@
       "name": "Luxuriöser Seekönig",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/luxuriöser_seekönig.png",
+      "icon_path": "assets/images/weapons/luxuriöser_seekönig.png",
       "passive": {
         "name": "Meeressieg",
         "text": [
@@ -2419,7 +2419,7 @@
       "name": "Knochenschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/knochenschwert.png",
+      "icon_path": "assets/images/weapons/knochenschwert.png",
       "passive": {
         "name": "Wellenspalter",
         "text": [
@@ -2435,7 +2435,7 @@
       "name": "Opfergroßschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/opfergroßschwert.png",
+      "icon_path": "assets/images/weapons/opfergroßschwert.png",
       "passive": {
         "name": "Göttliche Fügung",
         "text": [
@@ -2451,7 +2451,7 @@
       "name": "Weißes Eisengroßschwert",
       "weapon_type": "Großschwert",
       "rarity": 3,
-      "icon_path": "assets/images/weißes_eisengroßschwert.png",
+      "icon_path": "assets/images/weapons/weißes_eisengroßschwert.png",
       "passive": {
         "name": "Lebensentzug",
         "text": [
@@ -2467,7 +2467,7 @@
       "name": "Weißer Schatten",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/weißer_schatten.png",
+      "icon_path": "assets/images/weapons/weißer_schatten.png",
       "passive": {
         "name": "Energieschubspitze",
         "text": [
@@ -2483,7 +2483,7 @@
       "name": "Wolfsgrab",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/wolfsgrab.png",
+      "icon_path": "assets/images/weapons/wolfsgrab.png",
       "passive": {
         "name": "Jäger wie ein Wolf",
         "text": [
@@ -2499,7 +2499,7 @@
       "name": "Drachenblutschwert",
       "weapon_type": "Großschwert",
       "rarity": 3,
-      "icon_path": "assets/images/drachenblutschwert.png",
+      "icon_path": "assets/images/weapons/drachenblutschwert.png",
       "passive": {
         "name": "Bewährtheit von Feuer und Blitz",
         "text": [
@@ -2515,7 +2515,7 @@
       "name": "Katsuragikiri Nagamasa",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/katsuragikiri_nagamasa.png",
+      "icon_path": "assets/images/weapons/katsuragikiri_nagamasa.png",
       "passive": {
         "name": "Verhalten eines Samurais",
         "text": [
@@ -2531,7 +2531,7 @@
       "name": "Kiefernklang",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/kiefernklang.png",
+      "icon_path": "assets/images/weapons/kiefernklang.png",
       "passive": {
         "name": "Lied vom Aufstand",
         "text": [
@@ -2547,7 +2547,7 @@
       "name": "Grobes Schwert",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/grobes_schwert.png",
+      "icon_path": "assets/images/weapons/grobes_schwert.png",
       "passive": {
         "name": "Majestätische Größe",
         "text": [
@@ -2563,7 +2563,7 @@
       "name": "Akuoumaru",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/akuoumaru.png",
+      "icon_path": "assets/images/weapons/akuoumaru.png",
       "passive": {
         "name": "Wellenbändiger von Watatsumi",
         "text": [
@@ -2579,7 +2579,7 @@
       "name": "Königliches Großschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/königliches_großschwert.png",
+      "icon_path": "assets/images/weapons/königliches_großschwert.png",
       "passive": {
         "name": "Konzentration",
         "text": [
@@ -2595,7 +2595,7 @@
       "name": "Stolz des Himmels",
       "weapon_type": "Großschwert",
       "rarity": 5,
-      "icon_path": "assets/images/stolz_des_himmels.png",
+      "icon_path": "assets/images/weapons/stolz_des_himmels.png",
       "passive": {
         "name": "Himmel spaltende Drachenwirbel",
         "text": [
@@ -2611,7 +2611,7 @@
       "name": "Antikes Millelithenschwert",
       "weapon_type": "Großschwert",
       "rarity": 4,
-      "icon_path": "assets/images/antikes_millelithenschwert.png",
+      "icon_path": "assets/images/weapons/antikes_millelithenschwert.png",
       "passive": {
         "name": "Axiom der Millelithen – Einigkeit",
         "text": [
@@ -2627,14 +2627,14 @@
       "name": "Söldnerzweihänder",
       "weapon_type": "Großschwert",
       "rarity": 2,
-      "icon_path": "assets/images/söldnerzweihänder.png",
+      "icon_path": "assets/images/weapons/söldnerzweihänder.png",
       "passive": null
     },
     {
       "name": "Schlagfestes Argument",
       "weapon_type": "Großschwert",
       "rarity": 3,
-      "icon_path": "assets/images/schlagfestes_argument.png",
+      "icon_path": "assets/images/weapons/schlagfestes_argument.png",
       "passive": {
         "name": "Direktheit",
         "text": [
@@ -2650,7 +2650,7 @@
       "name": "Lüftchen und Saitenspiel",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/lüftchen_und_saitenspiel.png",
       "passive": {
         "name": "Klagelied der Viper",
         "text": [
@@ -2666,7 +2666,7 @@
       "name": "Urzeitlicher Jadebogen",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/urzeitlicher_jadebogen.png",
       "passive": {
         "name": "Nächte erhellende Kerze",
         "text": [
@@ -2682,7 +2682,7 @@
       "name": "Frostschneeschwur",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/frostschneeschwur.png",
       "passive": {
         "name": "Gleichgewicht der Gesetze",
         "text": [
@@ -2698,7 +2698,7 @@
       "name": "Goldener Frostschwur",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/goldener_frostschwur.png",
       "passive": {
         "name": "Grüßende Morgendämmerung",
         "text": [
@@ -2714,7 +2714,7 @@
       "name": "Chroniken der Morgendämmerung",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/chroniken_der_morgendämmerung.png",
       "passive": {
         "name": "Lied des ewigen Lobgesangs",
         "text": [
@@ -2730,7 +2730,7 @@
       "name": "Regenakkorde der Regenbogenschlange",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/regenakkorde_der_regenbogenschlange.png",
       "passive": {
         "name": "Sternenflüstern jenseits des heiligen Throns",
         "text": [
@@ -2746,7 +2746,7 @@
       "name": "Netzhaken",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/netzhaken.png",
       "passive": {
         "name": "Wendig und ohne Schatten",
         "text": [
@@ -2762,7 +2762,7 @@
       "name": "Tonfolge der Einsamkeit",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/tonfolge_der_einsamkeit.png",
       "passive": {
         "name": "Geräuschloser Abzug",
         "text": [
@@ -2778,7 +2778,7 @@
       "name": "Karmesinrotes Federkleid des Astralgeiers",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/karmesinrotes_federkleid_des_astralgeiers.png",
+      "icon_path": "assets/images/weapons/karmesinrotes_federkleid_des_astralgeiers.png",
       "passive": {
         "name": "Der gesichtete Mondhalo",
         "text": [
@@ -2794,7 +2794,7 @@
       "name": "Mit Blumen gebundene Federn",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/mit_blumen_gebundene_federn.png",
       "passive": {
         "name": "Unerreichbarer Blütenstand",
         "text": [
@@ -2810,7 +2810,7 @@
       "name": "Zersprungene Ketten",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/zersprungene_ketten.png",
+      "icon_path": "assets/images/weapons/zersprungene_ketten.png",
       "passive": {
         "name": "Lieder der Blumen und fallenden Federn",
         "text": [
@@ -2826,7 +2826,7 @@
       "name": "Wolkenweber",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/wolkenweber.png",
+      "icon_path": "assets/images/weapons/wolkenweber.png",
       "passive": {
         "name": "Aus Fels wird Werkstatt",
         "text": [
@@ -2842,7 +2842,7 @@
       "name": "Tröpfelnde Herzsaiten",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/tröpfelnde_herzsaiten.png",
+      "icon_path": "assets/images/weapons/tröpfelnde_herzsaiten.png",
       "passive": {
         "name": "Dryas’ Nachtmusik",
         "text": [
@@ -2858,7 +2858,7 @@
       "name": "Entfernungsmesser",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/entfernungsmesser.png",
+      "icon_path": "assets/images/weapons/entfernungsmesser.png",
       "passive": {
         "name": "Steinmetzlied",
         "text": [
@@ -2874,7 +2874,7 @@
       "name": "Spross der flammenden Sonne",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/spross_der_flammenden_sonne.png",
+      "icon_path": "assets/images/weapons/spross_der_flammenden_sonne.png",
       "passive": {
         "name": "Pfad der Sonnenflammen",
         "text": [
@@ -2890,7 +2890,7 @@
       "name": "Gesang der Stille",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/gesang_der_stille.png",
+      "icon_path": "assets/images/weapons/gesang_der_stille.png",
       "passive": {
         "name": "Benthischer Puls",
         "text": [
@@ -2906,7 +2906,7 @@
       "name": "Erste große Magie",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/erste_große_magie.png",
+      "icon_path": "assets/images/weapons/erste_große_magie.png",
       "passive": {
         "name": "Parsifal die Große",
         "text": [
@@ -2922,7 +2922,7 @@
       "name": "Durchdringer der Ibisse",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/durchdringer_der_ibisse.png",
+      "icon_path": "assets/images/weapons/durchdringer_der_ibisse.png",
       "passive": {
         "name": "Wertschätzung der geheimen Weisheit",
         "text": [
@@ -2938,7 +2938,7 @@
       "name": "Gefolgsfrau des Königs",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/gefolgsfrau_des_königs.png",
+      "icon_path": "assets/images/weapons/gefolgsfrau_des_königs.png",
       "passive": {
         "name": "Lehren des Labyrinthkönigs",
         "text": [
@@ -2954,7 +2954,7 @@
       "name": "Schwertfischer",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/schwertfischer.png",
+      "icon_path": "assets/images/weapons/schwertfischer.png",
       "passive": {
         "name": "Netzreißer",
         "text": [
@@ -2970,7 +2970,7 @@
       "name": "Pfad des Jägers",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/pfad_des_jägers.png",
+      "icon_path": "assets/images/weapons/pfad_des_jägers.png",
       "passive": {
         "name": "Am Ende der Fährte",
         "text": [
@@ -2986,7 +2986,7 @@
       "name": "Ausklingende Dämmerung",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/ausklingende_dämmerung.png",
+      "icon_path": "assets/images/weapons/ausklingende_dämmerung.png",
       "passive": {
         "name": "Glanz der Tiefe",
         "text": [
@@ -3002,7 +3002,7 @@
       "name": "Aqua Simulacra",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/aqua_simulacra.png",
+      "icon_path": "assets/images/weapons/aqua_simulacra.png",
       "passive": {
         "name": "Form der Reinigung",
         "text": [
@@ -3018,7 +3018,7 @@
       "name": "Schwarzstein-Kriegsbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schwarzsteinkriegsbogen.png",
       "passive": {
         "name": "Triumphaler Übermut",
         "text": [
@@ -3034,7 +3034,7 @@
       "name": "Rabenbogen",
       "weapon_type": "Bogen",
       "rarity": 3,
-      "icon_path": "assets/images/rabenbogen.png",
+      "icon_path": "assets/images/weapons/rabenbogen.png",
       "passive": {
         "name": "Bewährtheit von Feuer und Wasser",
         "text": [
@@ -3050,7 +3050,7 @@
       "name": "Donnerpuls",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/donnerpuls.png",
+      "icon_path": "assets/images/weapons/donnerpuls.png",
       "passive": {
         "name": "Blitzherrschaft",
         "text": [
@@ -3066,7 +3066,7 @@
       "name": "Windblumenode",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/windblumenode.png",
+      "icon_path": "assets/images/weapons/windblumenode.png",
       "passive": {
         "name": "Windblumenwunsch",
         "text": [
@@ -3082,7 +3082,7 @@
       "name": "Amos’ Bogen",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/amos_bogen.png",
+      "icon_path": "assets/images/weapons/amos_bogen.png",
       "passive": {
         "name": "Willensstarker Pfeil",
         "text": [
@@ -3098,7 +3098,7 @@
       "name": "Compoundbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/compoundbogen.png",
+      "icon_path": "assets/images/weapons/compoundbogen.png",
       "passive": {
         "name": "Energieschubpfeil",
         "text": [
@@ -3114,7 +3114,7 @@
       "name": "Mondschein-Prototyp",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/mondscheinprototyp.png",
       "passive": {
         "name": "Ohne Wiederkehr",
         "text": [
@@ -3130,7 +3130,7 @@
       "name": "Favonius-Jagdbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/favoniusjagdbogen.png",
       "passive": {
         "name": "Folge dem Wind",
         "text": [
@@ -3146,7 +3146,7 @@
       "name": "Grasgrüner Jagdbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/grasgrüner_jagdbogen.png",
+      "icon_path": "assets/images/weapons/grasgrüner_jagdbogen.png",
       "passive": {
         "name": "Wind auf den Weiden",
         "text": [
@@ -3162,7 +3162,7 @@
       "name": "Der Sehnenlose",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/der_sehnenlose.png",
+      "icon_path": "assets/images/weapons/der_sehnenlose.png",
       "passive": {
         "name": "Pfeilloser Gesang",
         "text": [
@@ -3178,7 +3178,7 @@
       "name": "Letzter Seufzer",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/letzter_seufzer.png",
+      "icon_path": "assets/images/weapons/letzter_seufzer.png",
       "passive": {
         "name": "Lied vom Abschied",
         "text": [
@@ -3194,7 +3194,7 @@
       "name": "Opferbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/opferbogen.png",
+      "icon_path": "assets/images/weapons/opferbogen.png",
       "passive": {
         "name": "Göttliche Fügung",
         "text": [
@@ -3210,7 +3210,7 @@
       "name": "Eid des Scharfschützen",
       "weapon_type": "Bogen",
       "rarity": 3,
-      "icon_path": "assets/images/eid_des_scharfschützen.png",
+      "icon_path": "assets/images/weapons/eid_des_scharfschützen.png",
       "passive": {
         "name": "Präzision",
         "text": [
@@ -3226,7 +3226,7 @@
       "name": "Hamayumi",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/hamayumi.png",
+      "icon_path": "assets/images/weapons/hamayumi.png",
       "passive": {
         "name": "Totaler Stillstand",
         "text": [
@@ -3242,14 +3242,14 @@
       "name": "Jagdbogen",
       "weapon_type": "Bogen",
       "rarity": 1,
-      "icon_path": "assets/images/jagdbogen.png",
+      "icon_path": "assets/images/weapons/jagdbogen.png",
       "passive": null
     },
     {
       "name": "Mouun-Mond",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/mouunmond.png",
       "passive": {
         "name": "Wellenbändiger von Watatsumi",
         "text": [
@@ -3265,7 +3265,7 @@
       "name": "Gassenjäger",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/gassenjäger.png",
+      "icon_path": "assets/images/weapons/gassenjäger.png",
       "passive": {
         "name": "Angriff aus der Gasse",
         "text": [
@@ -3281,7 +3281,7 @@
       "name": "Raubtier",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/raubtier.png",
+      "icon_path": "assets/images/weapons/raubtier.png",
       "passive": {
         "name": "Wuchtangriff",
         "text": [
@@ -3293,7 +3293,7 @@
       "name": "Steinschleuder",
       "weapon_type": "Bogen",
       "rarity": 3,
-      "icon_path": "assets/images/steinschleuder.png",
+      "icon_path": "assets/images/weapons/steinschleuder.png",
       "passive": {
         "name": "Steinschleuder",
         "text": [
@@ -3309,7 +3309,7 @@
       "name": "Rostiger Bogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/rostiger_bogen.png",
+      "icon_path": "assets/images/weapons/rostiger_bogen.png",
       "passive": {
         "name": "Schnellschuss",
         "text": [
@@ -3325,7 +3325,7 @@
       "name": "Mitternachtswalzer",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/mitternachtswalzer.png",
+      "icon_path": "assets/images/weapons/mitternachtswalzer.png",
       "passive": {
         "name": "Duo der ewigen Nacht",
         "text": [
@@ -3341,7 +3341,7 @@
       "name": "Königlicher Langbogen",
       "weapon_type": "Bogen",
       "rarity": 4,
-      "icon_path": "assets/images/königlicher_langbogen.png",
+      "icon_path": "assets/images/weapons/königlicher_langbogen.png",
       "passive": {
         "name": "Konzentration",
         "text": [
@@ -3357,7 +3357,7 @@
       "name": "Himmelsflügel",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/himmelsflügel.png",
+      "icon_path": "assets/images/weapons/himmelsflügel.png",
       "passive": {
         "name": "Widerhallende Ballade",
         "text": [
@@ -3373,7 +3373,7 @@
       "name": "Reflexbogen",
       "weapon_type": "Bogen",
       "rarity": 3,
-      "icon_path": "assets/images/reflexbogen.png",
+      "icon_path": "assets/images/weapons/reflexbogen.png",
       "passive": {
         "name": "Lebensentzug",
         "text": [
@@ -3389,14 +3389,14 @@
       "name": "Alter Jagdbogen",
       "weapon_type": "Bogen",
       "rarity": 2,
-      "icon_path": "assets/images/alter_jagdbogen.png",
+      "icon_path": "assets/images/weapons/alter_jagdbogen.png",
       "passive": null
     },
     {
       "name": "Polarstern",
       "weapon_type": "Bogen",
       "rarity": 5,
-      "icon_path": "assets/images/polarstern.png",
+      "icon_path": "assets/images/weapons/polarstern.png",
       "passive": {
         "name": "Taghelle Vorzeichen",
         "text": [
@@ -3412,7 +3412,7 @@
       "name": "Überbringer",
       "weapon_type": "Bogen",
       "rarity": 3,
-      "icon_path": "assets/images/überbringer.png",
+      "icon_path": "assets/images/weapons/überbringer.png",
       "passive": {
         "name": "Flugpost",
         "text": [
@@ -3428,7 +3428,7 @@
       "name": "Geheimes Sternorakel",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/geheimes_sternorakel.png",
       "passive": {
         "name": "Spur des Morgensterns",
         "text": [
@@ -3444,7 +3444,7 @@
       "name": "Schweres Herz des Winters",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/schweres_herz_des_winters.png",
+      "icon_path": "assets/images/weapons/schweres_herz_des_winters.png",
       "passive": {
         "name": "Geheimnis des Frosts",
         "text": [
@@ -3460,7 +3460,7 @@
       "name": "Loblied des Strudels",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/loblied_des_strudels.png",
       "passive": {
         "name": "Rondo des Schlafes",
         "text": [
@@ -3476,7 +3476,7 @@
       "name": "Spiel der Könige",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/spiel_der_könige.png",
       "passive": {
         "name": "Vergessene Tage und Nächte",
         "text": [
@@ -3492,7 +3492,7 @@
       "name": "Echo des Herzens",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/echo_des_herzens.png",
       "passive": {
         "name": "Echo des Schwurs",
         "text": [
@@ -3508,7 +3508,7 @@
       "name": "Sieben Gebote von Staub und Licht",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/sieben_gebote_von_staub_und_licht.png",
       "passive": {
         "name": "Krone des Endankömmlings",
         "text": [
@@ -3524,7 +3524,7 @@
       "name": "Nachtmusik im Schleier",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/nachtmusik_im_schleier.png",
       "passive": {
         "name": "Ballade der Kreuzung",
         "text": [
@@ -3540,7 +3540,7 @@
       "name": "Kästchen der Wahrheit",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/kästchen_der_wahrheit.png",
       "passive": {
         "name": "Wahrheit hinter Lügen",
         "text": [
@@ -3556,7 +3556,7 @@
       "name": "Froststern",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/froststern.png",
       "passive": {
         "name": "Nächtliche Träume",
         "text": [
@@ -3572,7 +3572,7 @@
       "name": "Laute des Himmelslichts",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/laute_des_himmelslichts.png",
       "passive": {
         "name": "Die letzte Sängerin",
         "text": [
@@ -3588,7 +3588,7 @@
       "name": "Spiegel des Nachtwebers",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/spiegel_des_nachtwebers.png",
       "passive": {
         "name": "Tausendjähriges Gebet",
         "text": [
@@ -3604,7 +3604,7 @@
       "name": "Laterne des schwarzen Marks",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/laterne_des_schwarzen_marks.png",
       "passive": {
         "name": "Beweis der Bindung",
         "text": [
@@ -3620,7 +3620,7 @@
       "name": "Farbenfrohe Gedanken",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/farbenfrohe_gedanken.png",
       "passive": {
         "name": "Wunsch des gefallenen Regenbogens",
         "text": [
@@ -3636,7 +3636,7 @@
       "name": "Frühjahrsschlaf",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/frühjahrsschlaf.png",
       "passive": {
         "name": "Badehäuser, Falken und Narukami",
         "text": [
@@ -3652,7 +3652,7 @@
       "name": "Wacht des Sternenopfers",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/wacht_des_sternenopfers.png",
       "passive": {
         "name": "Opfer für den Wind und die Sonne",
         "text": [
@@ -3668,7 +3668,7 @@
       "name": "Wellenreitender Wirbel",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/wellenreitender_wirbel.png",
+      "icon_path": "assets/images/weapons/wellenreitender_wirbel.png",
       "passive": {
         "name": "Umherfliegende Reißzähne",
         "text": [
@@ -3684,7 +3684,7 @@
       "name": "Yaxche-Ring",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/yaxchering.png",
       "passive": {
         "name": "Echos der fruchtbaren Lande",
         "text": [
@@ -3700,7 +3700,7 @@
       "name": "Aschgraues Trinkhorn",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/aschgraues_trinkhorn.png",
+      "icon_path": "assets/images/weapons/aschgraues_trinkhorn.png",
       "passive": {
         "name": "Tupacs Griff",
         "text": [
@@ -3716,7 +3716,7 @@
       "name": "Zeit fürs Wellenreiten",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/zeit_fürs_wellenreiten.png",
       "passive": {
         "name": "Erinnerungen in der Farbe des Wassers",
         "text": [
@@ -3732,7 +3732,7 @@
       "name": "Widerhallender Ruf des Kranichs",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/widerhallender_ruf_des_kranichs.png",
+      "icon_path": "assets/images/weapons/widerhallender_ruf_des_kranichs.png",
       "passive": {
         "name": "Wolkensturz-Axiom",
         "text": [
@@ -3748,7 +3748,7 @@
       "name": "Monetäre Aufsichtseinheit",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/monetäre_aufsichtseinheit.png",
+      "icon_path": "assets/images/weapons/monetäre_aufsichtseinheit.png",
       "passive": {
         "name": "Goldene Gezeiten des Blutes",
         "text": [
@@ -3764,7 +3764,7 @@
       "name": "Lehre des ewigen Flusses",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/lehre_des_ewigen_flusses.png",
+      "icon_path": "assets/images/weapons/lehre_des_ewigen_flusses.png",
       "passive": {
         "name": "Äonenwelle",
         "text": [
@@ -3780,7 +3780,7 @@
       "name": "Ballade des unendlichen Blaus",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/ballade_des_unendlichen_blaus.png",
+      "icon_path": "assets/images/weapons/ballade_des_unendlichen_blaus.png",
       "passive": {
         "name": "Tiefblauer Himmel",
         "text": [
@@ -3796,7 +3796,7 @@
       "name": "Zeremonielle Jade",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/zeremonielle_jade.png",
+      "icon_path": "assets/images/weapons/zeremonielle_jade.png",
       "passive": {
         "name": "Umlauf der grünen Jade",
         "text": [
@@ -3812,7 +3812,7 @@
       "name": "Fließende Reinheit",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/fließende_reinheit.png",
+      "icon_path": "assets/images/weapons/fließende_reinheit.png",
       "passive": {
         "name": "Unvollendetes Meisterwerk",
         "text": [
@@ -3828,7 +3828,7 @@
       "name": "Jadesturz-Pracht",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/jadesturzpracht.png",
       "passive": {
         "name": "Urzeitliche Jadeinsignien",
         "text": [
@@ -3844,7 +3844,7 @@
       "name": "Tulaytullahs Erinnerung",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/tulaytullahs_erinnerung.png",
+      "icon_path": "assets/images/weapons/tulaytullahs_erinnerung.png",
       "passive": {
         "name": "Vergessene Saphirtränen",
         "text": [
@@ -3860,7 +3860,7 @@
       "name": "Fließende Träume von tausend Nächten",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/fließende_träume_von_tausend_nächten.png",
+      "icon_path": "assets/images/weapons/fließende_träume_von_tausend_nächten.png",
       "passive": {
         "name": "Morgengesang von tausend Nächten",
         "text": [
@@ -3876,7 +3876,7 @@
       "name": "Wandernder Abendstern",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/wandernder_abendstern.png",
+      "icon_path": "assets/images/weapons/wandernder_abendstern.png",
       "passive": {
         "name": "Nächtlicher Stern der Wildnis",
         "text": [
@@ -3892,7 +3892,7 @@
       "name": "Vollmondfrucht",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/vollmondfrucht.png",
+      "icon_path": "assets/images/weapons/vollmondfrucht.png",
       "passive": {
         "name": "Vollmondrundung",
         "text": [
@@ -3908,7 +3908,7 @@
       "name": "Schwarzstein-Achat",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/schwarzsteinachat.png",
       "passive": {
         "name": "Triumphaler Übermut",
         "text": [
@@ -3924,7 +3924,7 @@
       "name": "Magieführer",
       "weapon_type": "Katalysator",
       "rarity": 3,
-      "icon_path": "assets/images/magieführer.png",
+      "icon_path": "assets/images/weapons/magieführer.png",
       "passive": {
         "name": "Bewährtheit von Wasser und Blitz",
         "text": [
@@ -3940,7 +3940,7 @@
       "name": "Bernstein-Prototyp",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/bernsteinprototyp.png",
       "passive": {
         "name": "Goldüberzug",
         "text": [
@@ -3956,7 +3956,7 @@
       "name": "Auge des Gelöbnisses",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/auge_des_gelöbnisses.png",
+      "icon_path": "assets/images/weapons/auge_des_gelöbnisses.png",
       "passive": {
         "name": "Bewohner der dunklen Tiefe",
         "text": [
@@ -3972,7 +3972,7 @@
       "name": "Von den Heldentaten der Drachenbezwinger",
       "weapon_type": "Katalysator",
       "rarity": 3,
-      "icon_path": "assets/images/von_den_heldentaten_der_drachenbezwinger.png",
+      "icon_path": "assets/images/weapons/von_den_heldentaten_der_drachenbezwinger.png",
       "passive": {
         "name": "Überlieferung",
         "text": [
@@ -3988,7 +3988,7 @@
       "name": "Favonius-Kodex",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/favoniuskodex.png",
       "passive": {
         "name": "Folge dem Wind",
         "text": [
@@ -4004,7 +4004,7 @@
       "name": "Jadekugel",
       "weapon_type": "Katalysator",
       "rarity": 3,
-      "icon_path": "assets/images/jadekugel.png",
+      "icon_path": "assets/images/weapons/jadekugel.png",
       "passive": {
         "name": "Stromschnelle",
         "text": [
@@ -4020,7 +4020,7 @@
       "name": "Opferrituale",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/opferrituale.png",
+      "icon_path": "assets/images/weapons/opferrituale.png",
       "passive": {
         "name": "Göttliche Fügung",
         "text": [
@@ -4036,7 +4036,7 @@
       "name": "Kaguras Wahrheit",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/kaguras_wahrheit.png",
+      "icon_path": "assets/images/weapons/kaguras_wahrheit.png",
       "passive": {
         "name": "Kagura-Tanz der heiligen Sakura",
         "text": [
@@ -4052,7 +4052,7 @@
       "name": "Hakushin-Ring",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/hakushinring.png",
       "passive": {
         "name": "Sakura-Palast",
         "text": [
@@ -4068,7 +4068,7 @@
       "name": "Zwillingsnephrit",
       "weapon_type": "Katalysator",
       "rarity": 3,
-      "icon_path": "assets/images/zwillingsnephrit.png",
+      "icon_path": "assets/images/weapons/zwillingsnephrit.png",
       "passive": {
         "name": "Überfalltaktik",
         "text": [
@@ -4084,7 +4084,7 @@
       "name": "Landstreichernoten",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/landstreichernoten.png",
+      "icon_path": "assets/images/weapons/landstreichernoten.png",
       "passive": {
         "name": "Ouvertüre",
         "text": [
@@ -4100,7 +4100,7 @@
       "name": "Wein und Gesang in den Gassen",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/wein_und_gesang_in_den_gassen.png",
+      "icon_path": "assets/images/weapons/wein_und_gesang_in_den_gassen.png",
       "passive": {
         "name": "Unaufhörlicher Wandel",
         "text": [
@@ -4116,7 +4116,7 @@
       "name": "Herzensblick",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/herzensblick.png",
+      "icon_path": "assets/images/weapons/herzensblick.png",
       "passive": {
         "name": "Widerhall",
         "text": [
@@ -4132,7 +4132,7 @@
       "name": "Permafrostfrucht",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/permafrostfrucht.png",
+      "icon_path": "assets/images/weapons/permafrostfrucht.png",
       "passive": {
         "name": "Frostgrab",
         "text": [
@@ -4148,7 +4148,7 @@
       "name": "Geschichten einer anderen Welt",
       "weapon_type": "Katalysator",
       "rarity": 3,
-      "icon_path": "assets/images/geschichten_einer_anderen_welt.png",
+      "icon_path": "assets/images/weapons/geschichten_einer_anderen_welt.png",
       "passive": {
         "name": "Energiebad",
         "text": [
@@ -4164,7 +4164,7 @@
       "name": "Ketten des Diesseits",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/ketten_des_diesseits.png",
+      "icon_path": "assets/images/weapons/ketten_des_diesseits.png",
       "passive": {
         "name": "Majestätische Größe",
         "text": [
@@ -4180,7 +4180,7 @@
       "name": "Königliches Zauberbuch",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/königliches_zauberbuch.png",
+      "icon_path": "assets/images/weapons/königliches_zauberbuch.png",
       "passive": {
         "name": "Konzentration",
         "text": [
@@ -4196,14 +4196,14 @@
       "name": "Aufzeichnungen eines Lehrlings",
       "weapon_type": "Katalysator",
       "rarity": 1,
-      "icon_path": "assets/images/aufzeichnungen_eines_lehrlings.png",
+      "icon_path": "assets/images/weapons/aufzeichnungen_eines_lehrlings.png",
       "passive": null
     },
     {
       "name": "Himmelsatlas",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/himmelsatlas.png",
+      "icon_path": "assets/images/weapons/himmelsatlas.png",
       "passive": {
         "name": "Wandernde Wolken",
         "text": [
@@ -4219,7 +4219,7 @@
       "name": "Gebete der Vier Winde",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/gebete_der_vier_winde.png",
+      "icon_path": "assets/images/weapons/gebete_der_vier_winde.png",
       "passive": {
         "name": "Grenzenlose Gunst",
         "text": [
@@ -4235,7 +4235,7 @@
       "name": "Dodoco-Geschichten",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/dodocogeschichten.png",
       "passive": {
         "name": "Dodo-Abenteuer!",
         "text": [
@@ -4251,14 +4251,14 @@
       "name": "Taschenzauberbuch",
       "weapon_type": "Katalysator",
       "rarity": 2,
-      "icon_path": "assets/images/taschenzauberbuch.png",
+      "icon_path": "assets/images/weapons/taschenzauberbuch.png",
       "passive": null
     },
     {
       "name": "Sonne und Mond",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/sonne_und_mond.png",
+      "icon_path": "assets/images/weapons/sonne_und_mond.png",
       "passive": {
         "name": "Himmlisches Leuchten",
         "text": [
@@ -4274,7 +4274,7 @@
       "name": "Ewiger Mondschein",
       "weapon_type": "Katalysator",
       "rarity": 5,
-      "icon_path": "assets/images/ewiger_mondschein.png",
+      "icon_path": "assets/images/weapons/ewiger_mondschein.png",
       "passive": {
         "name": "Byakuya Kougetsu",
         "text": [
@@ -4290,7 +4290,7 @@
       "name": "Illustrationen von Landen und Wassern",
       "weapon_type": "Katalysator",
       "rarity": 4,
-      "icon_path": "assets/images/illustrationen_von_landen_und_wassern.png",
+      "icon_path": "assets/images/weapons/illustrationen_von_landen_und_wassern.png",
       "passive": {
         "name": "Energieschubspule",
         "text": [
@@ -4306,7 +4306,7 @@
       "name": "Frostatem",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/frostatem.png",
+      "icon_path": "assets/images/weapons/frostatem.png",
       "passive": {
         "name": "Alles auf eine Karte",
         "text": [
@@ -4322,7 +4322,7 @@
       "name": "Wächterlied",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/wächterlied.png",
       "passive": {
         "name": "Akkorde vergangener Tage",
         "text": [
@@ -4338,7 +4338,7 @@
       "name": "Katastrophe und Reue",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/katastrophe_und_reue.png",
       "passive": {
         "name": "Verhängnisvoller Schlag",
         "text": [
@@ -4354,7 +4354,7 @@
       "name": "Leuchtstab des Geistlichen",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/leuchtstab_des_geistlichen.png",
       "passive": {
         "name": "Unbefleckte Sehnsucht",
         "text": [
@@ -4370,7 +4370,7 @@
       "name": "Blutbefleckte Stadt",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/blutbefleckte_stadt.png",
       "passive": {
         "name": "Traurige Würdigung",
         "text": [
@@ -4386,7 +4386,7 @@
       "name": "Schaufel des Goldgräbers",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/schaufel_des_goldgräbers.png",
+      "icon_path": "assets/images/weapons/schaufel_des_goldgräbers.png",
       "passive": {
         "name": "Entschlossenes Handeln",
         "text": [
@@ -4402,7 +4402,7 @@
       "name": "Zerstreutes Licht",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/zerstreutes_licht.png",
       "passive": {
         "name": "Krone der Läuterung",
         "text": [
@@ -4418,7 +4418,7 @@
       "name": "Sinfoniker der Düfte",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/sinfoniker_der_düfte.png",
       "passive": {
         "name": "Würzige Sinfonie",
         "text": [
@@ -4434,7 +4434,7 @@
       "name": "Tamayuratei no Ohanashi",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/tamayuratei_no_ohanashi.png",
       "passive": {
         "name": "Grünes Licht für Vielbeschäftigte",
         "text": [
@@ -4450,7 +4450,7 @@
       "name": "Bergschützer-Bolzen",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/bergschützerbolzen.png",
       "passive": {
         "name": "Hoffnung jenseits der Gipfel",
         "text": [
@@ -4466,7 +4466,7 @@
       "name": "Spuren des Regenbogens",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/spuren_des_regenbogens.png",
+      "icon_path": "assets/images/weapons/spuren_des_regenbogens.png",
       "passive": {
         "name": "Pakt des Wassers der Flüsse und Quellen",
         "text": [
@@ -4482,7 +4482,7 @@
       "name": "Lumidouce-Elegie",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/lumidouceelegie.png",
       "passive": {
         "name": "Ouvertüre zur Morgenröte",
         "text": [
@@ -4498,7 +4498,7 @@
       "name": "Form des scharlachroten Mondes",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/form_des_scharlachroten_mondes.png",
+      "icon_path": "assets/images/weapons/form_des_scharlachroten_mondes.png",
       "passive": {
         "name": "Schatten der äschernen Sonne",
         "text": [
@@ -4514,7 +4514,7 @@
       "name": "Dialoge der Weisen der Wüste",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/dialoge_der_weisen_der_wüste.png",
+      "icon_path": "assets/images/weapons/dialoge_der_weisen_der_wüste.png",
       "passive": {
         "name": "Prinzip des Gleichgewichts",
         "text": [
@@ -4530,7 +4530,7 @@
       "name": "Erkundungsbohrer",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/erkundungsbohrer.png",
+      "icon_path": "assets/images/weapons/erkundungsbohrer.png",
       "passive": {
         "name": "Steinmetzlied",
         "text": [
@@ -4546,7 +4546,7 @@
       "name": "Ballade der Fjorde",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/ballade_der_fjorde.png",
+      "icon_path": "assets/images/weapons/ballade_der_fjorde.png",
       "passive": {
         "name": "Die vielen Geschichten der Eiswüste",
         "text": [
@@ -4562,7 +4562,7 @@
       "name": "Rechtmäßige Belohnung",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/rechtmäßige_belohnung.png",
+      "icon_path": "assets/images/weapons/rechtmäßige_belohnung.png",
       "passive": {
         "name": "Speerspitze",
         "text": [
@@ -4578,7 +4578,7 @@
       "name": "Stab der roten Sande",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/stab_der_roten_sande.png",
+      "icon_path": "assets/images/weapons/stab_der_roten_sande.png",
       "passive": {
         "name": "Traum am Ende des Hitzedunsts",
         "text": [
@@ -4594,7 +4594,7 @@
       "name": "Spitze der klingenden Winde",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/spitze_der_klingenden_winde.png",
+      "icon_path": "assets/images/weapons/spitze_der_klingenden_winde.png",
       "passive": {
         "name": "Nicht ankommender Wind",
         "text": [
@@ -4610,7 +4610,7 @@
       "name": "Monddurchbohrer",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/monddurchbohrer.png",
+      "icon_path": "assets/images/weapons/monddurchbohrer.png",
       "passive": {
         "name": "Geräuschloser Wald im Mondschein",
         "text": [
@@ -4626,7 +4626,7 @@
       "name": "Drachengratspeer",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/drachengratspeer.png",
+      "icon_path": "assets/images/weapons/drachengratspeer.png",
       "passive": {
         "name": "Frostgrab",
         "text": [
@@ -4642,7 +4642,7 @@
       "name": "Schwarze Quaste",
       "weapon_type": "Stangenwaffe",
       "rarity": 3,
-      "icon_path": "assets/images/schwarze_quaste.png",
+      "icon_path": "assets/images/weapons/schwarze_quaste.png",
       "passive": {
         "name": "Weicher Schlag",
         "text": [
@@ -4658,7 +4658,7 @@
       "name": "Schwarzsteinlanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/schwarzsteinlanze.png",
+      "icon_path": "assets/images/weapons/schwarzsteinlanze.png",
       "passive": {
         "name": "Triumphaler Übermut",
         "text": [
@@ -4674,14 +4674,14 @@
       "name": "Eisenlanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 2,
-      "icon_path": "assets/images/eisenlanze.png",
+      "icon_path": "assets/images/weapons/eisenlanze.png",
       "passive": null
     },
     {
       "name": "Hellebarde",
       "weapon_type": "Stangenwaffe",
       "rarity": 3,
-      "icon_path": "assets/images/hellebarde.png",
+      "icon_path": "assets/images/weapons/hellebarde.png",
       "passive": {
         "name": "Schwergewicht",
         "text": [
@@ -4697,7 +4697,7 @@
       "name": "Regenbogenstecher",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/regenbogenstecher.png",
+      "icon_path": "assets/images/weapons/regenbogenstecher.png",
       "passive": {
         "name": "Majestätische Größe",
         "text": [
@@ -4713,7 +4713,7 @@
       "name": "Sternsichel-Prototyp",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/sternsichelprototyp.png",
       "passive": {
         "name": "Magiesauger",
         "text": [
@@ -4729,7 +4729,7 @@
       "name": "Favonius-Lanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/favoniuslanze.png",
       "passive": {
         "name": "Folge dem Wind",
         "text": [
@@ -4745,7 +4745,7 @@
       "name": "Grasschnittstrahl",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/grasschnittstrahl.png",
+      "icon_path": "assets/images/weapons/grasschnittstrahl.png",
       "passive": {
         "name": "Zeitloser Traum – Ewiger Herd",
         "text": [
@@ -4761,7 +4761,7 @@
       "name": "Weiße Quaste",
       "weapon_type": "Stangenwaffe",
       "rarity": 3,
-      "icon_path": "assets/images/weiße_quaste.png",
+      "icon_path": "assets/images/weapons/weiße_quaste.png",
       "passive": {
         "name": "Schärfe",
         "text": [
@@ -4777,7 +4777,7 @@
       "name": "Mondpike",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/mondpike.png",
+      "icon_path": "assets/images/weapons/mondpike.png",
       "passive": {
         "name": "Energieschubnadel",
         "text": [
@@ -4793,14 +4793,14 @@
       "name": "Anfängerlanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 1,
-      "icon_path": "assets/images/anfängerlanze.png",
+      "icon_path": "assets/images/weapons/anfängerlanze.png",
       "passive": null
     },
     {
       "name": "Wellenbrecherflosse",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/wellenbrecherflosse.png",
+      "icon_path": "assets/images/weapons/wellenbrecherflosse.png",
       "passive": {
         "name": "Wellenbändiger von Watatsumi",
         "text": [
@@ -4816,7 +4816,7 @@
       "name": "Homa-Stab",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/homastab.png",
       "passive": {
         "name": "Ungezügelter Schmetterling",
         "text": [
@@ -4832,7 +4832,7 @@
       "name": "Ende des Unheils",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/ende_des_unheils.png",
+      "icon_path": "assets/images/weapons/ende_des_unheils.png",
       "passive": {
         "name": "Löschgebot",
         "text": [
@@ -4848,7 +4848,7 @@
       "name": "Königlicher Jagdspeer",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/königlicher_jagdspeer.png",
+      "icon_path": "assets/images/weapons/königlicher_jagdspeer.png",
       "passive": {
         "name": "Konzentration",
         "text": [
@@ -4864,7 +4864,7 @@
       "name": "Himmelsgrat",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/himmelsgrat.png",
+      "icon_path": "assets/images/weapons/himmelsgrat.png",
       "passive": {
         "name": "Flügelbrecher",
         "text": [
@@ -4880,7 +4880,7 @@
       "name": "Kitain-Kreuzlanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": null,
+      "icon_path": "assets/images/weapons/kitainkreuzlanze.png",
       "passive": {
         "name": "Verhalten eines Samurais",
         "text": [
@@ -4896,7 +4896,7 @@
       "name": "Urzeitlicher Jadespeer",
       "weapon_type": "Stangenwaffe",
       "rarity": 5,
-      "icon_path": "assets/images/urzeitlicher_jadespeer.png",
+      "icon_path": "assets/images/weapons/urzeitlicher_jadespeer.png",
       "passive": {
         "name": "Habichtlanze",
         "text": [
@@ -4912,7 +4912,7 @@
       "name": "Millelithenlanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/millelithenlanze.png",
+      "icon_path": "assets/images/weapons/millelithenlanze.png",
       "passive": {
         "name": "Axiom der Millelithen – Einigkeit",
         "text": [
@@ -4928,7 +4928,7 @@
       "name": "Drachenschreck",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/drachenschreck.png",
+      "icon_path": "assets/images/weapons/drachenschreck.png",
       "passive": {
         "name": "Bewährtheit von Feuer und Wasser",
         "text": [
@@ -4944,7 +4944,7 @@
       "name": "Duelllanze",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/duelllanze.png",
+      "icon_path": "assets/images/weapons/duelllanze.png",
       "passive": {
         "name": "Gladiator",
         "text": [
@@ -4960,7 +4960,7 @@
       "name": "„Der Fang“",
       "weapon_type": "Stangenwaffe",
       "rarity": 4,
-      "icon_path": "assets/images/der_fang.png",
+      "icon_path": "assets/images/weapons/der_fang.png",
       "passive": {
         "name": "Seemannslied",
         "text": [

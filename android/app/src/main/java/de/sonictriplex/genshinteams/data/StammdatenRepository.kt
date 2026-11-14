@@ -23,10 +23,12 @@ class StammdatenRepository(private val context: Context) {
     fun iconFor(name: String): Bitmap? {
         val explicit = character(name)?.iconPath ?: weapon(name)?.iconPath
         // Fehlt die angegebene Datei, gilt wie im Desktop die Namensregel als Rückfall
-        return explicit?.let(::loadBitmap) ?: loadBitmap(iconPathFor(name))
+        return explicit?.let(::loadBitmap)
+            ?: loadBitmap(iconPathFor(name, "characters")) ?: loadBitmap(iconPathFor(name, "weapons"))
+            ?: loadBitmap(iconPathFor(name, "weapons", keepHyphen = false))
     }
 
-    /** Lädt ein beliebiges Bild aus den Assets (z. B. `assets/images/mm_logo.png`), oder null. */
+    /** Lädt ein beliebiges Bild aus den Assets (z. B. `assets/images/ui/mm_logo.png`), oder null. */
     fun loadBitmap(path: String): Bitmap? = try {
         context.assets.open(path).use { BitmapFactory.decodeStream(it) }
     } catch (_: java.io.IOException) {
@@ -38,9 +40,10 @@ class StammdatenRepository(private val context: Context) {
  * Leitet den Icon-Pfad aus einem Namen ab (wie Desktop und Web): Kleinbuchstaben, Leerzeichen und
  * Bindestriche werden zu "_", Apostrophe/Anführungszeichen fallen weg, Klammerzusätze ebenfalls.
  */
-fun iconPathFor(name: String): String {
+fun iconPathFor(name: String, kind: String = "characters", keepHyphen: Boolean = true): String {
     var clean = name.substringBefore("(").trim().lowercase()
     for (ch in listOf("'", "’", "„", "“")) clean = clean.replace(ch, "")
-    clean = clean.replace(" ", "_").replace("-", "_")
-    return "assets/images/$clean.png"
+    // Manche Dateien heißen ohne Bindestrich-Unterstrich ("Homa-Stab" -> homastab.png, wie im Web)
+    clean = clean.replace(" ", "_").replace("-", if (keepHyphen) "_" else "")
+    return "assets/images/$kind/$clean.png"
 }

@@ -2,6 +2,15 @@
 
 Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst gebaut (siehe [android/README.md](android/README.md)); die Web-Version läuft per `deploy/deploy.sh` auf dem Server, der Desktop direkt aus dem Repo. Dieser Verlauf fasst die wichtigsten Änderungen zusammen. Seit 1.6.0 haben Web, Android und Desktop dieselbe Versionsnummer (der „Über“-Dialog war bereits in den ersten 1.6.0-Ständen enthalten und ist hier unter 1.6.1 beschrieben); frühere Web-Versionen (1.0.0–1.4.0) sind rückwirkend aus dem Git-Verlauf vergeben.
 
+## Web 1.8.1 (14.11.2026)
+- Die Bilder liegen nach Typ getrennt in Unterordnern von `shared/assets/images/` (`characters`, `weapons`, `ui`). Die Pfade in `stammdaten.json` (jetzt für alle Waffen angegeben), im Web-Frontend, im Admin-Menü, im Update-Werkzeug und im Deploy-Skript sind angepasst. Auf dem Server müssen die Bilder in den neuen Ordnern liegen (`deploy.sh` lädt sie hoch).
+
+## Desktop 1.7.3 (14.11.2026)
+- Bilder werden aus den neuen Unterordnern geladen; ältere Datenbanken mit den früheren Pfaden finden ihre Bilder weiter über den Namen. Waffen mit Bindestrich im Namen (z. B. „Homa-Stab“) bekommen nun auch ihr Icon
+
+## Android 1.7.3 (14.11.2026)
+- Bilder liegen in den neuen Unterordnern (siehe Web 1.8.1); Waffen mit Bindestrich im Namen zeigen nun ihr Icon
+
 ## Web 1.8.0 (14.11.2026)
 - „Passwort ändern“ im Benutzermenü: aktuelles Passwort und zweimal das neue (6 bis 72 Zeichen); der Server prüft das aktuelle (falsch = „Das aktuelle Passwort ist falsch.“, zählt für die Begrenzung der Anmeldeversuche). Andere angemeldete Geräte (z. B. die Android-App) müssen sich danach neu anmelden, diese Sitzung bleibt. API: `auth.php?action=change_password`
 - **Administratoren** (Konto in `web/api/admins.local.php`, nicht im Git) sehen im Benutzermenü „Stammdaten aktualisieren“: Der Dialog gleicht Charaktere und Waffen mit der Datenquelle ab und trägt die ausgewählten samt Bildern ein. Die Region der Charaktere kommt aus genshin-db (im Dialog vorausgewählt), Waffen bekommen ihr Passiv von dort; Einträge, die genshin-db nicht kennt (vermutlich noch nicht erschienen), werden nicht eingetragen. API: `stammdaten.php`, Status: `auth.php?action=status` liefert zusätzlich `is_admin`

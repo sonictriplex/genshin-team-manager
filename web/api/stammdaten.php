@@ -94,7 +94,7 @@ function find_new(PDO $pdo): array {
         [$found, $region] = fetch_region($name);
         if (!$found) { $unverifiedChars[] = $name . ' (Charakter)'; continue; }
         $chars[] = ['name' => $name, 'element' => $el, 'weapon_type' => $wt, 'rarity' => $q, 'region' => $region,
-            'icon_path' => 'assets/images/' . icon_file($name),
+            'icon_path' => 'assets/images/characters/' . icon_file($name),
             'src' => UI . '/ui/' . str_replace('Side_', '', basename((string)$a['SideIconName']))];
     }
 
@@ -154,13 +154,13 @@ try {
         if ($region === null) continue;
         $insChar->execute([$c['name'], $c['element'], $c['weapon_type'], $region, $c['rarity'], $c['icon_path']]);
         $added += $insChar->rowCount();
-        $count(save_image($c['src'], basename($c['icon_path'])));
+        $count(save_image($c['src'], $c['icon_path']));
     }
     foreach ($weapons as $w) {
         if (!isset($selWeapons[norm_name($w['name'])])) continue;
         $insWeapon->execute([$w['name'], $w['weapon_type'], $w['rarity'], $w['passive']]);
         $added += $insWeapon->rowCount();
-        $count(save_image($w['src'], $w['file']));
+        $count(save_image($w['src'], 'assets/images/weapons/' . $w['file']));
     }
     $pdo->commit();
     echo json_encode(["added" => $added, "images" => $images], JSON_UNESCAPED_UNICODE);

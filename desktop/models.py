@@ -5,7 +5,7 @@ from typing import Optional
 # Projektverzeichnis: alle Pfade werden relativ hierzu aufgelöst,
 # damit die App unabhängig vom aktuellen Arbeitsverzeichnis funktioniert.
 # Gemeinsame Versionsnummer von Web, Android und Desktop; zusammen mit CHANGELOG.md hochzählen (ein Test vergleicht beide)
-APP_VERSION = "1.7.2"
+APP_VERSION = "1.7.3"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Gemeinsame Daten für Desktop, Web und weitere Clients (Bilder, Stammdaten)
@@ -21,16 +21,22 @@ def resolve_path(path: str) -> str:
     return path if os.path.isabs(path) else os.path.join(SHARED_DIR, path)
 
 
-def icon_path_for(name: str) -> str:
-    """Leitet den Icon-Pfad aus einem Charakter- oder Waffennamen ab.
+def icon_path_for(name: str, kind: str = "characters") -> str:
+    """Leitet den Icon-Pfad aus einem Charakter- (kind="characters") oder Waffennamen (kind="weapons") ab.
 
     Klammerzusätze werden entfernt, z.B. "Traveler (Anemo)" -> traveler.png.
     """
     clean = name.split("(")[0].strip().lower()
     for ch in ("'", "’", "„", "“"):
         clean = clean.replace(ch, "")
-    clean = clean.replace(" ", "_").replace("-", "_")
-    return os.path.join(IMAGES_DIR, f"{clean}.png")
+    clean = clean.replace(" ", "_")
+    path = os.path.join(IMAGES_DIR, kind, f"{clean.replace('-', '_')}.png")
+    if not os.path.exists(path):
+        # Manche Dateien heißen ohne Bindestrich-Unterstrich ("Homa-Stab" -> homastab.png, wie im Web)
+        alt = os.path.join(IMAGES_DIR, kind, f"{clean.replace('-', '')}.png")
+        if os.path.exists(alt):
+            return alt
+    return path
 
 
 class Character:
@@ -58,7 +64,7 @@ class Character:
             explicit = resolve_path(self._icon_path)
             if os.path.exists(explicit):
                 return explicit
-        return icon_path_for(self.name)
+        return icon_path_for(self.name, "characters")
 
 
 # Vor der Umbenennung gespeicherte Stats: DEF heißt jetzt VTD (Verteidigung)
@@ -121,7 +127,7 @@ class Weapon:
             explicit = resolve_path(self._icon_path)
             if os.path.exists(explicit):
                 return explicit
-        return icon_path_for(self.name)
+        return icon_path_for(self.name, "weapons")
 
 
 class ArtifactSet:

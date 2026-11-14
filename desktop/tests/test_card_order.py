@@ -191,7 +191,7 @@ class WeaponIconMigrationTest(unittest.TestCase):
                 columns = [r[1] for r in conn.execute("PRAGMA table_info(weapons)")]
                 icons = dict(conn.execute("SELECT name, icon_path FROM weapons WHERE name IN ('Absolution', 'Gibt es nicht')"))
             self.assertIn("icon_path", columns)
-            self.assertEqual(icons["Absolution"], "assets/images/absolution.png")
+            self.assertEqual(icons["Absolution"], "assets/images/weapons/absolution.png")
             self.assertTrue(os.path.exists(os.path.join(SHARED_DIR, icons["Absolution"])))
             self.assertIsNone(icons["Gibt es nicht"])
 

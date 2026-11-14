@@ -19,8 +19,8 @@ android {
         applicationId = "de.sonictriplex.genshinteams"
         minSdk = 26
         targetSdk = 36
-        versionCode = 20
-        versionName = "1.7.2"
+        versionCode = 21
+        versionName = "1.7.3"
 
         // Der Server, mit dem die App spricht (die Web-Version, siehe ../web); auf der Anmeldeseite damit vorbelegt, aber änderbar.
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://genshin-manager.media-matrix.de\"")
@@ -68,7 +68,7 @@ android {
     sourceSets["staging"].manifest.srcFile("src/debug/AndroidManifest.xml")
 
     // Gemeinsame Daten des Monorepos (Bilder, Schrift, Stammdaten) direkt als Assets einbinden.
-    // Unter assets/ liegen sie dann wie im Repo: assets/images/<name>.png, stammdaten.json
+    // Unter assets/ liegen sie dann wie im Repo: assets/images/<typ>/<name>.png, stammdaten.json
     sourceSets["main"].assets.directories.add("../../shared")
     // Spezifikation und Testdaten gehören nicht in die APK
     androidResources.ignoreAssetsPatterns.addAll(listOf("!testdata", "!*.md", "!*.schema.json"))

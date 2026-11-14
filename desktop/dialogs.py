@@ -234,7 +234,7 @@ class AboutDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setSpacing(8)
 
-        icon_path = os.path.join(IMAGES_DIR, "paimon.png")
+        icon_path = os.path.join(IMAGES_DIR, "ui", "paimon.png")
         if os.path.exists(icon_path):
             icon = QLabel()
             icon.setPixmap(QPixmap(icon_path).scaled(72, 72, Qt.KeepAspectRatio, Qt.SmoothTransformation))
@@ -268,7 +268,7 @@ class AboutDialog(QDialog):
         disclaimer.setStyleSheet("color: #9a97ab; font-size: 11px;")
         layout.addWidget(disclaimer)
 
-        logo_path = os.path.join(IMAGES_DIR, "mm_logo.png")
+        logo_path = os.path.join(IMAGES_DIR, "ui", "mm_logo.png")
         if os.path.exists(logo_path):
             logo = ClickableLabel()
             logo.setObjectName("aboutLogo")

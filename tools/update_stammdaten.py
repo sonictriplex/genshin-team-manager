@@ -245,19 +245,19 @@ def main():
     for c in ready:
         file = icon_file(c["name"])
         try:
-            print(f"  Bild {file}: {download(UI + '/ui/' + c['icon'].lstrip('/').removeprefix('ui/'), images / file)}")
+            print(f"  Bild {file}: {download(UI + '/ui/' + c['icon'].lstrip('/').removeprefix('ui/'), images / 'characters' / file)}")
         except Exception as e:
             print(f"  Bild {file}: FEHLER ({e})")
         insert_sorted(data["characters"], {"name": c["name"], "element": c["element"], "weapon_type": c["weapon_type"],
-                                           "region": c["region"], "rarity": c["rarity"], "icon_path": f"assets/images/{file}"})
+                                           "region": c["region"], "rarity": c["rarity"], "icon_path": f"assets/images/characters/{file}"})
     for w in weapons:
         file = icon_file(w["name"])
         try:
-            print(f"  Bild {file}: {download(UI + w['icon'], images / file)}")
+            print(f"  Bild {file}: {download(UI + w['icon'], images / 'weapons' / file)}")
         except Exception as e:
             print(f"  Bild {file}: FEHLER ({e})")
         insert_sorted(data["weapons"], {"name": w["name"], "weapon_type": w["weapon_type"], "rarity": w["rarity"],
-                                        "icon_path": f"assets/images/{file}", "passive": w["passive"]})
+                                        "icon_path": f"assets/images/weapons/{file}", "passive": w["passive"]})
 
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -265,7 +265,7 @@ def main():
              "-- Passiv-Texte der Waffen stammen aus genshin-db (deutsch)."]
     if ready:
         rows = ",\n".join(f"  ({sql(c['name'])}, {sql(c['element'])}, {sql(c['weapon_type'])}, {sql(c['region'])}, {c['rarity']}, "
-                          f"{sql('assets/images/' + icon_file(c['name']))})" for c in ready)
+                          f"{sql('assets/images/characters/' + icon_file(c['name']))})" for c in ready)
         lines.append("INSERT IGNORE INTO characters (name, element, weapon_type, region, rarity, icon_path) VALUES\n" + rows + ";")
     if weapons:
         rows = ",\n".join(f"  ({sql(w['name'])}, {sql(w['weapon_type'])}, {w['rarity']}, "

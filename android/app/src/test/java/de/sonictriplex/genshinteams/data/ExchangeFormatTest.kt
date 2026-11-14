@@ -51,9 +51,9 @@ class ExchangeFormatTest {
 
     @Test
     fun iconPfadRegelEntsprichtDenAnderenClients() {
-        assertEquals("assets/images/hu_tao.png", iconPathFor("Hu Tao"))
-        assertEquals("assets/images/traveler.png", iconPathFor("Traveler (Dendro)"))
-        assertEquals("assets/images/kaedehara_kazuha.png", iconPathFor("Kaedehara Kazuha"))
+        assertEquals("assets/images/characters/hu_tao.png", iconPathFor("Hu Tao"))
+        assertEquals("assets/images/characters/traveler.png", iconPathFor("Traveler (Dendro)"))
+        assertEquals("assets/images/characters/kaedehara_kazuha.png", iconPathFor("Kaedehara Kazuha"))
     }
 }
 

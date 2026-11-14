@@ -122,10 +122,10 @@ class GenshinManager:
             return
         conn.execute("ALTER TABLE weapons ADD COLUMN icon_path TEXT")
         for (name,) in conn.execute("SELECT name FROM weapons").fetchall():
-            path = icon_path_for(name)
+            path = icon_path_for(name, "weapons")
             if os.path.exists(path):
                 conn.execute("UPDATE weapons SET icon_path = ? WHERE name = ?",
-                             (f"assets/images/{os.path.basename(path)}", name))
+                             (f"assets/images/weapons/{os.path.basename(path)}", name))
 
     @staticmethod
     def _migrate_team_position(conn: sqlite3.Connection):
