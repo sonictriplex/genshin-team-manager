@@ -9,7 +9,7 @@ Die Android-App wird nicht als fertige APK verteilt, sondern bei Bedarf selbst g
 - Das Teil-Dropdown der Artefakt-Slots zeigt zu jedem Teil sein Icon
 
 ## Android 1.8.0 (14.11.2026)
-- Die Teil-Suche der Artefakt-Slots zeigt zu jedem Teil sein Icon
+- Die Teil-Suche der Artefakt-Slots und die Build-Ansicht (Handy und Tablet) zeigen zu jedem Teil sein Icon
 
 ## Web 1.8.1 (14.11.2026)
 - Die Bilder liegen nach Typ getrennt in Unterordnern von `shared/assets/images/` (`characters`, `weapons`, `ui`). Die Pfade in `stammdaten.json` (jetzt für alle Waffen angegeben), im Web-Frontend, im Admin-Menü, im Update-Werkzeug und im Deploy-Skript sind angepasst. Auf dem Server müssen die Bilder in den neuen Ordnern liegen (`deploy.sh` lädt sie hoch).

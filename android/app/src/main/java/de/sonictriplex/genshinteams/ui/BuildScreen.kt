@@ -78,7 +78,12 @@ fun BuildScreen(vm: AppViewModel, name: String, onBack: () -> Unit, onEdit: () -
                             ARTIFACT_SLOTS.forEach { slotName ->
                                 val slot = build.artifactStats[slotName] ?: return@forEach
                                 Section("$slotName · ${slot.rarity} · +${slot.level}") {
-                                    if (slot.piece.isNotBlank()) Text(slot.piece)
+                                    if (slot.piece.isNotBlank()) {
+                                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                            NameIcon(slot.piece, vm.stammdaten, 40.dp)
+                                            Text(slot.piece)
+                                        }
+                                    }
                                     Text("${slot.mainStat}: ${slot.mainValue}", style = MaterialTheme.typography.titleSmall)
                                     slot.substats.filter { it.stat.isNotBlank() }.forEach { Text("${it.stat}  ${it.value}") }
                                 }
