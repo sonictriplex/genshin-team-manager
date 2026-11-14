@@ -111,6 +111,18 @@ docs/        Screenshots
 
 Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/stammdaten.json`, ein Bild in `shared/assets/images/` und – auf dem Server – einen Datensatz in der Datenbank.
 
+### Stammdaten auf Aktualität prüfen und ergänzen
+
+`tools/update_stammdaten.py` vergleicht Charaktere und Waffen mit der öffentlichen Datenquelle [Enka.Network](https://github.com/EnkaNetwork/API-docs) und ergänzt, was fehlt:
+
+```sh
+python3 tools/update_stammdaten.py            # nur prüfen (Exit-Code 1 = es fehlt etwas)
+python3 tools/update_stammdaten.py --apply    # Fehlendes ergänzen (fragt vorher nach)
+python3 tools/update_stammdaten.py --apply --region "Name=Region"
+```
+
+`--apply` trägt die Einträge in `shared/stammdaten.json` ein, lädt die Bilder (vorhandene werden nie überschrieben) und schreibt eine Migration `web/migrations/NNN_stammdaten_<Datum>.sql`. Danach die Migration in phpMyAdmin ausführen und `deploy/deploy.sh` starten; das Skript deployt nichts selbst. Die Quelle kennt keine **Regionen**: Charaktere ohne Region (in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region`) werden nur gemeldet, nie geraten. Die Quelle enthält manchmal **Beta-Einträge**, die im Spiel noch nicht erschienen sind, daher vor `--apply` die Liste prüfen. Neue Regionen (z. B. Nod-Krai) müssen zusätzlich in den Region-Filtern der Clients ergänzt werden. Passiv-Texte neuer Waffen liefert die Quelle nicht.
+
 ## Entwicklung
 
 - **Android:** `cd android && ./gradlew :app:testDebugUnitTest` prüft das Austauschformat, die Stammdaten und die Bearbeitungslogik gegen die Referenzdateien in `shared/`.
