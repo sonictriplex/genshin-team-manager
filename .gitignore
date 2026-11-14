@@ -10,3 +10,5 @@ archive/
 deploy/*.local.*
 deploy/backup/
 deploy/build/
+__pycache__/
+*.pyc

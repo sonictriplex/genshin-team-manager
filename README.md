@@ -113,15 +113,24 @@ Ein neuer Charakter oder eine neue Waffe braucht also: einen Eintrag in `shared/
 
 ### Stammdaten auf Aktualität prüfen und ergänzen
 
-`tools/update_stammdaten.py` vergleicht Charaktere und Waffen mit der öffentlichen Datenquelle [Enka.Network](https://github.com/EnkaNetwork/API-docs) und ergänzt, was fehlt:
+Ein Befehl erledigt alles:
 
 ```sh
-python3 tools/update_stammdaten.py            # nur prüfen (Exit-Code 1 = es fehlt etwas)
-python3 tools/update_stammdaten.py --apply    # Fehlendes ergänzen (fragt vorher nach)
-python3 tools/update_stammdaten.py --apply --region "Name=Region"
+python3 tools/update_stammdaten.py --auto
 ```
 
-`--apply` trägt die Einträge in `shared/stammdaten.json` ein, lädt die Bilder (vorhandene werden nie überschrieben) und schreibt eine Migration `web/migrations/NNN_stammdaten_<Datum>.sql`. Danach die Migration in phpMyAdmin ausführen und `deploy/deploy.sh` starten; das Skript deployt nichts selbst. Die Quelle kennt keine **Regionen**: Charaktere ohne Region (in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region`) werden nur gemeldet, nie geraten. Die Quelle enthält manchmal **Beta-Einträge**, die im Spiel noch nicht erschienen sind, daher vor `--apply` die Liste prüfen. Neue Regionen (z. B. Nod-Krai) müssen zusätzlich in den Region-Filtern der Clients ergänzt werden. Passiv-Texte neuer Waffen liefert die Quelle nicht.
+`tools/update_stammdaten.py` vergleicht Charaktere und Waffen mit der öffentlichen Datenquelle [Enka.Network](https://github.com/EnkaNetwork/API-docs), ergänzt Fehlendes in `shared/stammdaten.json`, lädt die Bilder, schreibt eine Migration `web/migrations/NNN_stammdaten_<Datum>.sql`, committet lokal (ohne Push), deployt per `deploy/deploy.sh`, führt die Migration über `tools/remote_sql.py` in der Server-Datenbank aus und prüft zum Schluss über die API, ob alles online ist. Ein zweiter Aufruf meldet „Alles aktuell“, der Befehl eignet sich also für regelmäßige Läufe.
+
+```sh
+python3 tools/update_stammdaten.py            # nur prüfen (Exit-Code 1 = es fehlt etwas), ändert nichts
+python3 tools/update_stammdaten.py --apply    # nur lokal ergänzen (mit Rückfrage), ohne Deploy und Datenbank
+python3 tools/update_stammdaten.py --auto --region "Name=Region"
+python3 tools/remote_sql.py web/migrations/<datei>.sql   # eine SQL-Datei (INSERT/UPDATE/DELETE) auf dem Server ausführen
+```
+
+Die Quelle kennt keine **Regionen**: Charaktere ohne Region (in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region`) werden nur gemeldet, nie geraten. Das schützt zugleich vor **Beta-Einträgen**, die im Spiel noch nicht erschienen sind; bei Waffen gilt dieser Schutz nicht, daher bricht `--auto` ohne Änderung ab, wenn mehr als 15 neue Einträge gefunden werden (`--max-new`). Neue Regionen (z. B. Nod-Krai) müssen zusätzlich in den Region-Filtern der Clients ergänzt werden. Passiv-Texte neuer Waffen liefert die Quelle nicht.
+
+**Wie die Datenbank ohne phpMyAdmin erreicht wird:** Sie ist nur vom Server aus erreichbar. `tools/remote_sql.py` lädt eine einmalige PHP-Datei (`api/_sql_<zufall>.php`) per FTPS hoch und ruft sie per HTTPS auf. Die Datei enthält nur den SHA-256-Hash eines Zufalls-Tokens, nutzt die `api/db.php` des Servers, führt alles in einer Transaktion aus (nur INSERT/UPDATE/DELETE/REPLACE), löscht sich selbst und wird vom Skript per FTP-Liste kontrolliert.
 
 ## Entwicklung
 

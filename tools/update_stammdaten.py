@@ -6,12 +6,22 @@ Quelle: Enka.Network API-Docs (github.com/EnkaNetwork/API-docs, Ordner store/gi)
     python3 tools/update_stammdaten.py            Prüfen (ändert nichts, Exit-Code 1 = es fehlt etwas)
     python3 tools/update_stammdaten.py --apply    Fehlendes ergänzen (fragt vorher nach)
     python3 tools/update_stammdaten.py --apply --yes   ohne Rückfrage
+    python3 tools/update_stammdaten.py --auto     ALLES in einem Schritt (siehe unten), geeignet für regelmäßige Läufe
 
 Was --apply macht:
   - trägt neue Charaktere und Waffen in shared/stammdaten.json ein (alphabetisch, ohne Umformatierung)
   - lädt die Bilder nach shared/assets/images (vorhandene Dateien werden nie überschrieben)
   - schreibt eine Migration web/migrations/NNN_stammdaten_<Datum>.sql (INSERT IGNORE) für die Datenbank
-Danach: Migration in phpMyAdmin ausführen und deploy/deploy.sh starten. Das Skript deployt nichts selbst.
+Ohne --auto danach: Migration in phpMyAdmin ausführen und deploy/deploy.sh starten.
+
+--auto erledigt zusätzlich ohne Rückfrage und ohne Handarbeit:
+  1. committet die Änderungen lokal (ohne Push; abschaltbar mit --no-commit)
+  2. lädt Bilder und Code per deploy/deploy.sh hoch
+  3. führt die erzeugte Migration über tools/remote_sql.py in der Server-Datenbank aus
+  4. prüft über die API, ob alles angekommen ist
+Sicherung gegen Fehlläufe: Mehr als --max-new neue Einträge (Standard 15) brechen --auto ab, ohne etwas zu ändern.
+Charaktere ohne bekannte Region werden nie eingetragen (kein Raten), das ist zugleich ein Schutz vor Beta-Einträgen.
+Der Lauf ist wiederholbar: ein zweiter Aufruf findet nichts Neues und meldet „Alles aktuell“.
 
 Regionen: Die Quelle kennt keine Region. Charaktere ohne Eintrag in shared/regionen.json
 (oder per --region "Name=Region") werden nur gemeldet und NICHT eingetragen.
@@ -23,6 +33,7 @@ import argparse
 import datetime
 import json
 import re
+import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -122,7 +133,12 @@ def main():
     ap.add_argument("--yes", action="store_true", help="bei --apply nicht nachfragen")
     ap.add_argument("--region", action="append", default=[], metavar="NAME=REGION",
                     help="Region eines neuen Charakters (mehrfach möglich)")
+    ap.add_argument("--auto", action="store_true", help="ergänzen, committen, deployen, Datenbank aktualisieren, prüfen")
+    ap.add_argument("--max-new", type=int, default=15, help="bei --auto: Abbruch bei mehr neuen Einträgen (Standard 15)")
+    ap.add_argument("--no-commit", action="store_true", help="bei --auto: nicht committen")
     args = ap.parse_args()
+    if args.auto:
+        args.apply = args.yes = True
 
     path = ROOT / "shared" / "stammdaten.json"
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -164,6 +180,10 @@ def main():
     if not (ready or weapons):
         print("\nNichts zu ergänzen: Es fehlen nur Regionen.")
         return 1
+    if args.auto and len(ready) + len(weapons) > args.max_new:
+        print(f"\nABBRUCH: {len(ready) + len(weapons)} neue Einträge, erlaubt sind bei --auto höchstens {args.max_new}. "
+              "Liste prüfen und mit --apply (oder --max-new) bewusst fortfahren. Nichts wurde verändert.")
+        return 1
     if not args.yes and input("\nDiese Einträge ergänzen? Beta-Einträge vorher prüfen. [j/N] ").strip().lower() not in ("j", "ja", "y"):
         print("Abgebrochen.")
         return 1
@@ -202,8 +222,60 @@ def main():
 
     print(f"\nErgänzt: {len(ready)} Charaktere, {len(weapons)} Waffen.")
     print(f"Migration: {migration.relative_to(ROOT)}")
-    print("Nächste Schritte: Migration in phpMyAdmin ausführen, dann deploy/deploy.sh.")
-    return 1 if no_region else 0
+    if not args.auto:
+        print("Nächste Schritte: Migration in phpMyAdmin ausführen, dann deploy/deploy.sh.")
+        return 1 if no_region else 0
+    return publish(ready, weapons, migration, args, bool(no_region))
+
+
+def run(cmd):
+    return subprocess.run(cmd, cwd=ROOT).returncode == 0
+
+
+def publish(ready, weapons, migration, args, has_open):
+    """--auto: committen, deployen, Datenbank aktualisieren, per API prüfen."""
+    print("\n== 1/4 Commit ==")
+    if args.no_commit or not (ROOT / ".git").exists():
+        print("  übersprungen")
+    else:
+        names = ", ".join([c["name"] for c in ready] + [w["name"] for w in weapons])
+        paths = ["shared/stammdaten.json", "shared/assets/images", str(migration.relative_to(ROOT))]
+        run(["git", "add", *paths])
+        print("  " + ("committet" if run(["git", "commit", "-q", "-m", f"Stammdaten aktualisiert: {names}"[:200], "--", *paths]) else "nichts zu committen"))
+
+    print("\n== 2/4 Deploy (Bilder und Code) ==")
+    if not run([str(ROOT / "deploy" / "deploy.sh")]):
+        print("FEHLER beim Deploy. Die Datenbank wurde NICHT aktualisiert.")
+        return 1
+
+    print("\n== 3/4 Datenbank ==")
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import remote_sql
+    try:
+        remote_sql.run_sql(migration.read_text(encoding="utf-8"))
+    except (RuntimeError, SystemExit) as e:
+        print(f"FEHLER: {e}")
+        return 1
+
+    print("\n== 4/4 Kontrolle über die API ==")
+    base = remote_sql.load_env()["SITE_URL"].rstrip("/")
+    missing = []
+    for endpoint, entries in (("characters.php", ready), ("weapons.php", weapons)):
+        if not entries:
+            continue
+        try:
+            req = urllib.request.Request(f"{base}/api/{endpoint}", headers={"User-Agent": "stammdaten-update"})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                online = {x["name"] for x in json.load(r)}
+        except Exception as e:
+            print(f"FEHLER bei der Kontrolle von {endpoint}: {e}")
+            return 1
+        missing += [e["name"] for e in entries if e["name"] not in online]
+    if missing:
+        print("FEHLT online: " + ", ".join(missing))
+        return 1
+    print("  alle neuen Einträge sind online.")
+    return 1 if has_open else 0
 
 
 if __name__ == "__main__":
