@@ -36,7 +36,7 @@ remote_list() {
 local_files() {
     printf 'web/index.html\tindex.html\n'
     for f in web/api/*.php; do
-        case "$(basename "$f")" in db.php | config.local.php | config.example.php) continue ;; esac
+        case "$(basename "$f")" in db.php | config.local.php | admins.local.php | config.example.php) continue ;; esac
         printf '%s\tapi/%s\n' "$f" "$(basename "$f")"
     done
     printf 'shared/assets/zh-cn.ttf\tassets/zh-cn.ttf\n'
