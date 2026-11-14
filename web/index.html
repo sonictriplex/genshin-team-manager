@@ -1736,7 +1736,7 @@
         }
         // --- Stammdaten aktualisieren (nur Administratoren; der Server prüft das ebenfalls) ---
         const UPDATE_GROUPS = [
-            { key: 'characters', label: 'Charaktere (Region wählen, sie fehlt in der Quelle)', info: e => `${e.rarity}★ ${e.element}, ${e.weapon_type}`, checked: false },
+            { key: 'characters', label: 'Charaktere (Region aus genshin-db; fehlt sie, bitte wählen)', info: e => `${e.rarity}★ ${e.element}, ${e.weapon_type}`, checked: false },
             { key: 'weapons', label: 'Waffen', info: e => `${e.rarity}★ ${e.weapon_type}`, checked: true }
         ];
         const UPDATE_REGIONS = ['Mondstadt', 'Liyue', 'Inazuma', 'Sumeru', 'Fontaine', 'Natlan', 'Nod-Krai', 'Snezhnaya', 'Andere Welt'];
@@ -1770,9 +1770,9 @@
                 html += `<h4 class="text-gold font-bold text-xs mt-3 mb-1">${escapeHtml(g.label)} · ${items.length}</h4>`;
                 items.forEach(e => {
                     const region = (g.key === 'characters' && UPDATE_REGIONS)
-                        ? `<select data-region class="ml-auto bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 text-xs outline-none focus:border-accent"><option value="">Region …</option>${UPDATE_REGIONS.map(r => `<option>${escapeHtml(r)}</option>`).join('')}</select>` : '';
+                        ? `<select data-region class="ml-auto bg-inputBg text-white border border-[#332d47] rounded px-1 py-0.5 text-xs outline-none focus:border-accent"><option value="">Region …</option>${UPDATE_REGIONS.map(r => `<option ${r === e.region ? 'selected' : ''}>${escapeHtml(r)}</option>`).join('')}</select>` : '';
                     html += `<label class="flex items-center gap-2 py-0.5 text-xs text-gray-200">
-                        <input type="checkbox" data-group="${g.key}" data-name="${escapeHtml(e.name)}" ${g.checked ? 'checked' : ''}>
+                        <input type="checkbox" data-group="${g.key}" data-name="${escapeHtml(e.name)}" ${(g.checked || (g.key === 'characters' && e.region)) ? 'checked' : ''}>
                         <span class="font-bold text-white truncate">${escapeHtml(e.name)}</span>
                         <span class="text-gray-400 truncate">${escapeHtml(g.info(e))}</span>${region}</label>`;
                 });

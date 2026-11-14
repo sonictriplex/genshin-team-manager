@@ -128,7 +128,7 @@ python3 tools/update_stammdaten.py --auto --region "Name=Region"
 python3 tools/remote_sql.py web/migrations/<datei>.sql   # eine SQL-Datei (INSERT/UPDATE/DELETE) auf dem Server ausführen
 ```
 
-Die Quelle kennt keine **Regionen**: Charaktere ohne Region (in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region`) werden nur gemeldet, nie geraten. Das schützt zugleich vor **Beta-Einträgen**, die im Spiel noch nicht erschienen sind; bei Waffen gilt dieser Schutz nicht, daher bricht `--auto` ohne Änderung ab, wenn mehr als 15 neue Einträge gefunden werden (`--max-new`). Neue Regionen (z. B. Nod-Krai) müssen zusätzlich in den Region-Filtern der Clients ergänzt werden. Passiv-Texte neuer Waffen liefert die Quelle nicht.
+Die **Region** kommt aus [genshin-db](https://github.com/theBowja/genshin-db); fehlt sie dort, wird der Charakter nur gemeldet (dann in `shared/regionen.json` als `{"Name": "Region"}` oder per `--region` ergänzen), nie geraten. Charaktere und Waffen, die genshin-db nicht kennt, werden nicht eingetragen (vermutlich noch nicht erschienen); neue Waffen bekommen ihren Passiv-Text von dort. `--auto` bricht bei mehr als 15 neuen Einträgen ab (`--max-new`). Neue Regionen (z. B. Nod-Krai) erscheinen im Region-Filter automatisch.
 
 **Wie die Datenbank ohne phpMyAdmin erreicht wird:** Sie ist nur vom Server aus erreichbar. `tools/remote_sql.py` lädt eine einmalige PHP-Datei (`api/_sql_<zufall>.php`) per FTPS hoch und ruft sie per HTTPS auf. Die Datei enthält nur den SHA-256-Hash eines Zufalls-Tokens, nutzt die `api/db.php` des Servers, führt alles in einer Transaktion aus (nur INSERT/UPDATE/DELETE/REPLACE), löscht sich selbst und wird vom Skript per FTP-Liste kontrolliert.
 

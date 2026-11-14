@@ -20,11 +20,12 @@ Ohne --auto danach: Migration in phpMyAdmin ausführen und deploy/deploy.sh star
   3. führt die erzeugte Migration über tools/remote_sql.py in der Server-Datenbank aus
   4. prüft über die API, ob alles angekommen ist
 Sicherung gegen Fehlläufe: Mehr als --max-new neue Einträge (Standard 15) brechen --auto ab, ohne etwas zu ändern.
-Charaktere ohne bekannte Region werden nie eingetragen (kein Raten), das ist zugleich ein Schutz vor Beta-Einträgen.
+Die Region kommt aus genshin-db; fehlt sie dort, wird der Charakter nur gemeldet und nie mit geratener Region eingetragen.
+Charaktere und Waffen, die genshin-db nicht kennt, werden ebenfalls nicht eingetragen.
 Der Lauf ist wiederholbar: ein zweiter Aufruf findet nichts Neues und meldet „Alles aktuell“.
 
-Regionen: Die Quelle kennt keine Region. Charaktere ohne Eintrag in shared/regionen.json
-(oder per --region "Name=Region") werden nur gemeldet und NICHT eingetragen.
+Regionen: Sie kommen aus genshin-db. Fehlt sie dort, hilft ein Eintrag in shared/regionen.json
+({"Name": "Region"}) oder --region "Name=Region"; von Hand angegebene Regionen haben Vorrang.
 
 Achtung: Die Quelle enthält manchmal Beta-Einträge, die im Spiel noch nicht erschienen sind.
 Die Liste der gefundenen Einträge vor dem Ergänzen prüfen (daher die Rückfrage).
@@ -40,6 +41,7 @@ import urllib.request
 from pathlib import Path
 
 RAW = "https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/"
+GDB_CHARS = "https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/English/characters/"   # Region je Charakter
 GDB = "https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/German/weapons/"   # nur erschienene Waffen, mit Passiv-Texten
 UI = "https://enka.network"
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,7 +52,7 @@ CHAR_WEAPONS = {"WEAPON_SWORD_ONE_HAND": "Einhandschwert", "WEAPON_CLAYMORE": "G
                 "WEAPON_POLE": "Stangenwaffe", "WEAPON_BOW": "Bogen", "WEAPON_CATALYST": "Katalysator"}
 WEAPON_TYPES = {1: "Einhandschwert", 2: "Großschwert", 3: "Bogen", 4: "Stangenwaffe", 5: "Katalysator"}
 QUALITY = {"QUALITY_ORANGE": 5, "QUALITY_PURPLE": 4}
-KNOWN_REGIONS = {"Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontaine", "Natlan", "Snezhnaya", "Andere Welt"}
+KNOWN_REGIONS = {"Mondstadt", "Liyue", "Inazuma", "Sumeru", "Fontaine", "Natlan", "Nod-Krai", "Snezhnaya", "Andere Welt"}
 
 
 def fetch_json(name):
@@ -82,6 +84,21 @@ def download(url, target):
     return "geladen"
 
 
+def fetch_region(name_en):
+    """Region eines Charakters aus genshin-db. Rückgabe: (gefunden, region oder None).
+    gefunden=False: der Charakter steht dort nicht. region=None: dort ohne (oder mit unbekannter) Regionsangabe."""
+    slug = re.sub(r"[^a-z0-9]", "", name_en.lower())
+    try:
+        with urllib.request.urlopen(GDB_CHARS + slug + ".json", timeout=60) as r:
+            c = json.load(r)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return False, None
+        raise
+    region = (c.get("region") or "").strip()
+    return True, (region if region in KNOWN_REGIONS else None)
+
+
 def fetch_passive(name_en):
     """Passiv-Beschreibung (Name und 5 Texte je Veredelung) aus genshin-db.
     Rückgabe: (gefunden, passive). gefunden=False: die Waffe steht dort nicht, ist also vermutlich noch nicht erschienen."""
@@ -106,6 +123,7 @@ def find_new(data):
     have_weapons = {norm(w["name"]) for w in data["weapons"]}
 
     chars = []
+    unverified_chars = []
     for cid, a in avatars.items():
         # nur reguläre Charaktere: keine Reisenden (Varianten mit "-"), keine Test-/Testversions-IDs
         if "-" in cid or not cid.isdigit() or not (10000002 <= int(cid) < 10000900):
@@ -115,9 +133,13 @@ def find_new(data):
             continue
         if a.get("QualityType") not in QUALITY or a.get("Element") not in ELEMENTS or a.get("WeaponType") not in CHAR_WEAPONS:
             continue
+        found, region = fetch_region(name)
+        if not found:
+            unverified_chars.append(name)
+            continue
         chars.append({"id": cid, "name": name, "element": ELEMENTS[a["Element"]],
                       "weapon_type": CHAR_WEAPONS[a["WeaponType"]], "rarity": QUALITY[a["QualityType"]],
-                      "icon": a["SideIconName"].replace("Side_", "")})
+                      "icon": a["SideIconName"].replace("Side_", ""), "region_src": region})
 
     new_weapons = []
     unverified = []
@@ -135,7 +157,7 @@ def find_new(data):
         new_weapons.append({"id": wid, "name": name, "weapon_type": WEAPON_TYPES[w["WeaponType"]],
                             "rarity": w["Rarity"], "icon": w["Icon"], "passive": passive})
     return (sorted(chars, key=lambda c: c["name"].lower()), sorted(new_weapons, key=lambda w: w["name"].lower()),
-            sorted(unverified))
+            sorted(unverified + [f"{n} (Charakter)" for n in unverified_chars]))
 
 
 def insert_sorted(items, entry):
@@ -177,10 +199,12 @@ def main():
     chars, weapons, unverified = find_new(data)
     print(f"Stand: {len(data['characters'])} Charaktere, {len(data['weapons'])} Waffen in den Stammdaten.\n")
 
-    ready = [c for c in chars if regions.get(c["name"])]
-    no_region = [c for c in chars if not regions.get(c["name"])]
+    # Region: Angabe von Hand (--region, shared/regionen.json) hat Vorrang vor der Region aus genshin-db
+    for c in chars:
+        c["region"] = regions.get(c["name"]) or c["region_src"]
+    ready = [c for c in chars if c["region"]]
+    no_region = [c for c in chars if not c["region"]]
     for c in ready:
-        c["region"] = regions[c["name"]]
         if c["region"] not in KNOWN_REGIONS:
             print(f"Hinweis: Region „{c['region']}“ ({c['name']}) ist dem Filter in index.html eventuell noch unbekannt.")
 
@@ -193,7 +217,7 @@ def main():
     if no_region:
         print("  -> Regionen in shared/regionen.json ({\"Name\": \"Region\"}) eintragen oder --region \"Name=Region\" angeben.")
     if unverified:
-        print(f"Nicht in genshin-db, vermutlich noch nicht erschienen (werden NICHT eingetragen): {len(unverified)}")
+        print(f"Nicht in genshin-db (vermutlich noch nicht erschienen, werden NICHT eingetragen): {len(unverified)}")
         for n in unverified:
             print(f"  ! {n}")
     print(f"Neue Waffen: {len(weapons)}")

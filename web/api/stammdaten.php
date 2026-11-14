@@ -4,7 +4,7 @@
 //   POST {characters: [{name, region}], weapons: [Name]} -> ausgewählte Einträge eintragen
 // Spiegelt tools/update_stammdaten.py; die Datei shared/stammdaten.json im Repository wird dadurch NICHT verändert
 // (ein späterer Lauf des Skripts findet die Einträge dort und ergänzt sie lokal).
-// Die Region steht nicht in der Quelle: sie wird im Dialog gewählt und hier gegen die erlaubte Liste geprüft.
+// Die Region kommt aus genshin-db (im Dialog vorausgewählt); fehlt sie dort, wird sie im Dialog gewählt. Sie wird hier gegen die erlaubte Liste geprüft.
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/db.php';
@@ -17,6 +17,7 @@ set_time_limit(120);
 
 const SRC = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/';
 const UI = 'https://enka.network';
+const GDB_CHARS = 'https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/English/characters/';   // Region je Charakter
 const GDB = 'https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/German/weapons/';   // nur erschienene Waffen, mit Passiv-Texten
 const MAX_APPLY = 50;
 const REGIONS = ['Mondstadt', 'Liyue', 'Inazuma', 'Sumeru', 'Fontaine', 'Natlan', 'Nod-Krai', 'Snezhnaya', 'Andere Welt'];
@@ -30,6 +31,23 @@ const QUALITY = ['QUALITY_ORANGE' => 5, 'QUALITY_PURPLE' => 4];
 function icon_file(string $name): string {
     $n = mb_strtolower(trim(explode('(', $name)[0]));
     return preg_replace('/[\'’„“\-]/u', '', str_replace(' ', '_', $n)) . '.png';
+}
+
+/**
+ * Region eines Charakters aus genshin-db. Rückgabe: [gefunden, region oder null].
+ * gefunden=false: der Charakter steht dort nicht, ist also vermutlich noch nicht erschienen (wird nicht eingetragen).
+ */
+function fetch_region(string $nameEn): array {
+    $slug = preg_replace('/[^a-z0-9]/', '', strtolower($nameEn));
+    if ($slug === '') return [false, null];
+    try {
+        $c = fetch_json(GDB_CHARS . $slug . '.json');
+    } catch (RuntimeException $e) {
+        if ($e->getCode() === 404) return [false, null];
+        throw $e;
+    }
+    $region = trim((string)($c['region'] ?? ''));
+    return [true, in_array($region, REGIONS, true) ? $region : null];
 }
 
 /**
@@ -63,6 +81,7 @@ function find_new(PDO $pdo): array {
     $haveWeapons = array_flip(array_map('norm_name', $pdo->query("SELECT name FROM weapons")->fetchAll(PDO::FETCH_COLUMN)));
 
     $chars = [];
+    $unverifiedChars = [];
     foreach ($avatars as $id => $a) {
         // nur reguläre Charaktere: keine Reisenden (Varianten mit "-"), keine Test-/Testversions-IDs
         if (!ctype_digit((string)$id) || (int)$id < 10000002 || (int)$id >= 10000900) continue;
@@ -72,7 +91,9 @@ function find_new(PDO $pdo): array {
         $el = ELEMENTS[$a['Element'] ?? ''] ?? null;
         $wt = CHAR_WEAPONS[$a['WeaponType'] ?? ''] ?? null;
         if (!$q || !$el || !$wt) continue;
-        $chars[] = ['name' => $name, 'element' => $el, 'weapon_type' => $wt, 'rarity' => $q,
+        [$found, $region] = fetch_region($name);
+        if (!$found) { $unverifiedChars[] = $name . ' (Charakter)'; continue; }
+        $chars[] = ['name' => $name, 'element' => $el, 'weapon_type' => $wt, 'rarity' => $q, 'region' => $region,
             'icon_path' => 'assets/images/' . icon_file($name),
             'src' => UI . '/ui/' . str_replace('Side_', '', basename((string)$a['SideIconName']))];
     }
@@ -92,6 +113,7 @@ function find_new(PDO $pdo): array {
     }
     usort($chars, fn($a, $b) => strcasecmp($a['name'], $b['name']));
     usort($newWeapons, fn($a, $b) => strcasecmp($a['name'], $b['name']));
+    $unverified = array_merge($unverified, $unverifiedChars);
     sort($unverified);
     return [$chars, $newWeapons, $unverified];
 }
@@ -102,7 +124,7 @@ try {
     if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
         $strip = fn($e) => array_diff_key($e, ['src' => 1, 'icon_path' => 1, 'file' => 1, 'passive' => 1]);
         echo json_encode(["new" => ["characters" => array_map($strip, $chars), "weapons" => array_map($strip, $weapons)],
-            "skipped" => array_map(fn($n) => "Waffe $n: nicht in genshin-db, vermutlich noch nicht erschienen", $unverified)], JSON_UNESCAPED_UNICODE);
+            "skipped" => array_map(fn($n) => "$n: nicht in genshin-db, vermutlich noch nicht erschienen", $unverified)], JSON_UNESCAPED_UNICODE);
         exit();
     }
 
