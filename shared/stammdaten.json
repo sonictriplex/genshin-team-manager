@@ -827,13 +827,6 @@
   ],
   "weapons": [
     {
-      "name": "Kunwus Drachenschlächter",
-      "weapon_type": "Bogen",
-      "rarity": 5,
-      "icon_path": "assets/images/kunwus_drachenschlächter.png",
-      "passive": null
-    },
-    {
       "name": "Silberlampe",
       "weapon_type": "Einhandschwert",
       "rarity": 5,
@@ -928,13 +921,6 @@
           "Erhöht nach dem Ausrüsten durch den Reisenden den Kritischen Schaden für jedes Element, für das elementarer Einklang bestand, um 6 %. Erhöht zudem, nachdem der Reisende einen Gegner mit einem Angriff getroffen hat, den ANG 8 s lang um 40 % und stellt dem Reisenden 5 Punkte Elementarenergie wieder her, 5 s Abklingzeit. Der Effekt kann auch noch ausgelöst werden, wenn die Figur inaktiv in der Truppe ist."
         ]
       }
-    },
-    {
-      "name": "Urzeitliches Jadeschwert",
-      "weapon_type": "Großschwert",
-      "rarity": 5,
-      "icon_path": "assets/images/urzeitliches_jadeschwert.png",
-      "passive": null
     },
     {
       "name": "Winterfeder des weißen Sees",
